@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 15% 8%;
+    --foreground: 0 0% 98%;
+    --spiritual-energy: 25 100% 55%;
+    --soul-society: 210 80% 25%;
+    --reiatsu-glow: 45 100% 70%;
+  }
+
+  * {
+    @apply border-gray-700;
+  }
+
+  body {
+    @apply bg-gray-900 text-gray-100 overflow-x-hidden;
+    font-family: 'Inter', 'Noto Sans JP', sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgb(17 24 39);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgb(255 107 53);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(251 191 36);
+  }
+}
