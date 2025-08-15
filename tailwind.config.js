@@ -7,13 +7,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        'spiritual-energy': '#ff6b35',
-        'soul-society': '#1e3a8a',
-        'reiatsu-glow': '#fbbf24',
-        'hollow-mask': '#2d1b69',
-        'zanpakuto-steel': '#e2e8f0',
-        'flash-step': '#60a5fa',
-        'kido-purple': '#8b5cf6',
+        'spiritual-energy': '#ffffff',
+        'soul-society': '#262626',
+        'reiatsu-glow': '#d4d4d4',
+        'hollow-mask': '#404040',
+        'zanpakuto-steel': '#e5e5e5',
+        'flash-step': '#f5f5f5',
+        'kido-purple': '#a3a3a3',
       },
       animation: {
         'spiritual-pulse': 'spiritual-pulse 2s ease-in-out infinite',
@@ -75,10 +75,10 @@ export default {
         },
         'reiatsu-glow': {
           '0%, 100%': {
-            boxShadow: '0 0 20px rgba(255, 107, 53, 0.3)',
+            boxShadow: '0 0 20px rgba(255, 255, 255, 0.3)',
           },
           '50%': {
-            boxShadow: '0 0 40px rgba(255, 107, 53, 0.6), 0 0 60px rgba(251, 191, 36, 0.4)',
+            boxShadow: '0 0 40px rgba(255, 255, 255, 0.6), 0 0 60px rgba(212, 212, 212, 0.4)',
           },
         },
         'floating': {
@@ -127,9 +127,9 @@ export default {
         },
       },
       backgroundImage: {
-        'spiritual-gradient': 'linear-gradient(135deg, #ff6b35, #fbbf24)',
-        'soul-society-gradient': 'linear-gradient(180deg, #1e3a8a, #111827)',
-        'reiatsu-radial': 'radial-gradient(circle, rgba(255, 107, 53, 0.3), transparent)',
+        'spiritual-gradient': 'linear-gradient(135deg, #ffffff, #d4d4d4)',
+        'soul-society-gradient': 'linear-gradient(180deg, #262626, #111111)',
+        'reiatsu-radial': 'radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent)',
       },
     },
   },
