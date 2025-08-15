@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @layer base {
   :root {
     --background: 220 15% 8%;
@@ -18,27 +20,170 @@
   body {
     @apply bg-gray-900 text-gray-100 overflow-x-hidden;
     font-family: 'Inter', 'Noto Sans JP', sans-serif;
+    background-image: 
+      radial-gradient(circle at 20% 50%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 40% 80%, rgba(96, 165, 250, 0.1) 0%, transparent 50%);
+    background-attachment: fixed;
   }
 
   html {
     scroll-behavior: smooth;
   }
 
-  /* Custom scrollbar */
+  /* Custom scrollbar with spiritual energy theme */
   ::-webkit-scrollbar {
-    width: 8px;
+    width: 12px;
   }
 
   ::-webkit-scrollbar-track {
-    background: rgb(17 24 39);
+    background: linear-gradient(180deg, rgb(17 24 39), rgb(31 41 55));
+    border-radius: 6px;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: rgb(255 107 53);
-    border-radius: 4px;
+    background: linear-gradient(180deg, rgb(255 107 53), rgb(251 191 36));
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(255, 107, 53, 0.5);
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: rgb(251 191 36);
+    background: linear-gradient(180deg, rgb(251 191 36), rgb(255 107 53));
+    box-shadow: 0 0 15px rgba(255, 107, 53, 0.8);
+  }
+
+  /* Japanese text styling */
+  .japanese-text {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+  }
+
+  /* Spiritual energy glow effect */
+  .spiritual-glow {
+    filter: drop-shadow(0 0 10px rgba(255, 107, 53, 0.6));
+  }
+
+  /* Sword trail effect */
+  .sword-trail {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sword-trail::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(226, 232, 240, 0.8), transparent);
+    animation: sword-slash 2s ease-in-out infinite;
+  }
+
+  /* Energy particles */
+  .energy-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: radial-gradient(circle, rgba(255, 107, 53, 1), rgba(255, 107, 53, 0));
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  /* Hollow mask overlay effect */
+  .hollow-mask-overlay {
+    position: relative;
+  }
+
+  .hollow-mask-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, 
+      transparent 30%, 
+      rgba(45, 27, 105, 0.1) 50%, 
+      transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .hollow-mask-overlay:hover::after {
+    opacity: 1;
+  }
+
+  /* Bankai release effect */
+  @keyframes bankai-burst {
+    0% {
+      transform: scale(0);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.5);
+      opacity: 0.7;
+    }
+    100% {
+      transform: scale(3);
+      opacity: 0;
+    }
+  }
+
+  .bankai-burst {
+    position: relative;
+  }
+
+  .bankai-burst::before {
+    content: '';
+    position: absolute;
+    inset: -50%;
+    background: radial-gradient(circle, rgba(255, 107, 53, 0.3), transparent 70%);
+    border-radius: 50%;
+    animation: bankai-burst 2s ease-out infinite;
+    pointer-events: none;
+  }
+
+  /* Text glow effects */
+  .text-spiritual-glow {
+    text-shadow: 
+      0 0 5px rgba(255, 107, 53, 0.5),
+      0 0 10px rgba(255, 107, 53, 0.3),
+      0 0 15px rgba(255, 107, 53, 0.2);
+  }
+
+  .text-reiatsu-glow {
+    text-shadow: 
+      0 0 5px rgba(251, 191, 36, 0.5),
+      0 0 10px rgba(251, 191, 36, 0.3),
+      0 0 15px rgba(251, 191, 36, 0.2);
+  }
+
+  /* Kido spell circle */
+  .kido-circle {
+    position: relative;
+  }
+
+  .kido-circle::before {
+    content: '';
+    position: absolute;
+    inset: -20px;
+    border: 2px solid rgba(139, 92, 246, 0.3);
+    border-radius: 50%;
+    animation: spin 10s linear infinite;
+  }
+
+  .kido-circle::after {
+    content: '';
+    position: absolute;
+    inset: -10px;
+    border: 1px solid rgba(139, 92, 246, 0.5);
+    border-radius: 50%;
+    animation: spin 5s linear infinite reverse;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
   }
 }
