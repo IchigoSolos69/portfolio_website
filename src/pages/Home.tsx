@@ -21,13 +21,15 @@ const Home = () => {
   useEffect(() => {
     const phase2Timer = setTimeout(() => {
       setLoadingPhase(2);
-      // Play sword slash sound effect
-      const audio = new Audio('/sounds/sword-slash.mp3');
-      audio.volume = 0.3;
-      audio.play().catch(() => {
-        // Handle autoplay restrictions gracefully
-        console.log('Audio autoplay prevented');
-      });
+      // Play sword slash sound effect with precise timing
+      setTimeout(() => {
+        const audio = new Audio('/sounds/sword-slash.mp3');
+        audio.volume = 0.3;
+        audio.play().catch(() => {
+          // Handle autoplay restrictions gracefully
+          console.log('Audio autoplay prevented');
+        });
+      }, 400); // Sync with slash animation start
     }, 3000);
     
     const phase3Timer = setTimeout(() => setLoadingPhase(3), 4500);
@@ -429,6 +431,8 @@ const Home = () => {
             Connect With Me
             <span className="text-2xl japanese-text text-reiatsu-glow ml-4 block mt-2">連絡</span>
           </h2>
+          
+          <div className="grid md:grid-cols-2 gap-8"></div>
           <div className="flex flex-col sm:flex-row justify-center gap-6 mb-10">
             <a href="mailto:adimaitre56@gmail.com" className="flex items-center gap-3 px-8 py-4 bg-spiritual-energy/10 hover:bg-spiritual-energy/20 rounded-lg border border-spiritual-energy/20 hover:border-spiritual-energy/40 transition-all duration-500">
               <Mail className="w-6 h-6 text-spiritual-energy" />
@@ -810,6 +814,67 @@ const Home = () => {
           to {
             opacity: 1;
             transform: translateY(0) scale(1);
+          }
+        }
+        
+        .animate-fade-in-up {
+          animation: fadeInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        
+        .animate-gradient-text {
+          background-size: 200% 200%;
+          animation: gradient-shift 3s ease-in-out infinite;
+        }
+        
+        @keyframes gradient-shift {
+          0%, 100% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+        }
+        
+        .animate-skill-fill {
+          animation: skillFill 1.5s ease-out forwards;
+          transform: scaleX(0);
+          transform-origin: left;
+        }
+        
+        @keyframes skillFill {
+          0% {
+            transform: scaleX(0);
+          }
+          100% {
+            transform: scaleX(1);
+          }
+        }
+        
+        .particle-field {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+        }
+        
+        .animate-float-random {
+          animation: float-random 15s ease-in-out infinite;
+        }
+        
+        @keyframes float-random {
+          0%, 100% {
+            transform: translateY(0px) translateX(0px);
+          }
+          25% {
+            transform: translateY(-20px) translateX(10px);
+          }
+          50% {
+            transform: translateY(-10px) translateX(-15px);
+          }
+          75% {
+            transform: translateY(-30px) translateX(5px);
           }
         }
         
