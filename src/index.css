@@ -205,9 +205,8 @@
     transparent 100%
   );
   transform-origin: bottom left;
-  transform: rotate(45deg);
   filter: blur(15px);
-  animation: simpleSlashGrow 8s ease-out forwards;
+  animation: diagonalParticleFly 8s ease-out forwards;
   opacity: 0;
   z-index: 30;
 }
@@ -228,12 +227,11 @@
     transparent 100%
   );
   transform-origin: bottom left;
-  transform: rotate(45deg);
   box-shadow:
     0 0 40px rgba(255,165,0,1),
     0 0 80px rgba(255,255,255,0.9),
     0 0 120px rgba(255,165,0,0.7);
-  animation: simpleSlashGrow 8s ease-out forwards;
+  animation: diagonalParticleFly 8s ease-out forwards;
   opacity: 0;
   z-index: 25;
 }
@@ -280,15 +278,6 @@
   100% { opacity:0; transform: translate(100vw,-80vh) scaleX(3) scaleY(1); }
 }
 
-@keyframes simpleSlashGrow {
-  0%   { opacity:0; transform: rotate(45deg) scaleX(0); }
-  10%  { opacity:1; transform: rotate(45deg) scaleX(0.2); }
-  30%  { opacity:1; transform: rotate(45deg) scaleX(0.5); }
-  50%  { opacity:1; transform: rotate(45deg) scaleX(0.8); }
-  70%  { opacity:1; transform: rotate(45deg) scaleX(1); }
-  90%  { opacity:0.8; transform: rotate(45deg) scaleX(1.2); }
-  100% { opacity:0.6; transform: rotate(45deg) scaleX(1.4); }
-}
 
 
 /* Phase 3: Curtain Reveal */
