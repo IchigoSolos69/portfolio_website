@@ -16,6 +16,29 @@ const Home = () => {
   const [charIndex, setCharIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [loadingPhase, setLoadingPhase] = useState(1);
+  const [slashCoords, setSlashCoords] = useState({ width: '100vw', height: '100vh', angle: 45 });
+
+  // Auto-detect viewport coordinates for slash animation
+  useEffect(() => {
+    const calculateSlashCoords = () => {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      
+      // Calculate diagonal distance from bottom-left to top-right
+      const diagonalLength = Math.sqrt(vw * vw + vh * vh);
+      const angle = Math.atan2(vh, vw) * (180 / Math.PI);
+      
+      setSlashCoords({
+        width: `${diagonalLength}px`,
+        height: `${diagonalLength}px`,
+        angle: angle
+      });
+    };
+
+    calculateSlashCoords();
+    window.addEventListener('resize', calculateSlashCoords);
+    return () => window.removeEventListener('resize', calculateSlashCoords);
+  }, []);
 
   // Fixed Loading Phase Management
   useEffect(() => {
@@ -162,8 +185,20 @@ const Home = () => {
             
             {/* Perfect Diagonal Slash */}
             <div className="diagonal-slash-container">
-              <div className="diagonal-slash-line"></div>
-              <div className="diagonal-slash-glow"></div>
+              <div 
+                className="diagonal-slash-line"
+                style={{
+                  width: slashCoords.width,
+                  transform: `rotate(${slashCoords.angle}deg)`
+                }}
+              ></div>
+              <div 
+                className="diagonal-slash-glow"
+                style={{
+                  width: slashCoords.width,
+                  transform: `rotate(${slashCoords.angle}deg)`
+                }}
+              ></div>
             </div>
             
             {/* Slash Particles */}
@@ -211,7 +246,24 @@ const Home = () => {
 
       {/* Hero Section */}
       <section className="min-h-screen flex items-center justify-center relative z-10 px-6">
-        <div className="text-center max-w-4xl mx-auto">
+        {/* Small Background Particles */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="small-particles">
+            {[...Array(30)].map((_, i) => (
+              <div
+                key={i}
+                className="small-particle"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 10}s`,
+                  animationDuration: `${15 + Math.random() * 10}s`
+                }}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="text-center max-w-4xl mx-auto relative z-10">
           <div className="mb-12">
             <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
               <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent animate-gradient-text">
@@ -262,17 +314,18 @@ const Home = () => {
 
       {/* About Section */}
       <section id="about" className="py-20 px-6 relative overflow-hidden">
+        {/* Small Background Particles */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="particle-field">
-            {[...Array(40)].map((_, i) => (
+          <div className="small-particles">
+            {[...Array(25)].map((_, i) => (
               <div
                 key={i}
-                className="moving-particle"
+                className="small-particle"
                 style={{
                   left: `${Math.random() * 100}%`,
                   top: `${Math.random() * 100}%`,
-                  animationDelay: `${i * 0.15}s`,
-                  animationDuration: `${8 + Math.random() * 12}s`
+                  animationDelay: `${Math.random() * 10}s`,
+                  animationDuration: `${15 + Math.random() * 10}s`
                 }}
               />
             ))}
@@ -303,8 +356,8 @@ const Home = () => {
                     <span className="text-spiritual-energy font-medium">Full-Stack Development</span>
                     <span className="text-gray-400">90%</span>
                   </div>
-                  <div className="w-full bg-gray-700 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-spiritual-energy to-reiatsu-glow h-2 rounded-full animate-skill-fill" style={{width: '90%'}}></div>
+                  <div className="w-full bg-gray-700 rounded-full h-2 relative overflow-hidden">
+                    <div className="bg-gradient-to-r from-spiritual-energy to-reiatsu-glow h-2 rounded-full skill-progress" style={{'--target-width': '90%', animationDelay: '0.5s'}}></div>
                   </div>
                 </div>
                 <div className="skill-bar">
@@ -312,8 +365,8 @@ const Home = () => {
                     <span className="text-spiritual-energy font-medium">AI/ML Research</span>
                     <span className="text-gray-400">85%</span>
                   </div>
-                  <div className="w-full bg-gray-700 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-reiatsu-glow to-kido-purple h-2 rounded-full animate-skill-fill" style={{width: '85%', animationDelay: '0.2s'}}></div>
+                  <div className="w-full bg-gray-700 rounded-full h-2 relative overflow-hidden">
+                    <div className="bg-gradient-to-r from-reiatsu-glow to-kido-purple h-2 rounded-full skill-progress" style={{'--target-width': '85%', animationDelay: '0.7s'}}></div>
                   </div>
                 </div>
                 <div className="skill-bar">
@@ -321,8 +374,8 @@ const Home = () => {
                     <span className="text-spiritual-energy font-medium">Partnership Management</span>
                     <span className="text-gray-400">95%</span>
                   </div>
-                  <div className="w-full bg-gray-700 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-kido-purple to-spiritual-energy h-2 rounded-full animate-skill-fill" style={{width: '95%', animationDelay: '0.4s'}}></div>
+                  <div className="w-full bg-gray-700 rounded-full h-2 relative overflow-hidden">
+                    <div className="bg-gradient-to-r from-kido-purple to-spiritual-energy h-2 rounded-full skill-progress" style={{'--target-width': '95%', animationDelay: '0.9s'}}></div>
                   </div>
                 </div>
               </div>
@@ -373,17 +426,18 @@ const Home = () => {
 
       {/* Projects Section */}
       <section id="projects" className="py-20 px-6 relative overflow-hidden">
+        {/* Small Background Particles */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="particle-field">
-            {[...Array(40)].map((_, i) => (
+          <div className="small-particles">
+            {[...Array(25)].map((_, i) => (
               <div
                 key={i}
-                className="moving-particle"
+                className="small-particle"
                 style={{
                   left: `${Math.random() * 100}%`,
                   top: `${Math.random() * 100}%`,
-                  animationDelay: `${i * 0.15}s`,
-                  animationDuration: `${8 + Math.random() * 12}s`
+                  animationDelay: `${Math.random() * 10}s`,
+                  animationDuration: `${15 + Math.random() * 10}s`
                 }}
               />
             ))}
@@ -483,17 +537,18 @@ const Home = () => {
 
       {/* Achievements Section */}
       <section id="achievements" className="py-20 px-6 relative overflow-hidden">
+        {/* Small Background Particles */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="particle-field">
-            {[...Array(40)].map((_, i) => (
+          <div className="small-particles">
+            {[...Array(25)].map((_, i) => (
               <div
                 key={i}
-                className="moving-particle"
+                className="small-particle"
                 style={{
                   left: `${Math.random() * 100}%`,
                   top: `${Math.random() * 100}%`,
-                  animationDelay: `${i * 0.15}s`,
-                  animationDuration: `${8 + Math.random() * 12}s`
+                  animationDelay: `${Math.random() * 10}s`,
+                  animationDuration: `${15 + Math.random() * 10}s`
                 }}
               />
             ))}
@@ -567,17 +622,18 @@ const Home = () => {
 
       {/* Contact Section */}
       <section id="contact" className="py-20 px-6 relative overflow-hidden">
+        {/* Small Background Particles */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="particle-field">
-            {[...Array(40)].map((_, i) => (
+          <div className="small-particles">
+            {[...Array(20)].map((_, i) => (
               <div
                 key={i}
-                className="moving-particle"
+                className="small-particle"
                 style={{
                   left: `${Math.random() * 100}%`,
                   top: `${Math.random() * 100}%`,
-                  animationDelay: `${i * 0.15}s`,
-                  animationDuration: `${8 + Math.random() * 12}s`
+                  animationDelay: `${Math.random() * 10}s`,
+                  animationDuration: `${15 + Math.random() * 10}s`
                 }}
               />
             ))}
