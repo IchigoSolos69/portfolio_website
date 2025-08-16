@@ -36,7 +36,7 @@ const Home = () => {
     };
   }, []);
 
-  // Enhanced mouse trail with velocity detection and 60fps animation
+  // Enhanced mouse trail with velocity detection
   useEffect(() => {
     if (isLoading) return;
 
@@ -51,7 +51,7 @@ const Home = () => {
             size: 10 + (1 - i / (trailLength - 1)) * 15,
             opacity: 0.2 + (1 - i / (trailLength - 1)) * 0.8
           }))
-          .filter((_, i, arr) => i === 0 || Date.now() - arr[i-1].id < 800); // 0.8s dissipation
+          .filter((_, i, arr) => i === 0 || Date.now() - arr[i-1].id < 1000);
       });
       animationFrameId = requestAnimationFrame(updateTrail);
     };
@@ -63,7 +63,6 @@ const Home = () => {
       const { x, y } = e;
       const { x: lastX, y: lastY, timestamp } = lastPosition.current;
       
-      // Calculate velocity for trail intensity
       const dt = now - timestamp;
       const vx = (x - lastX) / Math.max(1, dt);
       const vy = (y - lastY) / Math.max(1, dt);
@@ -77,7 +76,7 @@ const Home = () => {
           x, 
           y, 
           id: now, 
-          size: 10 + Math.min(velocity * 2, 20), // Velocity-based sizing
+          size: 10 + Math.min(velocity * 2, 20),
           opacity: 1 
         }
       ].slice(-trailLength));
@@ -132,11 +131,11 @@ const Home = () => {
 
   return (
     <div className={`min-h-screen bg-black text-white transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-      {/* Enhanced Mouse Trail with Orange-to-White Gradient */}
+      {/* Enhanced Mouse Trail */}
       {mouseTrail.map((point, index) => {
         const progress = Math.max(0, Math.min(1, index / (mouseTrail.length - 1)));
         const scale = 0.3 + (1 - progress) * 0.7;
-        const blur = progress * 8; // Subtle blur for trail effect
+        const blur = (1 - progress) * 15;
         
         return (
           <div
@@ -147,12 +146,11 @@ const Home = () => {
               top: `${point.y}px`,
               width: `${point.size || 10}px`,
               height: `${point.size || 10}px`,
-              opacity: point.opacity * (1 - progress * 0.7),
+              opacity: point.opacity || 1,
               transform: `translate(-50%, -50%) scale(${scale})`,
               background: `radial-gradient(
                 circle at center,
-                rgba(255, 165, 0, 0.9) 0%,
-                rgba(255, 200, 100, 0.7) 40%,
+                rgba(255, 165, 0, 0.8) 0%,
                 rgba(255, 255, 255, 0.5) 70%,
                 transparent 100%
               )`,
@@ -210,7 +208,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* About Section with Staggered Animations */}
+      {/* About Section */}
       <section id="about" className="py-20 px-6 relative overflow-hidden">
         <div className="max-w-6xl mx-auto relative z-10">
           <h2 className="text-5xl font-bold text-center mb-16">
@@ -254,7 +252,7 @@ const Home = () => {
             <div 
               className="transform transition-all duration-500 ease-out translate-y-8 opacity-0"
               style={{
-                animation: 'fadeInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s forwards',
+                animation: 'fadeInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s forwards',
                 transformOrigin: 'center bottom'
               }}
             >
@@ -264,9 +262,9 @@ const Home = () => {
                     key={skill} 
                     className="about-skill-box group bg-gradient-to-br from-hollow-mask/20 to-soul-society/10 rounded-lg p-4 border border-spiritual-energy/20 hover:border-reiatsu-glow transform transition-all duration-400 ease-out hover:scale-105 hover:shadow-lg hover:shadow-spiritual-energy/20 hover:-translate-y-1"
                     style={{
-                      animation: `fadeInUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${0.3 + index * 0.1}s forwards`,
+                      animation: `fadeInUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${0.4 + index * 0.1}s forwards`,
                       opacity: 0,
-                      transform: 'translateY(30px) scale(0.95)'
+                      transform: 'translateY(20px)'
                     }}
                   >
                     <span className="text-spiritual-energy font-medium group-hover:text-reiatsu-glow transition-colors duration-300">{skill}</span>
@@ -410,11 +408,11 @@ const Home = () => {
         @keyframes fadeInUp {
           from {
             opacity: 0;
-            transform: translateY(30px) scale(0.95);
+            transform: translateY(30px);
           }
           to {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: translateY(0);
           }
         }
         .about-skill-box {
@@ -422,7 +420,7 @@ const Home = () => {
         }
         .about-skill-box:hover {
           transform: translateY(-5px) scale(1.02);
-          box-shadow: 0 10px 25px -5px rgba(255, 112, 0, 0.1), 0 10px 10px -5px rgba(255, 112, 0, 0.04);
+          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
       `}</style>
     </div>
