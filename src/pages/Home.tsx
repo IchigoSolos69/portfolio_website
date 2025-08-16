@@ -59,35 +59,27 @@ const Home = () => {
     }
     
     if (loadingPhase === 2) {
-      // Phase 2: Sword slash with sound
-      const playSlashSound = async () => {
+      // Phase 2: Sword slash with synchronized sound
+      const playSlashSound = () => {
         try {
           const slashAudio = new Audio('/sounds/sword-slash.mp3');
           slashAudio.volume = 0.3;
+          slashAudio.loop = false; // Ensure no looping
           slashAudio.preload = 'auto';
           
-          // Try to play immediately
-          const playPromise = slashAudio.play();
-          if (playPromise !== undefined) {
-            await playPromise.catch(() => {
-              // If autoplay fails, create a user interaction handler
-              const enableAudio = () => {
-                slashAudio.play().catch(() => {});
-                document.removeEventListener('click', enableAudio);
-                document.removeEventListener('touchstart', enableAudio);
-                document.removeEventListener('keydown', enableAudio);
-              };
-              document.addEventListener('click', enableAudio, { once: true });
-              document.addEventListener('touchstart', enableAudio, { once: true });
-              document.addEventListener('keydown', enableAudio, { once: true });
+          // Play sound after 300ms delay to match slash animation start
+          setTimeout(() => {
+            slashAudio.play().catch(() => {
+              // Silently fail if audio can't play due to browser policies
+              console.log('Audio autoplay prevented by browser');
             });
-          }
+          }, 300); // Match the 0.3s animation delay
         } catch (e) {
           console.log('Audio setup failed:', e);
         }
       };
       
-      // Start audio immediately when phase 2 begins
+      // Start audio timing immediately when phase 2 begins
       playSlashSound();
       
       const timer = setTimeout(() => {
