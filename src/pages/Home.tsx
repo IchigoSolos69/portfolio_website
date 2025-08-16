@@ -7,48 +7,70 @@ const Home = () => {
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0)
   const [swordClicks, setSwordClicks] = useState(0)
   const [showBankai, setShowBankai] = useState(false)
-  const [konamiCode, setKonamiCode] = useState<string[]>([])
   const [specialBankaiMode, setSpecialBankaiMode] = useState(false)
   
-  const roles = ['Student', 'Developer', 'Partnership Manager', 'Bleach Fan']
-  const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA']
+  const roles = ['学生 (Student)', 'デベロッパー (Developer)', 'パートナーシップマネージャー (Partnership Manager)', 'ブリーチファン (Bleach Fan)']
 
   useEffect(() => {
     setIsVisible(true)
     
-    // Konami code listener
-    const handleKeyPress = (event: KeyboardEvent) => {
-      const newCode = [...konamiCode, event.code].slice(-10)
-      setKonamiCode(newCode)
+    // Mouse trail effect
+    const createMouseTrail = (e: MouseEvent) => {
+      const trail = document.createElement('div')
+      trail.className = 'mouse-trail'
+      trail.style.left = e.clientX + 'px'
+      trail.style.top = e.clientY + 'px'
+      document.body.appendChild(trail)
       
-      if (newCode.join(',') === konamiSequence.join(',')) {
-        setSpecialBankaiMode(true)
-        setKonamiCode([])
-        setTimeout(() => setSpecialBankaiMode(false), 5000)
-      }
+      setTimeout(() => {
+        if (trail.parentNode) {
+          trail.parentNode.removeChild(trail)
+        }
+      }, 800)
     }
     
-    window.addEventListener('keydown', handleKeyPress)
-    return () => window.removeEventListener('keydown', handleKeyPress)
-  }, [konamiCode, konamiSequence])
+    // 10-second timer for special Bankai mode
+    const timer = setTimeout(() => {
+      setSpecialBankaiMode(true)
+      setTimeout(() => setSpecialBankaiMode(false), 5000)
+    }, 10000)
+    
+    window.addEventListener('mousemove', createMouseTrail)
+    return () => {
+      window.removeEventListener('mousemove', createMouseTrail)
+      clearTimeout(timer)
+    }
+  }, [])
 
-  // Typing effect for roles
+  // Enhanced typing effect for roles
   useEffect(() => {
     const currentRole = roles[currentRoleIndex]
     let charIndex = 0
+    let isDeleting = false
     setTypingText('')
     
     const typeInterval = setInterval(() => {
-      if (charIndex < currentRole.length) {
+      if (!isDeleting && charIndex < currentRole.length) {
+        // Typing forward
         setTypingText(currentRole.substring(0, charIndex + 1))
         charIndex++
-      } else {
+      } else if (!isDeleting && charIndex === currentRole.length) {
+        // Pause at end
+        setTimeout(() => {
+          isDeleting = true
+        }, 2000)
+      } else if (isDeleting && charIndex > 0) {
+        // Deleting backward
+        charIndex--
+        setTypingText(currentRole.substring(0, charIndex))
+      } else if (isDeleting && charIndex === 0) {
+        // Move to next role
         clearInterval(typeInterval)
         setTimeout(() => {
           setCurrentRoleIndex((prev: number) => (prev + 1) % roles.length)
-        }, 2000)
+        }, 500)
       }
-    }, 100)
+    }, isDeleting ? 50 : Math.random() * 100 + 80) // Faster deletion, variable typing speed
 
     return () => clearInterval(typeInterval)
   }, [currentRoleIndex, roles])
