@@ -29,6 +29,11 @@ const Home = () => {
       // Fixed angle for bottom-left to top-right diagonal
       const angle = 45; // Always 45 degrees for perfect diagonal
       
+      // Set CSS variables for consistent styling
+      document.documentElement.style.setProperty('--slash-width', `${diagonalLength}px`);
+      document.documentElement.style.setProperty('--slash-height', '6px');
+      document.documentElement.style.setProperty('--slash-angle', `${angle}deg`);
+      
       setSlashCoords({
         width: `${diagonalLength}px`,
         height: `6px`, // Fixed height for the slash line
@@ -36,29 +41,10 @@ const Home = () => {
       });
     };
 
-    useEffect(() => {
-      const calculateSlashCoords = () => {
-        const vw = window.innerWidth;
-        const vh = window.innerHeight;
-        const diagonalLength = Math.sqrt(vw * vw + vh * vh);
-        const angle = 45;
-        
-        // Set CSS variables for consistent styling
-        document.documentElement.style.setProperty('--slash-width', `${diagonalLength}px`);
-        document.documentElement.style.setProperty('--slash-height', '6px');
-        document.documentElement.style.setProperty('--slash-angle', `${angle}deg`);
-        
-        setSlashCoords({
-          width: `${diagonalLength}px`,
-          height: '6px',
-          angle: angle
-        });
-      };
-      
-      calculateSlashCoords();
-      window.addEventListener('resize', calculateSlashCoords);
-      return () => window.removeEventListener('resize', calculateSlashCoords);
-    }, []);
+    calculateSlashCoords();
+    window.addEventListener('resize', calculateSlashCoords);
+    return () => window.removeEventListener('resize', calculateSlashCoords);
+  }, []);
 
   // Fixed Loading Phase Management
   useEffect(() => {
