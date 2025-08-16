@@ -17,38 +17,39 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingPhase, setLoadingPhase] = useState(1);
 
-  // Cinematic loading sequence
-  useEffect(() => {
-    // Phase 1: Loading screen (2.5s)
-    const phase2Timer = setTimeout(() => {
-      setLoadingPhase(2);
-      // Play sword slash sound effect synced with animation
-      setTimeout(() => {
-        const audio = new Audio('/sounds/sword-slash.mp3');
-        audio.volume = 0.4;
-        audio.play().catch(() => {
-          console.log('Audio autoplay prevented');
-        });
-      }, 100); // Sync with sword animation start
-    }, 2500);
-    
-    // Phase 2: Sword slash (1.5s)
-    const phase3Timer = setTimeout(() => setLoadingPhase(3), 4000);
-    
-    // Phase 3: Curtain reveal and complete (1s)
-    const completeTimer = setTimeout(() => {
-      setIsLoading(false);
-      setIsVisible(true);
-    }, 5000);
 
-    return () => {
-      clearTimeout(phase2Timer);
-      clearTimeout(phase3Timer);
-      clearTimeout(completeTimer);
-    };
+  useEffect(() => {
+    if (!isLoading) return;
+  
+    if (loadingPhase === 1) {
+      // After loading spinner, go to slash
+      const t = setTimeout(() => setLoadingPhase(2), 2600); // loader/spinner time
+      return () => clearTimeout(t);
+    }
+    if (loadingPhase === 2) {
+      // Play slash sound and advance to curtain
+      const slashAudio = new Audio('https://raw.githubusercontent.com/IchigoSolos69/portfolio_website/7e5783adb55f55d4ed317b643826b458ad824700/public/sounds/sword-slash.mp3');
+      slashAudio.currentTime = 0;
+      slashAudio.play().catch(() => {});
+      const t = setTimeout(() => setLoadingPhase(3), 1300); // sword slash duration
+      return () => clearTimeout(t);
+    }
+    if (loadingPhase === 3) {
+      // Curtain wipe/reveal
+      const t = setTimeout(() => {
+        setIsLoading(false);
+        setIsVisible(true);
+      }, 850); // curtain duration
+      return () => clearTimeout(t);
+    }
+  }, [loadingPhase, isLoading]);
+  
+  // Ensure on mount we start at phase 1 (optional double-check)
+  useEffect(() => {
+    if (!isLoading) setLoadingPhase(1);
   }, []);
 
-
+  
   // Typing effect
   useEffect(() => {
     if (isLoading) return;
@@ -187,6 +188,22 @@ const Home = () => {
       {/* Hero Section */}
       <section className="min-h-screen flex items-center justify-center relative z-10 px-6">
         <div className="text-center max-w-4xl mx-auto">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="particle-field">
+            {[...Array(40)].map((_, i) => (
+              <div 
+                key={i} 
+                className="moving-particle" 
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${i * 0.15}s`,
+                  animationDuration: `${8 + Math.random() * 12}s`
+                }} 
+              />
+            ))}
+          </div>
+        </div>
           <div className="mb-12">
             <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
               <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent">

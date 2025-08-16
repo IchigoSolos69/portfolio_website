@@ -1677,6 +1677,173 @@
     }
   }
 
+  /* --- COOLER SLASH LINE --- */
+.slash-line {
+  position: absolute;
+  bottom: -30%;
+  left: -10%;
+  width: 0.5vw;
+  height: 140vh;
+  background: linear-gradient(45deg, transparent 0%, #fff8 15%, #fff 50%, #fff8 85%, transparent 100%);
+  box-shadow: 0 0 24px 6px #fff, 0 0 50px 16px #ff7000aa;
+  filter: blur(0.7px);
+  border-radius: 16px;
+  transform: rotate(45deg) scaleX(0.2);
+  opacity: 0;
+  will-change: transform, opacity;
+  z-index: 50;
+  animation: anime-slash-grow 1s cubic-bezier(.69,-0.01,0.31,1) forwards;
+}
+
+@keyframes anime-slash-grow {
+  0% {
+    opacity: 0;
+    width: 0.6vw;
+    filter: blur(2.5px) brightness(1);
+    box-shadow: 0 0 0 0 #fff, 0 0 0 0 #ff7000aa;
+    transform: rotate(45deg) scaleX(0.1) scaleY(0.05);
+  }
+  10% {
+    opacity: 1;
+    filter: blur(2px) brightness(1.2);
+  }
+  50% {
+    width: 4vw;
+    filter: blur(0.35px) brightness(1.15);
+    box-shadow: 0 0 36px 16px #fff, 0 0 90px 32px #ff7000aa;
+    transform: rotate(45deg) scaleX(1.2) scaleY(1.15);
+  }
+  80% {
+    width: 6vw;
+    filter: blur(0.7px) brightness(1.07);
+    box-shadow: 0 0 20px 6px #fff, 0 0 34px 14px #ff7000aa;
+    transform: rotate(45deg) scaleX(1.5) scaleY(1.7);
+  }
+  100% {
+    opacity: 0;
+    width: 8vw;
+    filter: blur(1.5px) brightness(1);
+    transform: rotate(45deg) scaleX(3.5) scaleY(1.98);
+  }
+}
+
+/* --- ULTRA GLOW --- */
+.slash-glow {
+  position: absolute;
+  bottom: -35%;
+  left: -12%;
+  width: 2vw;
+  height: 180vh;
+  background: radial-gradient(ellipse at 60% 40%, #ff8c0033 40%, #fff8 60%, transparent 100%);
+  filter: blur(10px) brightness(1.17);
+  transform: rotate(45deg) scaleX(0.18);
+  opacity: 0;
+  will-change: transform, opacity;
+  z-index: 40;
+  animation: anime-slash-glow-grow 1.05s cubic-bezier(.69,-0.01,0.31,1) 0.09s forwards;
+}
+
+@keyframes anime-slash-glow-grow {
+  0% {
+    opacity: 0;
+    width: 0.7vw;
+    filter: blur(12px) brightness(1.22);
+    transform: rotate(45deg) scaleX(0.04);
+  }
+  30% {
+    opacity: 0.85;
+    filter: blur(10px) brightness(1.22);
+  }
+  82% {
+    opacity: 0.63;
+    width: 8vw;
+    transform: rotate(45deg) scaleX(2.3);
+  }
+  100% {
+    opacity: 0;
+    width: 10vw;
+    filter: blur(16px);
+    transform: rotate(45deg) scaleX(5.5);
+  }
+}
+
+@keyframes anime-slash-particle {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0) scale(1.1) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-24px) translateX(40px) scale(1.1) rotate(83deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-48px) translateX(96px) scale(0.6) rotate(200deg);
+  }
+}
+.slash-particle {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  background: radial-gradient(circle, #fff 0%, #ff7000cc 50%, transparent 99%);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  animation: anime-slash-particle 0.85s 0.05s both;
+  filter: blur(0.5px) brightness(1.23);
+  z-index: 49;
+}
+
+.curtain-reveal {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.97);
+  z-index: 30;
+  animation: curtain-wipe-reveal 0.70s cubic-bezier(0.71,0.21,0.3,1.02) 0.62s forwards;
+  clip-path: polygon(0 100%, 0 100%, 0 100%, 0 100%);
+  will-change: clip-path, opacity;
+}
+@keyframes curtain-wipe-reveal {
+  0% {
+    clip-path: polygon(0 100%, 0 100%, 0 100%, 0 100%);
+    opacity: 1;
+    filter: blur(12px);
+  }
+  60% {
+    clip-path: polygon(0 100%, 60% 40%, 100% 0, 0 0);
+    opacity: 1;
+    filter: blur(2px) grayscale(0.5);
+  }
+  80% {
+    clip-path: polygon(0 100%, 100% 0, 100% 0, 0 0);
+    opacity: 0.7;
+    filter: blur(0.7px);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(0px);
+    clip-path: polygon(0 100%, 100% 0, 100% 0, 0 0); /* fully wiped */
+    visibility: hidden;
+  }
+}
+
+.katana-sparkle {
+  position: absolute;
+  top: 23%;
+  right: 12%;
+  font-size: 2rem;
+  opacity: 0;
+  color: #fff;
+  filter: drop-shadow(0 0 24px #ff7000);
+  animation: sparkle-in 0.9s 0.80s forwards;
+}
+
+@keyframes sparkle-in {
+  0% { opacity: 0; transform: scale(0.6) rotate(-30deg);}
+  60% { opacity: 1; transform: scale(1.18) rotate(16deg);}
+  100% { opacity: 0; transform: scale(1.0) rotate(0deg);}
+}
+
   .slash-line {
     position: absolute;
     top: 50%;
@@ -1823,20 +1990,6 @@
       opacity: 0;
     }
   }
-
-  /* Sword image that appears at the end */
-  .page-load-slash::after {
-    content: '⚔️';
-    position: absolute;
-    top: 20%;
-    right: 10%;
-    font-size: 3rem;
-    opacity: 0;
-    transform: rotate(35deg) scale(0.5);
-    filter: drop-shadow(0 0 15px hsl(var(--spiritual-energy)));
-    animation: sword-appear 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  }
-
   /* Fade out animation for page load slash */
   @keyframes fade-out {
     0% { opacity: 1; }
