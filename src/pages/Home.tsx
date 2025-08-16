@@ -17,26 +17,62 @@ const Home = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [charIndex, setCharIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [showSwordSlash, setShowSwordSlash] = useState(true);
+  const [loadingPhase, setLoadingPhase] = useState(1); // 1: loading, 2: slash, 3: reveal
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [mouseTrail, setMouseTrail] = useState<Array<{ x: number; y: number; id: number }>>([]);
 
-  // Loading logic
+  // Enhanced cinematic loading sequence
   useEffect(() => {
-    // Hide sword slash after animation completes
-    const slashTimer = setTimeout(() => {
-      setShowSwordSlash(false);
-    }, 2200); // Match CSS fade-out duration
+    // Scene 1: Loading phase (0-3 seconds)
+    const phase2Timer = setTimeout(() => {
+      setLoadingPhase(2); // Start sword slash
+    }, 3000);
 
-    // End loading after animation completes
-    const loadingTimer = setTimeout(() => {
+    // Scene 2: Dramatic pause + sword slash (3-4.5 seconds)
+    const phase3Timer = setTimeout(() => {
+      setLoadingPhase(3); // Start reveal
+    }, 4500);
+
+    // Scene 3: Complete reveal (4.5-5.5 seconds)
+    const completeTimer = setTimeout(() => {
       setIsLoading(false);
       setIsVisible(true);
-    }, 2200); // Match CSS fade-out duration
+    }, 5500);
 
     return () => {
-      clearTimeout(slashTimer);
-      clearTimeout(loadingTimer);
+      clearTimeout(phase2Timer);
+      clearTimeout(phase3Timer);
+      clearTimeout(completeTimer);
     };
   }, []);
+
+  // Enhanced mouse trail with velocity detection
+  useEffect(() => {
+    if (isLoading) return;
+
+    let trailId = 0;
+    const handleMouseMove = (e: MouseEvent) => {
+      const newPosition = { x: e.clientX, y: e.clientY };
+      setMousePosition(newPosition);
+      
+      setMouseTrail(prev => {
+        const newTrail = [...prev, { ...newPosition, id: trailId++ }].slice(-10);
+        return newTrail;
+      });
+    };
+
+    // Clean up old trail particles
+    const cleanupInterval = setInterval(() => {
+      setMouseTrail(prev => prev.slice(-8));
+    }, 100);
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      clearInterval(cleanupInterval);
+    };
+  }, [isLoading]);
 
   // Typing effect with smooth typing and deleting logic
   useEffect(() => {
@@ -69,23 +105,134 @@ const Home = () => {
   };
 
   if (isLoading) {
-    // Your loading screen here (unchanged)
     return (
-      <div className="fixed inset-0 bg-gradient-to-br from-black via-gray-900 to-blue-900/20 flex items-center justify-center z-50">
-        {/* Loading content */}
+      <div className="enhanced-cinematic-loading">
+        {/* Scene 1: Enhanced Loading Phase */}
+        {loadingPhase === 1 && (
+          <div className="enhanced-loading-scene">
+            <div className="enhanced-loading-bg"></div>
+            <div className="loading-content-center">
+              <div className="enhanced-spinner"></div>
+              <div className="japanese-loading-text">読み込み中...</div>
+            </div>
+            {/* Optimized particles - only 15 for performance */}
+            <div className="optimized-particles">
+              {[...Array(15)].map((_, i) => (
+                <div 
+                  key={i} 
+                  className="enhanced-particle" 
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                    animationDelay: `${Math.random() * 3}s`,
+                    animationDuration: `${3 + Math.random() * 2}s`
+                  }} 
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Scene 2: Ultra-Smooth Sword Slash */}
+        {loadingPhase === 2 && (
+          <div className="ultra-slash-scene">
+            {/* Dramatic pause */}
+            <div className="dramatic-black-pause"></div>
+            
+            {/* Hair-thin to wide slash */}
+            <div className="ultra-slash-line"></div>
+            <div className="ultra-slash-glow"></div>
+            
+            {/* Trailing particles */}
+            <div className="slash-trail-particles">
+              {[...Array(6)].map((_, i) => (
+                <div 
+                  key={i} 
+                  className="trail-particle" 
+                  style={{ animationDelay: `${i * 0.15}s` }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Scene 3: Reveal with SVG Katana */}
+        {loadingPhase === 3 && (
+          <div className="enhanced-reveal-scene">
+            <div className="katana-svg-container">
+              <svg className="enhanced-katana" viewBox="0 0 300 30" fill="none">
+                <defs>
+                  <linearGradient id="katanaBladeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#C0C0C0" />
+                    <stop offset="30%" stopColor="#FFFFFF" />
+                    <stop offset="70%" stopColor="#E8E8E8" />
+                    <stop offset="100%" stopColor="hsl(var(--spiritual-energy))" />
+                  </linearGradient>
+                  <linearGradient id="katanaHandleGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#2C1810" />
+                    <stop offset="50%" stopColor="#4A2C1A" />
+                    <stop offset="100%" stopColor="#1A0F08" />
+                  </linearGradient>
+                </defs>
+                
+                {/* Blade */}
+                <path d="M50 15 L280 15 L285 12 L290 15 L285 18 L280 15" 
+                      stroke="url(#katanaBladeGradient)" 
+                      strokeWidth="3" 
+                      fill="url(#katanaBladeGradient)" 
+                      strokeLinecap="round"/>
+                
+                {/* Handle */}
+                <rect x="20" y="12" width="35" height="6" 
+                      fill="url(#katanaHandleGradient)" 
+                      rx="2"/>
+                
+                {/* Guard */}
+                <rect x="48" y="10" width="4" height="10" 
+                      fill="#8B4513" 
+                      rx="1"/>
+              </svg>
+            </div>
+            <div className="curtain-split-reveal"></div>
+          </div>
+        )}
       </div>
     );
   }
 
   return (
-    <>
-      {/* Sword Slash Loading Effect */}
-      {showSwordSlash && <div className="page-load-slash" />}
-      
-      <div className={`min-h-screen bg-black text-white transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-      {/* Background & particles - unchanged */}
+    <div className={`min-h-screen bg-black text-white transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+      {/* Enhanced Mouse Trail */}
+      {mouseTrail.map((point, index) => (
+        <div
+          key={point.id}
+          className="enhanced-mouse-trail"
+          style={{
+            left: point.x,
+            top: point.y,
+            animationDelay: `${index * 0.05}s`,
+            opacity: (index + 1) / mouseTrail.length,
+            transform: `scale(${(index + 1) / mouseTrail.length})`
+          }}
+        />
+      ))}
 
-      {/* Mouse Trail - unchanged */}
+      {/* Optimized Background Effects */}
+      <div className="optimized-bg-effects">
+        <div className="moving-gradient"></div>
+        {[...Array(18)].map((_, i) => (
+          <div
+            key={i}
+            className="optimized-bg-particle"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 10}s`,
+              animationDuration: `${15 + Math.random() * 10}s`
+            }}
+          />
+        ))}
+      </div>
 
       {/* Hero Section */}
       <section className="min-h-screen flex items-center justify-center relative z-10 px-6">
@@ -319,6 +466,7 @@ const Home = () => {
             Connect With Me
             <span className="text-2xl japanese-text text-reiatsu-glow ml-4 block mt-2">連絡</span>
           </h2>
+          <div className="grid md:grid-cols-2 gap-8"></div>
           <div className="flex flex-col sm:flex-row justify-center gap-6 mb-10">
             <a href="mailto:adimaitre56@gmail.com" className="flex items-center gap-3 px-8 py-4 bg-spiritual-energy/10 hover:bg-spiritual-energy/20 rounded-lg border border-spiritual-energy/20 hover:border-spiritual-energy/40 transition-all duration-500">
               <Mail className="w-6 h-6 text-spiritual-energy" />
