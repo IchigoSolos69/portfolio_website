@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Cpu, Github, Zap, Mail, Award, Trophy, ChevronDown, Linkedin } from 'lucide-react';
 
 const roles = [
-  '学生 | Student ',
-  'デベロッパー | Developer ',
-  'パートナーシップマネージャー | Partnership Manager ',
-  'ブリーチファン | Bleach Fan ',
+  '学生 | Student',
+  'デベロッパー | Developer', 
+  'パートナーシップマネージャー | Partnership Manager',
+  'ブリーチファン | Bleach Fan',
 ];
 
 const Home = () => {
@@ -17,40 +17,58 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingPhase, setLoadingPhase] = useState(1);
 
-
+  // Fixed Loading Phase Management
   useEffect(() => {
     if (!isLoading) return;
   
     if (loadingPhase === 1) {
-      // After loading spinner, go to slash
-      const t = setTimeout(() => setLoadingPhase(2), 2600); // loader/spinner time
-      return () => clearTimeout(t);
+      const timer = setTimeout(() => {
+        setLoadingPhase(2);
+      }, 3000);
+      return () => clearTimeout(timer);
     }
+    
     if (loadingPhase === 2) {
-      // Play slash sound and advance to curtain
-      const slashAudio = new Audio('https://raw.githubusercontent.com/IchigoSolos69/portfolio_website/7e5783adb55f55d4ed317b643826b458ad824700/public/sounds/sword-slash.mp3');
-      slashAudio.currentTime = 0;
-      slashAudio.play().catch(() => {});
-      const t = setTimeout(() => setLoadingPhase(3), 1300); // sword slash duration
-      return () => clearTimeout(t);
+      // FORCE AUDIO PLAY - Multiple attempts
+      const playSlashSound = async () => {
+        try {
+          const slashAudio = new Audio('https://raw.githubusercontent.com/IchigoSolos69/portfolio_website/7e5783adb55f55d4ed317b643826b458ad824700/public/sounds/sword-slash.mp3');
+          slashAudio.volume = 0.7;
+          slashAudio.preload = 'auto';
+          
+          // Force play immediately
+          const playPromise = slashAudio.play();
+          
+          if (playPromise !== undefined) {
+            playPromise.catch(error => {
+              console.log('Audio autoplay failed, but continuing animation:', error);
+              // Continue anyway - some browsers block autoplay
+            });
+          }
+        } catch (error) {
+          console.log('Audio failed to load:', error);
+        }
+      };
+      
+      // Play sound immediately when phase 2 starts
+      playSlashSound();
+      
+      const timer = setTimeout(() => {
+        setLoadingPhase(3);
+      }, 1400);
+      return () => clearTimeout(timer);
     }
+    
     if (loadingPhase === 3) {
-      // Curtain wipe/reveal
-      const t = setTimeout(() => {
+      const timer = setTimeout(() => {
         setIsLoading(false);
         setIsVisible(true);
-      }, 850); // curtain duration
-      return () => clearTimeout(t);
+      }, 1000);
+      return () => clearTimeout(timer);
     }
   }, [loadingPhase, isLoading]);
-  
-  // Ensure on mount we start at phase 1 (optional double-check)
-  useEffect(() => {
-    if (!isLoading) setLoadingPhase(1);
-  }, []);
 
-  
-  // Typing effect
+  // Fixed Typing Effect
   useEffect(() => {
     if (isLoading) return;
 
@@ -58,16 +76,25 @@ const Home = () => {
 
     if (!isDeleting && charIndex <= roles[currentRoleIndex].length) {
       setTypingText(roles[currentRoleIndex].substring(0, charIndex));
-      timer = setTimeout(() => setCharIndex(charIndex + 1), Math.random() * 100 + 80);
+      timer = setTimeout(() => {
+        setCharIndex(prev => prev + 1);
+      }, Math.random() * 100 + 80);
     } else if (!isDeleting && charIndex > roles[currentRoleIndex].length) {
-      timer = setTimeout(() => setIsDeleting(true), 2000);
+      // Pause before deleting
+      timer = setTimeout(() => {
+        setIsDeleting(true);
+      }, 2000);
     } else if (isDeleting && charIndex > 0) {
       setTypingText(roles[currentRoleIndex].substring(0, charIndex));
-      timer = setTimeout(() => setCharIndex(charIndex - 1), 50);
+      timer = setTimeout(() => {
+        setCharIndex(prev => prev - 1);
+      }, 50);
     } else if (isDeleting && charIndex === 0) {
+      // Move to next role
       timer = setTimeout(() => {
         setIsDeleting(false);
-        setCurrentRoleIndex((prev) => (prev + 1) % roles.length);
+        setCurrentRoleIndex(prev => (prev + 1) % roles.length);
+        setCharIndex(0);
       }, 500);
     }
 
@@ -121,56 +148,37 @@ const Home = () => {
         
         {/* Phase 2: Sword Slash */}
         {loadingPhase === 2 && (
-          <div className="sword-slash-phase">
-            {/* Black Dramatic Pause */}
-            <div className="dramatic-pause"></div>
-            
-            {/* Katana Sword */}
-            <div className="katana-sword">
-              <svg className="sword-svg" viewBox="0 0 100 400" fill="none">
-                <defs>
-                  <linearGradient id="swordGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#C0C0C0" />
-                    <stop offset="50%" stopColor="#FFFFFF" />
-                    <stop offset="100%" stopColor="#FFA500" />
-                  </linearGradient>
-                  <filter id="swordGlow">
-                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                    <feMerge>
-                      <feMergeNode in="coloredBlur"/>
-                      <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
-                  </filter>
-                </defs>
-                
-                {/* Blade */}
-                <path d="M45 20 L55 20 L52 380 L48 380 Z" 
-                      fill="url(#swordGradient)" 
-                      filter="url(#swordGlow)"/>
-                
-                {/* Handle */}
-                <rect x="40" y="380" width="20" height="15" 
-                      fill="#2C1810" rx="2"/>
-              </svg>
-            </div>
-            
-            {/* Glowing Trail */}
-            <div className="slash-trail"></div>
-            
-            {/* Spark Particles */}
-            <div className="spark-particles">
-              {[...Array(15)].map((_, i) => (
-                <div 
-                  key={i} 
-                  className="spark-particle" 
-                  style={{
-                    animationDelay: `${i * 0.05}s`
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-        )}
+  <div className="sword-slash-phase">
+    {/* Dramatic pause */}
+    <div className="dramatic-pause"></div>
+    
+    {/* Diagonal slash line from bottom-left to top-right */}
+    <div className="diagonal-slash-container">
+      <div className="diagonal-slash-line"></div>
+      <div className="diagonal-slash-glow"></div>
+      
+      {/* Trailing particles along the slash */}
+      <div className="slash-particles">
+        {[...Array(12)].map((_, i) => (
+          <div 
+            key={i} 
+            className="diagonal-particle" 
+            style={{
+              animationDelay: `${0.3 + i * 0.08}s`
+            }}
+          />
+        ))}
+      </div>
+    </div>
+    
+    {/* Katana at the end point */}
+    <div className="katana-end-point">
+      <svg className="katana-icon" viewBox="0 0 24 24" fill="none">
+        <path d="M4 4l16 16M4 20L20 4" stroke="#FFA500" strokeWidth="2" strokeLinecap="round"/>
+      </svg>
+    </div>
+  </div>
+)}
         
         {/* Phase 3: Curtain Reveal */}
         {loadingPhase === 3 && (
@@ -184,59 +192,63 @@ const Home = () => {
 
   return (
     <div className={`min-h-screen bg-black text-white transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+      {/* Fixed Background Effects */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="dynamic-background" />
+        <div className="optimized-particle-field">
+          {[...Array(15)].map((_, i) => (
+            <div
+              key={i}
+              className="optimized-particle"
+              style={{ left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%` }}
+            />
+          ))}
+        </div>
+      </div>
 
       {/* Hero Section */}
       <section className="min-h-screen flex items-center justify-center relative z-10 px-6">
         <div className="text-center max-w-4xl mx-auto">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="particle-field">
-            {[...Array(40)].map((_, i) => (
-              <div 
-                key={i} 
-                className="moving-particle" 
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  animationDelay: `${i * 0.15}s`,
-                  animationDuration: `${8 + Math.random() * 12}s`
-                }} 
-              />
-            ))}
-          </div>
-        </div>
           <div className="mb-12">
             <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
-              <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent animate-gradient-text">
                 Adi Rajendra Maitre
               </span>
             </h1>
+            
+            {/* Fixed Typing Display */}
             <div className="text-2xl md:text-3xl text-gray-300 mb-6 h-12 flex items-center justify-center overflow-hidden">
-              <span className="border-r-2 border-spiritual-energy animate-blink pr-1 bg-spiritual-gradient bg-clip-text text-transparent flex items-center">
+              <span className="border-r-2 border-spiritual-energy animate-blink pr-1">
                 {typingText}
               </span>
             </div>
+            
             <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
               Crafting digital experiences with precision and passion.
               <span className="text-spiritual-energy japanese-text block mt-2">開発者</span>
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in-up" style={{animationDelay: '0.3s'}}>
             <button
               onClick={() => scrollToSection('about')}
-              className="bg-spiritual-gradient hover:bg-reiatsu-glow text-gray-900 font-medium px-8 py-4 rounded-lg transition-all duration-300 text-lg shadow-lg hover:shadow-spiritual-energy/50"
+              className="bg-spiritual-gradient hover:bg-reiatsu-glow text-gray-900 font-medium px-8 py-4 rounded-lg transition-all duration-300 text-lg shadow-lg hover:shadow-spiritual-energy/50 group"
             >
-              <span className="relative z-10 flex items-center gap-2"><Award className="w-5 h-5" /> About Me</span>
+              <span className="relative z-10 flex items-center gap-2">
+                <Award className="w-5 h-5" /> About Me
+              </span>
             </button>
             <button
               onClick={() => scrollToSection('projects')}
-              className="border-2 border-spiritual-energy bg-transparent text-gray-100 hover:bg-spiritual-energy/20 px-8 py-4 rounded-lg text-lg transition-all duration-300 hover:shadow-lg hover:shadow-spiritual-energy/25"
+              className="border-2 border-spiritual-energy bg-transparent text-gray-100 hover:bg-spiritual-energy/20 px-8 py-4 rounded-lg text-lg transition-all duration-300 hover:shadow-lg hover:shadow-spiritual-energy/25 group"
             >
-              <span className="relative z-10 flex items-center gap-2"><Zap className="w-5 h-5" /> View Projects</span>
+              <span className="relative z-10 flex items-center gap-2">
+                <Zap className="w-5 h-5" /> View Projects
+              </span>
             </button>
           </div>
 
-          <div className="mt-12">
+          <div className="mt-12 animate-fade-in-up" style={{animationDelay: '0.6s'}}>
             <ChevronDown
               className="w-8 h-8 mx-auto text-spiritual-energy animate-bounce cursor-pointer"
               onClick={() => scrollToSection('about')}
@@ -869,6 +881,32 @@ const Home = () => {
         @keyframes loaderSpin {
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes blink {
+          0%, 50% { border-color: hsl(var(--spiritual-energy)); }
+          51%, 100% { border-color: transparent; }
+        }
+        
+        .animate-blink {
+          animation: blink 1s infinite;
+        }
+        
+        .animate-fade-in-up {
+          animation: fadeInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
         }
         
         @keyframes loaderPulse {
