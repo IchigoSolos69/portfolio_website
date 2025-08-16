@@ -36,10 +36,29 @@ const Home = () => {
       });
     };
 
-    calculateSlashCoords();
-    window.addEventListener('resize', calculateSlashCoords);
-    return () => window.removeEventListener('resize', calculateSlashCoords);
-  }, []);
+    useEffect(() => {
+      const calculateSlashCoords = () => {
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        const diagonalLength = Math.sqrt(vw * vw + vh * vh);
+        const angle = 45;
+        
+        // Set CSS variables for consistent styling
+        document.documentElement.style.setProperty('--slash-width', `${diagonalLength}px`);
+        document.documentElement.style.setProperty('--slash-height', '6px');
+        document.documentElement.style.setProperty('--slash-angle', `${angle}deg`);
+        
+        setSlashCoords({
+          width: `${diagonalLength}px`,
+          height: '6px',
+          angle: angle
+        });
+      };
+      
+      calculateSlashCoords();
+      window.addEventListener('resize', calculateSlashCoords);
+      return () => window.removeEventListener('resize', calculateSlashCoords);
+    }, []);
 
   // Fixed Loading Phase Management
   useEffect(() => {
@@ -184,24 +203,9 @@ const Home = () => {
           <div className="sword-slash-phase">
             <div className="dramatic-pause"></div>
             
-            {/* Perfect Diagonal Slash */}
             <div className="diagonal-slash-container">
-              <div 
-                className="diagonal-slash-line"
-                style={{
-                  width: slashCoords.width,
-                  height: slashCoords.height,
-                  transform: `rotate(${slashCoords.angle}deg)`
-                }}
-              ></div>
-              <div 
-                className="diagonal-slash-glow"
-                style={{
-                  width: slashCoords.width,
-                  height: '20px',
-                  transform: `rotate(${slashCoords.angle}deg)`
-                }}
-              ></div>
+              <div className="diagonal-slash-line"></div>
+              <div className="diagonal-slash-glow"></div>
             </div>
             
             {/* Slash Particles */}

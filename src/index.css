@@ -133,8 +133,8 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 6px;
-  height: 100vh;
+  width: var(--slash-width, 100vw);
+  height: var(--slash-height, 6px);
   background: linear-gradient(
     to top,
     transparent 0%,
@@ -145,6 +145,7 @@
     transparent 100%
   );
   transform-origin: bottom left;
+  transform: rotate(var(--slash-angle, 45deg));
   box-shadow:
     0 0 40px rgba(255,165,0,1),
     0 0 80px rgba(255,255,255,0.9),
@@ -166,16 +167,10 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 20px;
-  height: 100vh;
-  background: radial-gradient(
-    ellipse at 50% 50%, 
-    rgba(255,140,0,0.6) 20%, 
-    rgba(255,255,255,0.8) 40%, 
-    rgba(255,165,0,0.4) 60%,
-    transparent 100%
-  );
+  width: var(--slash-width, 100vw);
+  height: 20px;
   transform-origin: bottom left;
+  transform: rotate(var(--slash-angle, 45deg));
   filter: blur(15px);
   animation: perfectSlashGlow 1.2s cubic-bezier(0.25,0.46,0.45,0.94) 0.25s forwards;
   opacity: 0;
