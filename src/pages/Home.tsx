@@ -330,44 +330,46 @@ const Home = () => {
             </div>
             
             <div className="animate-fade-in-up" style={{animationDelay: '0.3s'}}>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-                {[
-                  { name: 'JavaScript', level: 'Expert' },
-                  { name: 'TypeScript', level: 'Expert' },
-                  { name: 'Python', level: 'Expert' },
-                  { name: 'React', level: 'Expert' },
-                  { name: 'Node.js', level: 'Advanced' },
-                  { name: 'Java', level: 'Advanced' },
-                  { name: 'C++', level: 'Intermediate' },
-                  { name: 'Go', level: 'Learning' }
-                ].map((lang, idx) => (
-                  <div 
-                    key={lang.name} 
-                    className="programming-lang-box group relative bg-gradient-to-br from-hollow-mask/20 to-soul-society/10 rounded-xl p-6 border border-spiritual-energy/20 hover:border-reiatsu-glow transition-all duration-700 hover:scale-110 hover:shadow-2xl hover:shadow-spiritual-energy/30"
-                    style={{
-                      animation: `langBoxFloat 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${0.15 + idx * 0.15}s forwards`,
-                      opacity: 0,
-                      transform: 'translateY(30px) scale(0.8) rotateX(15deg)'
-                    }}
-                  >
-                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-reiatsu-glow/0 via-reiatsu-glow/10 to-reiatsu-glow/0 opacity-0 group-hover:opacity-100 transition-all duration-700" />
-                    <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-spiritual-energy/5 via-transparent to-kido-purple/5 opacity-0 group-hover:opacity-100 transition-all duration-700 animate-pulse" />
-                    
-                    <div className="relative z-10 text-center">
-                      <h4 className="text-spiritual-energy font-bold text-lg mb-3 group-hover:text-reiatsu-glow transition-all duration-500 group-hover:scale-105">{lang.name}</h4>
-                      <span className={`text-sm px-3 py-2 rounded-full font-medium transition-all duration-500 group-hover:scale-105 ${
-                        lang.level === 'Expert' ? 'bg-green-500/20 text-green-400 group-hover:bg-green-500/30' :
-                        lang.level === 'Advanced' ? 'bg-blue-500/20 text-blue-400 group-hover:bg-blue-500/30' :
-                        lang.level === 'Intermediate' ? 'bg-yellow-500/20 text-yellow-400 group-hover:bg-yellow-500/30' :
-                        'bg-purple-500/20 text-purple-400 group-hover:bg-purple-500/30'
-                      }`}>
-                        {lang.level}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+  {[
+    { name: 'JavaScript', level: 'Expert' },
+    { name: 'TypeScript', level: 'Expert' },
+    { name: 'Python', level: 'Expert' },
+    { name: 'React', level: 'Expert' },
+    { name: 'Node.js', level: 'Advanced' },
+    { name: 'Java', level: 'Advanced' },
+    { name: 'C++', level: 'Intermediate' },
+    { name: 'Go', level: 'Learning' }
+  ].map((lang, idx) => (
+    <div 
+      key={lang.name} 
+      className="programming-lang-box group relative bg-gradient-to-br from-hollow-mask/20 to-soul-society/10 rounded-xl p-6 border border-spiritual-energy/20 hover:border-reiatsu-glow transition-all duration-700 hover:scale-110 hover:shadow-2xl hover:shadow-spiritual-energy/30 text-center"
+      style={{
+        animation: `langBoxFloat 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${0.15 + idx * 0.15}s forwards`,
+        opacity: 0,
+        transform: 'translateY(30px) scale(0.8) rotateX(15deg)'
+      }}
+    >
+      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-reiatsu-glow/0 via-reiatsu-glow/10 to-reiatsu-glow/0 opacity-0 group-hover:opacity-100 transition-all duration-700" />
+      <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-spiritual-energy/5 via-transparent to-kido-purple/5 opacity-0 group-hover:opacity-100 transition-all duration-700 animate-pulse" />
+      
+      <div className="relative z-10 text-center flex flex-col items-center justify-center h-full">
+        <h4 className="text-spiritual-energy font-bold text-lg mb-3 group-hover:text-reiatsu-glow transition-all duration-500 group-hover:scale-105 text-center">
+          {lang.name}
+        </h4>
+        <span className={`text-sm px-3 py-2 rounded-full font-medium transition-all duration-500 group-hover:scale-105 text-center ${
+          lang.level === 'Expert' ? 'bg-green-500/20 text-green-400 group-hover:bg-green-500/30' :
+          lang.level === 'Advanced' ? 'bg-blue-500/20 text-blue-400 group-hover:bg-blue-500/30' :
+          lang.level === 'Intermediate' ? 'bg-yellow-500/20 text-yellow-400 group-hover:bg-yellow-500/30' :
+          'bg-purple-500/20 text-purple-400 group-hover:bg-purple-500/30'
+        }`}>
+          {lang.level}
+        </span>
+      </div>
+    </div>
+  ))}
+</div>
+
               <div className="grid grid-cols-2 gap-4">
                 {['Machine Learning', 'Data Analysis', 'Partnership Strategy', 'Full-Stack Development'].map((skill) => (
                   <div key={skill} className="about-skill-box skill-tag group bg-gradient-to-br from-hollow-mask/20 to-soul-society/10 rounded-lg p-4 border border-spiritual-energy/20 hover:border-reiatsu-glow">
