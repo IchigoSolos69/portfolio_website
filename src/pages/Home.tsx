@@ -62,7 +62,7 @@ const Home = () => {
       // Phase 2: Sword slash with synchronized sound
       const playSlashSound = () => {
         try {
-          const slashAudio = new Audio('/sounds/sword-slash.mp3');
+          const slashAudio = new Audio('https://raw.githubusercontent.com/IchigoSolos69/portfolio_website/da0030ba1ecfc2a8b6f7e7a2127da7cdea1e62b3/public/sounds/sword-slash.mp3');
           slashAudio.volume = 0.3;
           slashAudio.loop = false; // Ensure no looping
           slashAudio.preload = 'auto';
