@@ -77,9 +77,9 @@ export default {
           '100%': { transform: 'scale(1.5)', opacity: '0' },
         },
         'bankai-release': {
-          '0%': { transform: 'scale(0.5) rotate(0deg)', opacity: '0', filter: 'brightness(3)' },
-          '50%': { transform: 'scale(1.2) rotate(180deg)', opacity: '0.8', filter: 'brightness(2)' },
-          '100%': { transform: 'scale(1) rotate(360deg)', opacity: '1', filter: 'brightness(1)' },
+          '0%': { transform: 'scale(0.5)', opacity: '0', filter: 'brightness(3)' },
+          '50%': { transform: 'scale(1.2)', opacity: '0.8', filter: 'brightness(2)' },
+          '100%': { transform: 'scale(1)', opacity: '1', filter: 'brightness(1)' },
         },
         'hollow-mask-appear': {
           '0%': { clipPath: 'polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%)', opacity: '0' },
@@ -87,9 +87,9 @@ export default {
           '100%': { clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)', opacity: '1' },
         },
         'zanpakuto-shine': {
-          '0%, 100%': { transform: 'rotate(0deg)', filter: 'brightness(1)' },
-          '25%': { transform: 'rotate(5deg)', filter: 'brightness(1.3)' },
-          '75%': { transform: 'rotate(-5deg)', filter: 'brightness(1.3)' },
+          '0%, 100%': { filter: 'brightness(1)' },
+          '25%': { filter: 'brightness(1.3)' },
+          '75%': { filter: 'brightness(1.3)' },
         },
         // New Keyframes
         'typewriter': {

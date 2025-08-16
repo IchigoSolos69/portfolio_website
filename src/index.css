@@ -30,10 +30,10 @@
     font-family: 'Inter', 'Noto Sans JP', sans-serif;
   
     /* OPTION 1: Simple solid background */
-    background: hsl(var(--soul-society));
+    /*background: hsl(var(--soul-society)); */
     
     /* OPTION 2: Clean gradient (uncomment to use) */
-    /* background: linear-gradient(135deg, hsl(var(--soul-society)), hsl(var(--background))); */
+    background: linear-gradient(135deg, hsl(var(--soul-society)), hsl(var(--background))); 
     
     /* OPTION 3: Minimal with subtle texture (uncomment to use) */
     /* background: 
@@ -246,10 +246,10 @@
   .page-load-slash::before {
     content: '';
     position: absolute;
-    top: 50%;
+    top: 20%;
     left: -100%;
     width: 200%;
-    height: 4px;
+    height: 6px;
     background: linear-gradient(90deg, 
       transparent 0%, 
       rgba(255,255,255,0.9) 20%, 
@@ -257,12 +257,25 @@
       rgba(255,255,255,0.9) 80%, 
       transparent 100%
     );
-    transform: translateY(-50%) rotate(-15deg);
+    transform: rotate(-35deg);
     box-shadow: 
-      0 0 20px hsl(var(--spiritual-energy)),
-      0 0 40px rgba(255,255,255,0.5),
-      0 0 60px hsl(var(--reiatsu-glow));
+      0 0 25px hsl(var(--spiritual-energy)),
+      0 0 50px rgba(255,255,255,0.6),
+      0 0 75px hsl(var(--reiatsu-glow));
     animation: slash-trail 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+
+  /* Sword image that appears at the end */
+  .page-load-slash::after {
+    content: '⚔️';
+    position: absolute;
+    top: 70%;
+    right: 10%;
+    font-size: 4rem;
+    opacity: 0;
+    transform: rotate(-35deg) scale(0.5);
+    filter: drop-shadow(0 0 20px hsl(var(--spiritual-energy)));
+    animation: sword-appear 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   }
 
   @keyframes sword-page-slash {
@@ -275,21 +288,40 @@
     0% { 
       left: -100%; 
       opacity: 0;
-      transform: translateY(-50%) rotate(-15deg) scaleX(0.5);
+      transform: rotate(-35deg) scaleX(0.5);
     }
     10% { 
       opacity: 1;
-      transform: translateY(-50%) rotate(-15deg) scaleX(1);
+      transform: rotate(-35deg) scaleX(1);
     }
     70% { 
       left: 100%; 
       opacity: 1;
-      transform: translateY(-50%) rotate(-15deg) scaleX(1);
+      transform: rotate(-35deg) scaleX(1);
     }
     100% { 
       left: 100%; 
       opacity: 0;
-      transform: translateY(-50%) rotate(-15deg) scaleX(0.5);
+      transform: rotate(-35deg) scaleX(0.5);
+    }
+  }
+
+  @keyframes sword-appear {
+    0% { 
+      opacity: 0; 
+      transform: rotate(-35deg) scale(0.5);
+    }
+    60% { 
+      opacity: 0; 
+      transform: rotate(-35deg) scale(0.5);
+    }
+    80% { 
+      opacity: 1; 
+      transform: rotate(-35deg) scale(1.2);
+    }
+    100% { 
+      opacity: 1; 
+      transform: rotate(-35deg) scale(1);
     }
   }
 
