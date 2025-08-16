@@ -4,38 +4,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!slashSound || !slashOverlay) return;
 
-  // Enable audio on first user interaction
-  let audioEnabled = false;
-  const enableAudio = () => {
-    if (!audioEnabled) {
-      slashSound.play().then(() => {
-        slashSound.pause();
-        slashSound.currentTime = 0;
-        audioEnabled = true;
-      }).catch(() => {});
+  // Enable audio immediately and play with slash
+  let audioPlayed = false;
+  
+  const playSlashSound = () => {
+    if (!audioPlayed) {
+      slashSound.currentTime = 0;
+      slashSound.play().catch(err => {
+        // If autoplay fails, try again on first user interaction
+        ['click', 'touchstart', 'keydown'].forEach(event => {
+          document.addEventListener(event, () => {
+            slashSound.currentTime = 0;
+            slashSound.play().catch(() => {});
+          }, { once: true });
+        });
+      });
+      audioPlayed = true;
     }
   };
 
-  // Listen for any user interaction to enable audio
-  ['click', 'touchstart', 'keydown'].forEach(event => {
-    document.addEventListener(event, enableAudio, { once: true });
-  });
+  // Play sound immediately when page loads (with the CSS animation)
+  setTimeout(playSlashSound, 100);
 
-  // Play the sword sound when slash animation starts
+  // Also try when animation starts as backup
   slashOverlay.addEventListener("animationstart", (e) => {
-    if (e.animationName === "sword-slash" && audioEnabled) {
-      slashSound.currentTime = 0;
-      slashSound.play().catch(err => console.log("Audio playback failed:", err));
+    if (e.animationName === "sword-slash") {
+      playSlashSound();
     }
   });
-
-  // Auto-trigger slash sound after a delay (for users who don't interact)
-  setTimeout(() => {
-    if (audioEnabled) {
-      slashSound.currentTime = 0;
-      slashSound.play().catch(() => {});
-    }
-  }, 500);
 
   // Remove overlay after animation ends
   slashOverlay.addEventListener("animationend", (e) => {

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Cpu, Github, Zap, Mail, Award, Trophy, ChevronDown, Linkedin } from 'lucide-react';
 
 const roles = [
-  '学生 - Student ',
-  'デベロッパー - Developer ',
-  'パートナーシップマネージャー - Partnership Manager ',
-  'ブリーチファン - Bleach Fan ',
+  '学生 | Student ',
+  'デベロッパー | Developer ',
+  'パートナーシップマネージャー | Partnership Manager ',
+  'ブリーチファン | Bleach Fan ',
 ];
 
 const TRAIL_LENGTH = 10;
@@ -17,17 +17,14 @@ const Home = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [charIndex, setCharIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [showSwordSlash, setShowSwordSlash] = useState(false);
 
-  // Loading and sword slash logic
+  // Loading logic
   useEffect(() => {
+    // End loading after animation completes
     const loadingTimer = setTimeout(() => {
-      setShowSwordSlash(true);
-      setTimeout(() => {
-        setIsLoading(false);
-        setIsVisible(true);
-      }, 2000);
-    }, 3000);
+      setIsLoading(false);
+      setIsVisible(true);
+    }, 2200); // Match CSS fade-out duration
 
     return () => clearTimeout(loadingTimer);
   }, []);
