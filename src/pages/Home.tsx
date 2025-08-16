@@ -28,10 +28,26 @@ const Home = () => {
       }, 2000) // 2 seconds for sword slash + reveal
     }, 3000) // 3 seconds for initial loading phase
     
+    // 10-second timer for special Bankai mode
+    const bankaiTimer = setTimeout(() => {
+      if (!isLoading) {
+        setSpecialBankaiMode(true)
+        setTimeout(() => setSpecialBankaiMode(false), 5000)
+      }
+    }, 10000)
+    
+    return () => {
+      clearTimeout(loadingTimer)
+      clearTimeout(bankaiTimer)
+    }
+  }, []) // Remove isLoading dependency
+
+  // Separate effect for mouse trail system
+  useEffect(() => {
+    if (isLoading) return
+
     // Enhanced mouse trail system with velocity detection
-    const handleMouseMove = useCallback((e: MouseEvent) => {
-      if (isLoading) return
-      
+    const handleMouseMove = (e: MouseEvent) => {
       const currentTime = Date.now()
       const deltaX = e.clientX - lastMousePosition.current.x
       const deltaY = e.clientY - lastMousePosition.current.y
@@ -53,14 +69,13 @@ const Home = () => {
       }
       
       lastMousePosition.current = { x: e.clientX, y: e.clientY }
-    }, [isLoading])
+    }
     
     // Animate trail with requestAnimationFrame
-    const animateTrail = useCallback(() => {
+    const animateTrail = () => {
       const trails = document.querySelectorAll('.mouse-trail')
       trails.forEach((trail, index) => {
         const trailElement = trail as HTMLElement
-        const delay = index * 50
         const targetPos = mouseTrailRef.current[mouseTrailRef.current.length - 1 - index]
         
         if (targetPos) {
@@ -70,7 +85,7 @@ const Home = () => {
       })
       
       animationFrameRef.current = requestAnimationFrame(animateTrail)
-    }, [])
+    }
     
     // Create trail elements
     const createTrailElements = () => {
@@ -82,19 +97,8 @@ const Home = () => {
       }
     }
     
-    // 10-second timer for special Bankai mode
-    const bankaiTimer = setTimeout(() => {
-      if (!isLoading) {
-        setSpecialBankaiMode(true)
-        setTimeout(() => setSpecialBankaiMode(false), 5000)
-      }
-    }, 10000)
-    
-    if (!isLoading) {
-      createTrailElements()
-      animationFrameRef.current = requestAnimationFrame(animateTrail)
-    }
-    
+    createTrailElements()
+    animationFrameRef.current = requestAnimationFrame(animateTrail)
     window.addEventListener('mousemove', handleMouseMove, { passive: true })
     
     // Intersection Observer for scroll animations
@@ -119,8 +123,6 @@ const Home = () => {
     
     return () => {
       window.removeEventListener('mousemove', handleMouseMove)
-      clearTimeout(loadingTimer)
-      clearTimeout(bankaiTimer)
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current)
       }
