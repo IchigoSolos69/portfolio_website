@@ -64,7 +64,7 @@ const Home = () => {
     }
     
     if (loadingPhase === 2) {
-      // Phase 2: Sword slash with synchronized 2-second animation
+      // Phase 2: Sword slash with synchronized 8-second audio
       const playSlashSound = () => {
         try {
           const slashAudio = new Audio('https://raw.githubusercontent.com/IchigoSolos69/portfolio_website/da0030ba1ecfc2a8b6f7e7a2127da7cdea1e62b3/public/sounds/sword-slash.mp3');
@@ -83,16 +83,19 @@ const Home = () => {
       
       playSlashSound();
       
-      // Reveal site content after 2 seconds (matching animation length)
+      // Move to phase 3 after 8 seconds (matching audio length)
+      const timer = setTimeout(() => {
+        setLoadingPhase(3);
+      }, 8000);
+      return () => clearTimeout(timer);
+    }
+    
+    if (loadingPhase === 3) {
+      // Phase 3: Curtain reveal (1 second)
       const timer = setTimeout(() => {
         setIsLoading(false);
         setIsVisible(true);
-        // Add revealed class to site content
-        const siteContent = document.querySelector('.site-content');
-        if (siteContent) {
-          siteContent.classList.add('revealed');
-        }
-      }, 2000);
+      }, 1000);
       return () => clearTimeout(timer);
     }
   }, [loadingPhase, isLoading]);
@@ -200,22 +203,29 @@ const Home = () => {
             <div className="diagonal-slash-container">
               <div className="diagonal-slash-line"></div>
               <div className="diagonal-slash-glow"></div>
-              
-              {/* Slash Particles */}
-              <div className="slash-particles">
-                {[...Array(12)].map((_, i) => (
-                  <div 
-                    key={i} 
-                    className="diagonal-particle" 
-                    style={{
-                      left: `${20 + i * 5}%`,
-                      top: `${80 - i * 5}%`,
-                      animationDelay: `${0.6 + i * 0.05}s`
-                    }}
-                  />
-                ))}
-              </div>
             </div>
+            
+            {/* Slash Particles */}
+            <div className="slash-particles">
+              {[...Array(12)].map((_, i) => (
+                <div 
+                  key={i} 
+                  className="diagonal-particle" 
+                  style={{
+                    left: `${20 + i * 5}%`,
+                    top: `${80 - i * 5}%`,
+                    animationDelay: `${0.6 + i * 0.05}s`
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        
+        {/* Phase 3: Curtain Reveal */}
+        {loadingPhase === 3 && (
+          <div className="curtain-reveal-phase">
+            <div className="diagonal-curtain"></div>
           </div>
         )}
       </div>
@@ -223,7 +233,7 @@ const Home = () => {
   }
 
   return (
-    <div className={`site-content min-h-screen bg-black text-white transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+    <div className={`min-h-screen bg-black text-white transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
       {/* Fixed Background Effects */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="dynamic-background" />

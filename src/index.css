@@ -187,34 +187,14 @@
 }
 @keyframes fadeOut { to { opacity:0; visibility:hidden } }
 
-/* Slash Container */
-.diagonal-slash-container { 
-  position: absolute; 
-  inset: 0; 
-  pointer-events: none;
-  z-index: 100;
-}
+.diagonal-slash-container { position:absolute; inset:0; }
 
-/* Website content wrapper (hidden until slash reveals it) */
-.site-content {
-  opacity: 0;
-  clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); /* completely hidden */
-  transition: clip-path 2s ease-out, opacity 1s ease-out;
-}
-
-/* Reveal after slash finishes */
-.site-content.revealed {
-  opacity: 1;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); /* full content */
-}
-
-/* Main Slash (Blurred) */
 .diagonal-slash-line {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: var(--slash-width, 40vw);
-  height: 6px;
+  width: var(--slash-width, 100vw);
+  height: 20px;
   background: linear-gradient(
     to top,
     transparent 0%,
@@ -227,18 +207,17 @@
   transform-origin: bottom left;
   transform: rotate(45deg);
   filter: blur(15px);
-  animation: diagonalSlashGrow 2s ease-out forwards;
+  animation: diagonalParticleFly 8s ease-out forwards;
   opacity: 0;
   z-index: 30;
 }
 
-/* Glow Slash (Sharp) */
 .diagonal-slash-glow {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: var(--slash-width, 40vw);
-  height: 2px;
+  width: var(--slash-width, 100vw);
+  height: var(--slash-height, 6px);
   background: linear-gradient(
     to top,
     transparent 0%,
@@ -254,47 +233,50 @@
     0 0 40px rgba(255,165,0,1),
     0 0 80px rgba(255,255,255,0.9),
     0 0 120px rgba(255,165,0,0.7);
-  animation: diagonalSlashGrow 2s ease-out forwards;
+  animation: diagonalParticleFly 8s ease-out forwards;
   opacity: 0;
   z-index: 25;
 }
 
-/* Slash Trail Particles */
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .diagonal-slash-line {
+    width: 3px;
+    height: calc(100vh * 1.4142 + 40px);
+  }
+  .diagonal-slash-glow {
+    width: 8px;
+    height: calc(100vh * 1.4142 + 40px);
+  }
+}
+
 .slash-particles {
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 25;
 }
+
 .slash-particles .diagonal-particle {
   position: absolute;
   width: 3px;
   height: 3px;
   background: radial-gradient(circle, #FFF 0%, #FFA500 60%, transparent 90%);
   border-radius: 50%;
-  animation: diagonalParticleFly 2s ease-out forwards;
+  animation: diagonalParticleFly 8s ease-out forwards;
   opacity: 0;
   box-shadow: 
     0 0 6px rgba(255,165,0,0.8),
     0 0 12px rgba(255,255,255,0.6);
 }
 
-/* Slash Growth Animation */
-@keyframes diagonalSlashGrow {
-  0%   { opacity:0; transform: rotate(45deg) scaleX(0.2) scaleY(0.3); }
-  25%  { opacity:1; transform: rotate(45deg) scaleX(0.8) scaleY(0.6); }
-  50%  { opacity:1; transform: rotate(45deg) scaleX(1.2) scaleY(1); }
-  75%  { opacity:0.6; transform: rotate(45deg) scaleX(1.8) scaleY(1.4); }
-  100% { opacity:0; transform: rotate(45deg) scaleX(2.5) scaleY(1.8); }
-}
-
-/* Particle Trail */
 @keyframes diagonalParticleFly {
-  0%   { opacity:0; transform: translate(0,0) scale(0.3); }
-  25%  { opacity:1; transform: translate(15vw,-10vh) scale(0.6); }
-  50%  { opacity:1; transform: translate(35vw,-25vh) scale(1); }
-  75%  { opacity:0.6; transform: translate(55vw,-45vh) scale(1.5); }
-  100% { opacity:0; transform: translate(100vw,-80vh) scale(2.5); }
+  0%   { opacity:0; transform: translate(0,0) scaleX(0.3) scaleY(1); }
+  12.5% { opacity:1; transform: translate(15vw,-10vh) scaleX(1) scaleY(1); }
+  37.5% { opacity:1; transform: translate(35vw,-25vh) scaleX(1.5) scaleY(1); }
+  62.5% { opacity:0.7; transform: translate(55vw,-45vh) scaleX(2) scaleY(1); }
+  87.5% { opacity:0.3; transform: translate(75vw,-65vh) scaleX(2.5) scaleY(1); }
+  100% { opacity:0; transform: translate(100vw,-80vh) scaleX(3) scaleY(1); }
 }
 
 /* Phase 3: Curtain Reveal */
