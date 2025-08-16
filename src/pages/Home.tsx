@@ -17,16 +17,25 @@ const Home = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [charIndex, setCharIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [showSwordSlash, setShowSwordSlash] = useState(true);
 
   // Loading logic
   useEffect(() => {
+    // Hide sword slash after animation completes
+    const slashTimer = setTimeout(() => {
+      setShowSwordSlash(false);
+    }, 2200); // Match CSS fade-out duration
+
     // End loading after animation completes
     const loadingTimer = setTimeout(() => {
       setIsLoading(false);
       setIsVisible(true);
     }, 2200); // Match CSS fade-out duration
 
-    return () => clearTimeout(loadingTimer);
+    return () => {
+      clearTimeout(slashTimer);
+      clearTimeout(loadingTimer);
+    };
   }, []);
 
   // Typing effect with smooth typing and deleting logic
@@ -69,7 +78,11 @@ const Home = () => {
   }
 
   return (
-    <div className={`min-h-screen bg-black text-white transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+    <>
+      {/* Sword Slash Loading Effect */}
+      {showSwordSlash && <div className="page-load-slash" />}
+      
+      <div className={`min-h-screen bg-black text-white transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
       {/* Background & particles - unchanged */}
 
       {/* Mouse Trail - unchanged */}
@@ -332,6 +345,7 @@ const Home = () => {
         </div>
       </footer>
     </div>
+    </>
   );
 };
 

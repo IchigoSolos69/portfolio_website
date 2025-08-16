@@ -1195,7 +1195,7 @@
     background: black; /* hides content initially */
     z-index: 9999;
     pointer-events: none;
-    animation: sword-slash 1.8s ease forwards, fade-out 2.2s ease forwards;
+    animation: fade-out 2.2s ease forwards;
   }
 
   /* The slash line */
@@ -1218,6 +1218,33 @@
       0 0 20px hsl(var(--spiritual-energy)),
       0 0 40px hsl(var(--reiatsu-glow));
     animation: sword-slash 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+
+  /* 🔹 Slash animation: bottom-left → top-right */
+  @keyframes sword-slash {
+    0% {
+      transform: translate(-50%, 50%) rotate(45deg) scaleX(0.2);
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+      transform: translate(0%, 0%) rotate(45deg) scaleX(0.4);
+    }
+    70% {
+      opacity: 1;
+      transform: translate(100%, -100%) rotate(45deg) scaleX(1.2); /* widen */
+    }
+    100% {
+      transform: translate(120%, -120%) rotate(45deg) scaleX(1.5);
+      opacity: 0;
+    }
+  }
+
+  /* 🔹 Fade out background (reveals website after slash) */
+  @keyframes fade-out {
+    0% { background: black; opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
   }
 
   .slash-line {
