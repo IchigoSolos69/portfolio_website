@@ -33,12 +33,12 @@
     /*background: hsl(var(--soul-society)); */
     
     /* OPTION 2: Clean gradient (uncomment to use) */
-    background: linear-gradient(135deg, hsl(var(--soul-society)), hsl(var(--background))); 
+    /* background: linear-gradient(135deg, hsl(var(--soul-society)), hsl(var(--background))); */
     
     /* OPTION 3: Minimal with subtle texture (uncomment to use) */
-    /* background: 
+    background: 
       linear-gradient(135deg, hsl(var(--soul-society)) 0%, hsl(var(--background)) 100%),
-      repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.01) 2px, rgba(255,255,255,0.01) 4px); */
+      repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.01) 2px, rgba(255,255,255,0.01) 4px); 
     
     /* OPTION 4: Custom image background (uncomment and replace URL) */
     /* background: 
@@ -87,28 +87,7 @@
     60% { filter: drop-shadow(0 0 38px var(--spiritual-energy)); }
   }
 
-  /* Sword trail effect - shinier & anime-style */
-  .sword-trail {
-    position: relative;
-    overflow: hidden;
-  }
-  .sword-trail::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -98%;
-    width: 110%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent 75%);
-    animation: sword-slash 1.4s cubic-bezier(.96,.46,.31,.98) infinite;
-    pointer-events: none;
-  }
-  @keyframes sword-slash {
-    0% { left: -98%; opacity: 0.6; }
-    7% { left: 12%; opacity: 1; }
-    93% { left: 90%; opacity: 1; }
-    100% { left: 101%; opacity: 0; }
-  }
+  /* Removed sword trail effect for professional look */
 
   /* Energy particles - intense reiatsu sparkles */
   .energy-particle {
@@ -128,27 +107,7 @@
     100% { opacity: 0; transform: scale(2.2); }
   }
 
-  /* Hollow mask overlay effect - more masky shimmer */
-  .hollow-mask-overlay {
-    position: relative;
-  }
-  .hollow-mask-overlay::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(65deg, 
-      transparent 33%, 
-      rgba(160, 160, 160, 0.24) 50%, 
-      transparent 67%
-    );
-    box-shadow: 0 0 40px 2px var(--hollow-mask);
-    opacity: 0;
-    transition: opacity 0.38s cubic-bezier(.65,.09,.98,.33);
-    pointer-events: none;
-  }
-  .hollow-mask-overlay:hover::after {
-    opacity: 1;
-  }
+  /* Removed hollow mask overlay for cleaner look */
 
   /* Bankai release - extra burst with accent */
   @keyframes bankai-burst {
@@ -246,22 +205,19 @@
   .page-load-slash::before {
     content: '';
     position: absolute;
-    top: 20%;
+    bottom: 20%;
     left: -100%;
     width: 200%;
-    height: 6px;
+    height: 4px;
     background: linear-gradient(90deg, 
       transparent 0%, 
-      rgba(255,255,255,0.9) 20%, 
       hsl(var(--spiritual-energy)) 50%, 
-      rgba(255,255,255,0.9) 80%, 
       transparent 100%
     );
-    transform: rotate(-35deg);
+    transform: rotate(35deg);
     box-shadow: 
-      0 0 25px hsl(var(--spiritual-energy)),
-      0 0 50px rgba(255,255,255,0.6),
-      0 0 75px hsl(var(--reiatsu-glow));
+      0 0 15px hsl(var(--spiritual-energy)),
+      0 0 30px hsl(var(--reiatsu-glow));
     animation: slash-trail 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   }
 
@@ -269,12 +225,12 @@
   .page-load-slash::after {
     content: '⚔️';
     position: absolute;
-    top: 70%;
+    top: 20%;
     right: 10%;
-    font-size: 4rem;
+    font-size: 3rem;
     opacity: 0;
-    transform: rotate(-35deg) scale(0.5);
-    filter: drop-shadow(0 0 20px hsl(var(--spiritual-energy)));
+    transform: rotate(35deg) scale(0.5);
+    filter: drop-shadow(0 0 15px hsl(var(--spiritual-energy)));
     animation: sword-appear 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   }
 
@@ -288,40 +244,40 @@
     0% { 
       left: -100%; 
       opacity: 0;
-      transform: rotate(-35deg) scaleX(0.5);
+      transform: rotate(35deg) scaleX(0.5);
     }
     10% { 
       opacity: 1;
-      transform: rotate(-35deg) scaleX(1);
+      transform: rotate(35deg) scaleX(1);
     }
     70% { 
       left: 100%; 
       opacity: 1;
-      transform: rotate(-35deg) scaleX(1);
+      transform: rotate(35deg) scaleX(1);
     }
     100% { 
       left: 100%; 
       opacity: 0;
-      transform: rotate(-35deg) scaleX(0.5);
+      transform: rotate(35deg) scaleX(0.5);
     }
   }
 
   @keyframes sword-appear {
     0% { 
       opacity: 0; 
-      transform: rotate(-35deg) scale(0.5);
+      transform: rotate(35deg) scale(0.5);
     }
     60% { 
       opacity: 0; 
-      transform: rotate(-35deg) scale(0.5);
+      transform: rotate(35deg) scale(0.5);
     }
     80% { 
       opacity: 1; 
-      transform: rotate(-35deg) scale(1.2);
+      transform: rotate(35deg) scale(1.1);
     }
     100% { 
       opacity: 1; 
-      transform: rotate(-35deg) scale(1);
+      transform: rotate(35deg) scale(1);
     }
   }
 
