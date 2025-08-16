@@ -17,6 +17,17 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingPhase, setLoadingPhase] = useState(1);
 
+  useEffect(() => {
+    const resumeAudio = () => {
+      if (window.AudioContext) {
+        const ctx = new AudioContext();
+        if (ctx.state === 'suspended') ctx.resume();
+      }
+      window.removeEventListener('pointerdown', resumeAudio);
+    };
+    window.addEventListener('pointerdown', resumeAudio, { once: true });
+  }, []);
+  
   // Fixed Loading Phase Management
   useEffect(() => {
     if (!isLoading) return;

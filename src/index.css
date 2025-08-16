@@ -129,11 +129,14 @@
 
 .diagonal-slash-container { position:absolute; inset:0; }
 
+/* Perfect diagonal slash line */
 .diagonal-slash-line {
+  position: absolute;
   bottom: -5%;
   left: -5%;
-  width: 2px;
-  height: 141.42vh; /* √2 * 100vh */
+  /* Cover full diagonal regardless of aspect ratio */
+  width: 4px;
+  height: calc(100vh * 1.4142 + 20px);
   background: linear-gradient(
     to top,
     transparent 0%,
@@ -151,24 +154,41 @@
   animation: perfectSlash 1.2s cubic-bezier(0.25,0.46,0.45,0.94) 0.3s forwards;
   opacity: 0;
 }
+
+/* Ensure diagonal slash scales nicely on mobile */
+@media (max-width: 768px) {
+  .diagonal-slash-line {
+    width: 3px;
+    height: calc(100vh * 1.4142 + 40px);
+  }
+}
+
+/* Keyframes unchanged from earlier perfectSlash */
 @keyframes perfectSlash {
-  0%   { opacity:0; transform:rotate(45deg) scaleY(0); width:2px; }
+  0%   { opacity:0; transform:rotate(45deg) scaleY(0); }
   20%  { opacity:1; transform:rotate(45deg) scaleY(0.3); }
-  60%  { transform:rotate(45deg) scaleY(1); width:6px; }
+  60%  { transform:rotate(45deg) scaleY(1); }
   100% { opacity:0; transform:rotate(45deg) scaleY(1.2); }
 }
 
 .diagonal-slash-glow {
+  position: absolute;
   bottom: -5%;
   left: -5%;
-  width: 8px;
-  height: 141.42vh;
-  background: radial-gradient(ellipse at 60% 40%, rgba(255,140,0,0.3) 40%, rgba(255,255,255,0.8) 60%, transparent);
+  width: 12px;
+  height: calc(100vh * 1.4142 + 40px);
+  background: radial-gradient(ellipse at 60% 40%, #ff8c0033 40%, rgba(255,255,255,0.8) 60%, transparent);
   transform: rotate(45deg);
   transform-origin: bottom left;
   filter: blur(8px);
   animation: perfectSlashGlow 1.2s cubic-bezier(0.25,0.46,0.45,0.94) 0.25s forwards;
   opacity: 0;
+}
+@media (max-width: 768px) {
+  .diagonal-slash-glow {
+    width: 8px;
+    height: calc(100vh * 1.4142 + 60px);
+  }
 }
 @keyframes perfectSlashGlow {
   0%   { opacity:0; transform:rotate(45deg) scaleY(0); }
@@ -176,6 +196,7 @@
   70%  { transform:rotate(45deg) scaleY(1); }
   100% { opacity:0; transform:rotate(45deg) scaleY(1.2); }
 }
+
 
 .slash-particles .diagonal-particle {
   position: absolute;
