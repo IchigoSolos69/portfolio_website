@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Cpu, Github, Zap, Mail, Award, Trophy, ChevronDown, Linkedin } from 'lucide-react';
 
 const roles = [
@@ -16,9 +16,6 @@ const Home = () => {
   const [charIndex, setCharIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [loadingPhase, setLoadingPhase] = useState(1);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0, vx: 0, vy: 0 });
-  const [mouseTrail, setMouseTrail] = useState<Array<{ x: number; y: number; id: number; size: number; opacity: number }>>([]);
-  const lastPosition = useRef({ x: 0, y: 0, timestamp: 0 });
 
   // Loading sequence
   useEffect(() => {
@@ -36,62 +33,6 @@ const Home = () => {
     };
   }, []);
 
-  // Enhanced mouse trail with velocity detection and 60fps animation
-  useEffect(() => {
-    if (isLoading) return;
-
-    let animationFrameId: number;
-    const trailLength = 10;
-    
-    const updateTrail = () => {
-      setMouseTrail(prev => {
-        return prev
-          .map((pos, i) => ({
-            ...pos,
-            size: 10 + (1 - i / (trailLength - 1)) * 15,
-            opacity: 0.2 + (1 - i / (trailLength - 1)) * 0.8
-          }))
-          .filter((_, i, arr) => i === 0 || Date.now() - arr[i-1].id < 800); // 0.8s dissipation
-      });
-      animationFrameId = requestAnimationFrame(updateTrail);
-    };
-    
-    updateTrail();
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const now = Date.now();
-      const { x, y } = e;
-      const { x: lastX, y: lastY, timestamp } = lastPosition.current;
-      
-      // Calculate velocity for trail intensity
-      const dt = now - timestamp;
-      const vx = (x - lastX) / Math.max(1, dt);
-      const vy = (y - lastY) / Math.max(1, dt);
-      const velocity = Math.sqrt(vx * vx + vy * vy);
-      
-      setMousePosition({ x, y, vx, vy });
-      
-      setMouseTrail(prev => [
-        ...prev,
-        { 
-          x, 
-          y, 
-          id: now, 
-          size: 10 + Math.min(velocity * 2, 20), // Velocity-based sizing
-          opacity: 1 
-        }
-      ].slice(-trailLength));
-      
-      lastPosition.current = { x, y, timestamp: now };
-    };
-
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, [isLoading]);
 
   // Typing effect
   useEffect(() => {
@@ -132,39 +73,6 @@ const Home = () => {
 
   return (
     <div className={`min-h-screen bg-black text-white transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-      {/* Enhanced Mouse Trail with Orange-to-White Gradient */}
-      {mouseTrail.map((point, index) => {
-        const progress = Math.max(0, Math.min(1, index / (mouseTrail.length - 1)));
-        const scale = 0.3 + (1 - progress) * 0.7;
-        const blur = progress * 8; // Subtle blur for trail effect
-        
-        return (
-          <div
-            key={`${point.id}-${index}`}
-            className="pointer-events-none fixed rounded-full -translate-x-1/2 -translate-y-1/2 transition-all duration-100"
-            style={{
-              left: `${point.x}px`,
-              top: `${point.y}px`,
-              width: `${point.size || 10}px`,
-              height: `${point.size || 10}px`,
-              opacity: point.opacity * (1 - progress * 0.7),
-              transform: `translate(-50%, -50%) scale(${scale})`,
-              background: `radial-gradient(
-                circle at center,
-                rgba(255, 165, 0, 0.9) 0%,
-                rgba(255, 200, 100, 0.7) 40%,
-                rgba(255, 255, 255, 0.5) 70%,
-                transparent 100%
-              )`,
-              filter: `blur(${blur}px)`,
-              boxShadow: '0 0 20px rgba(255, 112, 0, 0.5)',
-              zIndex: 9999,
-              willChange: 'transform, opacity',
-              transition: 'all 0.1s ease-out'
-            }}
-          />
-        );
-      })}
 
       {/* Hero Section */}
       <section className="min-h-screen flex items-center justify-center relative z-10 px-6">
@@ -181,8 +89,8 @@ const Home = () => {
               </span>
             </div>
             <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
-              Crafting digital experiences with the precision of a Soul Reaper's blade.
-              <span className="text-spiritual-energy japanese-text block mt-2">死神開発者</span>
+              Crafting digital experiences with precision and passion.
+              <span className="text-spiritual-energy japanese-text block mt-2">開発者</span>
             </p>
           </div>
 
@@ -229,13 +137,13 @@ const Home = () => {
               }}
             >
               <p className="text-lg text-gray-300 leading-relaxed mb-6">
-                Greetings! I'm Adi, a passionate developer wielding the power of code like a Soul Reaper's zanpakuto. 
+                Greetings! I'm Adi, a passionate developer crafting innovative digital solutions. 
                 Currently pursuing my BTech in Information Technology at PCCOE Akurdi, I balance my studies with my role 
                 as Staff & Partnership Manager at Hone.gg.
               </p>
               <p className="text-lg text-gray-300 leading-relaxed mb-8">
-                My journey spans full-stack development, AI/ML research, and partnership management. Like Ichigo mastering 
-                his spiritual pressure, I continuously evolve my technical skills while maintaining strong collaborative relationships.
+                My journey spans full-stack development, AI/ML research, and partnership management. I continuously 
+                evolve my technical skills while maintaining strong collaborative relationships and delivering impactful solutions.
               </p>
               
               <div className="space-y-4">
