@@ -1186,35 +1186,39 @@
     to { transform: rotate(360deg); }
   } */
 
-  /* Page load sword slash effect */
+  /* Container for the slash */
   .page-load-slash {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    pointer-events: none;
+    background: black; /* hides content initially */
     z-index: 9999;
-    animation: sword-page-slash 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    pointer-events: none;
+    animation: fade-out 2.2s ease forwards;
   }
 
+  /* The slash line */
   .page-load-slash::before {
-    content: '';
+    content: "";
     position: absolute;
-    bottom: 20%;
-    left: -100%;
+    bottom: -20%; /* start below screen */
+    left: -20%;   /* start left of screen */
     width: 200%;
-    height: 4px;
-    background: linear-gradient(90deg, 
-      transparent 0%, 
-      hsl(var(--spiritual-energy)) 50%, 
+    height: 6px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(var(--spiritual-energy)) 50%,
       transparent 100%
     );
-    transform: rotate(35deg);
+    transform: rotate(45deg) scaleX(0.2); /* start narrow */
+    transform-origin: left center;
     box-shadow: 
-      0 0 15px hsl(var(--spiritual-energy)),
-      0 0 30px hsl(var(--reiatsu-glow));
-    animation: slash-trail 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      0 0 20px hsl(var(--spiritual-energy)),
+      0 0 40px hsl(var(--reiatsu-glow));
+    animation: sword-slash 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   }
 
   .slash-line {
@@ -1377,32 +1381,31 @@
     animation: sword-appear 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   }
 
-  @keyframes sword-page-slash {
-    0% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { opacity: 0; visibility: hidden; }
+  /* 🔹 Slash animation: bottom-left → top-right */
+  @keyframes sword-slash {
+    0% {
+      transform: translate(-50%, 50%) rotate(45deg) scaleX(0.2);
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+      transform: translate(0%, 0%) rotate(45deg) scaleX(0.4);
+    }
+    70% {
+      opacity: 1;
+      transform: translate(100%, -100%) rotate(45deg) scaleX(1.2); /* widen */
+    }
+    100% {
+      transform: translate(120%, -120%) rotate(45deg) scaleX(1.5);
+      opacity: 0;
+    }
   }
 
-  @keyframes slash-trail {
-    0% { 
-      left: -100%; 
-      opacity: 0;
-      transform: rotate(35deg) scaleX(0.5);
-    }
-    10% { 
-      opacity: 1;
-      transform: rotate(35deg) scaleX(1);
-    }
-    70% { 
-      left: 100%; 
-      opacity: 1;
-      transform: rotate(35deg) scaleX(1);
-    }
-    100% { 
-      left: 100%; 
-      opacity: 0;
-      transform: rotate(35deg) scaleX(0.5);
-    }
+  /* 🔹 Fade out background (reveals website after slash) */
+  @keyframes fade-out {
+    0% { background: black; opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
   }
 
   @keyframes sword-appear {
@@ -1596,27 +1599,27 @@
     }
   }
 
-  /* Nearly static particle animation */
+  /* Extremely static particle animation */
   @keyframes float-static {
     0% {
-      transform: translate3d(0, 0, 0) scale(0.8);
-      opacity: 0.3;
+      transform: translate3d(0, 0, 0) scale(0.9);
+      opacity: 0.4;
     }
     25% {
-      transform: translate3d(5px, -10px, 0) scale(0.9);
-      opacity: 0.6;
+      transform: translate3d(1px, -2px, 0) scale(0.95);
+      opacity: 0.5;
     }
     50% {
-      transform: translate3d(-3px, -5px, 0) scale(1);
-      opacity: 0.8;
-    }
-    75% {
-      transform: translate3d(8px, -15px, 0) scale(0.9);
+      transform: translate3d(-1px, -1px, 0) scale(1);
       opacity: 0.6;
     }
+    75% {
+      transform: translate3d(2px, -3px, 0) scale(0.95);
+      opacity: 0.5;
+    }
     100% {
-      transform: translate3d(0, 0, 0) scale(0.8);
-      opacity: 0.3;
+      transform: translate3d(0, 0, 0) scale(0.9);
+      opacity: 0.4;
     }
   }
 

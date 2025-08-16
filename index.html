@@ -15,7 +15,16 @@
   <body>
     <!-- Sword slash animation on page load -->
     <div class="page-load-slash"></div>
+    
+    <!-- Audio element for slash sound -->
+    <audio id="sword-sound" preload="auto">
+      <source src="/sounds/sword-slash.mp3" type="audio/mpeg">
+      <source src="/sounds/sword-slash.ogg" type="audio/ogg">
+      <source src="/sounds/sword-slash.wav" type="audio/wav">
+    </audio>
+    
     <div id="root"></div>
+    <script src="/js/slash-audio.js"></script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
