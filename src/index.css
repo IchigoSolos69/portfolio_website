@@ -1252,7 +1252,7 @@
     }
     100% {
       opacity: 0;
-      transform: rotate(45deg) translateY(-50%) scaleY(150) scaleX(0.8);
+      transform: rotate(45deg) translateY(-50%) scaleY(350) scaleX(1.2);
     }
   }
 
@@ -1281,9 +1281,9 @@
       transform: rotate(45deg) translateY(-50%) scaleY(1) scaleX(0.1);
     }
     100% {
-      transform: rotate(45deg) translateY(-50%) scaleY(200) scaleX(1);
+      transform: rotate(45deg) translateY(-50%) scaleY(400) scaleX(1.5);
       opacity: 1;
-      width: 141.42%; /* sqrt(2) for diagonal */
+      width: 200%; /* Much wider diagonal */
     }
   }
 
@@ -1563,21 +1563,21 @@
     contain: layout style paint;
   }
 
-  .optimized-particle:nth-child(1) { animation: float-optimized 20s infinite linear; animation-delay: 0s; }
-  .optimized-particle:nth-child(2) { animation: float-optimized 25s infinite linear; animation-delay: -2s; }
-  .optimized-particle:nth-child(3) { animation: float-optimized 22s infinite linear; animation-delay: -4s; }
-  .optimized-particle:nth-child(4) { animation: float-optimized 28s infinite linear; animation-delay: -6s; }
-  .optimized-particle:nth-child(5) { animation: float-optimized 24s infinite linear; animation-delay: -8s; }
-  .optimized-particle:nth-child(6) { animation: float-optimized 26s infinite linear; animation-delay: -10s; }
-  .optimized-particle:nth-child(7) { animation: float-optimized 30s infinite linear; animation-delay: -12s; }
-  .optimized-particle:nth-child(8) { animation: float-optimized 32s infinite linear; animation-delay: -14s; }
-  .optimized-particle:nth-child(9) { animation: float-optimized 18s infinite linear; animation-delay: -16s; }
-  .optimized-particle:nth-child(10) { animation: float-optimized 35s infinite linear; animation-delay: -18s; }
-  .optimized-particle:nth-child(11) { animation: float-optimized 16s infinite linear; animation-delay: -20s; }
-  .optimized-particle:nth-child(12) { animation: float-optimized 38s infinite linear; animation-delay: -22s; }
-  .optimized-particle:nth-child(13) { animation: float-optimized 21s infinite linear; animation-delay: -24s; }
-  .optimized-particle:nth-child(14) { animation: float-optimized 27s infinite linear; animation-delay: -26s; }
-  .optimized-particle:nth-child(15) { animation: float-optimized 23s infinite linear; animation-delay: -28s; }
+  .optimized-particle:nth-child(1) { animation: float-static 120s infinite linear; animation-delay: 0s; }
+  .optimized-particle:nth-child(2) { animation: float-static 150s infinite linear; animation-delay: -10s; }
+  .optimized-particle:nth-child(3) { animation: float-static 130s infinite linear; animation-delay: -20s; }
+  .optimized-particle:nth-child(4) { animation: float-static 180s infinite linear; animation-delay: -30s; }
+  .optimized-particle:nth-child(5) { animation: float-static 140s infinite linear; animation-delay: -40s; }
+  .optimized-particle:nth-child(6) { animation: float-static 160s infinite linear; animation-delay: -50s; }
+  .optimized-particle:nth-child(7) { animation: float-static 200s infinite linear; animation-delay: -60s; }
+  .optimized-particle:nth-child(8) { animation: float-static 170s infinite linear; animation-delay: -70s; }
+  .optimized-particle:nth-child(9) { animation: float-static 110s infinite linear; animation-delay: -80s; }
+  .optimized-particle:nth-child(10) { animation: float-static 190s infinite linear; animation-delay: -90s; }
+  .optimized-particle:nth-child(11) { animation: float-static 100s infinite linear; animation-delay: -100s; }
+  .optimized-particle:nth-child(12) { animation: float-static 220s infinite linear; animation-delay: -110s; }
+  .optimized-particle:nth-child(13) { animation: float-static 125s infinite linear; animation-delay: -120s; }
+  .optimized-particle:nth-child(14) { animation: float-static 155s infinite linear; animation-delay: -130s; }
+  .optimized-particle:nth-child(15) { animation: float-static 135s infinite linear; animation-delay: -140s; }
 
   @keyframes float-optimized {
     0% {
@@ -1593,6 +1593,30 @@
     100% {
       transform: translate3d(100px, -100px, 0) scale(1.2);
       opacity: 0;
+    }
+  }
+
+  /* Nearly static particle animation */
+  @keyframes float-static {
+    0% {
+      transform: translate3d(0, 0, 0) scale(0.8);
+      opacity: 0.3;
+    }
+    25% {
+      transform: translate3d(5px, -10px, 0) scale(0.9);
+      opacity: 0.6;
+    }
+    50% {
+      transform: translate3d(-3px, -5px, 0) scale(1);
+      opacity: 0.8;
+    }
+    75% {
+      transform: translate3d(8px, -15px, 0) scale(0.9);
+      opacity: 0.6;
+    }
+    100% {
+      transform: translate3d(0, 0, 0) scale(0.8);
+      opacity: 0.3;
     }
   }
 
