@@ -1228,6 +1228,7 @@
     transform: rotate(45deg) translateY(-50%);
     will-change: transform, opacity;
     contain: layout style paint;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.4);
   }
 
   .animate-slash-line {
@@ -1235,18 +1236,52 @@
     animation-delay: 0.3s;
   }
 
+  /* Trailing glow effect */
+  .slash-glow {
+    animation: slash-glow 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation-delay: 0.2s;
+  }
+
+  @keyframes slash-glow {
+    0% {
+      opacity: 0;
+      transform: rotate(45deg) translateY(-50%) scaleY(0.01) scaleX(0);
+    }
+    10% {
+      opacity: 0.8;
+    }
+    100% {
+      opacity: 0;
+      transform: rotate(45deg) translateY(-50%) scaleY(150) scaleX(0.8);
+    }
+  }
+
+  /* Typing animation cursor blink */
+  @keyframes blink {
+    0%, 50% {
+      border-color: hsl(var(--spiritual-energy));
+    }
+    51%, 100% {
+      border-color: transparent;
+    }
+  }
+
+  .animate-blink {
+    animation: blink 1s infinite;
+  }
+
   @keyframes slash-line {
     0% {
-      transform: scaleY(0.01) scaleX(0);
+      transform: rotate(45deg) translateY(-50%) scaleY(0.01) scaleX(0);
       opacity: 0;
       width: 1px;
     }
     5% {
       opacity: 1;
-      transform: scaleY(1) scaleX(0.1);
+      transform: rotate(45deg) translateY(-50%) scaleY(1) scaleX(0.1);
     }
     100% {
-      transform: scaleY(200) scaleX(1);
+      transform: rotate(45deg) translateY(-50%) scaleY(200) scaleX(1);
       opacity: 1;
       width: 141.42%; /* sqrt(2) for diagonal */
     }
@@ -1528,21 +1563,21 @@
     contain: layout style paint;
   }
 
-  .optimized-particle:nth-child(1) { animation: float-optimized 8s infinite linear; animation-delay: 0s; }
-  .optimized-particle:nth-child(2) { animation: float-optimized 12s infinite linear; animation-delay: -2s; }
-  .optimized-particle:nth-child(3) { animation: float-optimized 10s infinite linear; animation-delay: -4s; }
-  .optimized-particle:nth-child(4) { animation: float-optimized 14s infinite linear; animation-delay: -6s; }
-  .optimized-particle:nth-child(5) { animation: float-optimized 9s infinite linear; animation-delay: -8s; }
-  .optimized-particle:nth-child(6) { animation: float-optimized 11s infinite linear; animation-delay: -10s; }
-  .optimized-particle:nth-child(7) { animation: float-optimized 13s infinite linear; animation-delay: -12s; }
-  .optimized-particle:nth-child(8) { animation: float-optimized 15s infinite linear; animation-delay: -14s; }
-  .optimized-particle:nth-child(9) { animation: float-optimized 7s infinite linear; animation-delay: -16s; }
-  .optimized-particle:nth-child(10) { animation: float-optimized 16s infinite linear; animation-delay: -18s; }
-  .optimized-particle:nth-child(11) { animation: float-optimized 6s infinite linear; animation-delay: -20s; }
-  .optimized-particle:nth-child(12) { animation: float-optimized 17s infinite linear; animation-delay: -22s; }
-  .optimized-particle:nth-child(13) { animation: float-optimized 8.5s infinite linear; animation-delay: -24s; }
-  .optimized-particle:nth-child(14) { animation: float-optimized 12.5s infinite linear; animation-delay: -26s; }
-  .optimized-particle:nth-child(15) { animation: float-optimized 9.5s infinite linear; animation-delay: -28s; }
+  .optimized-particle:nth-child(1) { animation: float-optimized 20s infinite linear; animation-delay: 0s; }
+  .optimized-particle:nth-child(2) { animation: float-optimized 25s infinite linear; animation-delay: -2s; }
+  .optimized-particle:nth-child(3) { animation: float-optimized 22s infinite linear; animation-delay: -4s; }
+  .optimized-particle:nth-child(4) { animation: float-optimized 28s infinite linear; animation-delay: -6s; }
+  .optimized-particle:nth-child(5) { animation: float-optimized 24s infinite linear; animation-delay: -8s; }
+  .optimized-particle:nth-child(6) { animation: float-optimized 26s infinite linear; animation-delay: -10s; }
+  .optimized-particle:nth-child(7) { animation: float-optimized 30s infinite linear; animation-delay: -12s; }
+  .optimized-particle:nth-child(8) { animation: float-optimized 32s infinite linear; animation-delay: -14s; }
+  .optimized-particle:nth-child(9) { animation: float-optimized 18s infinite linear; animation-delay: -16s; }
+  .optimized-particle:nth-child(10) { animation: float-optimized 35s infinite linear; animation-delay: -18s; }
+  .optimized-particle:nth-child(11) { animation: float-optimized 16s infinite linear; animation-delay: -20s; }
+  .optimized-particle:nth-child(12) { animation: float-optimized 38s infinite linear; animation-delay: -22s; }
+  .optimized-particle:nth-child(13) { animation: float-optimized 21s infinite linear; animation-delay: -24s; }
+  .optimized-particle:nth-child(14) { animation: float-optimized 27s infinite linear; animation-delay: -26s; }
+  .optimized-particle:nth-child(15) { animation: float-optimized 23s infinite linear; animation-delay: -28s; }
 
   @keyframes float-optimized {
     0% {
