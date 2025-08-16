@@ -1,191 +1,249 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
-    --background: 0 0% 5%;
-    --foreground: 0 0% 98%;
-    --spiritual-energy: 0 0% 95%;
-    --soul-society: 0 0% 15%;
-    --reiatsu-glow: 0 0% 85%;
-    --zanpakuto-steel: 0 0% 90%;
-    --hollow-mask: 0 0% 25%;
+    --background: 225 8% 6%;           /* Deep blue-black */
+    --foreground: 0 0% 98%;            /* Pure white */
+    --spiritual-energy: 32 98% 75%;    /* Bleach accent orange */
+    --soul-society: 210 9% 14%;        /* Slate gray-black */
+    --reiatsu-glow: 186 24% 74%;       /* Pale blue spiritual glow */
+    --zanpakuto-steel: 150 5% 85%;     /* Sword steel */
+    --hollow-mask: 0 0% 20%;           /* Mask charcoal */
+    --kido-purple: 266 50% 62%;        /* Spell purple */
   }
-
   * {
-    @apply border-gray-700;
+    @apply border-hollow-mask;
   }
-
   body {
-    @apply bg-black text-white overflow-x-hidden;
+    @apply bg-soul-society text-foreground overflow-x-hidden;
     font-family: 'Inter', 'Noto Sans JP', sans-serif;
     background-image: 
-      radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
-      radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.04) 0%, transparent 50%);
+      linear-gradient(120deg, rgb(38, 38, 38) 0%, rgba(80,40,120,0.08) 30%, rgb(16,16,16) 100%),
+      radial-gradient(circle at 24% 60%, rgba(217, 234, 246, 0.08) 0%, transparent 68%),
+      radial-gradient(circle at 78% 15%, rgba(255, 112, 0, 0.08) 0%, transparent 58%);
     background-attachment: fixed;
   }
-
   html {
     scroll-behavior: smooth;
   }
 
-  /* Custom scrollbar with spiritual energy theme */
+  /* Scrollbar: intense spiritual energy gradient */
   ::-webkit-scrollbar {
-    width: 12px;
+    width: 14px;
   }
-
   ::-webkit-scrollbar-track {
-    background: linear-gradient(180deg, rgb(0 0 0), rgb(25 25 25));
-    border-radius: 6px;
+    background: linear-gradient(180deg, rgb(38 38 38), rgb(16 16 16));
+    border-radius: 7px;
   }
-
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, rgb(255 255 255), rgb(200 200 200));
-    border-radius: 6px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    background: linear-gradient(180deg, var(--spiritual-energy), var(--reiatsu-glow));
+    border-radius: 7px;
+    box-shadow: 0 0 18px rgba(50, 150, 255, 0.36);
   }
-
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, rgb(200 200 200), rgb(255 255 255));
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    background: linear-gradient(180deg, var(--reiatsu-glow), var(--spiritual-energy));
+    box-shadow: 0 0 24px 4px rgba(255, 125, 20, 0.42);
   }
 
   /* Japanese text styling */
   .japanese-text {
     font-family: 'Noto Sans JP', sans-serif;
-    font-weight: 500;
-    letter-spacing: 0.1em;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    color: var(--spiritual-energy);
+    filter: drop-shadow(0 0 4px var(--reiatsu-glow));
   }
 
-  /* Spiritual energy glow effect */
+  /* Spiritual energy animated glow */
   .spiritual-glow {
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
+    filter: drop-shadow(0 0 17px var(--spiritual-energy));
+    animation: spiritual-pulse 2s ease-in-out infinite;
+  }
+  @keyframes spiritual-pulse {
+    0%, 100% { filter: drop-shadow(0 0 14px var(--reiatsu-glow)); }
+    60% { filter: drop-shadow(0 0 38px var(--spiritual-energy)); }
   }
 
-  /* Sword trail effect */
+  /* Sword trail effect - shinier & anime-style */
   .sword-trail {
     position: relative;
     overflow: hidden;
   }
-
   .sword-trail::before {
     content: '';
     position: absolute;
     top: 0;
-    left: -100%;
-    width: 100%;
+    left: -98%;
+    width: 110%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
-    animation: sword-slash 2s ease-in-out infinite;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent 75%);
+    animation: sword-slash 1.4s cubic-bezier(.96,.46,.31,.98) infinite;
+    pointer-events: none;
+  }
+  @keyframes sword-slash {
+    0% { left: -98%; opacity: 0.6; }
+    7% { left: 12%; opacity: 1; }
+    93% { left: 90%; opacity: 1; }
+    100% { left: 101%; opacity: 0; }
   }
 
-  /* Energy particles */
+  /* Energy particles - intense reiatsu sparkles */
   .energy-particle {
     position: absolute;
     width: 4px;
     height: 4px;
-    background: radial-gradient(circle, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+    background: radial-gradient(circle, var(--reiatsu-glow), rgba(255,255,255,0));
     border-radius: 50%;
     pointer-events: none;
+    opacity: 0.7;
+    box-shadow: 0 0 7px 2px var(--spiritual-energy);
+    animation: energy-wave 2.3s cubic-bezier(.87,.1,.86,.63) infinite;
+  }
+  @keyframes energy-wave {
+    0% { opacity: 0.3; transform: scale(1); }
+    70% { opacity: 0.9; transform: scale(1.5); }
+    100% { opacity: 0; transform: scale(2.2); }
   }
 
-  /* Hollow mask overlay effect */
+  /* Hollow mask overlay effect - more masky shimmer */
   .hollow-mask-overlay {
     position: relative;
   }
-
   .hollow-mask-overlay::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(45deg, 
-      transparent 30%, 
-      rgba(100, 100, 100, 0.1) 50%, 
-      transparent 70%
+    background: linear-gradient(65deg, 
+      transparent 33%, 
+      rgba(160, 160, 160, 0.24) 50%, 
+      transparent 67%
     );
+    box-shadow: 0 0 40px 2px var(--hollow-mask);
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.38s cubic-bezier(.65,.09,.98,.33);
+    pointer-events: none;
   }
-
   .hollow-mask-overlay:hover::after {
     opacity: 1;
   }
 
-  /* Bankai release effect */
+  /* Bankai release - extra burst with accent */
   @keyframes bankai-burst {
     0% {
-      transform: scale(0);
-      opacity: 1;
-    }
-    50% {
-      transform: scale(1.5);
+      transform: scale(0.2);
       opacity: 0.7;
+      box-shadow: 0 0 0 rgba(255,112,0,0.02);
+    }
+    55% {
+      transform: scale(1.6);
+      opacity: 0.4;
+      box-shadow: 0 0 85px 12px var(--spiritual-energy);
     }
     100% {
-      transform: scale(3);
+      transform: scale(2.8);
       opacity: 0;
+      box-shadow: 0 0 160px 32px var(--spiritual-energy);
     }
   }
-
   .bankai-burst {
     position: relative;
   }
-
   .bankai-burst::before {
     content: '';
     position: absolute;
-    inset: -50%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 70%);
+    inset: -40%;
+    background: radial-gradient(circle, var(--spiritual-energy) 6%, transparent 85%);
     border-radius: 50%;
     animation: bankai-burst 2s ease-out infinite;
     pointer-events: none;
   }
 
-  /* Text glow effects */
+  /* Text anime glow effects */
   .text-spiritual-glow {
-    text-shadow: 
-      0 0 5px rgba(255, 255, 255, 0.8),
-      0 0 10px rgba(255, 255, 255, 0.5),
-      0 0 15px rgba(255, 255, 255, 0.3);
+    color: var(--spiritual-energy);
+    text-shadow:
+      0 0 13px var(--reiatsu-glow),
+      0 0 21px var(--spiritual-energy),
+      0 0 40px var(--reiatsu-glow);
+    animation: text-flicker 1.7s infinite alternate;
   }
-
   .text-reiatsu-glow {
-    text-shadow: 
-      0 0 5px rgba(200, 200, 200, 0.8),
-      0 0 10px rgba(200, 200, 200, 0.5),
-      0 0 15px rgba(200, 200, 200, 0.3);
+    color: var(--reiatsu-glow);
+    text-shadow:
+      0 0 9px var(--reiatsu-glow),
+      0 0 19px #b6e5f0,
+      0 0 32px var(--reiatsu-glow);
+  }
+  @keyframes text-flicker {
+    from { opacity: 0.92; }
+    50% { opacity: 1; }
+    to { opacity: 0.8; }
   }
 
-  /* Kido spell circle */
+  /* Kido spell circle - more magical */
   .kido-circle {
     position: relative;
+    filter: drop-shadow(0 0 8px var(--kido-purple));
   }
-
   .kido-circle::before {
     content: '';
     position: absolute;
     inset: -20px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    border: 2px solid var(--kido-purple);
     border-radius: 50%;
-    animation: spin 10s linear infinite;
+    animation: spin 8s linear infinite;
+    box-shadow: 0 0 28px 7px var(--kido-purple);
   }
-
   .kido-circle::after {
     content: '';
     position: absolute;
-    inset: -10px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    inset: -11px;
+    border: 1px dashed var(--spiritual-energy);
     border-radius: 50%;
-    animation: spin 5s linear infinite reverse;
+    animation: spin 3.9s linear infinite reverse;
+    box-shadow: 0 0 12px 2px var(--spiritual-energy);
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
   }
 
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
+  /* Zanpakuto shine effect */
+  .zanpakuto-shine {
+    filter: brightness(1.08);
+    animation: zanpakuto-shine 2.4s cubic-bezier(.87,.1,.86,.63) infinite;
+  }
+  @keyframes zanpakuto-shine {
+    0%, 100% { filter: brightness(1.1); }
+    25% { filter: brightness(1.38); }
+    75% { filter: brightness(1.25); }
+  }
+
+  /* Anime panel slide-in effect */
+  .panel-slide-right {
+    animation: panel-slide-right 0.7s cubic-bezier(.6,.04,.98,.335) forwards;
+  }
+  .panel-slide-left {
+    animation: panel-slide-left 0.7s cubic-bezier(.6,.04,.98,.335) forwards;
+  }
+  @keyframes panel-slide-right {
+    from { transform: translateX(-60vw) scale(0.9); opacity: 0; }
+    to { transform: translateX(0) scale(1); opacity: 1; }
+  }
+  @keyframes panel-slide-left {
+    from { transform: translateX(60vw) scale(0.9); opacity: 0; }
+    to { transform: translateX(0) scale(1); opacity: 1; }
+  }
+
+  /* Eye-flash anime highlight */
+  .anime-eye-flash {
+    animation: anime-eye-flash 0.7s cubic-bezier(.9,.01,.97,.1) forwards;
+  }
+  @keyframes anime-eye-flash {
+    0% { box-shadow: 0 0 0px 0px var(--spiritual-energy); filter: contrast(1.1); }
+    50% { box-shadow: 0 0 46px 10px var(--spiritual-energy); filter: contrast(2.0); }
+    100% { box-shadow: 0 0 0px 0px var(--spiritual-energy); filter: contrast(1); }
   }
 }
