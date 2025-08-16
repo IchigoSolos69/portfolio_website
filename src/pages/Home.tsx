@@ -15,7 +15,7 @@ const Home = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [charIndex, setCharIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [loadingPhase, setLoadingPhase] = useState(1);
+  const [loadingPhase, setLoadingPhase] = useState(0);
   const [slashCoords, setSlashCoords] = useState({ width: '100vw', height: '100vh', angle: 45 });
 
   // Auto-detect viewport coordinates for slash animation
@@ -50,6 +50,11 @@ const Home = () => {
   useEffect(() => {
     if (!isLoading) return;
 
+    if (loadingPhase === 0) {
+      // Phase 0: Click to start - no timer, wait for user interaction
+      return;
+    }
+
     if (loadingPhase === 1) {
       // Phase 1: Loading screen (3 seconds)
       const timer = setTimeout(() => {
@@ -59,32 +64,29 @@ const Home = () => {
     }
     
     if (loadingPhase === 2) {
-      // Phase 2: Sword slash with synchronized sound
+      // Phase 2: Sword slash with synchronized 8-second audio
       const playSlashSound = () => {
         try {
           const slashAudio = new Audio('https://raw.githubusercontent.com/IchigoSolos69/portfolio_website/da0030ba1ecfc2a8b6f7e7a2127da7cdea1e62b3/public/sounds/sword-slash.mp3');
           slashAudio.volume = 0.3;
-          slashAudio.loop = false; // Ensure no looping
+          slashAudio.loop = false;
           slashAudio.preload = 'auto';
           
-          // Play sound after 300ms delay to match slash animation start
-          setTimeout(() => {
-            slashAudio.play().catch(() => {
-              // Silently fail if audio can't play due to browser policies
-              console.log('Audio autoplay prevented by browser');
-            });
-          }, 300); // Match the 0.3s animation delay
+          // Play sound immediately when phase 2 begins
+          slashAudio.play().catch((error) => {
+            console.log('Audio play failed:', error);
+          });
         } catch (e) {
           console.log('Audio setup failed:', e);
         }
       };
       
-      // Start audio timing immediately when phase 2 begins
+      // Start audio immediately when phase 2 begins
       playSlashSound();
       
       const timer = setTimeout(() => {
         setLoadingPhase(3);
-      }, 1400); // Sword slash duration
+      }, 8000); // Match 8-second audio duration
       return () => clearTimeout(timer);
     }
     
@@ -136,9 +138,26 @@ const Home = () => {
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const handleStartExperience = () => {
+    setLoadingPhase(1);
+  };
+
   if (isLoading) {
     return (
       <div className="cinematic-loading-overlay">
+        {/* Phase 0: Click to Start */}
+        {loadingPhase === 0 && (
+          <div className="click-to-start-screen">
+            <div className="click-background"></div>
+            <div className="click-content">
+              <h1 className="click-title">Welcome to the Experience</h1>
+              <p className="click-subtitle">Click anywhere to begin</p>
+              <div className="click-indicator">👆</div>
+            </div>
+            <div className="click-overlay" onClick={handleStartExperience}></div>
+          </div>
+        )}
+        
         {/* Phase 1: Loading Screen */}
         {loadingPhase === 1 && (
           <div className="loading-screen">

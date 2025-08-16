@@ -54,6 +54,66 @@
 --------------------------------- */
 .cinematic-loading-overlay { position: fixed; inset: 0; z-index: 10000; }
 
+/* Phase 0: Click to Start */
+.click-to-start-screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.click-background {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, #0a0a1a, #1a1a2e, #16213e);
+}
+
+.click-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  animation: clickContentFloat 3s ease-in-out infinite;
+}
+
+.click-title {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 2.5rem;
+  color: #FFA500;
+  text-shadow: 0 0 20px rgba(255,165,0,0.8);
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.click-subtitle {
+  font-size: 1.2rem;
+  color: rgba(255,255,255,0.8);
+  letter-spacing: 2px;
+  margin-bottom: 2rem;
+}
+
+.click-indicator {
+  font-size: 2rem;
+  animation: clickIndicatorBounce 1.5s ease-in-out infinite;
+}
+
+.click-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+}
+
+@keyframes clickContentFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes clickIndicatorBounce {
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  50% { transform: translateY(-15px); opacity: 0.7; }
+}
+
 /* Phase 1: Loading */
 .loading-screen {
   position: absolute; inset: 0;
@@ -146,7 +206,7 @@
   );
   transform-origin: bottom left;
   filter: blur(15px);
-  animation: diagonalParticleFly 1.2s ease-out 0.3s forwards;
+  animation: diagonalParticleFly 8s ease-out forwards;
   opacity: 0;
   z-index: 30;
 }
@@ -171,7 +231,7 @@
     0 0 40px rgba(255,165,0,1),
     0 0 80px rgba(255,255,255,0.9),
     0 0 120px rgba(255,165,0,0.7);
-  animation: diagonalParticleFly 1.2s ease-out 0.3s forwards;
+  animation: diagonalParticleFly 8s ease-out forwards;
   opacity: 0;
   z-index: 25;
 }
@@ -202,7 +262,7 @@
   height: 3px;
   background: radial-gradient(circle, #FFF 0%, #FFA500 60%, transparent 90%);
   border-radius: 50%;
-  animation: diagonalParticleFly 1.2s ease-out forwards;
+  animation: diagonalParticleFly 8s ease-out forwards;
   opacity: 0;
   box-shadow: 
     0 0 6px rgba(255,165,0,0.8),
@@ -210,11 +270,12 @@
 }
 
 @keyframes diagonalParticleFly {
-  0%   { opacity:0; transform: translate(0,0) scale(0.3) rotate(0deg); }
-  20%  { opacity:1; transform: translate(15vw,-10vh) scale(1) rotate(45deg); }
-  50%  { opacity:1; transform: translate(35vw,-25vh) scale(1.2) rotate(90deg); }
-  80%  { opacity:0.7; transform: translate(55vw,-45vh) scale(0.8) rotate(135deg); }
-  100% { opacity:0; transform: translate(75vw,-65vh) scale(0.2) rotate(180deg); }
+  0%   { opacity:0; transform: translate(0,0) scaleX(0.3) scaleY(1); }
+  12.5% { opacity:1; transform: translate(15vw,-10vh) scaleX(1) scaleY(1); }
+  37.5% { opacity:1; transform: translate(35vw,-25vh) scaleX(1.5) scaleY(1); }
+  62.5% { opacity:0.7; transform: translate(55vw,-45vh) scaleX(2) scaleY(1); }
+  87.5% { opacity:0.3; transform: translate(75vw,-65vh) scaleX(2.5) scaleY(1); }
+  100% { opacity:0; transform: translate(100vw,-80vh) scaleX(3) scaleY(1); }
 }
 
 
