@@ -252,7 +252,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* About Section with Staggered Animations */}
       {/* About Section */}
       <section id="about" className="py-20 px-6 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
@@ -319,6 +318,7 @@ const Home = () => {
             <div className="animate-fade-in-up" style={{animationDelay: '0.3s'}}>
               <div className="grid grid-cols-2 gap-4">
                 {['React', 'TypeScript', 'Python', 'Node.js', 'PyQt5', 'Machine Learning', 'Data Analysis', 'Partnership Strategy'].map((skill, idx) => (
+                {['React', 'TypeScript', 'Python', 'Node.js', 'PyQt5', 'Machine Learning', 'Data Analysis', 'Partnership Strategy'].map((skill) => (
                   <div key={skill} className="about-skill-box skill-tag group bg-gradient-to-br from-hollow-mask/20 to-soul-society/10 rounded-lg p-4 border border-spiritual-energy/20 hover:border-reiatsu-glow">
                     <span className="text-spiritual-energy font-medium group-hover:text-reiatsu-glow transition-colors duration-300">{skill}</span>
                   </div>
@@ -423,6 +423,84 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+       {/* Achievements Section */}
+       <section id="achievements" className="py-20 px-6 relative overflow-hidden">
+       <div className="absolute inset-0 pointer-events-none">
+         <div className="particle-field">
+           {[...Array(25)].map((_, i) => (
+             <div key={i} className="spiritual-particle animate-float-random" style={{animationDelay: `${i * 0.25}s`}} />
+           ))}
+         </div>
+       </div>
+       
+       <h2 className="text-5xl font-bold text-center mb-16 relative z-10">
+         <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent animate-gradient-text">
+           Achievements
+         </span>
+         <span className="text-2xl japanese-text text-reiatsu-glow ml-4 block mt-2">実績</span>
+       </h2>
+       
+       <div className="max-w-6xl mx-auto relative z-10">
+         <div className="grid md:grid-cols-2 gap-8">
+           {[
+             {
+               title: "Staff & Partnership Manager",
+               organization: "Hone.gg",
+               description: "Leading strategic partnerships and platform development for competitive gaming ecosystem",
+               icon: <Trophy className="w-8 h-8" />,
+               year: "2024",
+               type: "Professional"
+             },
+             {
+               title: "BTech Information Technology",
+               organization: "PCCOE Akurdi",
+               description: "Pursuing advanced studies in IT with focus on software development and emerging technologies",
+               icon: <Award className="w-8 h-8" />,
+               year: "2022-2026",
+               type: "Academic"
+             },
+             {
+               title: "Full-Stack Developer",
+               organization: "Multiple Projects",
+               description: "Developed comprehensive web applications using modern frameworks and technologies",
+               icon: <Zap className="w-8 h-8" />,
+               year: "2023-2024",
+               type: "Technical"
+             },
+             {
+               title: "AI/ML Research",
+               organization: "Medical Data Classification",
+               description: "Built machine learning models for medical data classification and analysis",
+               icon: <Cpu className="w-8 h-8" />,
+               year: "2024",
+               type: "Research"
+             }
+           ].map((achievement, idx) => (
+             <div key={achievement.title} className="achievement-card group relative bg-gradient-to-br from-hollow-mask/15 to-soul-society/10 rounded-xl p-6 border border-spiritual-energy/20 hover:border-reiatsu-glow transition-all duration-500 animate-fade-in-up" style={{animationDelay:`${idx*0.15}s`}}>
+               <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-reiatsu-glow/0 via-reiatsu-glow/10 to-reiatsu-glow/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+               
+               <div className="relative z-10">
+                 <div className="flex items-start gap-4 mb-4">
+                   <div className="w-12 h-12 flex items-center justify-center bg-gradient-to-br from-reiatsu-glow/30 to-kido-purple/20 rounded-lg text-reiatsu-glow group-hover:scale-110 transition-transform duration-300">
+                     {achievement.icon}
+                   </div>
+                   <div className="flex-1">
+                     <div className="flex items-center justify-between mb-2">
+                       <h3 className="text-lg font-bold text-reiatsu-glow group-hover:text-spiritual-energy transition-colors duration-300">{achievement.title}</h3>
+                       <span className="text-xs text-gray-400 bg-spiritual-energy/10 px-2 py-1 rounded">{achievement.type}</span>
+                     </div>
+                     <p className="text-spiritual-energy font-medium text-sm mb-2">{achievement.organization}</p>
+                     <p className="text-gray-300 text-sm mb-3 leading-relaxed">{achievement.description}</p>
+                     <span className="text-xs text-reiatsu-glow bg-reiatsu-glow/10 px-2 py-1 rounded border border-reiatsu-glow/20">{achievement.year}</span>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           ))}
+         </div>
+       </div>
+     </section>
 
       {/* Contact Section */}
       <section id="contact" className="py-20 px-6 relative overflow-hidden">
