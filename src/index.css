@@ -28,12 +28,46 @@
     color: hsl(var(--foreground));
     overflow-x: hidden;
     font-family: 'Inter', 'Noto Sans JP', sans-serif;
-    /* Simple solid background - uncomment to use */
-    /* background-image: none; */
-    
-    /* Subtle single gradient - uncomment to use */
-    background-image: linear-gradient(135deg, hsl(var(--soul-society)), hsl(var(--background)));
+  
+    /* Bleach Soul Society/Hueco Mundo style background */
+    background:
+      linear-gradient(
+        130deg,
+        hsl(var(--background)) 64%,
+        rgba(44,38,68,0.84) 80%,
+        rgba(0,0,0,0.97) 100%
+      ),
+      url('https://i.ibb.co/2P2ZR1h/bleach-bg-shadow.png'),
+      /* subtle energy streaks */
+      repeating-linear-gradient(
+        12deg,
+        transparent 0%,
+        transparent 76%,
+        rgba(255, 112, 0, 0.04) 83%,
+        transparent 100%
+      ),
+      radial-gradient(
+        ellipse 68% 40% at 70% 9%,
+        rgba(255,255,255,0.03) 0%,
+        rgba(150,255,255,0.04) 38%,
+        transparent 100%
+      ),
+      /* fading Reiatsu burst */
+      radial-gradient(
+        circle at 18% 62%,
+        rgba(60,120,255,0.11) 0%,
+        transparent 35%
+      ),
+      radial-gradient(
+        ellipse 80% 25% at 41% 92%,
+        rgba(255,112,0,0.11) 0%,
+        transparent 58%
+      );
+    background-size: cover, 1600px, 100% 100%, 80vw 80vh, 80vw 60vh, 120vw 50vh;
+    background-position: center top, center, left top, right center, center center, left bottom;
+    background-repeat: no-repeat;
   }
+  
   html {
     scroll-behavior: smooth;
   }
