@@ -66,6 +66,236 @@
     51%, 100% { border-color: transparent; }
   }
 
+  /* Spiritual Particles */
+  .particle-field {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .spiritual-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: radial-gradient(circle, hsl(var(--spiritual-energy)) 0%, transparent 70%);
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: float-random 15s infinite linear;
+  }
+
+  .spiritual-particle:nth-child(odd) {
+    background: radial-gradient(circle, hsl(var(--reiatsu-glow)) 0%, transparent 70%);
+    animation-duration: 20s;
+  }
+
+  .spiritual-particle:nth-child(3n) {
+    background: radial-gradient(circle, hsl(var(--kido-purple)) 0%, transparent 70%);
+    animation-duration: 25s;
+    width: 3px;
+    height: 3px;
+  }
+
+  @keyframes float-random {
+    0% {
+      transform: translateY(100vh) translateX(0) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.6;
+    }
+    90% {
+      opacity: 0.6;
+    }
+    100% {
+      transform: translateY(-10vh) translateX(100px) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  /* Spiritual Pressure Waves */
+  .spiritual-waves {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .wave {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid hsl(var(--spiritual-energy) / 0.1);
+    animation: wave-pulse 8s infinite ease-in-out;
+  }
+
+  .wave-1 {
+    width: 200px;
+    height: 200px;
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+  }
+
+  .wave-2 {
+    width: 300px;
+    height: 300px;
+    top: 60%;
+    right: 20%;
+    animation-delay: 2s;
+    border-color: hsl(var(--reiatsu-glow) / 0.1);
+  }
+
+  .wave-3 {
+    width: 150px;
+    height: 150px;
+    bottom: 30%;
+    left: 60%;
+    animation-delay: 4s;
+    border-color: hsl(var(--kido-purple) / 0.1);
+  }
+
+  @keyframes wave-pulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.3;
+    }
+    50% {
+      transform: scale(1.5);
+      opacity: 0.1;
+    }
+  }
+
+  /* Enhanced Project Cards */
+  .project-card {
+    position: relative;
+    transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+  }
+
+  .project-card:hover {
+    transform: translateY(-10px) scale(1.02) rotateX(5deg);
+    box-shadow: 
+      0 20px 40px rgba(255, 112, 0, 0.3),
+      0 0 60px rgba(255, 112, 0, 0.1);
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(45deg, 
+      hsl(var(--spiritual-energy) / 0.5), 
+      hsl(var(--reiatsu-glow) / 0.5), 
+      hsl(var(--kido-purple) / 0.5));
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: -1;
+    animation: border-flow 3s infinite linear;
+  }
+
+  .project-card:hover::before {
+    opacity: 1;
+  }
+
+  @keyframes border-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Pulse Glow Animation */
+  .animate-pulse-glow {
+    animation: pulse-glow 2s infinite ease-in-out;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      opacity: 0.5;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+  }
+
+  /* Skill Tags Enhancement */
+  .skill-tag {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .skill-tag:hover {
+    animation: spiritual-pulse 0.6s ease-in-out;
+    transform: scale(1.1);
+    box-shadow: 0 0 20px hsl(var(--spiritual-energy) / 0.5);
+  }
+
+  .skill-tag::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, hsl(var(--spiritual-energy) / 0.3), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .skill-tag:hover::before {
+    left: 100%;
+  }
+
+  /* Gradient Text Animation */
+  .animate-gradient-text {
+    background-size: 200% 200%;
+    animation: gradient-shift 3s ease-in-out infinite;
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  /* Special Bankai Mode Effects */
+  .special-bankai-mode {
+    animation: ultimate-power 5s ease-in-out;
+  }
+
+  .konami-bankai-mode {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    pointer-events: none;
+  }
+
+  @keyframes ultimate-power {
+    0%, 100% { filter: brightness(1) saturate(1); }
+    25% { filter: brightness(1.3) saturate(1.5) hue-rotate(30deg); }
+    50% { filter: brightness(1.5) saturate(2) hue-rotate(60deg); }
+    75% { filter: brightness(1.3) saturate(1.5) hue-rotate(30deg); }
+  }
+
+  /* Spinning Animations */
+  .animate-spin-slow {
+    animation: spin 8s linear infinite;
+  }
+
+  .animate-reverse-spin {
+    animation: spin 6s linear infinite reverse;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
   /* Zanpakuto hover glow effect */
   .zanpakuto-hover {
     position: relative;

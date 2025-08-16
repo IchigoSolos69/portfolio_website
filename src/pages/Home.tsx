@@ -7,12 +7,30 @@ const Home = () => {
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0)
   const [swordClicks, setSwordClicks] = useState(0)
   const [showBankai, setShowBankai] = useState(false)
+  const [konamiCode, setKonamiCode] = useState<string[]>([])
+  const [specialBankaiMode, setSpecialBankaiMode] = useState(false)
   
   const roles = ['Student', 'Developer', 'Partnership Manager', 'Bleach Fan']
+  const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA']
 
   useEffect(() => {
     setIsVisible(true)
-  }, [])
+    
+    // Konami code listener
+    const handleKeyPress = (event: KeyboardEvent) => {
+      const newCode = [...konamiCode, event.code].slice(-10)
+      setKonamiCode(newCode)
+      
+      if (newCode.join(',') === konamiSequence.join(',')) {
+        setSpecialBankaiMode(true)
+        setKonamiCode([])
+        setTimeout(() => setSpecialBankaiMode(false), 5000)
+      }
+    }
+    
+    window.addEventListener('keydown', handleKeyPress)
+    return () => window.removeEventListener('keydown', handleKeyPress)
+  }, [konamiCode, konamiSequence])
 
   // Typing effect for roles
   useEffect(() => {
@@ -125,11 +143,21 @@ const Home = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black text-foreground">
+    <div className={`min-h-screen bg-black text-foreground ${specialBankaiMode ? 'special-bankai-mode' : ''}`}>
       {/* Bankai Easter Egg */}
       {showBankai && (
         <div className="bankai-unleashed">
           BANKAI UNLEASHED! 卍解!
+        </div>
+      )}
+      
+      {/* Special Konami Bankai Mode */}
+      {specialBankaiMode && (
+        <div className="konami-bankai-mode">
+          <div className="absolute inset-0 bg-gradient-to-r from-spiritual-energy/20 via-reiatsu-glow/20 to-kido-purple/20 animate-pulse z-50 pointer-events-none" />
+          <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-6xl font-bold text-spiritual-energy z-50 animate-bounce">
+            ULTIMATE BANKAI! 最終卍解!
+          </div>
         </div>
       )}
       
@@ -149,14 +177,14 @@ const Home = () => {
             </div>
           </div>
           <div className="hidden md:flex items-center gap-6">
-            {['gallery','projects','about','contact'].map((sec) => (
+            {['projects','about','contact'].map((sec) => (
               <button 
                 key={sec}
                 onClick={() => scrollToSection(sec)}
                 className="text-gray-300 hover:text-spiritual-energy transition-all duration-300 hover:text-spiritual-glow animate-flash-step japanese-text"
               >
                 {sec.charAt(0).toUpperCase()+sec.slice(1)} <span className="text-xs ml-1">
-                  {sec === 'gallery' ? '画廊' : sec === 'projects' ? 'プロジェクト' : sec === 'about' ? 'あなた' : '連絡先'}
+                  {sec === 'projects' ? 'プロジェクト' : sec === 'about' ? 'あなた' : '連絡先'}
                 </span>
               </button>
             ))}
@@ -214,90 +242,224 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Floating Spiritual Particles Background */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Floating cherry blossoms or spiritual particles */}
+        <div className="particle-field">
+          {[...Array(50)].map((_, i) => (
+            <div key={i} className="spiritual-particle animate-float-random" />
+          ))}
+        </div>
+        
+        {/* Animated spiritual pressure waves */}
+        <div className="spiritual-waves">
+          <div className="wave wave-1" />
+          <div className="wave wave-2" />
+          <div className="wave wave-3" />
+        </div>
+      </div>
+
       {/* Projects Section */}
       <section id="projects" className="py-20 px-6 relative overflow-hidden">
-        <h2 className="text-4xl font-bold text-center mb-12 text-spiritual-energy text-spiritual-glow">
-          Split Gallery <span className="text-2xl japanese-text text-reiatsu-glow ml-4">ギャラリー</span>
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="particle-field">
+            {[...Array(30)].map((_, i) => (
+              <div key={i} className="spiritual-particle animate-float-random" style={{animationDelay: `${i * 0.2}s`}} />
+            ))}
+          </div>
+        </div>
+        
+        <h2 className="text-5xl font-bold text-center mb-16 relative z-10">
+          <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent animate-gradient-text">
+            My Projects
+          </span>
+          <span className="text-2xl japanese-text text-reiatsu-glow ml-4 block mt-2">プロジェクト</span>
         </h2>
         
-        <div className="grid lg:grid-cols-2 gap-16">
-          {/* Anime Section */}
-          <div>
-            <h3 className="text-2xl font-bold mb-8 text-reiatsu-glow text-center">
-              Bleach Characters <span className="text-lg japanese-text ml-2">キャラクター</span>
-            </h3>
-            <div className="grid gap-6">
-              {[
-                {name:"Ichigo Kurosaki",desc:"Substitute Shinigami with Hollow powers",role:"主人公"},
-                {name:"Rukia Kuchiki",desc:"Soul Society's ice-wielding noble",role:"死神"},
-                {name:"Sosuke Aizen",desc:"Former Captain, master of illusions",role:"裏切り者"}
-              ].map((char,idx)=>(
-                <div key={char.name} className="bg-hollow-mask/40 rounded-xl p-4 border border-reiatsu-glow/30 hover:border-spiritual-energy/70 transition-all duration-500 animate-fade-in-up zanpakuto-hover" style={{animationDelay:`${idx*0.2}s`}}>
-                  <h4 className="text-lg font-bold text-spiritual-energy mb-1">{char.name}</h4>
-                  <p className="text-gray-300 text-sm mb-2">{char.desc}</p>
-                  <span className="text-xs japanese-text text-kido-purple">{char.role}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Projects Section */}
-          <div>
-            <h3 className="text-2xl font-bold mb-8 text-reiatsu-glow text-center">
-              My Projects <span className="text-lg japanese-text ml-2">プロジェクト</span>
-            </h3>
-            <div className="grid gap-6">
-              {[
-                {name:"Chemistry Manual Digitizer",desc:"PyQt5 app with text-to-speech, search, and digital experiment windows.",icon:<BookOpen className="w-6 h-6"/>,tech:"PyQt5"},
-                {name:"Event Analysis Tool",desc:"Python + CSV program creating attendance graphs, QR code emails, and certificates.",icon:<Users className="w-6 h-6"/>,tech:"Python"},
-                {name:"Hemoglobin Report Classifier",desc:"Extracts data from PNG/PDF reports, converts to JSON, classifies, and visualizes.",icon:<Cpu className="w-6 h-6"/>,tech:"AI/ML"},
-                {name:"Hone.gg Contributions",desc:"Staff & Partnership Manager role with community management and strategic partnerships.",icon:<Zap className="w-6 h-6"/>,tech:"Management"}
-              ].map((proj,idx)=>(
-                <div key={proj.name} className="bg-hollow-mask/40 rounded-xl p-4 border border-zanpakuto-steel/30 hover:border-spiritual-energy/70 transition-all duration-500 animate-fade-in-up zanpakuto-hover" style={{animationDelay:`${idx*0.2}s`}}>
-                  <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 flex items-center justify-center bg-spiritual-energy/20 rounded-full text-spiritual-energy flex-shrink-0">
-                      {proj.icon}
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="text-lg font-bold text-spiritual-energy mb-1">{proj.name}</h4>
-                      <p className="text-gray-300 text-sm mb-2">{proj.desc}</p>
-                      <span className="text-xs bg-reiatsu-glow/20 text-reiatsu-glow px-2 py-1 rounded">{proj.tech}</span>
-                    </div>
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 relative z-10">
+          {[
+            {
+              name:"Chemistry Manual Digitizer",
+              desc:"Advanced PyQt5 application featuring text-to-speech synthesis, intelligent search algorithms, and interactive digital experiment windows for enhanced learning.",
+              icon:<BookOpen className="w-8 h-8"/>,
+              tech:["PyQt5", "Python", "TTS"],
+              github:"#",
+              demo:"#",
+              status:"Completed"
+            },
+            {
+              name:"Event Analysis Tool",
+              desc:"Comprehensive Python analytics suite processing CSV data to generate attendance visualizations, automated QR code email distribution, and certificate generation.",
+              icon:<Users className="w-8 h-8"/>,
+              tech:["Python", "Pandas", "Matplotlib"],
+              github:"#",
+              demo:"#",
+              status:"Active"
+            },
+            {
+              name:"Hemoglobin Report Classifier",
+              desc:"AI-powered medical data extraction system converting PNG/PDF reports to structured JSON, with machine learning classification and interactive data visualization.",
+              icon:<Cpu className="w-8 h-8"/>,
+              tech:["AI/ML", "OpenCV", "Scikit-learn"],
+              github:"#",
+              demo:"#",
+              status:"Research"
+            },
+            {
+              name:"Hone.gg Platform Contributions",
+              desc:"Strategic leadership in community management and partnership development, driving user engagement and platform growth through innovative collaboration initiatives.",
+              icon:<Zap className="w-8 h-8"/>,
+              tech:["Management", "Strategy", "Community"],
+              github:"#",
+              demo:"https://hone.gg",
+              status:"Ongoing"
+            }
+          ].map((proj,idx)=>(
+            <div key={proj.name} className="project-card group relative bg-gradient-to-br from-hollow-mask/20 to-soul-society/10 rounded-2xl p-6 border border-spiritual-energy/20 hover:border-spiritual-energy transition-all duration-700 animate-fade-in-up overflow-hidden" style={{animationDelay:`${idx*0.2}s`}}>
+              {/* Glowing border effect */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-spiritual-energy/0 via-spiritual-energy/20 to-spiritual-energy/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse-glow" />
+              
+              {/* Status indicator */}
+              <div className="absolute top-4 right-4 flex items-center gap-2">
+                <div className={`w-2 h-2 rounded-full ${proj.status === 'Completed' ? 'bg-green-400' : proj.status === 'Active' ? 'bg-blue-400' : proj.status === 'Research' ? 'bg-purple-400' : 'bg-orange-400'} animate-pulse`} />
+                <span className="text-xs text-gray-400">{proj.status}</span>
+              </div>
+              
+              <div className="relative z-10">
+                <div className="flex items-start gap-4 mb-4">
+                  <div className="w-16 h-16 flex items-center justify-center bg-gradient-to-br from-spiritual-energy/30 to-reiatsu-glow/20 rounded-xl text-spiritual-energy group-hover:scale-110 transition-transform duration-300">
+                    {proj.icon}
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold text-spiritual-energy mb-2 group-hover:text-reiatsu-glow transition-colors duration-300">{proj.name}</h3>
+                    <p className="text-gray-300 text-sm leading-relaxed mb-4">{proj.desc}</p>
                   </div>
                 </div>
-              ))}
+                
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {proj.tech.map((tech,techIdx)=>(
+                    <span key={tech} className="skill-tag px-3 py-1 bg-spiritual-energy/10 text-spiritual-energy rounded-full text-xs border border-spiritual-energy/20 hover:bg-spiritual-energy/20 hover:scale-105 transition-all duration-300" style={{animationDelay:`${techIdx*0.1}s`}}>
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+                
+                <div className="flex gap-3">
+                  <a href={proj.github} className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-spiritual-energy/20 to-reiatsu-glow/20 rounded-lg text-sm text-spiritual-energy hover:from-spiritual-energy/30 hover:to-reiatsu-glow/30 transition-all duration-300 group-hover:scale-105">
+                    <Github className="w-4 h-4" />
+                    Code
+                  </a>
+                  <a href={proj.demo} className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-reiatsu-glow/20 to-kido-purple/20 rounded-lg text-sm text-reiatsu-glow hover:from-reiatsu-glow/30 hover:to-kido-purple/30 transition-all duration-300 group-hover:scale-105">
+                    <Zap className="w-4 h-4" />
+                    Live Demo
+                  </a>
+                </div>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       </section>
 
       {/* About Section */}
       <section id="about" className="py-20 px-6 relative overflow-hidden">
-        <div className="max-w-5xl mx-auto relative z-10">
-          <h2 className="text-4xl font-bold text-center mb-12 text-spiritual-energy text-spiritual-glow">About Me <span className="text-2xl japanese-text text-reiatsu-glow ml-4">プロフィール</span></h2>
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="particle-field">
+            {[...Array(20)].map((_, i) => (
+              <div key={i} className="spiritual-particle animate-float-random" style={{animationDelay: `${i * 0.3}s`}} />
+            ))}
+          </div>
+        </div>
+        
+        <div className="max-w-6xl mx-auto relative z-10">
+          <h2 className="text-5xl font-bold text-center mb-16">
+            <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent animate-gradient-text">
+              About Me
+            </span>
+            <span className="text-2xl japanese-text text-reiatsu-glow ml-4 block mt-2">プロフィール</span>
+          </h2>
+          
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="animate-fade-in-up" style={{animationDelay:'0.2s'}}>
-              <p className="text-gray-300 mb-6 leading-relaxed hollow-mask-overlay">
-                I’m <span className="text-spiritual-energy font-semibold">Adi Rajendra Maitre</span>, 
+              <p className="text-gray-300 mb-6 leading-relaxed text-lg">
+                I'm <span className="text-spiritual-energy font-semibold">Adi Rajendra Maitre</span>, 
                 a BTech IT student at PCCOE Akurdi. I work as a <span className="text-reiatsu-glow font-semibold">Staff & Partnership Manager at Hone.gg</span>, 
-                and previously as NDA Tester.  
+                combining technical expertise with strategic leadership.
               </p>
-              <p className="text-gray-300 mb-6 leading-relaxed hollow-mask-overlay">
-                I’ve built projects in <span className="text-spiritual-energy">Python</span>, 
+              <p className="text-gray-300 mb-8 leading-relaxed text-lg">
+                I've built projects in <span className="text-spiritual-energy">Python</span>, 
                 <span className="text-reiatsu-glow"> React</span>, 
                 <span className="text-kido-purple"> TypeScript</span>, and more — merging anime creativity with real-world problem solving.
               </p>
+              
+              {/* Circular Skill Progress Bars */}
+              <div className="grid grid-cols-2 gap-8 mb-8">
+                {[
+                  {skill: 'React/TypeScript', level: 85, color: 'spiritual-energy'},
+                  {skill: 'Python/AI', level: 90, color: 'reiatsu-glow'},
+                  {skill: 'Leadership', level: 80, color: 'kido-purple'},
+                  {skill: 'Problem Solving', level: 95, color: 'spiritual-energy'}
+                ].map((item, index) => (
+                  <div key={item.skill} className="text-center animate-fade-in-up" style={{animationDelay:`${0.4 + index*0.1}s`}}>
+                    <div className="relative w-24 h-24 mx-auto mb-3">
+                      <svg className="w-24 h-24 transform -rotate-90" viewBox="0 0 100 100">
+                        <circle
+                          cx="50" cy="50" r="40"
+                          stroke="currentColor"
+                          strokeWidth="8"
+                          fill="none"
+                          className="text-gray-700"
+                        />
+                        <circle
+                          cx="50" cy="50" r="40"
+                          stroke="currentColor"
+                          strokeWidth="8"
+                          fill="none"
+                          strokeDasharray={`${2 * Math.PI * 40}`}
+                          strokeDashoffset={`${2 * Math.PI * 40 * (1 - item.level / 100)}`}
+                          className={`text-${item.color} transition-all duration-2000 ease-out animate-pulse-glow`}
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className={`text-lg font-bold text-${item.color}`}>{item.level}%</span>
+                      </div>
+                    </div>
+                    <h4 className="text-sm font-medium text-gray-300">{item.skill}</h4>
+                  </div>
+                ))}
+              </div>
+              
               <div className="flex flex-wrap gap-3">
                 {['React','TypeScript','Node.js','Tailwind CSS','Next.js','Python','C','Java','PyQt5','AI/DS'].map((skill,index)=>(
-                  <span key={skill} className="px-3 py-1 bg-spiritual-energy/20 text-spiritual-energy rounded-full text-sm hover:bg-spiritual-energy/30 transition-all duration-300 animate-flash-step zanpakuto-hover" style={{animationDelay:`${index*0.1}s`}}>
+                  <span key={skill} className="skill-tag px-3 py-1 bg-spiritual-energy/10 text-spiritual-energy rounded-full text-sm border border-spiritual-energy/20 hover:bg-spiritual-energy/20 transition-all duration-300 animate-flash-step" style={{animationDelay:`${index*0.1}s`}}>
                     {skill}
                   </span>
                 ))}
               </div>
             </div>
+            
             <div className="relative animate-fade-in-up" style={{animationDelay:'0.5s'}}>
-              <div className="w-72 h-72 mx-auto bg-gradient-to-br from-spiritual-energy/20 to-reiatsu-glow/20 rounded-full flex items-center justify-center relative kido-circle bankai-burst">
-                <Sword className="w-32 h-32 text-spiritual-energy animate-zanpakuto-shine spiritual-glow" />
+              <div className="w-80 h-80 mx-auto bg-gradient-to-br from-spiritual-energy/20 to-reiatsu-glow/20 rounded-full flex items-center justify-center relative overflow-hidden">
+                {/* Animated rings */}
+                <div className="absolute inset-4 border-2 border-spiritual-energy/30 rounded-full animate-spin-slow"></div>
+                <div className="absolute inset-8 border-2 border-reiatsu-glow/30 rounded-full animate-reverse-spin"></div>
+                <div className="absolute inset-12 border-2 border-kido-purple/30 rounded-full animate-spin-slow"></div>
+                
+                <Sword className="w-32 h-32 text-spiritual-energy animate-zanpakuto-shine relative z-10" />
+                
+                {/* Floating orbs */}
+                {[...Array(6)].map((_, i) => (
+                  <div 
+                    key={i}
+                    className="absolute w-3 h-3 bg-spiritual-energy/60 rounded-full animate-float-random"
+                    style={{
+                      top: `${20 + Math.sin(i * Math.PI / 3) * 30}%`,
+                      left: `${50 + Math.cos(i * Math.PI / 3) * 35}%`,
+                      animationDelay: `${i * 0.5}s`,
+                      animationDuration: '4s'
+                    }}
+                  />
+                ))}
               </div>
             </div>
           </div>
