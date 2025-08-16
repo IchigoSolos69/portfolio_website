@@ -83,19 +83,11 @@ const Home = () => {
       
       playSlashSound();
       
-      // Move to phase 3 after 8 seconds (matching audio length)
-      const timer = setTimeout(() => {
-        setLoadingPhase(3);
-      }, 8000);
-      return () => clearTimeout(timer);
-    }
-    
-    if (loadingPhase === 3) {
-      // Phase 3: Curtain reveal (1 second)
+      // End loading after 8 seconds (diagonal reveal handles the transition)
       const timer = setTimeout(() => {
         setIsLoading(false);
         setIsVisible(true);
-      }, 1000);
+      }, 8000);
       return () => clearTimeout(timer);
     }
   }, [loadingPhase, isLoading]);
@@ -201,8 +193,52 @@ const Home = () => {
             <div className="dramatic-pause"></div>
             
             <div className="diagonal-slash-container">
-              <div className="diagonal-slash-line"></div>
-              <div className="diagonal-slash-glow"></div>
+              {/* Website content goes here - will be revealed diagonally */}
+              <div className={`min-h-screen bg-black text-white transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+                {/* Fixed Background Effects */}
+                <div className="fixed inset-0 pointer-events-none">
+                  <div className="dynamic-background" />
+                  <div className="optimized-particle-field">
+                    {[...Array(15)].map((_, i) => (
+                      <div
+                        key={i}
+                        className="optimized-particle"
+                        style={{ left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%` }}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Hero Section */}
+                <section className="min-h-screen flex items-center justify-center relative z-10 px-6">
+                  {/* Small Background Particles */}
+                  <div className="absolute inset-0 pointer-events-none">
+                    <div className="small-particles">
+                      {[...Array(30)].map((_, i) => (
+                        <div
+                          key={i}
+                          className="small-particle"
+                          style={{
+                            left: `${Math.random() * 100}%`,
+                            top: `${Math.random() * 100}%`,
+                            animationDelay: `${Math.random() * 10}s`,
+                            animationDuration: `${15 + Math.random() * 10}s`
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <div className="text-center max-w-4xl mx-auto relative z-10">
+                    <div className="mb-12">
+                      <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
+                        <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent animate-gradient-text">
+                          Adi Rajendra Maitre
+                        </span>
+                      </h1>
+                    </div>
+                  </div>
+                </section>
+              </div>
             </div>
             
             {/* Slash Particles */}
@@ -222,12 +258,6 @@ const Home = () => {
           </div>
         )}
         
-        {/* Phase 3: Curtain Reveal */}
-        {loadingPhase === 3 && (
-          <div className="curtain-reveal-phase">
-            <div className="diagonal-curtain"></div>
-          </div>
-        )}
       </div>
     );
   }
