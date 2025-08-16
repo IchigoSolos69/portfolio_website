@@ -26,11 +26,12 @@ const Home = () => {
       
       // Calculate diagonal distance from bottom-left to top-right
       const diagonalLength = Math.sqrt(vw * vw + vh * vh);
-      const angle = Math.atan2(vh, vw) * (180 / Math.PI);
+      // Fixed angle for bottom-left to top-right diagonal
+      const angle = 45; // Always 45 degrees for perfect diagonal
       
       setSlashCoords({
         width: `${diagonalLength}px`,
-        height: `${diagonalLength}px`,
+        height: `6px`, // Fixed height for the slash line
         angle: angle
       });
     };
@@ -189,6 +190,7 @@ const Home = () => {
                 className="diagonal-slash-line"
                 style={{
                   width: slashCoords.width,
+                  height: slashCoords.height,
                   transform: `rotate(${slashCoords.angle}deg)`
                 }}
               ></div>
@@ -196,6 +198,7 @@ const Home = () => {
                 className="diagonal-slash-glow"
                 style={{
                   width: slashCoords.width,
+                  height: '20px',
                   transform: `rotate(${slashCoords.angle}deg)`
                 }}
               ></div>
@@ -351,31 +354,34 @@ const Home = () => {
                 his spiritual pressure, I continuously evolve my technical skills while maintaining strong collaborative relationships.
               </p>
               <div className="space-y-4">
-                <div className="skill-bar">
+                <div className="skill-bar group cursor-pointer">
                   <div className="flex justify-between mb-2">
-                    <span className="text-spiritual-energy font-medium">Full-Stack Development</span>
-                    <span className="text-gray-400">90%</span>
+                    <span className="text-spiritual-energy font-medium group-hover:text-reiatsu-glow transition-colors duration-300">Full-Stack Development</span>
+                    <span className="text-gray-400 group-hover:text-spiritual-energy transition-colors duration-300">90%</span>
                   </div>
-                  <div className="w-full bg-gray-700 rounded-full h-2 relative overflow-hidden">
-                    <div className="bg-gradient-to-r from-spiritual-energy to-reiatsu-glow h-2 rounded-full skill-progress" style={{'--target-width': '90%', animationDelay: '0.5s'}}></div>
+                  <div className="w-full bg-gray-700 rounded-full h-3 relative overflow-hidden group-hover:h-4 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-spiritual-energy/30">
+                    <div className="bg-gradient-to-r from-spiritual-energy to-reiatsu-glow h-full rounded-full skill-progress group-hover:from-reiatsu-glow group-hover:to-spiritual-energy transition-all duration-500" style={{'--target-width': '90%', animationDelay: '0.5s'}}></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-pulse rounded-full"></div>
                   </div>
                 </div>
-                <div className="skill-bar">
+                <div className="skill-bar group cursor-pointer">
                   <div className="flex justify-between mb-2">
-                    <span className="text-spiritual-energy font-medium">AI/ML Research</span>
-                    <span className="text-gray-400">85%</span>
+                    <span className="text-spiritual-energy font-medium group-hover:text-reiatsu-glow transition-colors duration-300">AI/ML Research</span>
+                    <span className="text-gray-400 group-hover:text-spiritual-energy transition-colors duration-300">85%</span>
                   </div>
-                  <div className="w-full bg-gray-700 rounded-full h-2 relative overflow-hidden">
-                    <div className="bg-gradient-to-r from-reiatsu-glow to-kido-purple h-2 rounded-full skill-progress" style={{'--target-width': '85%', animationDelay: '0.7s'}}></div>
+                  <div className="w-full bg-gray-700 rounded-full h-3 relative overflow-hidden group-hover:h-4 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-reiatsu-glow/30">
+                    <div className="bg-gradient-to-r from-reiatsu-glow to-kido-purple h-full rounded-full skill-progress group-hover:from-kido-purple group-hover:to-reiatsu-glow transition-all duration-500" style={{'--target-width': '85%', animationDelay: '0.7s'}}></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-pulse rounded-full"></div>
                   </div>
                 </div>
-                <div className="skill-bar">
+                <div className="skill-bar group cursor-pointer">
                   <div className="flex justify-between mb-2">
-                    <span className="text-spiritual-energy font-medium">Partnership Management</span>
-                    <span className="text-gray-400">95%</span>
+                    <span className="text-spiritual-energy font-medium group-hover:text-reiatsu-glow transition-colors duration-300">Partnership Management</span>
+                    <span className="text-gray-400 group-hover:text-spiritual-energy transition-colors duration-300">95%</span>
                   </div>
-                  <div className="w-full bg-gray-700 rounded-full h-2 relative overflow-hidden">
-                    <div className="bg-gradient-to-r from-kido-purple to-spiritual-energy h-2 rounded-full skill-progress" style={{'--target-width': '95%', animationDelay: '0.9s'}}></div>
+                  <div className="w-full bg-gray-700 rounded-full h-3 relative overflow-hidden group-hover:h-4 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-kido-purple/30">
+                    <div className="bg-gradient-to-r from-kido-purple to-spiritual-energy h-full rounded-full skill-progress group-hover:from-spiritual-energy group-hover:to-kido-purple transition-all duration-500" style={{'--target-width': '95%', animationDelay: '0.9s'}}></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-pulse rounded-full"></div>
                   </div>
                 </div>
               </div>
