@@ -101,8 +101,17 @@ const Home = () => {
       <section id="about" className="py-20 px-6 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="particle-field">
-            {[...Array(30)].map((_, i) => (
-              <div key={i} className="spiritual-particle animate-float-random" style={{animationDelay: `${i * 0.2}s`}} />
+            {[...Array(40)].map((_, i) => (
+              <div 
+                key={i} 
+                className="moving-particle" 
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${i * 0.15}s`,
+                  animationDuration: `${8 + Math.random() * 12}s`
+                }} 
+              />
             ))}
           </div>
         </div>
@@ -161,8 +170,51 @@ const Home = () => {
             </div>
             
             <div className="animate-fade-in-up" style={{animationDelay: '0.3s'}}>
+              <h3 className="text-2xl font-bold text-reiatsu-glow mb-6 text-center">
+                Programming Languages & Technologies
+                <span className="text-lg japanese-text text-spiritual-energy block mt-1">プログラミング言語</span>
+              </h3>
+              
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+                {[
+                  { name: 'JavaScript', icon: '🟨', level: 'Expert' },
+                  { name: 'TypeScript', icon: '🔷', level: 'Expert' },
+                  { name: 'Python', icon: '🐍', level: 'Expert' },
+                  { name: 'React', icon: '⚛️', level: 'Expert' },
+                  { name: 'Node.js', icon: '🟢', level: 'Advanced' },
+                  { name: 'Java', icon: '☕', level: 'Advanced' },
+                  { name: 'C++', icon: '⚡', level: 'Intermediate' },
+                  { name: 'Go', icon: '🔵', level: 'Learning' }
+                ].map((lang, idx) => (
+                  <div 
+                    key={lang.name} 
+                    className="programming-lang-box group relative bg-gradient-to-br from-hollow-mask/20 to-soul-society/10 rounded-xl p-4 border border-spiritual-energy/20 hover:border-reiatsu-glow transition-all duration-500 hover:scale-105 hover:shadow-lg hover:shadow-spiritual-energy/20"
+                    style={{
+                      animation: `langBoxFloat 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${0.1 + idx * 0.1}s forwards`,
+                      opacity: 0,
+                      transform: 'translateY(20px) scale(0.9)'
+                    }}
+                  >
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-reiatsu-glow/0 via-reiatsu-glow/5 to-reiatsu-glow/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    
+                    <div className="relative z-10 text-center">
+                      <div className="text-3xl mb-2 group-hover:scale-110 transition-transform duration-300">{lang.icon}</div>
+                      <h4 className="text-spiritual-energy font-semibold text-sm mb-1 group-hover:text-reiatsu-glow transition-colors duration-300">{lang.name}</h4>
+                      <span className={`text-xs px-2 py-1 rounded-full ${
+                        lang.level === 'Expert' ? 'bg-green-500/20 text-green-400' :
+                        lang.level === 'Advanced' ? 'bg-blue-500/20 text-blue-400' :
+                        lang.level === 'Intermediate' ? 'bg-yellow-500/20 text-yellow-400' :
+                        'bg-purple-500/20 text-purple-400'
+                      }`}>
+                        {lang.level}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
               <div className="grid grid-cols-2 gap-4">
-                {['React', 'TypeScript', 'Python', 'Node.js', 'PyQt5', 'Machine Learning', 'Data Analysis', 'Partnership Strategy'].map((skill) => (
+                {['Machine Learning', 'Data Analysis', 'Partnership Strategy', 'Full-Stack Development'].map((skill) => (
                   <div key={skill} className="about-skill-box skill-tag group bg-gradient-to-br from-hollow-mask/20 to-soul-society/10 rounded-lg p-4 border border-spiritual-energy/20 hover:border-reiatsu-glow">
                     <span className="text-spiritual-energy font-medium group-hover:text-reiatsu-glow transition-colors duration-300">{skill}</span>
                   </div>
@@ -463,6 +515,62 @@ const Home = () => {
         .about-skill-box:hover {
           transform: translateY(-5px) scale(1.02);
           box-shadow: 0 10px 25px -5px rgba(255, 112, 0, 0.1), 0 10px 10px -5px rgba(255, 112, 0, 0.04);
+        }
+        
+        /* Programming Language Box Animation */
+        @keyframes langBoxFloat {
+          0% {
+            opacity: 0;
+            transform: translateY(20px) scale(0.9) rotateX(10deg);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0) scale(1) rotateX(0deg);
+          }
+        }
+        
+        .programming-lang-box {
+          transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          transform-style: preserve-3d;
+        }
+        
+        .programming-lang-box:hover {
+          transform: translateY(-8px) scale(1.05) rotateY(5deg);
+          box-shadow: 0 15px 35px -5px rgba(255, 165, 0, 0.2), 0 10px 15px -5px rgba(255, 165, 0, 0.1);
+        }
+        
+        /* Moving Background Particles */
+        .moving-particle {
+          position: absolute;
+          width: 2px;
+          height: 2px;
+          background: radial-gradient(circle, #FFA500 0%, #FF6B00 70%, transparent 100%);
+          border-radius: 50%;
+          animation: moveParticle linear infinite;
+          box-shadow: 0 0 4px rgba(255, 165, 0, 0.5);
+        }
+        
+        @keyframes moveParticle {
+          0% {
+            transform: translateY(100vh) translateX(0) scale(0);
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+            transform: translateY(90vh) translateX(10px) scale(1);
+          }
+          50% {
+            opacity: 1;
+            transform: translateY(50vh) translateX(-20px) scale(1.2);
+          }
+          90% {
+            opacity: 1;
+            transform: translateY(10vh) translateX(15px) scale(1);
+          }
+          100% {
+            transform: translateY(-10vh) translateX(0) scale(0);
+            opacity: 0;
+          }
         }
       `}</style>
     </div>
