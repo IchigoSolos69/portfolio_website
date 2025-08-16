@@ -1,105 +1,152 @@
 import React, { useState, useEffect } from 'react';
-import { Award, Zap, ChevronDown, Cpu, Trophy, Github, Mail, Linkedin } from 'lucide-react';
-import SlashPhase from '../components/SlashPhase';
+import { Cpu, Github, Zap, Mail, Award, Trophy, ChevronDown, Linkedin } from 'lucide-react';
 
 const roles = [
   '学生 | Student',
-  'デベロッパー | Developer',
+  'デベロッパー | Developer', 
   'パートナーシップマネージャー | Partnership Manager',
   'ブリーチファン | Bleach Fan',
 ];
 
-export default function Home() {
-  // Loader state
-  const [phase, setPhase]     = useState(1);
-  const [loading, setLoading] = useState(true);
-  const [visible, setVisible] = useState(false);
-
-  // Typing effect state
-  const [text, setText]       = useState('');
-  const [roleIndex, setRoleIndex] = useState(0);
-  const [deleting, setDeleting]   = useState(false);
+const Home = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [typingText, setTypingText] = useState('');
+  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [charIndex, setCharIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadingPhase, setLoadingPhase] = useState(1);
 
-  // Unlock audio
+  // Fixed Loading Phase Management
   useEffect(() => {
-    const resume = () => {
-      const ctx = new AudioContext();
-      if (ctx.state === 'suspended') ctx.resume();
-      window.removeEventListener('pointerdown', resume);
-      window.removeEventListener('touchstart', resume);
-    };
-    window.addEventListener('pointerdown', resume, { once: true });
-    window.addEventListener('touchstart', resume, { once: true });
-  }, []);
+    if (!isLoading) return;
 
-  // Phase transitions
-  useEffect(() => {
-    if (!loading) return;
-    let t: ReturnType<typeof setTimeout>;
-    if (phase === 1) t = setTimeout(() => setPhase(2), 3000);
-    else if (phase === 2) t = setTimeout(() => setPhase(3), 1400);
-    else if (phase === 3) {
-      t = setTimeout(() => {
-        setLoading(false);
-        // Small delay to ensure smooth transition
-        setTimeout(() => setVisible(true), 100);
-      }, 1000);
+    if (loadingPhase === 1) {
+      // Phase 1: Loading screen (3 seconds)
+      const timer = setTimeout(() => {
+        setLoadingPhase(2);
+      }, 3000);
+      return () => clearTimeout(timer);
     }
-    return () => clearTimeout(t);
-  }, [phase, loading]);
+    
+    if (loadingPhase === 2) {
+      // Phase 2: Sword slash with sound
+      const playSlashSound = async () => {
+        try {
+          const slashAudio = new Audio('/sounds/sword-slash.mp3');
+          slashAudio.volume = 0.3;
+          slashAudio.preload = 'auto';
+          
+          // Try to play immediately
+          const playPromise = slashAudio.play();
+          if (playPromise !== undefined) {
+            await playPromise.catch(() => {
+              // If autoplay fails, create a user interaction handler
+              const enableAudio = () => {
+                slashAudio.play().catch(() => {});
+                document.removeEventListener('click', enableAudio);
+                document.removeEventListener('touchstart', enableAudio);
+                document.removeEventListener('keydown', enableAudio);
+              };
+              document.addEventListener('click', enableAudio, { once: true });
+              document.addEventListener('touchstart', enableAudio, { once: true });
+              document.addEventListener('keydown', enableAudio, { once: true });
+            });
+          }
+        } catch (e) {
+          console.log('Audio setup failed:', e);
+        }
+      };
+      
+      // Start audio immediately when phase 2 begins
+      playSlashSound();
+      
+      const timer = setTimeout(() => {
+        setLoadingPhase(3);
+      }, 1400); // Sword slash duration
+      return () => clearTimeout(timer);
+    }
+    
+    if (loadingPhase === 3) {
+      // Phase 3: Curtain reveal
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+        setIsVisible(true);
+      }, 1000); // Curtain reveal duration
+      return () => clearTimeout(timer);
+    }
+  }, [loadingPhase, isLoading]);
 
-  // Typing effect
+  // Fixed Typing Effect
   useEffect(() => {
-    if (loading) return;
-    let t: ReturnType<typeof setTimeout>;
-    const role = roles[roleIndex];
-    if (!deleting && charIndex <= role.length) {
-      setText(role.slice(0, charIndex));
-      t = setTimeout(() => setCharIndex(i => i + 1), Math.random() * 100 + 80);
-    } else if (!deleting) {
-      t = setTimeout(() => setDeleting(true), 2000);
-    } else if (deleting && charIndex > 0) {
-      setText(role.slice(0, charIndex));
-      t = setTimeout(() => setCharIndex(i => i - 1), 50);
-    } else {
-      t = setTimeout(() => {
-        setDeleting(false);
-        setRoleIndex(i => (i + 1) % roles.length);
+    if (isLoading) return;
+
+    let timer: ReturnType<typeof setTimeout>;
+
+    if (!isDeleting && charIndex <= roles[currentRoleIndex].length) {
+      setTypingText(roles[currentRoleIndex].substring(0, charIndex));
+      timer = setTimeout(() => {
+        setCharIndex(prev => prev + 1);
+      }, Math.random() * 100 + 80);
+    } else if (!isDeleting && charIndex > roles[currentRoleIndex].length) {
+      // Pause before deleting
+      timer = setTimeout(() => {
+        setIsDeleting(true);
+      }, 2000);
+    } else if (isDeleting && charIndex > 0) {
+      setTypingText(roles[currentRoleIndex].substring(0, charIndex));
+      timer = setTimeout(() => {
+        setCharIndex(prev => prev - 1);
+      }, 50);
+    } else if (isDeleting && charIndex === 0) {
+      // Move to next role
+      timer = setTimeout(() => {
+        setIsDeleting(false);
+        setCurrentRoleIndex(prev => (prev + 1) % roles.length);
         setCharIndex(0);
       }, 500);
     }
-    return () => clearTimeout(t);
-  }, [charIndex, deleting, roleIndex, loading]);
 
-  const scrollTo = (id: string) =>
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    return () => clearTimeout(timer);
+  }, [charIndex, isDeleting, currentRoleIndex, isLoading]);
 
-  if (loading) {
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  if (isLoading) {
     return (
       <div className="cinematic-loading-overlay">
-        {phase === 1 && (
+        {/* Phase 1: Loading Screen */}
+        {loadingPhase === 1 && (
           <div className="loading-screen">
-            <div className="loading-background" />
+            <div className="loading-background"></div>
+            
+            {/* Energy Particles */}
             <div className="energy-particles">
               {[...Array(25)].map((_, i) => (
-                <div
-                  key={i}
-                  className="energy-particle"
+                <div 
+                  key={i} 
+                  className="energy-particle" 
                   style={{
-                    left:  `${Math.random() * 100}%`,
-                    top:   `${Math.random() * 100}%`,
-                    animationDelay:    `${Math.random() * 3}s`,
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                    animationDelay: `${Math.random() * 3}s`,
                     animationDuration: `${3 + Math.random() * 4}s`
-                  }}
+                  }} 
                 />
               ))}
             </div>
+            
+            {/* Glowing Circular Loader */}
             <div className="loader-container">
               <div className="circular-loader">
-                <div className="loader-ring" />
-                <div className="loader-core" />
+                <div className="loader-ring"></div>
+                <div className="loader-core"></div>
               </div>
+              
+              {/* Japanese Loading Text */}
               <div className="loading-text">
                 <div className="japanese-loading">読み込み中...</div>
                 <div className="english-loading">Loading...</div>
@@ -107,15 +154,39 @@ export default function Home() {
             </div>
           </div>
         )}
-        {phase === 2 && (
+        
+        {/* Phase 2: Sword Slash */}
+        {loadingPhase === 2 && (
           <div className="sword-slash-phase">
-            <div className="dramatic-pause" />
-            <SlashPhase onComplete={() => setPhase(3)} />
+            <div className="dramatic-pause"></div>
+            
+            {/* Perfect Diagonal Slash */}
+            <div className="diagonal-slash-container">
+              <div className="diagonal-slash-line"></div>
+              <div className="diagonal-slash-glow"></div>
+            </div>
+            
+            {/* Slash Particles */}
+            <div className="slash-particles">
+              {[...Array(12)].map((_, i) => (
+                <div 
+                  key={i} 
+                  className="diagonal-particle" 
+                  style={{
+                    left: `${20 + i * 5}%`,
+                    top: `${80 - i * 5}%`,
+                    animationDelay: `${0.6 + i * 0.05}s`
+                  }}
+                />
+              ))}
+            </div>
           </div>
         )}
-        {phase === 3 && (
+        
+        {/* Phase 3: Curtain Reveal */}
+        {loadingPhase === 3 && (
           <div className="curtain-reveal-phase">
-            <div className="diagonal-curtain" />
+            <div className="diagonal-curtain"></div>
           </div>
         )}
       </div>
@@ -123,56 +194,68 @@ export default function Home() {
   }
 
   return (
-    <div
-      className={`min-h-screen bg-black text-white transition-all duration-1000 ease-out ${
-        visible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-      }`}
-      style={{
-        transform: visible ? 'translateY(0)' : 'translateY(20px)'
-      }}
-    >
-      {/* Hero */}
-      <section id="hero" className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
-        {/* Background particles */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="particle-field">
-            {[...Array(50)].map((_, i) => (
-              <div
-                key={i}
-                className="moving-particle"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  animationDelay: `${i * 0.1}s`,
-                  animationDuration: `${10 + Math.random() * 15}s`
-                }}
-              />
-            ))}
-          </div>
+    <div className={`min-h-screen bg-black text-white transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+      {/* Fixed Background Effects */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="dynamic-background" />
+        <div className="optimized-particle-field">
+          {[...Array(15)].map((_, i) => (
+            <div
+              key={i}
+              className="optimized-particle"
+              style={{ left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%` }}
+            />
+          ))}
         </div>
-        <div className="text-center max-w-4xl mx-auto relative z-10">
-          <h1 className="text-6xl md:text-8xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent animate-gradient-text" style={{backgroundSize: '200% 200%'}}>
-              Adi Rajendra Maitre
-            </span>
-          </h1>
-          <div className="text-2xl md:text-3xl text-gray-300 h-12 flex items-center justify-center mb-4 overflow-hidden">
-            <span className="border-r-2 border-spiritual-energy animate-blink pr-1">{text}</span>
+      </div>
+
+      {/* Hero Section */}
+      <section className="min-h-screen flex items-center justify-center relative z-10 px-6">
+        <div className="text-center max-w-4xl mx-auto">
+          <div className="mb-12">
+            <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
+              <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent animate-gradient-text">
+                Adi Rajendra Maitre
+              </span>
+            </h1>
+            
+            {/* Fixed Typing Display */}
+            <div className="text-2xl md:text-3xl text-gray-300 mb-6 h-12 flex items-center justify-center overflow-hidden">
+              <span className="border-r-2 border-spiritual-energy animate-blink pr-1">
+                {typingText}
+              </span>
+            </div>
+            
+            <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+              Crafting digital experiences with precision and passion.
+              <span className="text-spiritual-energy japanese-text block mt-2">開発者</span>
+            </p>
           </div>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            Crafting digital experiences with precision and passion.
-            <span className="text-spiritual-energy japanese-text block mt-2">開発者</span>
-          </p>
-          <div className="flex gap-6 mt-8">
-            <button onClick={() => scrollTo('about')} className="bg-spiritual-gradient hover:bg-reiatsu-glow px-8 py-4 rounded-lg shadow-lg transition">
-              <Award className="inline w-5 h-5 mr-2" /> About Me
+
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in-up" style={{animationDelay: '0.3s'}}>
+            <button
+              onClick={() => scrollToSection('about')}
+              className="bg-spiritual-gradient hover:bg-reiatsu-glow text-gray-900 font-medium px-8 py-4 rounded-lg transition-all duration-300 text-lg shadow-lg hover:shadow-spiritual-energy/50 group"
+            >
+              <span className="relative z-10 flex items-center gap-2">
+                <Award className="w-5 h-5" /> About Me
+              </span>
             </button>
-            <button onClick={() => scrollTo('projects')} className="border-2 border-spiritual-energy px-8 py-4 rounded-lg hover:bg-spiritual-energy/20 transition">
-              <Zap className="inline w-5 h-5 mr-2" /> View Projects
+            <button
+              onClick={() => scrollToSection('projects')}
+              className="border-2 border-spiritual-energy bg-transparent text-gray-100 hover:bg-spiritual-energy/20 px-8 py-4 rounded-lg text-lg transition-all duration-300 hover:shadow-lg hover:shadow-spiritual-energy/25 group"
+            >
+              <span className="relative z-10 flex items-center gap-2">
+                <Zap className="w-5 h-5" /> View Projects
+              </span>
             </button>
           </div>
-          <div className="mt-12 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
-            <ChevronDown className="w-8 h-8 mx-auto text-spiritual-energy animate-bounce cursor-pointer" onClick={() => scrollTo('about')} />
+
+          <div className="mt-12 animate-fade-in-up" style={{animationDelay: '0.6s'}}>
+            <ChevronDown
+              className="w-8 h-8 mx-auto text-spiritual-energy animate-bounce cursor-pointer"
+              onClick={() => scrollToSection('about')}
+            />
           </div>
         </div>
       </section>
