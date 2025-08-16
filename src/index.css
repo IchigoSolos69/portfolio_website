@@ -205,6 +205,7 @@
     transparent 100%
   );
   transform-origin: bottom left;
+  transform: rotate(45deg);
   filter: blur(15px);
   animation: diagonalParticleFly 8s ease-out forwards;
   opacity: 0;
@@ -227,6 +228,7 @@
     transparent 100%
   );
   transform-origin: bottom left;
+  transform: rotate(45deg);
   box-shadow:
     0 0 40px rgba(255,165,0,1),
     0 0 80px rgba(255,255,255,0.9),
@@ -270,12 +272,12 @@
 }
 
 @keyframes diagonalParticleFly {
-  0%   { opacity:0; transform: rotate(45deg) translate(0,0) scaleX(0.3) scaleY(1); }
-  12.5% { opacity:1; transform: rotate(45deg) translate(15vw,-10vh) scaleX(1) scaleY(1); }
-  37.5% { opacity:1; transform: rotate(45deg) translate(35vw,-25vh) scaleX(1.5) scaleY(1); }
-  62.5% { opacity:0.7; transform: rotate(45deg) translate(55vw,-45vh) scaleX(2) scaleY(1); }
-  87.5% { opacity:0.3; transform: rotate(45deg) translate(75vw,-65vh) scaleX(2.5) scaleY(1); }
-  100% { opacity:0; transform: rotate(45deg) translate(100vw,-80vh) scaleX(3) scaleY(1); }
+  0%   { opacity:0; transform: translate(0,0) scaleX(0.3) scaleY(1); }
+  12.5% { opacity:1; transform: translate(15vw,-10vh) scaleX(1) scaleY(1); }
+  37.5% { opacity:1; transform: translate(35vw,-25vh) scaleX(1.5) scaleY(1); }
+  62.5% { opacity:0.7; transform: translate(55vw,-45vh) scaleX(2) scaleY(1); }
+  87.5% { opacity:0.3; transform: translate(75vw,-65vh) scaleX(2.5) scaleY(1); }
+  100% { opacity:0; transform: translate(100vw,-80vh) scaleX(3) scaleY(1); }
 }
 
 
