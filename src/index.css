@@ -242,6 +242,7 @@
 }
 
 .typing-text {
+  color: #fff;
   background: linear-gradient(
     90deg,
     #fff 0%,
@@ -257,6 +258,8 @@
   animation: shimmerText 3s ease-in-out infinite;
   text-shadow: 0 0 20px rgba(255,165,0,0.5);
   filter: drop-shadow(0 0 10px rgba(255,165,0,0.3));
+  display: inline-block;
+  min-height: 1em;
 }
 
 .typing-cursor {
@@ -302,20 +305,25 @@
 .char-reveal {
   display: inline-block;
   opacity: 0;
-  transform: translateY(20px) rotateX(90deg);
-  animation: revealChar 0.6s ease-out forwards;
+  transform: translateY(10px) rotateX(45deg);
+  animation: revealChar 0.4s ease-out forwards;
+  color: inherit;
+  background: inherit;
+  -webkit-background-clip: inherit;
+  background-clip: inherit;
+  -webkit-text-fill-color: inherit;
 }
 
 @keyframes revealChar {
   0% {
     opacity: 0;
-    transform: translateY(20px) rotateX(90deg) scale(0.8);
-    filter: blur(10px);
+    transform: translateY(10px) rotateX(45deg) scale(0.9);
+    filter: blur(3px);
   }
-  50% {
-    opacity: 0.7;
-    transform: translateY(0) rotateX(45deg) scale(1.1);
-    filter: blur(2px);
+  70% {
+    opacity: 0.8;
+    transform: translateY(-2px) rotateX(0deg) scale(1.05);
+    filter: blur(1px);
   }
   100% {
     opacity: 1;
