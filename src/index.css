@@ -207,7 +207,7 @@
   transform-origin: bottom left;
   transform: rotate(45deg);
   filter: blur(15px);
-  animation: diagonalSlashFly 8s ease-out forwards;
+  animation: simpleSlashGrow 8s ease-out forwards;
   opacity: 0;
   z-index: 30;
 }
@@ -233,7 +233,7 @@
     0 0 40px rgba(255,165,0,1),
     0 0 80px rgba(255,255,255,0.9),
     0 0 120px rgba(255,165,0,0.7);
-  animation: diagonalSlashFly 8s ease-out forwards;
+  animation: simpleSlashGrow 8s ease-out forwards;
   opacity: 0;
   z-index: 25;
 }
@@ -280,13 +280,14 @@
   100% { opacity:0; transform: translate(100vw,-80vh) scaleX(3) scaleY(1); }
 }
 
-@keyframes diagonalSlashFly {
-  0%   { opacity:0; transform: rotate(45deg) translate(0,0) scale(0.2); }
-  12.5% { opacity:1; transform: rotate(45deg) translate(15vw,-10vh) scale(0.5); }
-  37.5% { opacity:1; transform: rotate(45deg) translate(35vw,-25vh) scale(1); }
-  62.5% { opacity:0.7; transform: rotate(45deg) translate(55vw,-45vh) scale(1.5); }
-  87.5% { opacity:0.3; transform: rotate(45deg) translate(75vw,-65vh) scale(2); }
-  100% { opacity:0; transform: rotate(45deg) translate(100vw,-80vh) scale(2.5); }
+@keyframes simpleSlashGrow {
+  0%   { opacity:0; transform: rotate(45deg) scaleX(0); }
+  10%  { opacity:1; transform: rotate(45deg) scaleX(0.2); }
+  30%  { opacity:1; transform: rotate(45deg) scaleX(0.5); }
+  50%  { opacity:1; transform: rotate(45deg) scaleX(0.8); }
+  70%  { opacity:1; transform: rotate(45deg) scaleX(1); }
+  90%  { opacity:0.8; transform: rotate(45deg) scaleX(1.2); }
+  100% { opacity:0.6; transform: rotate(45deg) scaleX(1.4); }
 }
 
 
