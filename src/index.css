@@ -19,26 +19,18 @@
     border-color: hsl(var(--hollow-mask));
   }
   body {
-    background-color: hsl(var(--soul-society));
     color: hsl(var(--foreground));
     overflow-x: hidden;
     font-family: 'Inter', 'Noto Sans JP', sans-serif;
-  
-    /* OPTION 1: Simple solid background */
-    /*background: hsl(var(--soul-society)); */
     
-    /* OPTION 2: Clean gradient (uncomment to use) */
-    /* background: linear-gradient(135deg, hsl(var(--soul-society)), hsl(var(--background))); */
-    
-    /* OPTION 3: Minimal with subtle texture (uncomment to use) */
-    /* background: 
-      linear-gradient(135deg, hsl(var(--soul-society)) 0%, hsl(var(--background)) 100%),
-      repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.01) 2px, rgba(255,255,255,0.01) 4px); */ 
-    
-    /* OPTION 4: Custom image background (uncomment and replace URL) */
-     background: 
-      linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
-      url('https://e1.pxfuel.com/desktop-wallpaper/414/600/desktop-wallpaper-bleach-black-and-white-bleach-black.jpg') center/cover no-repeat;
+    /* Custom image background with overlay */
+    background: 
+      linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+      url('https://e1.pxfuel.com/desktop-wallpaper/414/600/desktop-wallpaper-bleach-black-and-white-bleach-black.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
   }
   
   html {

@@ -241,43 +241,43 @@ const Home = () => {
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 border border-spiritual-energy/30 rounded-full animate-energy-wave" />
         </div>
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h2 className="text-4xl font-bold mb-8 text-spiritual-energy text-spiritual-glow animate-fade-in-up bankai-burst">
+          <h2 className="text-4xl font-bold mb-8 text-spiritual-energy animate-fade-in-up">
             Connect With Me <span className="text-2xl japanese-text text-reiatsu-glow ml-4">連絡</span>
           </h2>
-          <p className="text-xl text-gray-300 mb-10 animate-fade-in-up hollow-mask-overlay" style={{animationDelay: '0.2s'}}>
+          <p className="text-xl text-gray-300 mb-10 animate-fade-in-up" style={{animationDelay: '0.3s'}}>
             Ready to boost your spiritual pressure with frontend magic? Let's create a world worthy of Seireitei!
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-6 mb-10">
             <a 
               href="mailto:your.email@example.com"
-              className="flex items-center gap-3 px-8 py-4 bg-spiritual-energy/20 hover:bg-spiritual-energy/30 rounded-lg transition-all duration-300 group animate-fade-in-up sword-trail hover:animate-reiatsu-glow"
-              style={{animationDelay: '0.5s'}}
+              className="flex items-center gap-3 px-8 py-4 bg-spiritual-energy/10 hover:bg-spiritual-energy/20 rounded-lg transition-all duration-500 group animate-panel-slide-left border border-spiritual-energy/20 hover:border-spiritual-energy/40"
+              style={{animationDelay: '0.6s'}}
             >
-              <Mail className="w-6 h-6 text-spiritual-energy group-hover:animate-spiritual-pulse" />
+              <Mail className="w-6 h-6 text-spiritual-energy group-hover:scale-110 transition-transform duration-300" />
               <div className="text-left">
-                <span className="text-gray-100 font-medium block">Email</span>
+                <span className="text-gray-100 font-medium block group-hover:text-spiritual-energy transition-colors duration-300">Email</span>
                 <span className="text-xs japanese-text text-reiatsu-glow">メール</span>
               </div>
             </a>
             <a 
               href="https://github.com"
-              className="flex items-center gap-3 px-8 py-4 bg-spiritual-energy/20 hover:bg-spiritual-energy/30 rounded-lg transition-all duration-300 group animate-fade-in-up sword-trail hover:animate-reiatsu-glow"
-              style={{animationDelay: '0.7s'}}
+              className="flex items-center gap-3 px-8 py-4 bg-spiritual-energy/10 hover:bg-spiritual-energy/20 rounded-lg transition-all duration-500 group animate-fade-in-up border border-spiritual-energy/20 hover:border-spiritual-energy/40"
+              style={{animationDelay: '0.8s'}}
             >
-              <Github className="w-6 h-6 text-spiritual-energy group-hover:animate-zanpakuto-shine" />
+              <Github className="w-6 h-6 text-spiritual-energy group-hover:scale-110 transition-transform duration-300" />
               <div className="text-left">
-                <span className="text-gray-100 font-medium block">GitHub</span>
+                <span className="text-gray-100 font-medium block group-hover:text-spiritual-energy transition-colors duration-300">GitHub</span>
                 <span className="text-xs japanese-text text-reiatsu-glow">ギットハブ</span>
               </div>
             </a>
             <a 
               href="https://linkedin.com"
-              className="flex items-center gap-3 px-8 py-4 bg-spiritual-energy/20 hover:bg-spiritual-energy/30 rounded-lg transition-all duration-300 group animate-fade-in-up sword-trail hover:animate-reiatsu-glow"
-              style={{animationDelay: '0.9s'}}
+              className="flex items-center gap-3 px-8 py-4 bg-spiritual-energy/10 hover:bg-spiritual-energy/20 rounded-lg transition-all duration-500 group animate-panel-slide-right border border-spiritual-energy/20 hover:border-spiritual-energy/40"
+              style={{animationDelay: '1s'}}
             >
-              <Linkedin className="w-6 h-6 text-spiritual-energy group-hover:animate-floating" />
+              <Linkedin className="w-6 h-6 text-spiritual-energy group-hover:scale-110 transition-transform duration-300" />
               <div className="text-left">
-                <span className="text-gray-100 font-medium block">LinkedIn</span>
+                <span className="text-gray-100 font-medium block group-hover:text-spiritual-energy transition-colors duration-300">LinkedIn</span>
                 <span className="text-xs japanese-text text-reiatsu-glow">リンクトイン</span>
               </div>
             </a>
