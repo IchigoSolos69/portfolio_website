@@ -49,7 +49,7 @@
   }
 
   /* Animated background effects layer */
-  body::after {
+  /*body::after {
     content: '';
     position: fixed;
     top: 0;
@@ -63,7 +63,7 @@
       radial-gradient(circle at 40% 40%, rgba(212,212,212,0.05) 0%, transparent 50%);
     background-size: 200% 200%, 200% 200%, 200% 200%;
     animation: background-shift 20s ease-in-out infinite;
-  }
+  } */
 
   @keyframes background-shift {
     0%, 100% { 

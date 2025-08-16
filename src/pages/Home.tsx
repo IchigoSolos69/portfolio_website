@@ -1,152 +1,98 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { Cpu, Github, Zap, Mail, Award, Trophy, ChevronDown, Linkedin } from 'lucide-react'
+import React, { useState, useEffect, useRef } from 'react';
+import { Cpu, Github, Zap, Mail, Award, Trophy, ChevronDown, Linkedin } from 'lucide-react';
+
+const roles = [
+  '学生 (Student)',
+  'デベロッパー (Developer)',
+  'パートナーシップマネージャー (Partnership Manager)',
+  'ブリーチファン (Bleach Fan)',
+];
+
+const TRAIL_LENGTH = 10;
 
 const Home = () => {
-  const [isVisible, setIsVisible] = useState(false)
-  const [typingText, setTypingText] = useState('')
-  const [currentRoleIndex, setCurrentRoleIndex] = useState(0)
-  const [isLoading, setIsLoading] = useState(true)
-  const [showSwordSlash, setShowSwordSlash] = useState(false)
-  const mouseTrailRef = useRef<Array<{ x: number; y: number; timestamp: number }>>([])
-  const lastMousePosition = useRef({ x: 0, y: 0 })
-  const animationFrameRef = useRef<number>()
-  
-  const roles = ['学生 (Student)', 'デベロッパー (Developer)', 'パートナーシップマネージャー (Partnership Manager)', 'ブリーチファン (Bleach Fan)']
+  const [isVisible, setIsVisible] = useState(false);
+  const [typingText, setTypingText] = useState('');
+  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [charIndex, setCharIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showSwordSlash, setShowSwordSlash] = useState(false);
 
-  // Loading & Sword Slash animations
+  // Mouse trail state: array of latest mouse coordinates with opacity
+  const [trail, setTrail] = useState(
+    Array(TRAIL_LENGTH).fill({ x: -100, y: -100, opacity: 0 })
+  );
+
+  // Loading & Sword Slash animation
   useEffect(() => {
     const loadingTimer = setTimeout(() => {
-      setShowSwordSlash(true)
+      setShowSwordSlash(true);
       setTimeout(() => {
-        setIsLoading(false)
-        setIsVisible(true)
-      }, 2000)
-    }, 3000)
-    
-    return () => {
-      clearTimeout(loadingTimer)
-    }
-  }, [])
+        setIsLoading(false);
+        setIsVisible(true);
+      }, 2000); // Sword slash + reveal
+    }, 3000); // Initial loading duration
 
-  // Mouse Trail System
+    return () => clearTimeout(loadingTimer);
+  }, []);
+
+  // Mouse trail effect for glowing orbs trailing the cursor
   useEffect(() => {
-    if (isLoading) return
+    if (isLoading) return;
 
     const handleMouseMove = (e: MouseEvent) => {
-      const currentTime = Date.now()
-      
-      mouseTrailRef.current.push({
-        x: e.clientX,
-        y: e.clientY,
-        timestamp: currentTime
-      })
-      
-      if (mouseTrailRef.current.length > 10) {
-        mouseTrailRef.current.shift()
-      }
-      
-      lastMousePosition.current = { x: e.clientX, y: e.clientY }
-    }
-    
-    const animateTrail = () => {
-      const trails = document.querySelectorAll('.mouse-trail')
-      trails.forEach((trail, index) => {
-        const trailElement = trail as HTMLElement
-        const targetPos = mouseTrailRef.current[mouseTrailRef.current.length - 1 - index]
-        
-        if (targetPos) {
-          trailElement.style.transform = `translate3d(${targetPos.x - 8}px, ${targetPos.y - 8}px, 0)`
-          trailElement.style.opacity = `${Math.max(0, 1 - index * 0.13)}`
-          trailElement.style.width = `${12 - index}px`
-          trailElement.style.height = `${12 - index}px`
-        }
-      })
-      
-      animationFrameRef.current = requestAnimationFrame(animateTrail)
-    }
-    
-    const createTrailElements = () => {
-      for (let i = 0; i < 10; i++) {
-        const trail = document.createElement('div')
-        trail.className = 'mouse-trail fixed pointer-events-none rounded-full bg-spiritual-energy/80 z-[9999] transition-all duration-300 will-change-transform'
-        trail.style.width = '12px'
-        trail.style.height = '12px'
-        trail.style.transform = 'translate3d(-100px, -100px, 0)'
-        document.body.appendChild(trail)
-      }
-    }
-    
-    createTrailElements()
-    animationFrameRef.current = requestAnimationFrame(animateTrail)
-    window.addEventListener('mousemove', handleMouseMove, { passive: true })
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-in')
-        }
-      })
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' })
-    
-    setTimeout(() => {
-      document.querySelectorAll('.about-skill-box').forEach(box => observer.observe(box))
-    }, 100)
-    
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove)
-      if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current)
-      observer.disconnect()
-      document.querySelectorAll('.mouse-trail').forEach(trail => trail.remove())
-    }
-  }, [isLoading])
+      setTrail((prev) => {
+        const newTrail = [{ x: e.clientX, y: e.clientY, opacity: 1 }, ...prev];
+        if (newTrail.length > TRAIL_LENGTH) newTrail.pop();
+        return newTrail.map((pos, idx) => ({
+          ...pos,
+          opacity: Math.max(0, 1 - idx * 0.13),
+        }));
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [isLoading]);
 
   // Enhanced typing effect for roles
   useEffect(() => {
-    if (isLoading) return
-    
-    const currentRole = roles[currentRoleIndex]
-    let charIndex = 0
-    let isDeleting = false
-    setTypingText('')
-    
-    const typeInterval = setInterval(() => {
-      if (!isDeleting && charIndex < currentRole.length) {
-        // Typing forward
-        setTypingText(currentRole.substring(0, charIndex + 1))
-        charIndex++
-      } else if (!isDeleting && charIndex === currentRole.length) {
-        // Pause at end
-        setTimeout(() => {
-          isDeleting = true
-        }, 2000)
-      } else if (isDeleting && charIndex > 0) {
-        // Deleting backward
-        charIndex--
-        setTypingText(currentRole.substring(0, charIndex))
-      } else if (isDeleting && charIndex === 0) {
-        // Move to next role
-        clearInterval(typeInterval)
-        setTimeout(() => {
-          setCurrentRoleIndex((prev: number) => (prev + 1) % roles.length)
-        }, 500)
-      }
-    }, isDeleting ? 50 : Math.random() * 100 + 80)
+    if (isLoading) return;
 
-    return () => clearInterval(typeInterval)
-  }, [currentRoleIndex, roles, isLoading])
+    let timer: ReturnType<typeof setTimeout>;
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+    if (!isDeleting && charIndex <= roles[currentRoleIndex].length) {
+      setTypingText(roles[currentRoleIndex].substring(0, charIndex));
+      timer = setTimeout(() => setCharIndex(charIndex + 1), Math.random() * 100 + 80);
+    } else if (!isDeleting && charIndex > roles[currentRoleIndex].length) {
+      timer = setTimeout(() => setIsDeleting(true), 2000);
+    } else if (isDeleting && charIndex >= 0) {
+      setTypingText(roles[currentRoleIndex].substring(0, charIndex));
+      timer = setTimeout(() => setCharIndex(charIndex - 1), 50);
     }
-  }
+
+    if (isDeleting && charIndex === 0) {
+      timer = setTimeout(() => {
+        setIsDeleting(false);
+        setCurrentRoleIndex((prev) => (prev + 1) % roles.length);
+        setCharIndex(0);
+      }, 500);
+    }
+
+    return () => clearTimeout(timer);
+  }, [charIndex, isDeleting, currentRoleIndex, isLoading]);
+
+  // Scroll helper
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
 
   if (isLoading) {
     return (
       <div className="fixed inset-0 bg-gradient-to-br from-black via-gray-900 to-blue-900/20 flex items-center justify-center z-50">
-        <div className="dynamic-background"></div>
-        
+        <div className="dynamic-background" />
         <div className="optimized-particle-field">
           {[...Array(15)].map((_, i) => (
             <div
@@ -161,17 +107,16 @@ const Home = () => {
           <div className="mb-8">
             <div className="w-16 h-16 mx-auto mb-6 relative">
               <div className="loading-spinner animate-spin-slow">
-                <div className="w-16 h-16 border-4 border-spiritual-energy/30 border-t-spiritual-energy rounded-full"></div>
+                <div className="w-16 h-16 border-4 border-spiritual-energy/30 border-t-spiritual-energy rounded-full" />
               </div>
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-8 h-8 bg-spiritual-energy/20 rounded-full animate-pulse"></div>
+                <div className="w-8 h-8 bg-spiritual-energy/20 rounded-full animate-pulse" />
               </div>
             </div>
-            
             <p className="text-spiritual-energy text-xl mb-2 animate-pulse">読み込み中...</p>
             <p className="text-gray-400 text-sm">(Loading...)</p>
           </div>
-          
+
           <div className="w-80 h-1 bg-gray-800 rounded-full mx-auto mb-8 overflow-hidden">
             <div className="h-full bg-gradient-to-r from-spiritual-energy to-reiatsu-glow animate-loading-progress rounded-full" />
           </div>
@@ -180,14 +125,13 @@ const Home = () => {
         {showSwordSlash && (
           <>
             <div className="absolute inset-0 z-30 bg-black animate-dramatic-pause" />
-            
             <div className="absolute inset-0 z-40">
               <div className="slash-curtain animate-slash-curtain">
                 <div className="slash-trail animate-slash-trail" />
                 <div className="slash-line animate-slash-line" />
                 <div className="slash-glow animate-slash-glow" />
               </div>
-              
+
               <div className="katana-container animate-katana-appear">
                 <svg className="katana-svg" viewBox="0 0 200 20" fill="none" aria-label="Sword Slash">
                   <rect x="0" y="8" width="160" height="4" fill="url(#blade-gradient)" />
@@ -206,11 +150,12 @@ const Home = () => {
           </>
         )}
       </div>
-    )
+    );
   }
 
   return (
     <div className={`min-h-screen bg-black text-white transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+      {/* Background & Effects */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="dynamic-background" />
         <div className="optimized-particle-field">
@@ -222,7 +167,6 @@ const Home = () => {
             />
           ))}
         </div>
-        
         <div className="spiritual-orbs">
           {[...Array(20)].map((_, i) => (
             <div
@@ -237,15 +181,35 @@ const Home = () => {
             />
           ))}
         </div>
-
         <div className="absolute inset-0 bg-gradient-radial from-transparent via-spiritual-energy/3 to-black/60" />
-        
         <div className="absolute inset-0 opacity-5">
           <div className="grid-pattern animate-pulse" />
         </div>
       </div>
 
+      {/* Mouse Trail */}
+      <div className="pointer-events-none fixed inset-0 z-50">
+        {trail.map((pos, idx) => (
+          <div
+            key={idx}
+            style={{
+              left: pos.x - 8,
+              top: pos.y - 8,
+              opacity: pos.opacity,
+              width: `${14 - idx}px`,
+              height: `${14 - idx}px`,
+              background: 'radial-gradient(circle, #ff7000 60%, #fff 0%, transparent 100%)',
+              position: 'absolute',
+              borderRadius: '50%',
+              filter: `blur(${0.6 + idx * 1.2}px) brightness(${1.25 - idx * 0.05})`,
+              boxShadow: `0 0 ${10 + idx * 2}px 3px #ff700055`,
+              transition: 'all 120ms ease',
+            }}
+          />
+        ))}
+      </div>
 
+      {/* Hero Section */}
       <section className="min-h-screen flex items-center justify-center relative z-10 px-6">
         <div className="text-center max-w-4xl mx-auto">
           <div className="mb-12 animate-fade-in-up">
@@ -254,9 +218,18 @@ const Home = () => {
                 Adi Rajendra Maitre
               </span>
             </h1>
-            <div className="text-2xl md:text-3xl text-gray-300 mb-6 h-12 flex items-center justify-center">
-              <span className="border-r-2 border-spiritual-energy animate-blink pr-1">
-                {typingText}
+            <div className="text-2xl md:text-3xl text-gray-300 mb-6 h-12 flex items-center justify-center overflow-hidden">
+              <span className="border-r-2 border-spiritual-energy animate-blink pr-1 bg-spiritual-gradient bg-clip-text text-transparent flex items-center">
+                {typingText.split('').map((char, i) => (
+                  <span
+                    key={i}
+                    className={`inline-block transition-all duration-200 ${
+                      i === typingText.length - 1 ? 'text-spiritual-glow animate-spiritual-pulse' : ''
+                    }`}
+                  >
+                    {char}
+                  </span>
+                ))}
               </span>
             </div>
             <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
@@ -493,13 +466,13 @@ const Home = () => {
       <footer className="py-8 px-6 border-t border-spiritual-energy/20 bg-soul-society/40">
         <div className="max-w-6xl mx-auto text-center">
           <p className="text-gray-400">
-            © 2024 Adi Rajendra Maitre. Crafted with spiritual energy and code.
+            © 2025 Adi Rajendra Maitre. Crafted with spiritual energy and code.
             <span className="text-spiritual-energy japanese-text block mt-2">魂の力で作られた</span>
           </p>
         </div>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
