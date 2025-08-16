@@ -17,9 +17,19 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingPhase, setLoadingPhase] = useState(1);
 
-  // Loading sequence
+  // Loading sequence with sound effects
   useEffect(() => {
-    const phase2Timer = setTimeout(() => setLoadingPhase(2), 3000);
+    const phase2Timer = setTimeout(() => {
+      setLoadingPhase(2);
+      // Play sword slash sound effect
+      const audio = new Audio('/sounds/sword-slash.mp3');
+      audio.volume = 0.3;
+      audio.play().catch(() => {
+        // Handle autoplay restrictions gracefully
+        console.log('Audio autoplay prevented');
+      });
+    }, 3000);
+    
     const phase3Timer = setTimeout(() => setLoadingPhase(3), 4500);
     const completeTimer = setTimeout(() => {
       setIsLoading(false);
@@ -66,7 +76,129 @@ const Home = () => {
   if (isLoading) {
     return (
       <div className="enhanced-cinematic-loading">
-        {/* Loading animation */}
+        {/* Phase 1: Cinematic Loading with Spiritual Particles */}
+        {loadingPhase === 1 && (
+          <div className="loading-phase-1">
+            <div className="loading-background"></div>
+            
+            {/* Spiritual Energy Particles */}
+            <div className="spiritual-particles">
+              {[...Array(20)].map((_, i) => (
+                <div 
+                  key={i} 
+                  className="spiritual-particle" 
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                    animationDelay: `${Math.random() * 3}s`,
+                    animationDuration: `${2 + Math.random() * 3}s`
+                  }} 
+                />
+              ))}
+            </div>
+            
+            {/* Spiritual Pulses */}
+            <div className="spiritual-pulses">
+              {[...Array(3)].map((_, i) => (
+                <div 
+                  key={i} 
+                  className="spiritual-pulse" 
+                  style={{
+                    animationDelay: `${i * 0.8}s`
+                  }} 
+                />
+              ))}
+            </div>
+            
+            {/* Loading Content */}
+            <div className="loading-content">
+              {/* Circular Spinner with Orange Gradient */}
+              <div className="spiritual-spinner">
+                <div className="spinner-ring"></div>
+                <div className="spinner-core"></div>
+              </div>
+              
+              {/* Animated Japanese Text */}
+              <div className="loading-text">
+                <div className="japanese-text glowing">読み込み中...</div>
+                <div className="english-text faded">Loading...</div>
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {/* Phase 2: Sword Slash Transition */}
+        {loadingPhase === 2 && (
+          <div className="slash-phase">
+            {/* Dramatic Black Pause */}
+            <div className="black-pause"></div>
+            
+            {/* Diagonal Sword Slash */}
+            <div className="sword-slash">
+              <div className="slash-line"></div>
+              <div className="slash-glow"></div>
+              <div className="slash-particles">
+                {[...Array(8)].map((_, i) => (
+                  <div 
+                    key={i} 
+                    className="slash-particle" 
+                    style={{ animationDelay: `${i * 0.1}s` }}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {/* Phase 3: Reveal with SVG Katana */}
+        {loadingPhase === 3 && (
+          <div className="reveal-phase">
+            {/* Curtain Split Reveal */}
+            <div className="curtain-reveal">
+              <div className="curtain-left"></div>
+              <div className="curtain-right"></div>
+            </div>
+            
+            {/* SVG Katana */}
+            <div className="katana-container">
+              <svg className="katana-svg" viewBox="0 0 400 40" fill="none">
+                <defs>
+                  <linearGradient id="katanaGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#C0C0C0" />
+                    <stop offset="30%" stopColor="#FFFFFF" />
+                    <stop offset="70%" stopColor="#FFA500" />
+                    <stop offset="100%" stopColor="#FF6B00" />
+                  </linearGradient>
+                  <filter id="katanaGlow">
+                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                    <feMerge> 
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/> 
+                    </feMerge>
+                  </filter>
+                </defs>
+                
+                {/* Blade */}
+                <path d="M60 20 L360 20 L370 15 L380 20 L370 25 L360 20" 
+                      stroke="url(#katanaGradient)" 
+                      strokeWidth="4" 
+                      fill="url(#katanaGradient)" 
+                      filter="url(#katanaGlow)"
+                      strokeLinecap="round"/>
+                
+                {/* Handle */}
+                <rect x="20" y="15" width="45" height="10" 
+                      fill="#2C1810" 
+                      rx="3"/>
+                
+                {/* Guard */}
+                <rect x="58" y="12" width="6" height="16" 
+                      fill="#8B4513" 
+                      rx="2"/>
+              </svg>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -315,6 +447,352 @@ const Home = () => {
       </footer>
 
       <style jsx global>{`
+        /* Enhanced Cinematic Loading Styles */
+        .enhanced-cinematic-loading {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          z-index: 10000;
+          overflow: hidden;
+        }
+
+        /* Phase 1: Loading Phase */
+        .loading-phase-1 {
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(ellipse at center, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          animation: fadeIn 0.5s ease-out;
+        }
+
+        .loading-background {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(135deg, #0f0f23 0%, #16213e 50%, #1a1a2e 100%);
+          opacity: 0.9;
+        }
+
+        .spiritual-particles {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+        }
+
+        .spiritual-particle {
+          position: absolute;
+          width: 3px;
+          height: 3px;
+          background: radial-gradient(circle, #FFA500 0%, #FF6B00 70%, transparent 100%);
+          border-radius: 50%;
+          animation: floatParticle linear infinite;
+          box-shadow: 0 0 6px #FFA500;
+        }
+
+        @keyframes floatParticle {
+          0% {
+            transform: translateY(100vh) scale(0);
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+            transform: translateY(90vh) scale(1);
+          }
+          90% {
+            opacity: 1;
+            transform: translateY(-10vh) scale(1);
+          }
+          100% {
+            transform: translateY(-20vh) scale(0);
+            opacity: 0;
+          }
+        }
+
+        .spiritual-pulses {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .spiritual-pulse {
+          position: absolute;
+          width: 200px;
+          height: 200px;
+          border: 2px solid rgba(255, 165, 0, 0.3);
+          border-radius: 50%;
+          animation: spiritualPulse 2.4s ease-out infinite;
+        }
+
+        @keyframes spiritualPulse {
+          0% {
+            transform: scale(0.8);
+            opacity: 1;
+          }
+          100% {
+            transform: scale(2.5);
+            opacity: 0;
+          }
+        }
+
+        .loading-content {
+          position: relative;
+          z-index: 10;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 2rem;
+        }
+
+        .spiritual-spinner {
+          position: relative;
+          width: 80px;
+          height: 80px;
+        }
+
+        .spinner-ring {
+          position: absolute;
+          inset: 0;
+          border: 3px solid transparent;
+          border-top: 3px solid #FFA500;
+          border-right: 3px solid #FF6B00;
+          border-radius: 50%;
+          animation: spinRing 1.2s linear infinite;
+          filter: drop-shadow(0 0 10px rgba(255, 165, 0, 0.5));
+        }
+
+        .spinner-core {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 20px;
+          height: 20px;
+          background: radial-gradient(circle, #FFA500 0%, #FF6B00 100%);
+          border-radius: 50%;
+          transform: translate(-50%, -50%);
+          animation: pulseCore 1.5s ease-in-out infinite;
+          box-shadow: 0 0 15px rgba(255, 165, 0, 0.7);
+        }
+
+        @keyframes spinRing {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulseCore {
+          0%, 100% { transform: translate(-50%, -50%) scale(1); }
+          50% { transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        .loading-text {
+          text-align: center;
+        }
+
+        .japanese-text.glowing {
+          font-size: 1.5rem;
+          font-weight: 500;
+          color: #FFA500;
+          text-shadow: 0 0 10px rgba(255, 165, 0, 0.8), 0 0 20px rgba(255, 165, 0, 0.4);
+          animation: textGlow 2s ease-in-out infinite alternate;
+          margin-bottom: 0.5rem;
+        }
+
+        .english-text.faded {
+          font-size: 1rem;
+          color: rgba(255, 255, 255, 0.6);
+          font-weight: 300;
+        }
+
+        @keyframes textGlow {
+          0% {
+            text-shadow: 0 0 10px rgba(255, 165, 0, 0.8), 0 0 20px rgba(255, 165, 0, 0.4);
+          }
+          100% {
+            text-shadow: 0 0 15px rgba(255, 165, 0, 1), 0 0 30px rgba(255, 165, 0, 0.6);
+          }
+        }
+
+        /* Phase 2: Sword Slash */
+        .slash-phase {
+          position: absolute;
+          inset: 0;
+          background: #000;
+        }
+
+        .black-pause {
+          position: absolute;
+          inset: 0;
+          background: #000;
+          animation: fadeOut 0.2s ease-out 0.2s forwards;
+        }
+
+        .sword-slash {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+        }
+
+        .slash-line {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(135deg, transparent 0%, transparent 49%, #FFA500 50%, #FFFFFF 51%, transparent 52%, transparent 100%);
+          transform: translateX(-100%) translateY(-100%) rotate(45deg) scale(1.5);
+          animation: slashMove 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.4s forwards;
+          filter: blur(0.5px);
+        }
+
+        .slash-glow {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(135deg, transparent 0%, transparent 48%, rgba(255, 165, 0, 0.8) 50%, rgba(255, 255, 255, 0.9) 51%, rgba(255, 165, 0, 0.8) 52%, transparent 54%, transparent 100%);
+          transform: translateX(-100%) translateY(-100%) rotate(45deg) scale(1.5);
+          animation: slashMove 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.35s forwards;
+          filter: blur(2px);
+        }
+
+        @keyframes slashMove {
+          0% {
+            transform: translateX(-100%) translateY(-100%) rotate(45deg) scale(1.5);
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          100% {
+            transform: translateX(20%) translateY(20%) rotate(45deg) scale(1.5);
+            opacity: 0.8;
+          }
+        }
+
+        .slash-particles {
+          position: absolute;
+          inset: 0;
+        }
+
+        .slash-particle {
+          position: absolute;
+          width: 4px;
+          height: 4px;
+          background: #FFA500;
+          border-radius: 50%;
+          top: 20%;
+          left: 10%;
+          animation: slashParticleMove 1s ease-out forwards;
+          box-shadow: 0 0 8px #FFA500;
+        }
+
+        @keyframes slashParticleMove {
+          0% {
+            transform: translate(0, 0) scale(0);
+            opacity: 0;
+          }
+          20% {
+            opacity: 1;
+            transform: translate(10vw, -5vh) scale(1);
+          }
+          100% {
+            transform: translate(80vw, -60vh) scale(0);
+            opacity: 0;
+          }
+        }
+
+        /* Phase 3: Reveal */
+        .reveal-phase {
+          position: absolute;
+          inset: 0;
+          background: #000;
+        }
+
+        .curtain-reveal {
+          position: absolute;
+          inset: 0;
+        }
+
+        .curtain-left, .curtain-right {
+          position: absolute;
+          top: 0;
+          width: 50%;
+          height: 100%;
+          background: #000;
+          z-index: 10;
+        }
+
+        .curtain-left {
+          left: 0;
+          animation: curtainSlideLeft 1s ease-in-out forwards;
+        }
+
+        .curtain-right {
+          right: 0;
+          animation: curtainSlideRight 1s ease-in-out forwards;
+        }
+
+        @keyframes curtainSlideLeft {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-100%); }
+        }
+
+        @keyframes curtainSlideRight {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(100%); }
+        }
+
+        .katana-container {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 5;
+        }
+
+        .katana-svg {
+          width: 300px;
+          height: 40px;
+          animation: katanaAppear 2s ease-out forwards;
+          filter: drop-shadow(0 0 10px rgba(255, 165, 0, 0.8));
+        }
+
+        @keyframes katanaAppear {
+          0% {
+            opacity: 0;
+            transform: scale(0.5) rotate(-10deg);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.1) rotate(0deg);
+          }
+          80% {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+          }
+          100% {
+            opacity: 0;
+            transform: scale(1) rotate(0deg);
+          }
+        }
+
+        /* General Animations */
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+          from { opacity: 1; }
+          to { opacity: 0; }
+        }
+
+        /* About Me Animations */
         @keyframes fadeInUp {
           from {
             opacity: 0;
@@ -325,9 +803,11 @@ const Home = () => {
             transform: translateY(0) scale(1);
           }
         }
+        
         .about-skill-box {
           transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+        
         .about-skill-box:hover {
           transform: translateY(-5px) scale(1.02);
           box-shadow: 0 10px 25px -5px rgba(255, 112, 0, 0.1), 0 10px 10px -5px rgba(255, 112, 0, 0.04);
