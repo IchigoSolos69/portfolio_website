@@ -7,7 +7,6 @@ const Home = () => {
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
   const [showSwordSlash, setShowSwordSlash] = useState(false)
-  const [specialBankaiMode, setSpecialBankaiMode] = useState(false)
   const mouseTrailRef = useRef<Array<{ x: number; y: number; timestamp: number }>>([])
   const lastMousePosition = useRef({ x: 0, y: 0 })
   const animationFrameRef = useRef<number>()
@@ -24,14 +23,8 @@ const Home = () => {
       }, 2000)
     }, 3000)
     
-    const bankaiTimer = setTimeout(() => {
-      setSpecialBankaiMode(true)
-      setTimeout(() => setSpecialBankaiMode(false), 5000)
-    }, 10000)
-    
     return () => {
       clearTimeout(loadingTimer)
-      clearTimeout(bankaiTimer)
     }
   }, [])
 
@@ -252,19 +245,6 @@ const Home = () => {
         </div>
       </div>
 
-      {specialBankaiMode && (
-        <div className="fixed inset-0 pointer-events-none z-40">
-          <div className="absolute inset-0 bg-gradient-radial from-spiritual-energy/20 via-reiatsu-glow/10 to-transparent animate-pulse" />
-          <div className="expanding-rings">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="expanding-ring" style={{ animationDelay: `${i * 0.2}s` }} />
-            ))}
-          </div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <div className="text-8xl font-bold text-spiritual-energy animate-spiritual-pulse opacity-20">BANKAI</div>
-          </div>
-        </div>
-      )}
 
       <section className="min-h-screen flex items-center justify-center relative z-10 px-6">
         <div className="text-center max-w-4xl mx-auto">
@@ -274,9 +254,13 @@ const Home = () => {
                 Adi Rajendra Maitre
               </span>
             </h1>
-            <div className="text-2xl md:text-3xl text-gray-300 mb-6 h-12 flex items-center justify-center">
-              <span className="border-r-2 border-spiritual-energy animate-blink pr-1">
-                {typingText}
+            <div className="relative text-2xl md:text-3xl text-gray-300 mb-6 h-12 flex items-center justify-center overflow-hidden">
+              <span className="border-r-2 border-spiritual-energy animate-blink pr-1 bg-spiritual-gradient bg-clip-text text-transparent animate-gradient-move flex items-center">
+                {typingText.split('').map((char, i) => (
+                  <span key={i} className={`inline-block transition-all duration-200 ${i === typingText.length - 1 ? 'text-spiritual-glow animate-spiritual-pulse' : ''}`}>
+                    {char}
+                  </span>
+                ))}
               </span>
             </div>
             <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
