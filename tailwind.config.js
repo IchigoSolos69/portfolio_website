@@ -7,13 +7,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        'spiritual-energy': '#ffffff',
-        'soul-society': '#262626',
-        'reiatsu-glow': '#d4d4d4',
-        'hollow-mask': '#404040',
-        'zanpakuto-steel': '#e5e5e5',
-        'flash-step': '#f5f5f5',
-        'kido-purple': '#a3a3a3',
+        'background': 'hsl(var(--background))',
+        'foreground': 'hsl(var(--foreground))',
+        'spiritual-energy': 'hsl(var(--spiritual-energy))',
+        'soul-society': 'hsl(var(--soul-society))',
+        'reiatsu-glow': 'hsl(var(--reiatsu-glow))',
+        'hollow-mask': 'hsl(var(--hollow-mask))',
+        'zanpakuto-steel': 'hsl(var(--zanpakuto-steel))',
+        'kido-purple': 'hsl(var(--kido-purple))',
       },
       animation: {
         'spiritual-pulse': 'spiritual-pulse 2s ease-in-out infinite',

@@ -3,6 +3,12 @@
 @tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
 
+@layer utilities {
+  .text-foreground {
+    color: theme('colors.gray.900'); /* or any custom color */
+  }
+}
+
 @layer base {
   :root {
     --background: 225 8% 6%;           /* Deep blue-black */
@@ -15,10 +21,12 @@
     --kido-purple: 266 50% 62%;        /* Spell purple */
   }
   * {
-    @apply border-hollow-mask;
+    border-color: hsl(var(--hollow-mask));
   }
   body {
-    @apply bg-soul-society text-foreground overflow-x-hidden;
+    background-color: hsl(var(--soul-society));
+    color: hsl(var(--foreground));
+    overflow-x: hidden;
     font-family: 'Inter', 'Noto Sans JP', sans-serif;
     background-image: 
       linear-gradient(120deg, rgb(38, 38, 38) 0%, rgba(80,40,120,0.08) 30%, rgb(16,16,16) 100%),
