@@ -10,87 +10,74 @@ const roles = [
 ];
 
 export default function Home() {
-  const [loadingPhase, setLoadingPhase] = useState(1);
-  const [isLoading, setIsLoading]     = useState(true);
-  const [isVisible, setIsVisible]     = useState(false);
+  // Loader state
+  const [phase, setPhase]     = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [visible, setVisible] = useState(false);
 
-  // Typing
-  const [typingText, setTypingText]   = useState('');
-  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
-  const [isDeleting, setIsDeleting]   = useState(false);
-  const [charIndex, setCharIndex]     = useState(0);
+  // Typing effect state
+  const [text, setText]       = useState('');
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [deleting, setDeleting]   = useState(false);
+  const [charIndex, setCharIndex] = useState(0);
 
-  // Audio unlock on first gesture
+  // Unlock audio
   useEffect(() => {
-    const resumeAudio = () => {
+    const resume = () => {
       const ctx = new AudioContext();
       if (ctx.state === 'suspended') ctx.resume();
-      window.removeEventListener('pointerdown', resumeAudio);
-      window.removeEventListener('touchstart', resumeAudio);
+      window.removeEventListener('pointerdown', resume);
+      window.removeEventListener('touchstart', resume);
     };
-    window.addEventListener('pointerdown', resumeAudio, { once: true });
-    window.addEventListener('touchstart', resumeAudio, { once: true });
+    window.addEventListener('pointerdown', resume, { once: true });
+    window.addEventListener('touchstart', resume, { once: true });
   }, []);
 
-  // Loading phases transitions
+  // Phase transitions
   useEffect(() => {
-    if (!isLoading) return;
-
-    let timer: ReturnType<typeof setTimeout>;
-
-    switch (loadingPhase) {
-      case 1:
-        timer = setTimeout(() => setLoadingPhase(2), 3000);
-        break;
-      case 2:
-        timer = setTimeout(() => setLoadingPhase(3), 1400);
-        break;
-      case 3:
-        // After curtain reveal finishes, hide loading and show content
-        timer = setTimeout(() => {
-          setIsLoading(false);
-          setIsVisible(true);
-        }, 1000);
-        break;
+    if (!loading) return;
+    let t: ReturnType<typeof setTimeout>;
+    if (phase === 1) t = setTimeout(() => setPhase(2), 3000);
+    else if (phase === 2) t = setTimeout(() => setPhase(3), 1400);
+    else if (phase === 3) {
+      t = setTimeout(() => {
+        setLoading(false);
+        setVisible(true);
+      }, 1000);
     }
-    return () => clearTimeout(timer);
-  }, [loadingPhase, isLoading]);
+    return () => clearTimeout(t);
+  }, [phase, loading]);
 
   // Typing effect
   useEffect(() => {
-    if (isLoading) return;
-
-    let timer: ReturnType<typeof setTimeout>;
-    const role = roles[currentRoleIndex];
-
-    if (!isDeleting && charIndex <= role.length) {
-      setTypingText(role.slice(0, charIndex));
-      timer = setTimeout(() => setCharIndex(i => i + 1), Math.random() * 100 + 80);
-    } else if (!isDeleting) {
-      timer = setTimeout(() => setIsDeleting(true), 2000);
-    } else if (isDeleting && charIndex > 0) {
-      setTypingText(role.slice(0, charIndex));
-      timer = setTimeout(() => setCharIndex(i => i - 1), 50);
+    if (loading) return;
+    let t: ReturnType<typeof setTimeout>;
+    const role = roles[roleIndex];
+    if (!deleting && charIndex <= role.length) {
+      setText(role.slice(0, charIndex));
+      t = setTimeout(() => setCharIndex(i => i + 1), Math.random() * 100 + 80);
+    } else if (!deleting) {
+      t = setTimeout(() => setDeleting(true), 2000);
+    } else if (deleting && charIndex > 0) {
+      setText(role.slice(0, charIndex));
+      t = setTimeout(() => setCharIndex(i => i - 1), 50);
     } else {
-      timer = setTimeout(() => {
-        setIsDeleting(false);
-        setCurrentRoleIndex(i => (i + 1) % roles.length);
+      t = setTimeout(() => {
+        setDeleting(false);
+        setRoleIndex(i => (i + 1) % roles.length);
         setCharIndex(0);
       }, 500);
     }
+    return () => clearTimeout(t);
+  }, [charIndex, deleting, roleIndex, loading]);
 
-    return () => clearTimeout(timer);
-  }, [charIndex, isDeleting, currentRoleIndex, isLoading]);
-
-  // Smooth scroll helper
-  const scrollTo = (id: string) => {
+  const scrollTo = (id: string) =>
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-  };
 
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="cinematic-loading-overlay">
-        {loadingPhase === 1 && (
+        {phase === 1 && (
           <div className="loading-screen">
             <div className="loading-background" />
             <div className="energy-particles">
@@ -119,13 +106,13 @@ export default function Home() {
             </div>
           </div>
         )}
-        {loadingPhase === 2 && (
+        {phase === 2 && (
           <div className="sword-slash-phase">
             <div className="dramatic-pause" />
-            <SlashPhase onComplete={() => setLoadingPhase(3)} />
+            <SlashPhase onComplete={() => setPhase(3)} />
           </div>
         )}
-        {loadingPhase === 3 && (
+        {phase === 3 && (
           <div className="curtain-reveal-phase">
             <div className="diagonal-curtain" />
           </div>
@@ -134,14 +121,13 @@ export default function Home() {
     );
   }
 
-  // Main content wrapper with opacity & pointer events toggle
-  return (  
+  return (
     <div
-      className={`min-h-screen bg-black text-white transition-opacity duration-1000 ${
-        isVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+      className={`min-h-screen bg-black text-white transition-opacity duration-500 ${
+        visible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
       }`}
     >
-      {/* Hero Section */}
+      {/* Hero */}
       <section id="hero" className="min-h-screen flex items-center justify-center px-6">
         <div className="text-center max-w-4xl mx-auto">
           <h1 className="text-6xl md:text-8xl font-bold mb-4">
@@ -150,25 +136,22 @@ export default function Home() {
             </span>
           </h1>
           <div className="text-2xl md:text-3xl text-gray-300 h-12 flex items-center justify-center mb-4 overflow-hidden">
-            <span className="border-r-2 border-spiritual-energy animate-blink pr-1">{typingText}</span>
+            <span className="border-r-2 border-spiritual-energy animate-blink pr-1">{text}</span>
           </div>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto">
             Crafting digital experiences with precision and passion.
             <span className="text-spiritual-energy japanese-text block mt-2">開発者</span>
           </p>
           <div className="flex gap-6 mt-8">
-            <button
-              onClick={() => scrollTo('about')}
-              className="bg-spiritual-gradient hover:bg-reiatsu-glow text-gray-900 px-8 py-4 rounded-lg shadow-lg transition"
-            >
+            <button onClick={() => scrollTo('about')} className="bg-spiritual-gradient hover:bg-reiatsu-glow px-8 py-4 rounded-lg shadow-lg transition">
               <Award className="inline w-5 h-5 mr-2" /> About Me
             </button>
-            <button
-              onClick={() => scrollTo('projects')}
-              className="border-2 border-spiritual-energy text-white px-8 py-4 rounded-lg hover:bg-spiritual-energy/20 transition"
-            >
+            <button onClick={() => scrollTo('projects')} className="border-2 border-spiritual-energy px-8 py-4 rounded-lg hover:bg-spiritual-energy/20 transition">
               <Zap className="inline w-5 h-5 mr-2" /> View Projects
             </button>
+          </div>
+          <div className="mt-12 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+            <ChevronDown className="w-8 h-8 mx-auto text-spiritual-energy animate-bounce cursor-pointer" onClick={() => scrollTo('about')} />
           </div>
         </div>
       </section>
