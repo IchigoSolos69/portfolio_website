@@ -380,14 +380,6 @@ const Home = () => {
     </div>
   ))}
 </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                {['Machine Learning', 'Data Analysis', 'Partnership Strategy', 'Full-Stack Development'].map((skill) => (
-                  <div key={skill} className="about-skill-box skill-tag group bg-gradient-to-br from-hollow-mask/20 to-soul-society/10 rounded-lg p-4 border border-spiritual-energy/20 hover:border-reiatsu-glow">
-                    <span className="text-spiritual-energy font-medium group-hover:text-reiatsu-glow transition-colors duration-300">{skill}</span>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         </div>
