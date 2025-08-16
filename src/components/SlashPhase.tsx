@@ -44,8 +44,10 @@ export default function SlashPhase({ onComplete }: SlashPhaseProps) {
       slashAudio.volume = 0.7;
       slashAudio.preload = 'auto';
       
-      // Try to play immediately
-      playAudio();
+      // Delay audio to sync with slash animation start
+      setTimeout(() => {
+        playAudio();
+      }, 200);
       
       // Setup fallback for user interaction
       const unlockAudio = () => {
@@ -63,14 +65,13 @@ export default function SlashPhase({ onComplete }: SlashPhaseProps) {
       window.addEventListener('keydown', unlockAudio, { once: true });
     };
 
-    // Small delay to ensure component is mounted
-    const audioTimer = setTimeout(setupAudio, 100);
+    // Setup audio immediately when component mounts
+    setupAudio();
     
-    // Notify parent after animation (~1.2s)
+    // Notify parent after animation (~1.2s) - sync with CSS animation duration
     const completeTimer = setTimeout(() => onComplete?.(), 1200);
     
     return () => {
-      clearTimeout(audioTimer);
       clearTimeout(completeTimer);
       if (slashAudio) {
         slashAudio.pause();

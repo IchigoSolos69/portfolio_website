@@ -89,19 +89,29 @@
   opacity: 0;
 }
 .slash-line {
-  height: 4px;
+  height: 6px;
   background: linear-gradient(to right,transparent 0%,#FFA500 20%,#FFF 50%,#FFA500 80%,transparent 100%);
-  box-shadow: 0 0 20px #FFA500,0 0 40px #FFF;
+  box-shadow: 0 0 30px #FFA500, 0 0 60px #FFF, 0 0 90px rgba(255,165,0,0.5);
+  z-index: 10;
 }
 .slash-glow {
-  height: 12px;
-  background: radial-gradient(circle at center,rgba(255,140,0,0.3) 0%,transparent 70%);
-  filter: blur(8px);
+  height: 20px;
+  background: radial-gradient(circle at center,rgba(255,140,0,0.6) 0%,rgba(255,165,0,0.3) 50%,transparent 80%);
+  filter: blur(12px);
+  z-index: 5;
 }
-@keyframes slashReveal { to { transform: rotate(var(--slash-angle)) scaleX(1); opacity:1; } }
-@keyframes slashGlow   { to { transform: rotate(var(--slash-angle)) scaleX(1); opacity:0.8; } }
-.animate-slash      { animation: slashReveal 1s ease-out forwards; }
-.animate-slash-glow { animation: slashGlow   1s ease-out forwards; }
+@keyframes slashReveal { 
+  0% { transform: rotate(var(--slash-angle)) scaleX(0); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: rotate(var(--slash-angle)) scaleX(1); opacity: 1; }
+}
+@keyframes slashGlow { 
+  0% { transform: rotate(var(--slash-angle)) scaleX(0); opacity: 0; }
+  10% { opacity: 0.8; }
+  100% { transform: rotate(var(--slash-angle)) scaleX(1); opacity: 0.6; }
+}
+.animate-slash      { animation: slashReveal 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+.animate-slash-glow { animation: slashGlow 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
 
 /* Phase 3: Curtain Reveal */
 .curtain-reveal-phase { @apply absolute inset-0 bg-black; }
@@ -130,6 +140,22 @@
 @keyframes skill-fill {
   from { width: 0%; }
   to { width: var(--target-width, 100%); }
+}
+
+.animate-skill-fill {
+  animation: skill-fill 2s ease-out forwards;
+}
+
+.animate-gradient-text {
+  animation: gradient-text 3s ease-in-out infinite;
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
 }
 
 @keyframes blink {

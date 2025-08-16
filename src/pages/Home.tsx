@@ -132,10 +132,27 @@ export default function Home() {
       }}
     >
       {/* Hero */}
-      <section id="hero" className="min-h-screen flex items-center justify-center px-6">
-        <div className="text-center max-w-4xl mx-auto">
+      <section id="hero" className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
+        {/* Background particles */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="particle-field">
+            {[...Array(50)].map((_, i) => (
+              <div
+                key={i}
+                className="moving-particle"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${i * 0.1}s`,
+                  animationDuration: `${10 + Math.random() * 15}s`
+                }}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="text-center max-w-4xl mx-auto relative z-10">
           <h1 className="text-6xl md:text-8xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent animate-gradient-text">
+            <span className="bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent animate-gradient-text" style={{backgroundSize: '200% 200%'}}>
               Adi Rajendra Maitre
             </span>
           </h1>
