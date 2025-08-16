@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { Cpu, Github, Zap, Mail, Sword, Award, Trophy, ChevronDown, Linkedin } from 'lucide-react'
 
 const Home = () => {
@@ -8,6 +8,11 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [showSwordSlash, setShowSwordSlash] = useState(false)
   const [specialBankaiMode, setSpecialBankaiMode] = useState(false)
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [mouseVelocity, setMouseVelocity] = useState(0)
+  const mouseTrailRef = useRef<Array<{ x: number, y: number, timestamp: number }>>([])
+  const lastMousePosition = useRef({ x: 0, y: 0 })
+  const animationFrameRef = useRef<number>()
   
   const roles = ['学生 (Student)', 'デベロッパー (Developer)', 'パートナーシップマネージャー (Partnership Manager)', 'ブリーチファン (Bleach Fan)']
 
@@ -23,20 +28,57 @@ const Home = () => {
       }, 2000) // 2 seconds for sword slash + reveal
     }, 3000) // 3 seconds for initial loading phase
     
-    // Mouse trail effect
-    const createMouseTrail = (e: MouseEvent) => {
-      if (!isLoading) {
+    // Enhanced mouse trail system with velocity detection
+    const handleMouseMove = useCallback((e: MouseEvent) => {
+      if (isLoading) return
+      
+      const currentTime = Date.now()
+      const deltaX = e.clientX - lastMousePosition.current.x
+      const deltaY = e.clientY - lastMousePosition.current.y
+      const velocity = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
+      
+      setMousePosition({ x: e.clientX, y: e.clientY })
+      setMouseVelocity(velocity)
+      
+      // Add to trail array
+      mouseTrailRef.current.push({
+        x: e.clientX,
+        y: e.clientY,
+        timestamp: currentTime
+      })
+      
+      // Keep only last 10 positions
+      if (mouseTrailRef.current.length > 10) {
+        mouseTrailRef.current.shift()
+      }
+      
+      lastMousePosition.current = { x: e.clientX, y: e.clientY }
+    }, [isLoading])
+    
+    // Animate trail with requestAnimationFrame
+    const animateTrail = useCallback(() => {
+      const trails = document.querySelectorAll('.mouse-trail')
+      trails.forEach((trail, index) => {
+        const trailElement = trail as HTMLElement
+        const delay = index * 50
+        const targetPos = mouseTrailRef.current[mouseTrailRef.current.length - 1 - index]
+        
+        if (targetPos) {
+          trailElement.style.transform = `translate3d(${targetPos.x - 4}px, ${targetPos.y - 4}px, 0)`
+          trailElement.style.opacity = `${Math.max(0, 1 - (index * 0.1))}`
+        }
+      })
+      
+      animationFrameRef.current = requestAnimationFrame(animateTrail)
+    }, [])
+    
+    // Create trail elements
+    const createTrailElements = () => {
+      for (let i = 0; i < 8; i++) {
         const trail = document.createElement('div')
         trail.className = 'mouse-trail'
-        trail.style.left = e.clientX + 'px'
-        trail.style.top = e.clientY + 'px'
+        trail.style.transform = 'translate3d(-100px, -100px, 0)'
         document.body.appendChild(trail)
-        
-        setTimeout(() => {
-          if (trail.parentNode) {
-            trail.parentNode.removeChild(trail)
-          }
-        }, 800)
       }
     }
     
@@ -48,11 +90,44 @@ const Home = () => {
       }
     }, 10000)
     
-    window.addEventListener('mousemove', createMouseTrail)
+    if (!isLoading) {
+      createTrailElements()
+      animationFrameRef.current = requestAnimationFrame(animateTrail)
+    }
+    
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
+    
+    // Intersection Observer for scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    }
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in')
+        }
+      })
+    }, observerOptions)
+    
+    // Observe skill boxes when they exist
+    setTimeout(() => {
+      const skillBoxes = document.querySelectorAll('.about-skill-box')
+      skillBoxes.forEach(box => observer.observe(box))
+    }, 100)
+    
     return () => {
-      window.removeEventListener('mousemove', createMouseTrail)
+      window.removeEventListener('mousemove', handleMouseMove)
       clearTimeout(loadingTimer)
       clearTimeout(bankaiTimer)
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current)
+      }
+      observer.disconnect()
+      // Clean up trail elements
+      const trails = document.querySelectorAll('.mouse-trail')
+      trails.forEach(trail => trail.remove())
     }
   }, [isLoading])
 
@@ -101,23 +176,21 @@ const Home = () => {
   if (isLoading) {
     return (
       <div className="fixed inset-0 bg-gradient-to-br from-black via-gray-900 to-blue-900/20 flex items-center justify-center z-50">
-        {/* Scene 1: Loading Phase Background */}
-        <div className="absolute inset-0">
-          {/* Floating spiritual energy particles */}
-          <div className="particle-field">
-            {[...Array(30)].map((_, i) => (
-              <div 
-                key={i} 
-                className="loading-particle animate-float-gentle" 
-                style={{
-                  animationDelay: `${i * 0.2}s`,
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  animationDuration: `${4 + Math.random() * 6}s`
-                }} 
-              />
-            ))}
-          </div>
+        {/* Dynamic background for depth */}
+        <div className="dynamic-background"></div>
+        
+        {/* Optimized particle field */}
+        <div className="optimized-particle-field">
+          {[...Array(15)].map((_, i) => (
+            <div 
+              key={i} 
+              className="optimized-particle" 
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }} 
+            />
+          ))}
         </div>
 
         {/* Scene 1: Loading Content (0-3 seconds) */}
@@ -144,58 +217,37 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Scene 2 & 3: Dramatic Sword Slash Transition */}
+        {/* Scene 2: Enhanced Sword Slash Animation */}
         {showSwordSlash && (
           <>
             {/* Dramatic pause overlay */}
             <div className="absolute inset-0 z-30 bg-black animate-dramatic-pause" />
             
-            {/* Sword slash curtain effect */}
+            {/* Enhanced sword slash container */}
             <div className="absolute inset-0 z-40">
+              {/* Main slash with trailing glow */}
               <div className="slash-curtain animate-slash-curtain">
+                <div className="slash-trail animate-slash-trail" />
                 <div className="slash-line animate-slash-line" />
                 <div className="slash-glow animate-slash-glow" />
               </div>
               
-              {/* Katana/Zanpakuto at end of slash */}
+              {/* Enhanced Katana SVG */}
               <div className="katana-container animate-katana-appear">
                 <svg className="katana-svg" viewBox="0 0 200 20" fill="none">
+                  <rect x="0" y="8" width="160" height="4" fill="url(#blade-gradient)" />
+                  <rect x="0" y="9" width="160" height="2" fill="#ffffff" opacity="0.9" />
+                  <rect x="160" y="6" width="8" height="8" fill="#333" />
+                  <rect x="168" y="7" width="30" height="6" fill="#1a1a1a" />
+                  <rect x="168" y="8" width="30" height="4" fill="#333" />
                   <defs>
                     <linearGradient id="blade-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9"/>
-                      <stop offset="50%" stopColor="#e5e7eb" stopOpacity="1"/>
-                      <stop offset="100%" stopColor="#9ca3af" stopOpacity="0.8"/>
+                      <stop offset="0%" stopColor="#ffffff" stopOpacity="0.95" />
+                      <stop offset="50%" stopColor="#f0f0f0" stopOpacity="1" />
+                      <stop offset="100%" stopColor="#ffffff" stopOpacity="0.8" />
                     </linearGradient>
-                    <filter id="glow">
-                      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                      <feMerge> 
-                        <feMergeNode in="coloredBlur"/>
-                        <feMergeNode in="SourceGraphic"/>
-                      </feMerge>
-                    </filter>
                   </defs>
-                  {/* Blade */}
-                  <path d="M10 10 L180 8 L185 10 L180 12 L10 10 Z" fill="url(#blade-gradient)" filter="url(#glow)"/>
-                  {/* Handle */}
-                  <rect x="2" y="8" width="12" height="4" fill="#4a5568" rx="1"/>
-                  {/* Guard */}
-                  <rect x="12" y="7" width="3" height="6" fill="#2d3748" rx="0.5"/>
                 </svg>
-              </div>
-              
-              {/* Particle trail */}
-              <div className="slash-particles">
-                {[...Array(20)].map((_, i) => (
-                  <div 
-                    key={i}
-                    className="slash-particle animate-slash-particle" 
-                    style={{
-                      animationDelay: `${0.5 + i * 0.05}s`,
-                      left: `${20 + i * 3}%`,
-                      top: `${80 - i * 3}%`
-                    }}
-                  />
-                ))}
               </div>
             </div>
           </>
@@ -206,19 +258,20 @@ const Home = () => {
 
   return (
     <div className={`min-h-screen bg-black text-white transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-      {/* Enhanced Background Effects */}
+      {/* Ultra-smooth Background Effects */}
       <div className="fixed inset-0 pointer-events-none">
-        {/* Animated spiritual energy particles */}
-        <div className="particle-field">
-          {[...Array(100)].map((_, i) => (
+        {/* Dynamic background for depth */}
+        <div className="dynamic-background"></div>
+        
+        {/* Optimized particle field (15 particles instead of 100) */}
+        <div className="optimized-particle-field">
+          {[...Array(15)].map((_, i) => (
             <div 
               key={i} 
-              className="spiritual-particle animate-float-random" 
+              className="optimized-particle" 
               style={{
-                animationDelay: `${i * 0.05}s`,
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
-                animationDuration: `${5 + Math.random() * 10}s`
               }} 
             />
           ))}
@@ -383,7 +436,7 @@ const Home = () => {
             <div className="animate-fade-in-up" style={{animationDelay: '0.3s'}}>
               <div className="grid grid-cols-2 gap-4">
                 {['React', 'TypeScript', 'Python', 'Node.js', 'PyQt5', 'Machine Learning', 'Data Analysis', 'Partnership Strategy'].map((skill, idx) => (
-                  <div key={skill} className="skill-tag group bg-gradient-to-br from-hollow-mask/20 to-soul-society/10 rounded-lg p-4 border border-spiritual-energy/20 hover:border-reiatsu-glow transition-all duration-300 animate-fade-in-up" style={{animationDelay: `${0.1 * idx}s`}}>
+                  <div key={skill} className="about-skill-box skill-tag group bg-gradient-to-br from-hollow-mask/20 to-soul-society/10 rounded-lg p-4 border border-spiritual-energy/20 hover:border-reiatsu-glow">
                     <span className="text-spiritual-energy font-medium group-hover:text-reiatsu-glow transition-colors duration-300">{skill}</span>
                   </div>
                 ))}
