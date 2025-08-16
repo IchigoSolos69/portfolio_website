@@ -251,31 +251,34 @@ const Home = () => {
       </section>
 
       {/* About Section with Staggered Animations */}
+      {/* About Section */}
       <section id="about" className="py-20 px-6 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="particle-field">
+            {[...Array(30)].map((_, i) => (
+              <div key={i} className="spiritual-particle animate-float-random" style={{animationDelay: `${i * 0.2}s`}} />
+            ))}
+          </div>
+        </div>
+        
         <div className="max-w-6xl mx-auto relative z-10">
           <h2 className="text-5xl font-bold text-center mb-16">
-            <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent animate-gradient-text">
               About Me
             </span>
-            <span className="text-2xl japanese-text text-reiatsu-glow ml-4 block mt-2">私について</span>
+            <span className="text-2xl japanese-text text-reiatsu-glow ml-4 block mt-2">私について (About Me)</span>
           </h2>
           
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div 
-              className="transform transition-all duration-500 ease-out translate-y-8 opacity-0"
-              style={{
-                animation: 'fadeInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.1s forwards',
-                transformOrigin: 'center bottom'
-              }}
-            >
+            <div className="animate-fade-in-up">
               <p className="text-lg text-gray-300 leading-relaxed mb-6">
-                Greetings! I'm Adi, a passionate developer crafting innovative digital solutions. 
+                Greetings! I'm Adi, a passionate developer wielding the power of code like a Soul Reaper's zanpakuto. 
                 Currently pursuing my BTech in Information Technology at PCCOE Akurdi, I balance my studies with my role 
                 as Staff & Partnership Manager at Hone.gg.
               </p>
               <p className="text-lg text-gray-300 leading-relaxed mb-8">
-                My journey spans full-stack development, AI/ML research, and partnership management. I continuously 
-                evolve my technical skills while maintaining strong collaborative relationships and delivering impactful solutions.
+                My journey spans full-stack development, AI/ML research, and partnership management. Like Ichigo mastering 
+                his spiritual pressure, I continuously evolve my technical skills while maintaining strong collaborative relationships.
               </p>
               
               <div className="space-y-4">
@@ -285,30 +288,36 @@ const Home = () => {
                     <span className="text-gray-400">90%</span>
                   </div>
                   <div className="w-full bg-gray-700 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-spiritual-energy to-reiatsu-glow h-2 rounded-full" style={{width: '90%'}}></div>
+                    <div className="bg-gradient-to-r from-spiritual-energy to-reiatsu-glow h-2 rounded-full animate-skill-fill" style={{width: '90%'}}></div>
+                  </div>
+                </div>
+                
+                <div className="skill-bar">
+                  <div className="flex justify-between mb-2">
+                    <span className="text-spiritual-energy font-medium">AI/ML Research</span>
+                    <span className="text-gray-400">85%</span>
+                  </div>
+                  <div className="w-full bg-gray-700 rounded-full h-2">
+                    <div className="bg-gradient-to-r from-reiatsu-glow to-kido-purple h-2 rounded-full animate-skill-fill" style={{width: '85%', animationDelay: '0.2s'}}></div>
+                  </div>
+                </div>
+                
+                <div className="skill-bar">
+                  <div className="flex justify-between mb-2">
+                    <span className="text-spiritual-energy font-medium">Partnership Management</span>
+                    <span className="text-gray-400">95%</span>
+                  </div>
+                  <div className="w-full bg-gray-700 rounded-full h-2">
+                    <div className="bg-gradient-to-r from-kido-purple to-spiritual-energy h-2 rounded-full animate-skill-fill" style={{width: '95%', animationDelay: '0.4s'}}></div>
                   </div>
                 </div>
               </div>
             </div>
             
-            <div 
-              className="transform transition-all duration-500 ease-out translate-y-8 opacity-0"
-              style={{
-                animation: 'fadeInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s forwards',
-                transformOrigin: 'center bottom'
-              }}
-            >
+            <div className="animate-fade-in-up" style={{animationDelay: '0.3s'}}>
               <div className="grid grid-cols-2 gap-4">
-                {['React', 'TypeScript', 'Python', 'Node.js', 'PyQt5', 'Machine Learning', 'Data Analysis', 'Partnership Strategy'].map((skill, index) => (
-                  <div 
-                    key={skill} 
-                    className="about-skill-box group bg-gradient-to-br from-hollow-mask/20 to-soul-society/10 rounded-lg p-4 border border-spiritual-energy/20 hover:border-reiatsu-glow transform transition-all duration-400 ease-out hover:scale-105 hover:shadow-lg hover:shadow-spiritual-energy/20 hover:-translate-y-1"
-                    style={{
-                      animation: `fadeInUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${0.3 + index * 0.1}s forwards`,
-                      opacity: 0,
-                      transform: 'translateY(30px) scale(0.95)'
-                    }}
-                  >
+                {['React', 'TypeScript', 'Python', 'Node.js', 'PyQt5', 'Machine Learning', 'Data Analysis', 'Partnership Strategy'].map((skill, idx) => (
+                  <div key={skill} className="about-skill-box skill-tag group bg-gradient-to-br from-hollow-mask/20 to-soul-society/10 rounded-lg p-4 border border-spiritual-energy/20 hover:border-reiatsu-glow">
                     <span className="text-spiritual-energy font-medium group-hover:text-reiatsu-glow transition-colors duration-300">{skill}</span>
                   </div>
                 ))}
