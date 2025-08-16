@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Award, Zap, ChevronDown } from 'lucide-react';
+import { Award, Zap, ChevronDown, Cpu, Trophy, Github, Mail, Linkedin } from 'lucide-react';
 import SlashPhase from '../components/SlashPhase';
 
 const roles = [
@@ -42,7 +42,8 @@ export default function Home() {
     else if (phase === 3) {
       t = setTimeout(() => {
         setLoading(false);
-        setVisible(true);
+        // Small delay to ensure smooth transition
+        setTimeout(() => setVisible(true), 100);
       }, 1000);
     }
     return () => clearTimeout(t);
@@ -123,9 +124,12 @@ export default function Home() {
 
   return (
     <div
-      className={`min-h-screen bg-black text-white transition-opacity duration-500 ${
+      className={`min-h-screen bg-black text-white transition-all duration-1000 ease-out ${
         visible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
       }`}
+      style={{
+        transform: visible ? 'translateY(0)' : 'translateY(20px)'
+      }}
     >
       {/* Hero */}
       <section id="hero" className="min-h-screen flex items-center justify-center px-6">

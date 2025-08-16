@@ -23,29 +23,60 @@ export default function SlashPhase({ onComplete }: SlashPhaseProps) {
     return () => window.removeEventListener('resize', updateSlash);
   }, []);
 
-  // Play slash sound and signal onComplete
+  // Enhanced audio solution with better autoplay handling
   useEffect(() => {
-    const slashAudio = new Audio('/sounds/sword-slash.mp3');
-    slashAudio.volume = 0.7;
-    slashAudio.preload = 'auto';
+    let slashAudio: HTMLAudioElement | null = null;
+    let hasPlayedAudio = false;
 
-    slashAudio.play().catch(() => {
-      // Retry on first user interaction
-      const unlock = () => {
-        slashAudio.play();
-        window.removeEventListener('pointerdown', unlock);
-        window.removeEventListener('touchstart', unlock);
+    const playAudio = () => {
+      if (hasPlayedAudio || !slashAudio) return;
+      
+      slashAudio.play().then(() => {
+        hasPlayedAudio = true;
+      }).catch(() => {
+        // Silent fail - audio will play on next user interaction
+        console.log('Audio autoplay blocked - will play on user interaction');
+      });
+    };
+
+    const setupAudio = () => {
+      slashAudio = new Audio('/sounds/sword-slash.mp3');
+      slashAudio.volume = 0.7;
+      slashAudio.preload = 'auto';
+      
+      // Try to play immediately
+      playAudio();
+      
+      // Setup fallback for user interaction
+      const unlockAudio = () => {
+        if (!hasPlayedAudio && slashAudio) {
+          playAudio();
+        }
+        // Remove listeners after first attempt
+        window.removeEventListener('click', unlockAudio);
+        window.removeEventListener('touchstart', unlockAudio);
+        window.removeEventListener('keydown', unlockAudio);
       };
-      window.addEventListener('pointerdown', unlock, { once: true });
-      window.addEventListener('touchstart', unlock, { once: true });
-    });
+      
+      window.addEventListener('click', unlockAudio, { once: true });
+      window.addEventListener('touchstart', unlockAudio, { once: true });
+      window.addEventListener('keydown', unlockAudio, { once: true });
+    };
 
+    // Small delay to ensure component is mounted
+    const audioTimer = setTimeout(setupAudio, 100);
+    
     // Notify parent after animation (~1.2s)
-    const timer = setTimeout(() => onComplete?.(), 1200);
+    const completeTimer = setTimeout(() => onComplete?.(), 1200);
+    
     return () => {
-      clearTimeout(timer);
-      slashAudio.pause();
-      slashAudio.currentTime = 0;
+      clearTimeout(audioTimer);
+      clearTimeout(completeTimer);
+      if (slashAudio) {
+        slashAudio.pause();
+        slashAudio.currentTime = 0;
+        slashAudio = null;
+      }
     };
   }, [onComplete]);
 
@@ -53,6 +84,10 @@ export default function SlashPhase({ onComplete }: SlashPhaseProps) {
     <div ref={containerRef} className="slash-container">
       <div className="slash-line animate-slash" />
       <div className="slash-glow animate-slash-glow" />
+      {/* Hidden audio element for better browser compatibility */}
+      <audio preload="auto" style={{ display: 'none' }}>
+        <source src="/sounds/sword-slash.mp3" type="audio/mpeg" />
+      </audio>
     </div>
   );
 }
