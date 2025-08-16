@@ -419,14 +419,236 @@
     }
   }
 
-  /* Loading Screen Animations */
-  .animate-loading-bar {
-    animation: loading-progress 2s ease-out forwards;
+  /* Enhanced Cinematic Loading Screen Animations */
+  
+  /* Scene 1: Loading Phase (0-3 seconds) */
+  .loading-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: radial-gradient(circle, #ffffff 0%, rgba(255, 112, 0, 0.8) 50%, transparent 100%);
+    border-radius: 50%;
+    opacity: 0.7;
+  }
+
+  .animate-float-gentle {
+    animation: float-gentle 6s ease-in-out infinite;
+  }
+
+  @keyframes float-gentle {
+    0%, 100% {
+      transform: translateY(0px) translateX(0px);
+      opacity: 0.4;
+    }
+    25% {
+      transform: translateY(-15px) translateX(8px);
+      opacity: 0.8;
+    }
+    50% {
+      transform: translateY(-8px) translateX(-12px);
+      opacity: 0.6;
+    }
+    75% {
+      transform: translateY(-20px) translateX(5px);
+      opacity: 0.9;
+    }
+  }
+
+  .animate-spin-slow {
+    animation: spin-slow 2s linear infinite;
+  }
+
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .animate-loading-progress {
+    animation: loading-progress 3s ease-out forwards;
   }
 
   @keyframes loading-progress {
     0% { width: 0%; }
     100% { width: 100%; }
+  }
+
+  /* Scene 2: Dramatic Pause (3-3.2 seconds) */
+  .animate-dramatic-pause {
+    animation: dramatic-pause 0.2s ease-in forwards;
+  }
+
+  @keyframes dramatic-pause {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+  /* Scene 3: Sword Slash Curtain Effect (3.2-5 seconds) */
+  .slash-curtain {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .slash-line {
+    position: absolute;
+    bottom: -10%;
+    left: -10%;
+    width: 2px;
+    height: 150%;
+    background: linear-gradient(45deg, transparent 0%, #ffffff 20%, #ffffff 80%, transparent 100%);
+    transform: rotate(45deg);
+    transform-origin: bottom left;
+  }
+
+  .animate-slash-line {
+    animation: slash-line-grow 1.5s ease-out forwards;
+  }
+
+  @keyframes slash-line-grow {
+    0% {
+      width: 2px;
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+      width: 4px;
+    }
+    60% {
+      width: 100vw;
+      opacity: 1;
+    }
+    100% {
+      width: 120vw;
+      opacity: 0.8;
+    }
+  }
+
+  .slash-glow {
+    position: absolute;
+    bottom: -10%;
+    left: -10%;
+    width: 0px;
+    height: 150%;
+    background: linear-gradient(45deg, 
+      transparent 0%, 
+      rgba(255, 112, 0, 0.6) 10%, 
+      rgba(255, 255, 255, 0.9) 50%, 
+      rgba(255, 112, 0, 0.6) 90%, 
+      transparent 100%
+    );
+    transform: rotate(45deg);
+    transform-origin: bottom left;
+    filter: blur(8px);
+  }
+
+  .animate-slash-glow {
+    animation: slash-glow-expand 1.5s ease-out forwards;
+  }
+
+  @keyframes slash-glow-expand {
+    0% {
+      width: 0px;
+      opacity: 0;
+    }
+    30% {
+      width: 20px;
+      opacity: 1;
+    }
+    70% {
+      width: 60px;
+      opacity: 0.8;
+    }
+    100% {
+      width: 80px;
+      opacity: 0.4;
+    }
+  }
+
+  .animate-slash-curtain {
+    animation: slash-curtain-reveal 1.8s ease-out forwards;
+  }
+
+  @keyframes slash-curtain-reveal {
+    0% {
+      clip-path: polygon(0 100%, 0 100%, 0 100%, 0 100%);
+    }
+    20% {
+      clip-path: polygon(0 100%, 5% 95%, 0 100%, 0 100%);
+    }
+    60% {
+      clip-path: polygon(0 100%, 50% 50%, 45% 55%, 0 100%);
+    }
+    100% {
+      clip-path: polygon(0 100%, 100% 0%, 100% 5%, 5% 100%);
+    }
+  }
+
+  /* Katana/Zanpakuto Animation */
+  .katana-container {
+    position: absolute;
+    top: 20%;
+    right: 15%;
+    width: 200px;
+    height: 20px;
+    opacity: 0;
+  }
+
+  .katana-svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+  }
+
+  .animate-katana-appear {
+    animation: katana-appear 0.8s ease-out 1.2s forwards;
+  }
+
+  @keyframes katana-appear {
+    0% {
+      opacity: 0;
+      transform: translateX(50px) rotate(45deg) scale(0.5);
+    }
+    50% {
+      opacity: 1;
+      transform: translateX(0px) rotate(45deg) scale(1.1);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0px) rotate(45deg) scale(1);
+    }
+  }
+
+  /* Slash Particle Trail */
+  .slash-particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: radial-gradient(circle, #ffffff 0%, rgba(255, 112, 0, 0.9) 70%, transparent 100%);
+    border-radius: 50%;
+    opacity: 0;
+  }
+
+  .animate-slash-particle {
+    animation: slash-particle-trail 1s ease-out forwards;
+  }
+
+  @keyframes slash-particle-trail {
+    0% {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    30% {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+    70% {
+      opacity: 0.8;
+      transform: scale(1) translateX(20px) translateY(-20px);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0.3) translateX(40px) translateY(-40px);
+    }
   }
 
   /* Sword Slash Animation */
@@ -1090,5 +1312,87 @@
     0% { box-shadow: 0 0 0px 0px var(--spiritual-energy); filter: contrast(1.1); }
     50% { box-shadow: 0 0 46px 10px var(--spiritual-energy); filter: contrast(2.0); }
     100% { box-shadow: 0 0 0px 0px var(--spiritual-energy); filter: contrast(1); }
+  }
+
+  /* Enhanced skill box animations */
+  .skill-tag {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transform: translateY(0);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .skill-tag::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
+  }
+
+  .skill-tag:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(255, 255, 255, 0.2), 0 0 20px rgba(255, 255, 255, 0.1);
+    border-color: #ffffff;
+  }
+
+  .skill-tag:hover::before {
+    left: 100%;
+  }
+
+  .skill-tag:active {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+  }
+
+  .skill-tag:hover span {
+    text-shadow: 0 0 10px currentColor;
+  }
+
+  /* Ripple effect for skill tags */
+  .skill-tag::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .skill-tag:active::after {
+    width: 300px;
+    height: 300px;
+  }
+
+  /* Skill bar enhancements */
+  .skill-bar {
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+
+  .skill-bar:hover {
+    transform: scale(1.02);
+  }
+
+  .skill-bar:hover .bg-gradient-to-r {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    animation: skill-pulse 2s infinite;
+  }
+
+  @keyframes skill-pulse {
+    0%, 100% { 
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    }
+    50% { 
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.5);
+    }
   }
 }

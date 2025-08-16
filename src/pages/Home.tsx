@@ -12,14 +12,16 @@ const Home = () => {
   const roles = ['学生 (Student)', 'デベロッパー (Developer)', 'パートナーシップマネージャー (Partnership Manager)', 'ブリーチファン (Bleach Fan)']
 
   useEffect(() => {
-    // Loading sequence
+    // Enhanced cinematic loading sequence (5 seconds total)
     const loadingTimer = setTimeout(() => {
+      // Scene 2: Sword slash transition starts at 3 seconds
       setShowSwordSlash(true)
       setTimeout(() => {
+        // Scene 3: Reveal website at 5 seconds
         setIsLoading(false)
         setIsVisible(true)
-      }, 1500)
-    }, 2000)
+      }, 2000) // 2 seconds for sword slash + reveal
+    }, 3000) // 3 seconds for initial loading phase
     
     // Mouse trail effect
     const createMouseTrail = (e: MouseEvent) => {
@@ -98,61 +100,105 @@ const Home = () => {
 
   if (isLoading) {
     return (
-      <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
-        {/* Enhanced Background Effects */}
+      <div className="fixed inset-0 bg-gradient-to-br from-black via-gray-900 to-blue-900/20 flex items-center justify-center z-50">
+        {/* Scene 1: Loading Phase Background */}
         <div className="absolute inset-0">
-          {/* Animated spiritual energy particles */}
+          {/* Floating spiritual energy particles */}
           <div className="particle-field">
-            {[...Array(50)].map((_, i) => (
+            {[...Array(30)].map((_, i) => (
               <div 
                 key={i} 
-                className="spiritual-particle animate-float-random" 
+                className="loading-particle animate-float-gentle" 
                 style={{
-                  animationDelay: `${i * 0.1}s`,
+                  animationDelay: `${i * 0.2}s`,
                   left: `${Math.random() * 100}%`,
                   top: `${Math.random() * 100}%`,
-                  animationDuration: `${3 + Math.random() * 4}s`
+                  animationDuration: `${4 + Math.random() * 6}s`
                 }} 
               />
             ))}
           </div>
-          
-          {/* Radial gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-radial from-transparent via-spiritual-energy/5 to-black/80" />
-          
-          {/* Animated grid pattern */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="grid-pattern animate-pulse" />
-          </div>
         </div>
 
-        {/* Loading Content */}
-        <div className="relative z-10 text-center">
+        {/* Scene 1: Loading Content (0-3 seconds) */}
+        <div className={`relative z-10 text-center transition-opacity duration-500 ${showSwordSlash ? 'opacity-0' : 'opacity-100'}`}>
           <div className="mb-8">
-            <h1 className="text-6xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-spiritual-energy bg-clip-text text-transparent animate-gradient-text">
-                卍解
-              </span>
-            </h1>
-            <p className="text-spiritual-energy text-xl animate-pulse">Bankai Loading...</p>
-          </div>
-          
-          {/* Loading bar */}
-          <div className="w-64 h-2 bg-gray-800 rounded-full mx-auto mb-8 overflow-hidden">
-            <div className="h-full bg-gradient-to-r from-spiritual-energy to-reiatsu-glow animate-loading-bar rounded-full" />
-          </div>
-        </div>
-
-        {/* Sword Slash Animation */}
-        {showSwordSlash && (
-          <div className="absolute inset-0 z-20">
-            <div className="sword-slash-container">
-              <div className="sword-slash animate-sword-slash">
-                <Sword className="w-32 h-32 text-spiritual-energy" />
+            {/* Loading Spinner */}
+            <div className="w-16 h-16 mx-auto mb-6 relative">
+              <div className="loading-spinner animate-spin-slow">
+                <div className="w-16 h-16 border-4 border-spiritual-energy/30 border-t-spiritual-energy rounded-full"></div>
+              </div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-8 h-8 bg-spiritual-energy/20 rounded-full animate-pulse"></div>
               </div>
             </div>
-            <div className="slash-trail animate-slash-trail" />
+            
+            {/* Japanese Loading Text */}
+            <p className="text-spiritual-energy text-xl mb-2 animate-pulse">読み込み中...</p>
+            <p className="text-gray-400 text-sm">(Loading...)</p>
           </div>
+          
+          {/* Progress bar */}
+          <div className="w-80 h-1 bg-gray-800 rounded-full mx-auto mb-8 overflow-hidden">
+            <div className="h-full bg-gradient-to-r from-spiritual-energy to-reiatsu-glow animate-loading-progress rounded-full" />
+          </div>
+        </div>
+
+        {/* Scene 2 & 3: Dramatic Sword Slash Transition */}
+        {showSwordSlash && (
+          <>
+            {/* Dramatic pause overlay */}
+            <div className="absolute inset-0 z-30 bg-black animate-dramatic-pause" />
+            
+            {/* Sword slash curtain effect */}
+            <div className="absolute inset-0 z-40">
+              <div className="slash-curtain animate-slash-curtain">
+                <div className="slash-line animate-slash-line" />
+                <div className="slash-glow animate-slash-glow" />
+              </div>
+              
+              {/* Katana/Zanpakuto at end of slash */}
+              <div className="katana-container animate-katana-appear">
+                <svg className="katana-svg" viewBox="0 0 200 20" fill="none">
+                  <defs>
+                    <linearGradient id="blade-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9"/>
+                      <stop offset="50%" stopColor="#e5e7eb" stopOpacity="1"/>
+                      <stop offset="100%" stopColor="#9ca3af" stopOpacity="0.8"/>
+                    </linearGradient>
+                    <filter id="glow">
+                      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                      <feMerge> 
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                      </feMerge>
+                    </filter>
+                  </defs>
+                  {/* Blade */}
+                  <path d="M10 10 L180 8 L185 10 L180 12 L10 10 Z" fill="url(#blade-gradient)" filter="url(#glow)"/>
+                  {/* Handle */}
+                  <rect x="2" y="8" width="12" height="4" fill="#4a5568" rx="1"/>
+                  {/* Guard */}
+                  <rect x="12" y="7" width="3" height="6" fill="#2d3748" rx="0.5"/>
+                </svg>
+              </div>
+              
+              {/* Particle trail */}
+              <div className="slash-particles">
+                {[...Array(20)].map((_, i) => (
+                  <div 
+                    key={i}
+                    className="slash-particle animate-slash-particle" 
+                    style={{
+                      animationDelay: `${0.5 + i * 0.05}s`,
+                      left: `${20 + i * 3}%`,
+                      top: `${80 - i * 3}%`
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          </>
         )}
       </div>
     )
@@ -286,7 +332,7 @@ const Home = () => {
             <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent animate-gradient-text">
               About Me
             </span>
-            <span className="text-2xl japanese-text text-reiatsu-glow ml-4 block mt-2">私について</span>
+            <span className="text-2xl japanese-text text-reiatsu-glow ml-4 block mt-2">私について (About Me)</span>
           </h2>
           
           <div className="grid md:grid-cols-2 gap-12 items-center">
