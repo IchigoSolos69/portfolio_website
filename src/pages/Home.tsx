@@ -10,18 +10,17 @@ const roles = [
 ];
 
 export default function Home() {
-  // Loading phases: 1 = loader, 2 = slash, 3 = curtain
   const [loadingPhase, setLoadingPhase] = useState(1);
   const [isLoading, setIsLoading]     = useState(true);
   const [isVisible, setIsVisible]     = useState(false);
 
-  // Typing effect state
+  // Typing
   const [typingText, setTypingText]   = useState('');
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const [isDeleting, setIsDeleting]   = useState(false);
   const [charIndex, setCharIndex]     = useState(0);
 
-  // Unlock AudioContext on first interaction
+  // Audio unlock on first gesture
   useEffect(() => {
     const resumeAudio = () => {
       const ctx = new AudioContext();
@@ -33,9 +32,10 @@ export default function Home() {
     window.addEventListener('touchstart', resumeAudio, { once: true });
   }, []);
 
-  // Manage loading phases
+  // Loading phases transitions
   useEffect(() => {
     if (!isLoading) return;
+
     let timer: ReturnType<typeof setTimeout>;
 
     switch (loadingPhase) {
@@ -46,6 +46,7 @@ export default function Home() {
         timer = setTimeout(() => setLoadingPhase(3), 1400);
         break;
       case 3:
+        // After curtain reveal finishes, hide loading and show content
         timer = setTimeout(() => {
           setIsLoading(false);
           setIsVisible(true);
@@ -55,9 +56,10 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, [loadingPhase, isLoading]);
 
-  // Typing effect for roles
+  // Typing effect
   useEffect(() => {
     if (isLoading) return;
+
     let timer: ReturnType<typeof setTimeout>;
     const role = roles[currentRoleIndex];
 
@@ -85,7 +87,6 @@ export default function Home() {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // Render loading phases
   if (isLoading) {
     return (
       <div className="cinematic-loading-overlay">
@@ -118,14 +119,12 @@ export default function Home() {
             </div>
           </div>
         )}
-
         {loadingPhase === 2 && (
           <div className="sword-slash-phase">
             <div className="dramatic-pause" />
             <SlashPhase onComplete={() => setLoadingPhase(3)} />
           </div>
         )}
-
         {loadingPhase === 3 && (
           <div className="curtain-reveal-phase">
             <div className="diagonal-curtain" />
@@ -135,9 +134,13 @@ export default function Home() {
     );
   }
 
-  // Render main content
-  return (
-    <div className={`min-h-screen bg-black text-white transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+  // Main content wrapper with opacity & pointer events toggle
+  return (  
+    <div
+      className={`min-h-screen bg-black text-white transition-opacity duration-1000 ${
+        isVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+      }`}
+    >
       {/* Hero Section */}
       <section id="hero" className="min-h-screen flex items-center justify-center px-6">
         <div className="text-center max-w-4xl mx-auto">
