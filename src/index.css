@@ -127,6 +127,57 @@
 }
 @keyframes fadeOut { to { opacity:0; visibility:hidden } }
 
+/* index.css or a CSS module */
+
+.slash-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Use CSS variables for dynamic values */
+.slash-line,
+.slash-glow {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: var(--slash-length);
+  height: 4px; /* line thickness */
+  transform-origin: bottom left;
+  transform: rotate(var(--slash-angle)) scaleX(0);
+  opacity: 0;
+}
+
+/* Base line style */
+.slash-line {
+  background: linear-gradient(to right, transparent 0%, #FFF 50%, transparent 100%);
+  box-shadow: 0 0 20px #FFA500, 0 0 40px #FFF;
+  animation: slashReveal 1s ease-out 0.3s forwards;
+}
+
+/* Glow behind the line */
+.slash-glow {
+  background: radial-gradient(circle, rgba(255,140,0,0.3) 0%, transparent);
+  filter: blur(8px);
+  width: var(--slash-length);
+  animation: slashGlow 1s ease-out 0.25s forwards;
+}
+
+@keyframes slashReveal {
+  to {
+    transform: rotate(var(--slash-angle)) scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slashGlow {
+  to {
+    transform: rotate(var(--slash-angle)) scaleX(1);
+    opacity: 1;
+  }
+}
+
 .diagonal-slash-container { position:absolute; inset:0; }
 
 /* Perfect diagonal slash line */

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Cpu, Github, Zap, Mail, Award, Trophy, ChevronDown, Linkedin } from 'lucide-react';
 
 const roles = [
@@ -17,6 +17,42 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingPhase, setLoadingPhase] = useState(1);
 
+  function useDiagonalSlashStyles() {
+    const containerRef = useRef<HTMLDivElement>(null);
+  
+    useEffect(() => {
+      function updateSlash() {
+        if (!containerRef.current) return;
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        // Diagonal length
+        const length = Math.hypot(w, h) + 20; // extra buffer
+        // Angle from bottom-left to top-right
+        const angle = Math.atan2(h, w) * (180 / Math.PI);
+        // Set CSS variables
+        containerRef.current.style.setProperty('--slash-length', `${length}px`);
+        containerRef.current.style.setProperty('--slash-angle', `${angle}deg`);
+      }
+  
+      updateSlash();
+      window.addEventListener('resize', updateSlash);
+      return () => window.removeEventListener('resize', updateSlash);
+    }, []);
+  
+    return containerRef;
+  }
+  
+  export default function SlashPhase() {
+    const slashRef = useDiagonalSlashStyles();
+  
+    return (
+      <div ref={slashRef} className="slash-container">
+        <div className="slash-line" />
+        <div className="slash-glow" />
+      </div>
+    );
+  }
+  
   useEffect(() => {
     const resumeAudio = () => {
       if (window.AudioContext) {
@@ -292,7 +328,7 @@ const Home = () => {
             <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent animate-gradient-text">
               About Me
             </span>
-            <span className="text-2xl japanese-text text-reiatsu-glow ml-4 block mt-2">私について (About Me)</span>
+            <span className="text-2xl japanese-text text-reiatsu-glow ml-4 block mt-2">私について</span>
           </h2>
           
           <div className="grid md:grid-cols-2 gap-12 items-center">
