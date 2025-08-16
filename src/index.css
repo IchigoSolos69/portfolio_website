@@ -187,8 +187,17 @@
 }
 @keyframes fadeOut { to { opacity:0; visibility:hidden } }
 
-.diagonal-slash-container { position:absolute; inset:0; }
+/* Slash Container with Reveal Mask */
+.diagonal-slash-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* initial mask covers entire viewport */
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  animation: slashReveal 8s ease-out forwards;
+}
 
+/* Main Slash (Blurred) */
 .diagonal-slash-line {
   position: absolute;
   bottom: 0;
@@ -205,13 +214,13 @@
     transparent 100%
   );
   transform-origin: bottom left;
-  transform: rotate(45deg);
+  transform: rotate(45deg) scaleX(0.3);
   filter: blur(15px);
-  animation: diagonalParticleFly 8s ease-out forwards;
-  opacity: 0;
+  animation: diagonalGrow 8s ease-out forwards, diagonalParticleFly 8s ease-out forwards;
   z-index: 30;
 }
 
+/* Glow Slash (Sharp) */
 .diagonal-slash-glow {
   position: absolute;
   bottom: 0;
@@ -228,18 +237,61 @@
     transparent 100%
   );
   transform-origin: bottom left;
-  transform: rotate(45deg);
+  transform: rotate(45deg) scaleX(0.3);
   box-shadow:
     0 0 40px rgba(255,165,0,1),
     0 0 80px rgba(255,255,255,0.9),
     0 0 120px rgba(255,165,0,0.7);
-  animation: diagonalParticleFly 8s ease-out forwards;
-  opacity: 0;
+  animation: diagonalGrow 8s ease-out forwards, diagonalParticleFly 8s ease-out forwards;
   z-index: 25;
 }
 
+/* Trail Particles (unchanged) */
+.slash-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 25;
+}
+.slash-particles .diagonal-particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: radial-gradient(circle, #FFF 0%, #FFA500 60%, transparent 90%);
+  border-radius: 50%;
+  animation: diagonalParticleFly 8s ease-out forwards;
+  box-shadow: 
+    0 0 6px rgba(255,165,0,0.8),
+    0 0 12px rgba(255,255,255,0.6);
+}
 
-/* Mobile responsiveness */
+/* Shared Movement Keyframes */
+@keyframes diagonalParticleFly {
+  0%   { opacity: 0; transform: translate(0,0) scaleX(0.3); }
+  12.5% { opacity: 1; transform: translate(15vw,-10vh) scaleX(1); }
+  37.5% { opacity: 1; transform: translate(35vw,-25vh) scaleX(1.5); }
+  62.5% { opacity: 0.7; transform: translate(55vw,-45vh) scaleX(2); }
+  87.5% { opacity: 0.3; transform: translate(75vw,-65vh) scaleX(2.5); }
+  100% { opacity: 0; transform: translate(100vw,-80vh) scaleX(3); }
+}
+
+/* Growth Keyframes for Slash Bars */
+@keyframes diagonalGrow {
+  0%   { opacity: 0; transform: rotate(45deg) scaleX(0.3) scaleY(1); }
+  12.5% { opacity: 1; transform: rotate(45deg) scaleX(0.8) scaleY(1); }
+  37.5% { opacity: 1; transform: rotate(45deg) scaleX(1.5) scaleY(1); }
+  62.5% { opacity: 0.7; transform: rotate(45deg) scaleX(2.2) scaleY(1); }
+  87.5% { opacity: 0.3; transform: rotate(45deg) scaleX(2.8) scaleY(1); }
+  100% { opacity: 0; transform: rotate(45deg) scaleX(3.5) scaleY(1); }
+}
+
+/* Container Clip-Path Reveal */
+@keyframes slashReveal {
+  0%   { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+  100% { clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); }
+}
+
+/* Mobile Responsiveness */
 @media (max-width: 768px) {
   .diagonal-slash-line {
     width: 3px;
@@ -249,35 +301,6 @@
     width: 8px;
     height: calc(100vh * 1.4142 + 40px);
   }
-}
-
-.slash-particles {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 25;
-}
-
-.slash-particles .diagonal-particle {
-  position: absolute;
-  width: 3px;
-  height: 3px;
-  background: radial-gradient(circle, #FFF 0%, #FFA500 60%, transparent 90%);
-  border-radius: 50%;
-  animation: diagonalParticleFly 8s ease-out forwards;
-  opacity: 0;
-  box-shadow: 
-    0 0 6px rgba(255,165,0,0.8),
-    0 0 12px rgba(255,255,255,0.6);
-}
-
-@keyframes diagonalParticleFly {
-  0%   { opacity:0; transform: translate(0,0) scaleX(0.3) scaleY(1); }
-  12.5% { opacity:1; transform: translate(15vw,-10vh) scaleX(1) scaleY(1); }
-  37.5% { opacity:1; transform: translate(35vw,-25vh) scaleX(1.5) scaleY(1); }
-  62.5% { opacity:0.7; transform: translate(55vw,-45vh) scaleX(2) scaleY(1); }
-  87.5% { opacity:0.3; transform: translate(75vw,-65vh) scaleX(2.5) scaleY(1); }
-  100% { opacity:0; transform: translate(100vw,-80vh) scaleX(3) scaleY(1); }
 }
 
 
