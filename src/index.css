@@ -2,12 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import fonts */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
-
 /* -------------------------------
    Custom CSS Variables & Base
--------------------------------- */
+--------------------------------- */
 @layer base {
   :root {
     --background: 225 8% 6%;
@@ -15,88 +12,73 @@
     --spiritual-energy: 32 98% 75%;
     --soul-society: 210 9% 14%;
     --reiatsu-glow: 186 24% 74%;
-    --zanpakuto-steel: 150 5% 85%;
-    --hollow-mask: 0 0% 20%;
-    --kido-purple: 266 50% 62%;
+    --slash-length: 100vw;
+    --slash-angle: 45deg;
   }
 
-  * { border-color: hsl(var(--hollow-mask)); }
+  * { border-color: hsl(var(--spiritual-energy)); }
   body {
-    color: hsl(var(--foreground));
-    overflow-x: hidden;
+    @apply bg-black text-white overflow-x-hidden min-h-screen;
     font-family: 'Inter', 'Noto Sans JP', sans-serif;
-    min-height: 100vh;
     scroll-behavior: smooth;
   }
 
-  /* Fixed background */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: -2;
-    background:
-      linear-gradient(135deg, rgba(0,0,0,0.7), rgba(20,20,40,0.8), rgba(0,0,0,0.9)),
-      url('https://e1.pxfuel.com/desktop-wallpaper/414/600/desktop-wallpaper-bleach-black-and-white-bleach-black.jpg'),
-      linear-gradient(135deg, #0a0a0a, #1a1a2e, #16213e);
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-  }
-
-  /* Hide scrollbars */
-  ::-webkit-scrollbar { display: none; }
-  html { scrollbar-width: none; }
+  /* Preload slash audio hint (modern browsers) */
+  link[rel="preload"][as="audio"] { display: none; }
 }
 
-/* --------------------------------
-   Loading Screen & Slash Animation
---------------------------------- */
-.cinematic-loading-overlay { position: fixed; inset: 0; z-index: 10000; }
-
-/* Phase 1: Loading */
+/* ========================================
+   Phase 1: Loading Screen
+   ======================================== */
+.cinematic-loading-overlay {
+  @apply fixed inset-0 z-[10000] flex items-center justify-center bg-black;
+}
 .loading-screen {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
+  @apply relative w-full h-full flex items-center justify-center;
 }
 .loading-background {
-  position: absolute; inset: 0;
+  @apply absolute inset-0;
   background: radial-gradient(circle at center, #0a0a1a, #1a1a2e, #16213e);
 }
 .energy-particles,
-.spark-particles,
-.slash-particles { position: absolute; inset: 0; pointer-events: none; }
+.spark-particles {
+  @apply absolute inset-0 pointer-events-none;
+}
 .energy-particle,
 .spark-particle {
-  position: absolute; width: 3px; height: 3px; border-radius: 50%;
+  @apply absolute rounded-full;
+  width: 3px; height: 3px;
   background: radial-gradient(circle, #FFA500, #FF8C00 60%, transparent);
   box-shadow: 0 0 8px rgba(255,165,0,0.6);
-  animation: energyFloat linear infinite;
+  animation: energyFloat 5s linear infinite;
 }
 @keyframes energyFloat {
-  0% { transform: translateY(100vh) scale(0); opacity:0 }
-  10% { opacity:1; transform: translateY(90vh) scale(1) }
-  50% { transform: translateY(50vh) scale(1.2) }
-  90% { transform: translateY(10vh) scale(1) }
+  0%   { transform: translateY(100vh) scale(0); opacity:0 }
+  10%  { opacity:1; transform: translateY(90vh) scale(1) }
+  50%  { transform: translateY(50vh) scale(1.2) }
+  90%  { transform: translateY(10vh) scale(1) }
   100% { transform: translateY(-10vh) scale(0); opacity:0 }
 }
 
 .loader-container {
-  position: relative; z-index:10; text-align:center;
+  @apply relative z-10 flex flex-col items-center gap-4;
 }
 .circular-loader {
-  position: relative; width:100px; height:100px; margin-bottom:1rem;
+  @apply relative w-24 h-24;
 }
 .loader-ring {
-  position:absolute; inset:0; border:4px solid transparent;
-  border-top-color:#FFA500; border-right-color:#FF8C00;
-  border-radius:50%; animation: loaderSpin 1.5s linear infinite;
+  @apply absolute inset-0 rounded-full;
+  border: 4px solid transparent;
+  border-top-color: #FFA500;
+  border-right-color: #FF8C00;
+  animation: loaderSpin 1.5s linear infinite;
   filter: drop-shadow(0 0 15px rgba(255,165,0,0.8));
 }
 .loader-core {
-  position:absolute; top:50%; left:50%; width:30px; height:30px;
+  @apply absolute rounded-full;
+  width: 30px; height: 30px;
   background: radial-gradient(circle,#FFA500,#FF8C00);
-  border-radius:50%; transform:translate(-50%, -50%);
+  top: 50%; left: 50%; transform: translate(-50%,-50%);
   animation: loaderPulse 2s ease-in-out infinite;
 }
 @keyframes loaderSpin { to { transform: rotate(360deg) } }
@@ -105,210 +87,114 @@
   50% { transform: translate(-50%,-50%) scale(1.3); }
 }
 
-.loading-text .japanese-loading {
-  font-family:'Noto Sans JP'; font-size:1.2rem; color:#FFA500;
-  text-shadow:0 0 15px rgba(255,165,0,0.9);
-  animation:textGlow 2s ease-in-out infinite alternate;
+.loading-text {
+  @apply text-center;
 }
-.loading-text .english-loading {
-  font-size:1rem; color:rgba(255,255,255,0.7); letter-spacing:2px;
+.japanese-loading {
+  font-family: 'Noto Sans JP', sans-serif;
+  @apply text-xl text-orange-400;
+  text-shadow: 0 0 15px rgba(255,165,0,0.9);
+  animation: textGlow 2s ease-in-out infinite alternate;
+}
+.english-loading {
+  @apply text-sm text-gray-300 tracking-widest;
 }
 @keyframes textGlow {
   from { text-shadow:0 0 15px rgba(255,165,0,0.9) }
   to   { text-shadow:0 0 25px rgba(255,165,0,1) }
 }
 
-/* Phase 2: Diagonal Slash */
-.sword-slash-phase { position:absolute; inset:0; background:#000; overflow:hidden; }
-
+/* ========================================
+   Phase 2: Perfect Diagonal Slash
+   ======================================== */
+.sword-slash-phase {
+  @apply absolute inset-0 bg-black overflow-hidden;
+}
 .dramatic-pause {
-  position:absolute; inset:0; background:#000;
+  @apply absolute inset-0 bg-black;
   animation: fadeOut 0.2s ease-out 0.2s forwards;
 }
 @keyframes fadeOut { to { opacity:0; visibility:hidden } }
 
-/* index.css or a CSS module */
-
+/* Container that holds CSS vars for slash */
 .slash-container {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
+  @apply absolute inset-0 pointer-events-none;
 }
 
-/* Use CSS variables for dynamic values */
+/* Slash line and glow use dynamic length + angle */
 .slash-line,
 .slash-glow {
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  @apply absolute bottom-0 left-0;
   width: var(--slash-length);
-  height: 4px; /* line thickness */
   transform-origin: bottom left;
   transform: rotate(var(--slash-angle)) scaleX(0);
   opacity: 0;
 }
-
-/* Base line style */
 .slash-line {
-  background: linear-gradient(to right, transparent 0%, #FFF 50%, transparent 100%);
-  box-shadow: 0 0 20px #FFA500, 0 0 40px #FFF;
-  animation: slashReveal 1s ease-out 0.3s forwards;
+  height: 4px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    #FFA500 20%,
+    #FFFFFF 50%,
+    #FFA500 80%,
+    transparent 100%
+  );
+  box-shadow: 0 0 20px #FFA500, 0 0 40px #FFFFFF;
 }
-
-/* Glow behind the line */
 .slash-glow {
-  background: radial-gradient(circle, rgba(255,140,0,0.3) 0%, transparent);
+  height: 12px;
+  background: radial-gradient(
+    circle at center,
+    rgba(255,140,0,0.3) 0%,
+    transparent 70%
+  );
   filter: blur(8px);
-  width: var(--slash-length);
-  animation: slashGlow 1s ease-out 0.25s forwards;
 }
 
+/* Reveal animations */
 @keyframes slashReveal {
   to {
     transform: rotate(var(--slash-angle)) scaleX(1);
     opacity: 1;
   }
 }
-
 @keyframes slashGlow {
   to {
     transform: rotate(var(--slash-angle)) scaleX(1);
-    opacity: 1;
+    opacity: 0.8;
   }
 }
-
-.diagonal-slash-container { position:absolute; inset:0; }
-
-/* Perfect diagonal slash line */
-.diagonal-slash-line {
-  position: absolute;
-  bottom: -5%;
-  left: -5%;
-  /* Cover full diagonal regardless of aspect ratio */
-  width: 4px;
-  height: calc(100vh * 1.4142 + 20px);
-  background: linear-gradient(
-    to top,
-    transparent 0%,
-    #FFA500 10%,
-    #FFF    30%,
-    #FFF    70%,
-    #FFA500 90%,
-    transparent 100%
-  );
-  transform: rotate(45deg);
-  transform-origin: bottom left;
-  box-shadow:
-    0 0 20px rgba(255,165,0,0.8),
-    0 0 40px rgba(255,255,255,0.6);
-  animation: perfectSlash 1.2s cubic-bezier(0.25,0.46,0.45,0.94) 0.3s forwards;
-  opacity: 0;
+.animate-slash {
+  animation: slashReveal 1s ease-out forwards;
+}
+.animate-slash-glow {
+  animation: slashGlow 1s ease-out forwards;
 }
 
-/* Ensure diagonal slash scales nicely on mobile */
-@media (max-width: 768px) {
-  .diagonal-slash-line {
-    width: 3px;
-    height: calc(100vh * 1.4142 + 40px);
-  }
-}
-
-/* Keyframes unchanged from earlier perfectSlash */
-@keyframes perfectSlash {
-  0%   { opacity:0; transform:rotate(45deg) scaleY(0); }
-  20%  { opacity:1; transform:rotate(45deg) scaleY(0.3); }
-  60%  { transform:rotate(45deg) scaleY(1); }
-  100% { opacity:0; transform:rotate(45deg) scaleY(1.2); }
-}
-
-.diagonal-slash-glow {
-  position: absolute;
-  bottom: -5%;
-  left: -5%;
-  width: 12px;
-  height: calc(100vh * 1.4142 + 40px);
-  background: radial-gradient(ellipse at 60% 40%, #ff8c0033 40%, rgba(255,255,255,0.8) 60%, transparent);
-  transform: rotate(45deg);
-  transform-origin: bottom left;
-  filter: blur(8px);
-  animation: perfectSlashGlow 1.2s cubic-bezier(0.25,0.46,0.45,0.94) 0.25s forwards;
-  opacity: 0;
-}
-@media (max-width: 768px) {
-  .diagonal-slash-glow {
-    width: 8px;
-    height: calc(100vh * 1.4142 + 60px);
-  }
-}
-@keyframes perfectSlashGlow {
-  0%   { opacity:0; transform:rotate(45deg) scaleY(0); }
-  30%  { opacity:0.8; }
-  70%  { transform:rotate(45deg) scaleY(1); }
-  100% { opacity:0; transform:rotate(45deg) scaleY(1.2); }
-}
-
-
-.slash-particles .diagonal-particle {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background: radial-gradient(circle, #FFF 0%, #FFA500 70%, transparent);
-  border-radius: 50%;
-  animation: diagonalParticleFly 1s ease-out forwards;
-  opacity: 0;
-  box-shadow: 0 0 8px rgba(255,165,0,0.8);
-}
-@keyframes diagonalParticleFly {
-  0%   { opacity:0; transform: translate(0,0) scale(0.5); }
-  30%  { opacity:1; transform: translate(30vw,-20vh) scale(1); }
-  100% { opacity:0; transform: translate(70vw,-60vh) scale(0.3); }
-}
-
-.katana-end-point {
-  position: absolute;
-  top: 15%;
-  right: 10%;
-  width: 40px;
-  height: 40px;
-  animation: katanaAppear 0.5s ease-out 1s forwards;
-  opacity: 0;
-}
-@keyframes katanaAppear {
-  0%   { opacity:0; transform:scale(0.5) rotate(-45deg); }
-  60%  { opacity:1; transform:scale(1.2) rotate(0); }
-  100% { opacity:1; transform:scale(1) rotate(0); }
-}
-
-/* Phase 3: Curtain Reveal */
+/* ========================================
+   Phase 3: Curtain Reveal
+   ======================================== */
 .curtain-reveal-phase {
-  position: absolute;
-  inset: 0;
-  background: #000;
+  @apply absolute inset-0 bg-black;
 }
 .diagonal-curtain {
-  position: absolute;
-  inset: 0;
-  background: #000;
-  clip-path: polygon(0 100%, 0 100%, 0 100%, 0 100%);
-  animation: curtainWipe 1s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+  @apply absolute inset-0 bg-black;
+  clip-path: polygon(0 100%,0 100%,0 100%,0 100%);
+  animation: curtainWipe 1s ease-out forwards;
 }
 @keyframes curtainWipe {
-  to {
-    clip-path: polygon(0 0, 100% 0, 0 100%, 0 100%);
+  100% {
+    clip-path: polygon(0 0,100% 0,0 100%,0 100%);
     opacity: 0;
     visibility: hidden;
   }
 }
 
-/* About Me Boxes: center aligned */
+/* ========================================
+   About Me Boxes Centered
+   ======================================== */
 .programming-lang-box,
 .about-skill-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  @apply flex flex-col items-center justify-center text-center;
 }
-
-/* End of updated CSS */

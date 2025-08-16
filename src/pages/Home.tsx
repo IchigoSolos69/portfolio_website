@@ -1,146 +1,75 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Cpu, Github, Zap, Mail, Award, Trophy, ChevronDown, Linkedin } from 'lucide-react';
+import SlashPhase from '../components/SlashPhase';
 
 const roles = [
   '学生 | Student',
-  'デベロッパー | Developer', 
+  'デベロッパー | Developer',
   'パートナーシップマネージャー | Partnership Manager',
   'ブリーチファン | Bleach Fan',
 ];
 
-const Home = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [typingText, setTypingText] = useState('');
-  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [charIndex, setCharIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
+export default function Home() {
   const [loadingPhase, setLoadingPhase] = useState(1);
+  const [isLoading, setIsLoading]     = useState(true);
+  const [isVisible, setIsVisible]     = useState(false);
+  const [typingText, setTypingText]   = useState('');
+  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
+  const [isDeleting, setIsDeleting]   = useState(false);
+  const [charIndex, setCharIndex]     = useState(0);
 
-  function useDiagonalSlashStyles() {
-    const containerRef = useRef<HTMLDivElement>(null);
-  
-    useEffect(() => {
-      function updateSlash() {
-        if (!containerRef.current) return;
-        const w = window.innerWidth;
-        const h = window.innerHeight;
-        // Diagonal length
-        const length = Math.hypot(w, h) + 20; // extra buffer
-        // Angle from bottom-left to top-right
-        const angle = Math.atan2(h, w) * (180 / Math.PI);
-        // Set CSS variables
-        containerRef.current.style.setProperty('--slash-length', `${length}px`);
-        containerRef.current.style.setProperty('--slash-angle', `${angle}deg`);
-      }
-  
-      updateSlash();
-      window.addEventListener('resize', updateSlash);
-      return () => window.removeEventListener('resize', updateSlash);
-    }, []);
-  
-    return containerRef;
-  }
-  
-  export default function SlashPhase() {
-    const slashRef = useDiagonalSlashStyles();
-  
-    return (
-      <div ref={slashRef} className="slash-container">
-        <div className="slash-line" />
-        <div className="slash-glow" />
-      </div>
-    );
-  }
-  
+  // Unlock AudioContext on first user gesture
   useEffect(() => {
     const resumeAudio = () => {
-      if (window.AudioContext) {
-        const ctx = new AudioContext();
-        if (ctx.state === 'suspended') ctx.resume();
-      }
+      const ctx = new AudioContext();
+      if (ctx.state === 'suspended') ctx.resume();
       window.removeEventListener('pointerdown', resumeAudio);
+      window.removeEventListener('touchstart', resumeAudio);
     };
     window.addEventListener('pointerdown', resumeAudio, { once: true });
+    window.addEventListener('touchstart', resumeAudio, { once: true });
   }, []);
-  
-  // Fixed Loading Phase Management
+
+  // Phase management
   useEffect(() => {
     if (!isLoading) return;
-  
-    if (loadingPhase === 1) {
-      const timer = setTimeout(() => {
-        setLoadingPhase(2);
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-    
-    if (loadingPhase === 2) {
-      // FORCE AUDIO PLAY - Multiple attempts
-      const playSlashSound = async () => {
-        try {
-          const slashAudio = new Audio('https://raw.githubusercontent.com/IchigoSolos69/portfolio_website/7e5783adb55f55d4ed317b643826b458ad824700/public/sounds/sword-slash.mp3');
-          slashAudio.volume = 0.7;
-          slashAudio.preload = 'auto';
-          
-          // Force play immediately
-          const playPromise = slashAudio.play();
-          
-          if (playPromise !== undefined) {
-            playPromise.catch(error => {
-              console.log('Audio autoplay failed, but continuing animation:', error);
-              // Continue anyway - some browsers block autoplay
-            });
-          }
-        } catch (error) {
-          console.log('Audio failed to load:', error);
-        }
-      };
-      
-      // Play sound immediately when phase 2 starts
-      playSlashSound();
-      
-      const timer = setTimeout(() => {
-        setLoadingPhase(3);
-      }, 1400);
-      return () => clearTimeout(timer);
-    }
-    
-    if (loadingPhase === 3) {
-      const timer = setTimeout(() => {
-        setIsLoading(false);
-        setIsVisible(true);
-      }, 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [loadingPhase, isLoading]);
-
-  // Fixed Typing Effect
-  useEffect(() => {
-    if (isLoading) return;
-
     let timer: ReturnType<typeof setTimeout>;
 
-    if (!isDeleting && charIndex <= roles[currentRoleIndex].length) {
-      setTypingText(roles[currentRoleIndex].substring(0, charIndex));
-      timer = setTimeout(() => {
-        setCharIndex(prev => prev + 1);
-      }, Math.random() * 100 + 80);
-    } else if (!isDeleting && charIndex > roles[currentRoleIndex].length) {
-      // Pause before deleting
-      timer = setTimeout(() => {
-        setIsDeleting(true);
-      }, 2000);
+    switch (loadingPhase) {
+      case 1:
+        timer = setTimeout(() => setLoadingPhase(2), 3000);
+        break;
+      case 2:
+        timer = setTimeout(() => setLoadingPhase(3), 1400);
+        break;
+      case 3:
+        timer = setTimeout(() => {
+          setIsLoading(false);
+          setIsVisible(true);
+        }, 1000);
+        break;
+    }
+    return () => clearTimeout(timer);
+  }, [loadingPhase, isLoading]);
+
+  // Typing effect
+  useEffect(() => {
+    if (isLoading) return;
+    let timer: ReturnType<typeof setTimeout>;
+    const role = roles[currentRoleIndex];
+
+    if (!isDeleting && charIndex <= role.length) {
+      setTypingText(role.substring(0, charIndex));
+      timer = setTimeout(() => setCharIndex(c => c + 1), Math.random() * 100 + 80);
+    } else if (!isDeleting && charIndex > role.length) {
+      timer = setTimeout(() => setIsDeleting(true), 2000);
     } else if (isDeleting && charIndex > 0) {
-      setTypingText(roles[currentRoleIndex].substring(0, charIndex));
-      timer = setTimeout(() => {
-        setCharIndex(prev => prev - 1);
-      }, 50);
-    } else if (isDeleting && charIndex === 0) {
-      // Move to next role
+      setTypingText(role.substring(0, charIndex));
+      timer = setTimeout(() => setCharIndex(c => c - 1), 50);
+    } else {
       timer = setTimeout(() => {
         setIsDeleting(false);
-        setCurrentRoleIndex(prev => (prev + 1) % roles.length);
+        setCurrentRoleIndex(i => (i + 1) % roles.length);
         setCharIndex(0);
       }, 500);
     }
@@ -148,43 +77,35 @@ const Home = () => {
     return () => clearTimeout(timer);
   }, [charIndex, isDeleting, currentRoleIndex, isLoading]);
 
-  const scrollToSection = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
   if (isLoading) {
     return (
       <div className="cinematic-loading-overlay">
-        {/* Phase 1: Loading Screen */}
         {loadingPhase === 1 && (
           <div className="loading-screen">
-            <div className="loading-background"></div>
-            
-            {/* Energy Particles */}
+            <div className="loading-background" />
             <div className="energy-particles">
               {[...Array(25)].map((_, i) => (
-                <div 
-                  key={i} 
-                  className="energy-particle" 
+                <div
+                  key={i}
+                  className="energy-particle"
                   style={{
-                    left: `${Math.random() * 100}%`,
-                    top: `${Math.random() * 100}%`,
-                    animationDelay: `${Math.random() * 3}s`,
+                    left:  `${Math.random() * 100}%`,
+                    top:   `${Math.random() * 100}%`,
+                    animationDelay:    `${Math.random() * 3}s`,
                     animationDuration: `${3 + Math.random() * 4}s`
-                  }} 
+                  }}
                 />
               ))}
             </div>
-            
-            {/* Glowing Circular Loader */}
             <div className="loader-container">
               <div className="circular-loader">
-                <div className="loader-ring"></div>
-                <div className="loader-core"></div>
+                <div className="loader-ring" />
+                <div className="loader-core" />
               </div>
-              
-              {/* Japanese Loading Text */}
               <div className="loading-text">
                 <div className="japanese-loading">読み込み中...</div>
                 <div className="english-loading">Loading...</div>
@@ -192,45 +113,17 @@ const Home = () => {
             </div>
           </div>
         )}
-        
-        {/* Phase 2: Sword Slash */}
+
         {loadingPhase === 2 && (
-  <div className="sword-slash-phase">
-    {/* Dramatic pause */}
-    <div className="dramatic-pause"></div>
-    
-    {/* Diagonal slash line from bottom-left to top-right */}
-    <div className="diagonal-slash-container">
-      <div className="diagonal-slash-line"></div>
-      <div className="diagonal-slash-glow"></div>
-      
-      {/* Trailing particles along the slash */}
-      <div className="slash-particles">
-        {[...Array(12)].map((_, i) => (
-          <div 
-            key={i} 
-            className="diagonal-particle" 
-            style={{
-              animationDelay: `${0.3 + i * 0.08}s`
-            }}
-          />
-        ))}
-      </div>
-    </div>
-    
-    {/* Katana at the end point */}
-    <div className="katana-end-point">
-      <svg className="katana-icon" viewBox="0 0 24 24" fill="none">
-        <path d="M4 4l16 16M4 20L20 4" stroke="#FFA500" strokeWidth="2" strokeLinecap="round"/>
-      </svg>
-    </div>
-  </div>
-)}
-        
-        {/* Phase 3: Curtain Reveal */}
+          <div className="sword-slash-phase">
+            <div className="dramatic-pause" />
+            <SlashPhase onComplete={() => setLoadingPhase(3)} />
+          </div>
+        )}
+
         {loadingPhase === 3 && (
           <div className="curtain-reveal-phase">
-            <div className="diagonal-curtain"></div>
+            <div className="diagonal-curtain" />
           </div>
         )}
       </div>
@@ -238,72 +131,34 @@ const Home = () => {
   }
 
   return (
-    <div className={`min-h-screen bg-black text-white transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-      {/* Fixed Background Effects */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="dynamic-background" />
-        <div className="optimized-particle-field">
-          {[...Array(15)].map((_, i) => (
-            <div
-              key={i}
-              className="optimized-particle"
-              style={{ left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%` }}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Hero Section */}
-      <section className="min-h-screen flex items-center justify-center relative z-10 px-6">
+    <div className={`min-h-screen bg-black text-white transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+      {/* Hero section */}
+      <section id="hero" className="min-h-screen flex items-center justify-center px-6">
         <div className="text-center max-w-4xl mx-auto">
-          <div className="mb-12">
-            <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
-              <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent animate-gradient-text">
-                Adi Rajendra Maitre
-              </span>
-            </h1>
-            
-            {/* Fixed Typing Display */}
-            <div className="text-2xl md:text-3xl text-gray-300 mb-6 h-12 flex items-center justify-center overflow-hidden">
-              <span className="border-r-2 border-spiritual-energy animate-blink pr-1">
-                {typingText}
-              </span>
-            </div>
-            
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
-              Crafting digital experiences with precision and passion.
-              <span className="text-spiritual-energy japanese-text block mt-2">開発者</span>
-            </p>
+          <h1 className="text-6xl md:text-8xl font-bold mb-4">
+            <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent animate-gradient-text">
+              Adi Rajendra Maitre
+            </span>
+          </h1>
+          <div className="text-2xl md:text-3xl text-gray-300 h-12 flex items-center justify-center mb-4 overflow-hidden">
+            <span className="border-r-2 border-spiritual-energy animate-blink pr-1">{typingText}</span>
           </div>
+          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+            Crafting digital experiences with precision and passion.
+            <span className="text-spiritual-energy japanese-text block mt-2">開発者</span>
+          </p>
 
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in-up" style={{animationDelay: '0.3s'}}>
-            <button
-              onClick={() => scrollToSection('about')}
-              className="bg-spiritual-gradient hover:bg-reiatsu-glow text-gray-900 font-medium px-8 py-4 rounded-lg transition-all duration-300 text-lg shadow-lg hover:shadow-spiritual-energy/50 group"
-            >
-              <span className="relative z-10 flex items-center gap-2">
-                <Award className="w-5 h-5" /> About Me
-              </span>
+          <div className="flex gap-6 mt-8">
+            <button onClick={() => scrollTo('about')} className="bg-spiritual-gradient hover:bg-reiatsu-glow text-gray-900 px-8 py-4 rounded-lg shadow-lg transition">
+              <Award className="inline w-5 h-5 mr-2" /> About Me
             </button>
-            <button
-              onClick={() => scrollToSection('projects')}
-              className="border-2 border-spiritual-energy bg-transparent text-gray-100 hover:bg-spiritual-energy/20 px-8 py-4 rounded-lg text-lg transition-all duration-300 hover:shadow-lg hover:shadow-spiritual-energy/25 group"
-            >
-              <span className="relative z-10 flex items-center gap-2">
-                <Zap className="w-5 h-5" /> View Projects
-              </span>
+            <button onClick={() => scrollTo('projects')} className="border-2 border-spiritual-energy text-white px-8 py-4 rounded-lg hover:bg-spiritual-energy/20 transition">
+              <Zap className="inline w-5 h-5 mr-2" /> View Projects
             </button>
-          </div>
-
-          <div className="mt-12 animate-fade-in-up" style={{animationDelay: '0.6s'}}>
-            <ChevronDown
-              className="w-8 h-8 mx-auto text-spiritual-energy animate-bounce cursor-pointer"
-              onClick={() => scrollToSection('about')}
-            />
           </div>
         </div>
       </section>
-
+      
       {/* About Section */}
       <section id="about" className="py-20 px-6 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
@@ -1146,4 +1001,3 @@ const Home = () => {
   );
 };
 
-export default Home;
