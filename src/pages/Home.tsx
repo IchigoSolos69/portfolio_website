@@ -14,6 +14,7 @@ const Home = () => {
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [charIndex, setCharIndex] = useState(0);
+  const [showGlitch, setShowGlitch] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [loadingPhase, setLoadingPhase] = useState(0);
   const [slashCoords, setSlashCoords] = useState({ width: '100vw', height: '100vh', angle: 45 });
@@ -92,7 +93,7 @@ const Home = () => {
     }
   }, [loadingPhase, isLoading]);
 
-  // Fixed Typing Effect
+  // Enhanced Typing Effect with Character Animations
   useEffect(() => {
     if (isLoading) return;
 
@@ -102,28 +103,45 @@ const Home = () => {
       setTypingText(roles[currentRoleIndex].substring(0, charIndex));
       timer = setTimeout(() => {
         setCharIndex(prev => prev + 1);
-      }, Math.random() * 100 + 80);
+      }, Math.random() * 120 + 60);
     } else if (!isDeleting && charIndex > roles[currentRoleIndex].length) {
       // Pause before deleting
       timer = setTimeout(() => {
+        setShowGlitch(true);
+        setTimeout(() => setShowGlitch(false), 300);
         setIsDeleting(true);
-      }, 2000);
+      }, 2500);
     } else if (isDeleting && charIndex > 0) {
       setTypingText(roles[currentRoleIndex].substring(0, charIndex));
       timer = setTimeout(() => {
         setCharIndex(prev => prev - 1);
-      }, 50);
+      }, 30);
     } else if (isDeleting && charIndex === 0) {
-      // Move to next role
+      // Move to next role with glitch effect
       timer = setTimeout(() => {
+        setShowGlitch(true);
+        setTimeout(() => setShowGlitch(false), 300);
         setIsDeleting(false);
         setCurrentRoleIndex(prev => (prev + 1) % roles.length);
         setCharIndex(0);
-      }, 500);
+      }, 400);
     }
 
     return () => clearTimeout(timer);
   }, [charIndex, isDeleting, currentRoleIndex, isLoading]);
+
+  // Render individual characters with staggered animations
+  const renderTypingText = () => {
+    return typingText.split('').map((char: string, index: number) => (
+      <span 
+        key={`${currentRoleIndex}-${index}`}
+        className="char-reveal"
+        style={{ animationDelay: `${index * 0.05}s` }}
+      >
+        {char === ' ' ? '\u00A0' : char}
+      </span>
+    ));
+  };
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
@@ -305,11 +323,14 @@ const Home = () => {
               </span>
             </h1>
             
-            {/* Fixed Typing Display */}
-            <div className="text-2xl md:text-3xl text-gray-300 mb-6 h-12 flex items-center justify-center overflow-hidden">
-              <span className="border-r-2 border-spiritual-energy animate-blink pr-1">
-                {typingText}
-              </span>
+            {/* Enhanced Typing Display */}
+            <div className="text-2xl md:text-3xl mb-6 h-16 flex items-center justify-center overflow-hidden">
+              <div className={`typing-container ${showGlitch ? 'typing-glitch' : ''}`}>
+                <span className="typing-text">
+                  {renderTypingText()}
+                </span>
+                <span className="typing-cursor"></span>
+              </div>
             </div>
             
             <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
