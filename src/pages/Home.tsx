@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Cpu, Github, Zap, Mail, Award, Trophy, ChevronDown, Linkedin } from 'lucide-react';
 
 const roles = [
-  '学生 - Student',
-  'デベロッパー - Developer',
-  'パートナーシップマネージャー - Partnership Manager',
-  'ブリーチファン - Bleach Fan',
+  '学生 - Student ',
+  'デベロッパー - Developer ',
+  'パートナーシップマネージャー - Partnership Manager ',
+  'ブリーチファン - Bleach Fan ',
 ];
 
 const TRAIL_LENGTH = 10;
@@ -88,7 +88,7 @@ const Home = () => {
             </h1>
             <div className="text-2xl md:text-3xl text-gray-300 mb-6 h-12 flex items-center justify-center overflow-hidden">
               <span className="border-r-2 border-spiritual-energy animate-blink pr-1 bg-spiritual-gradient bg-clip-text text-transparent flex items-center">
-                {typingText.split('').map((char, i) => (
+                {typingText.split('').map((char: string, i: number) => (
                   <span
                     key={i}
                     className={`inline-block transition-all duration-200 ${
@@ -129,7 +129,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-      
+
       {/* About Section */}
       <section id="about" className="py-20 px-6 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">

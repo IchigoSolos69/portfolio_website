@@ -4,15 +4,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!slashSound || !slashOverlay) return;
 
-  // Play the sword sound when animation starts
+  // Enable audio on first user interaction
+  let audioEnabled = false;
+  const enableAudio = () => {
+    if (!audioEnabled) {
+      slashSound.play().then(() => {
+        slashSound.pause();
+        slashSound.currentTime = 0;
+        audioEnabled = true;
+      }).catch(() => {});
+    }
+  };
+
+  // Listen for any user interaction to enable audio
+  ['click', 'touchstart', 'keydown'].forEach(event => {
+    document.addEventListener(event, enableAudio, { once: true });
+  });
+
+  // Play the sword sound when slash animation starts
   slashOverlay.addEventListener("animationstart", (e) => {
-    if (e.animationName === "sword-slash") {
+    if (e.animationName === "sword-slash" && audioEnabled) {
       slashSound.currentTime = 0;
-      slashSound.play().catch(err => console.log("Autoplay blocked:", err));
+      slashSound.play().catch(err => console.log("Audio playback failed:", err));
     }
   });
 
-  // Remove overlay after animation ends (to free up performance)
+  // Auto-trigger slash sound after a delay (for users who don't interact)
+  setTimeout(() => {
+    if (audioEnabled) {
+      slashSound.currentTime = 0;
+      slashSound.play().catch(() => {});
+    }
+  }, 500);
+
+  // Remove overlay after animation ends
   slashOverlay.addEventListener("animationend", (e) => {
     if (e.animationName === "fade-out") {
       slashOverlay.remove();

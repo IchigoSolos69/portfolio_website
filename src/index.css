@@ -1195,7 +1195,7 @@
     background: black; /* hides content initially */
     z-index: 9999;
     pointer-events: none;
-    animation: fade-out 2.2s ease forwards;
+    animation: sword-slash 1.8s ease forwards, fade-out 2.2s ease forwards;
   }
 
   /* The slash line */
@@ -1378,6 +1378,13 @@
     transform: rotate(35deg) scale(0.5);
     filter: drop-shadow(0 0 15px hsl(var(--spiritual-energy)));
     animation: sword-appear 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+
+  /* Fade out animation for page load slash */
+  @keyframes fade-out {
+    0% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { opacity: 0; }
   }
 
   /* 🔹 Slash animation: bottom-left → top-right */
