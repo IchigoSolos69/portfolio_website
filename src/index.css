@@ -3,11 +3,6 @@
 @tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
 
-@layer utilities {
-  .text-foreground {
-    color: theme('colors.gray.900'); /* or any custom color */
-  }
-}
 
 @layer base {
   :root {
@@ -36,36 +31,28 @@
     /* background: linear-gradient(135deg, hsl(var(--soul-society)), hsl(var(--background))); */
     
     /* OPTION 3: Minimal with subtle texture (uncomment to use) */
-    background: 
+    /* background: 
       linear-gradient(135deg, hsl(var(--soul-society)) 0%, hsl(var(--background)) 100%),
-      repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.01) 2px, rgba(255,255,255,0.01) 4px); 
+      repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.01) 2px, rgba(255,255,255,0.01) 4px); */ 
     
     /* OPTION 4: Custom image background (uncomment and replace URL) */
-    /* background: 
+     background: 
       linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
-      url('YOUR_IMAGE_URL_HERE') center/cover no-repeat; */
+      url('https://e1.pxfuel.com/desktop-wallpaper/414/600/desktop-wallpaper-bleach-black-and-white-bleach-black.jpg') center/cover no-repeat;
   }
   
   html {
     scroll-behavior: smooth;
   }
 
-  /* Scrollbar: intense spiritual energy gradient */
+  /* Hide scrollbar for cleaner appearance */
   ::-webkit-scrollbar {
-    width: 14px;
+    display: none;
   }
-  ::-webkit-scrollbar-track {
-    background: linear-gradient(180deg, rgb(38 38 38), rgb(16 16 16));
-    border-radius: 7px;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, var(--spiritual-energy), var(--reiatsu-glow));
-    border-radius: 7px;
-    box-shadow: 0 0 18px rgba(50, 150, 255, 0.36);
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, var(--reiatsu-glow), var(--spiritual-energy));
-    box-shadow: 0 0 24px 4px rgba(255, 125, 20, 0.42);
+  
+  /* For Firefox */
+  html {
+    scrollbar-width: none;
   }
 
   /* Japanese text styling */
