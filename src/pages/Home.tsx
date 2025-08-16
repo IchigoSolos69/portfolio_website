@@ -14,15 +14,44 @@ const Home = () => {
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [charIndex, setCharIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadingPhase, setLoadingPhase] = useState(1);
 
-  // Initialize visibility immediately
+  // Cinematic loading sequence
   useEffect(() => {
-    setIsVisible(true);
+    // Phase 1: Loading screen (2.5s)
+    const phase2Timer = setTimeout(() => {
+      setLoadingPhase(2);
+      // Play sword slash sound effect synced with animation
+      setTimeout(() => {
+        const audio = new Audio('/sounds/sword-slash.mp3');
+        audio.volume = 0.4;
+        audio.play().catch(() => {
+          console.log('Audio autoplay prevented');
+        });
+      }, 100); // Sync with sword animation start
+    }, 2500);
+    
+    // Phase 2: Sword slash (1.5s)
+    const phase3Timer = setTimeout(() => setLoadingPhase(3), 4000);
+    
+    // Phase 3: Curtain reveal and complete (1s)
+    const completeTimer = setTimeout(() => {
+      setIsLoading(false);
+      setIsVisible(true);
+    }, 5000);
+
+    return () => {
+      clearTimeout(phase2Timer);
+      clearTimeout(phase3Timer);
+      clearTimeout(completeTimer);
+    };
   }, []);
 
 
   // Typing effect
   useEffect(() => {
+    if (isLoading) return;
 
     let timer: ReturnType<typeof setTimeout>;
 
@@ -42,13 +71,115 @@ const Home = () => {
     }
 
     return () => clearTimeout(timer);
-  }, [charIndex, isDeleting, currentRoleIndex]);
+  }, [charIndex, isDeleting, currentRoleIndex, isLoading]);
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
+  if (isLoading) {
+    return (
+      <div className="cinematic-loading-overlay">
+        {/* Phase 1: Loading Screen */}
+        {loadingPhase === 1 && (
+          <div className="loading-screen">
+            <div className="loading-background"></div>
+            
+            {/* Energy Particles */}
+            <div className="energy-particles">
+              {[...Array(25)].map((_, i) => (
+                <div 
+                  key={i} 
+                  className="energy-particle" 
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                    animationDelay: `${Math.random() * 3}s`,
+                    animationDuration: `${3 + Math.random() * 4}s`
+                  }} 
+                />
+              ))}
+            </div>
+            
+            {/* Glowing Circular Loader */}
+            <div className="loader-container">
+              <div className="circular-loader">
+                <div className="loader-ring"></div>
+                <div className="loader-core"></div>
+              </div>
+              
+              {/* Japanese Loading Text */}
+              <div className="loading-text">
+                <div className="japanese-loading">読み込み中...</div>
+                <div className="english-loading">Loading...</div>
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {/* Phase 2: Sword Slash */}
+        {loadingPhase === 2 && (
+          <div className="sword-slash-phase">
+            {/* Black Dramatic Pause */}
+            <div className="dramatic-pause"></div>
+            
+            {/* Katana Sword */}
+            <div className="katana-sword">
+              <svg className="sword-svg" viewBox="0 0 100 400" fill="none">
+                <defs>
+                  <linearGradient id="swordGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#C0C0C0" />
+                    <stop offset="50%" stopColor="#FFFFFF" />
+                    <stop offset="100%" stopColor="#FFA500" />
+                  </linearGradient>
+                  <filter id="swordGlow">
+                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                    <feMerge>
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+                
+                {/* Blade */}
+                <path d="M45 20 L55 20 L52 380 L48 380 Z" 
+                      fill="url(#swordGradient)" 
+                      filter="url(#swordGlow)"/>
+                
+                {/* Handle */}
+                <rect x="40" y="380" width="20" height="15" 
+                      fill="#2C1810" rx="2"/>
+              </svg>
+            </div>
+            
+            {/* Glowing Trail */}
+            <div className="slash-trail"></div>
+            
+            {/* Spark Particles */}
+            <div className="spark-particles">
+              {[...Array(15)].map((_, i) => (
+                <div 
+                  key={i} 
+                  className="spark-particle" 
+                  style={{
+                    animationDelay: `${i * 0.05}s`
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        
+        {/* Phase 3: Curtain Reveal */}
+        {loadingPhase === 3 && (
+          <div className="curtain-reveal-phase">
+            <div className="diagonal-curtain"></div>
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className={`min-h-screen bg-black text-white transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
@@ -170,41 +301,36 @@ const Home = () => {
             </div>
             
             <div className="animate-fade-in-up" style={{animationDelay: '0.3s'}}>
-              <h3 className="text-2xl font-bold text-reiatsu-glow mb-6 text-center">
-                Programming Languages & Technologies
-                <span className="text-lg japanese-text text-spiritual-energy block mt-1">プログラミング言語</span>
-              </h3>
-              
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
                 {[
-                  { name: 'JavaScript', icon: '🟨', level: 'Expert' },
-                  { name: 'TypeScript', icon: '🔷', level: 'Expert' },
-                  { name: 'Python', icon: '🐍', level: 'Expert' },
-                  { name: 'React', icon: '⚛️', level: 'Expert' },
-                  { name: 'Node.js', icon: '🟢', level: 'Advanced' },
-                  { name: 'Java', icon: '☕', level: 'Advanced' },
-                  { name: 'C++', icon: '⚡', level: 'Intermediate' },
-                  { name: 'Go', icon: '🔵', level: 'Learning' }
+                  { name: 'JavaScript', level: 'Expert' },
+                  { name: 'TypeScript', level: 'Expert' },
+                  { name: 'Python', level: 'Expert' },
+                  { name: 'React', level: 'Expert' },
+                  { name: 'Node.js', level: 'Advanced' },
+                  { name: 'Java', level: 'Advanced' },
+                  { name: 'C++', level: 'Intermediate' },
+                  { name: 'Go', level: 'Learning' }
                 ].map((lang, idx) => (
                   <div 
                     key={lang.name} 
-                    className="programming-lang-box group relative bg-gradient-to-br from-hollow-mask/20 to-soul-society/10 rounded-xl p-4 border border-spiritual-energy/20 hover:border-reiatsu-glow transition-all duration-500 hover:scale-105 hover:shadow-lg hover:shadow-spiritual-energy/20"
+                    className="programming-lang-box group relative bg-gradient-to-br from-hollow-mask/20 to-soul-society/10 rounded-xl p-6 border border-spiritual-energy/20 hover:border-reiatsu-glow transition-all duration-700 hover:scale-110 hover:shadow-2xl hover:shadow-spiritual-energy/30"
                     style={{
-                      animation: `langBoxFloat 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${0.1 + idx * 0.1}s forwards`,
+                      animation: `langBoxFloat 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${0.15 + idx * 0.15}s forwards`,
                       opacity: 0,
-                      transform: 'translateY(20px) scale(0.9)'
+                      transform: 'translateY(30px) scale(0.8) rotateX(15deg)'
                     }}
                   >
-                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-reiatsu-glow/0 via-reiatsu-glow/5 to-reiatsu-glow/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-reiatsu-glow/0 via-reiatsu-glow/10 to-reiatsu-glow/0 opacity-0 group-hover:opacity-100 transition-all duration-700" />
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-spiritual-energy/5 via-transparent to-kido-purple/5 opacity-0 group-hover:opacity-100 transition-all duration-700 animate-pulse" />
                     
                     <div className="relative z-10 text-center">
-                      <div className="text-3xl mb-2 group-hover:scale-110 transition-transform duration-300">{lang.icon}</div>
-                      <h4 className="text-spiritual-energy font-semibold text-sm mb-1 group-hover:text-reiatsu-glow transition-colors duration-300">{lang.name}</h4>
-                      <span className={`text-xs px-2 py-1 rounded-full ${
-                        lang.level === 'Expert' ? 'bg-green-500/20 text-green-400' :
-                        lang.level === 'Advanced' ? 'bg-blue-500/20 text-blue-400' :
-                        lang.level === 'Intermediate' ? 'bg-yellow-500/20 text-yellow-400' :
-                        'bg-purple-500/20 text-purple-400'
+                      <h4 className="text-spiritual-energy font-bold text-lg mb-3 group-hover:text-reiatsu-glow transition-all duration-500 group-hover:scale-105">{lang.name}</h4>
+                      <span className={`text-sm px-3 py-2 rounded-full font-medium transition-all duration-500 group-hover:scale-105 ${
+                        lang.level === 'Expert' ? 'bg-green-500/20 text-green-400 group-hover:bg-green-500/30' :
+                        lang.level === 'Advanced' ? 'bg-blue-500/20 text-blue-400 group-hover:bg-blue-500/30' :
+                        lang.level === 'Intermediate' ? 'bg-yellow-500/20 text-yellow-400 group-hover:bg-yellow-500/30' :
+                        'bg-purple-500/20 text-purple-400 group-hover:bg-purple-500/30'
                       }`}>
                         {lang.level}
                       </span>
@@ -227,6 +353,23 @@ const Home = () => {
 
       {/* Projects Section */}
       <section id="projects" className="py-20 px-6 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="particle-field">
+            {[...Array(40)].map((_, i) => (
+              <div 
+                key={i} 
+                className="moving-particle" 
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${i * 0.15}s`,
+                  animationDuration: `${8 + Math.random() * 12}s`
+                }} 
+              />
+            ))}
+          </div>
+        </div>
+        
         <div className="max-w-6xl mx-auto relative z-10">
           <h2 className="text-5xl font-bold text-center mb-16">
             <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent">
@@ -324,8 +467,17 @@ const Home = () => {
        <section id="achievements" className="py-20 px-6 relative overflow-hidden">
        <div className="absolute inset-0 pointer-events-none">
          <div className="particle-field">
-           {[...Array(25)].map((_, i) => (
-             <div key={i} className="spiritual-particle animate-float-random" style={{animationDelay: `${i * 0.25}s`}} />
+           {[...Array(40)].map((_, i) => (
+             <div 
+               key={i} 
+               className="moving-particle" 
+               style={{
+                 left: `${Math.random() * 100}%`,
+                 top: `${Math.random() * 100}%`,
+                 animationDelay: `${i * 0.15}s`,
+                 animationDuration: `${8 + Math.random() * 12}s`
+               }} 
+             />
            ))}
          </div>
        </div>
@@ -400,6 +552,23 @@ const Home = () => {
 
       {/* Contact Section */}
       <section id="contact" className="py-20 px-6 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="particle-field">
+            {[...Array(40)].map((_, i) => (
+              <div 
+                key={i} 
+                className="moving-particle" 
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${i * 0.15}s`,
+                  animationDuration: `${8 + Math.random() * 12}s`
+                }} 
+              />
+            ))}
+          </div>
+        </div>
+        
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <h2 className="text-4xl font-bold mb-4 text-spiritual-energy">
             Connect With Me
@@ -571,6 +740,310 @@ const Home = () => {
             transform: translateY(-10vh) translateX(0) scale(0);
             opacity: 0;
           }
+        }
+        
+        /* Cinematic Loading Overlay */
+        .cinematic-loading-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          z-index: 10000;
+          overflow: hidden;
+        }
+        
+        /* Phase 1: Loading Screen */
+        .loading-screen {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          animation: fadeIn 0.5s ease-out;
+        }
+        
+        .loading-background {
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(ellipse at center, #0a0a1a 0%, #1a1a2e 40%, #16213e 70%, #000 100%);
+        }
+        
+        /* Energy Particles */
+        .energy-particles {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+        }
+        
+        .energy-particle {
+          position: absolute;
+          width: 3px;
+          height: 3px;
+          background: radial-gradient(circle, #FFA500 0%, #FF8C00 50%, transparent 100%);
+          border-radius: 50%;
+          animation: energyFloat linear infinite;
+          box-shadow: 0 0 8px rgba(255, 165, 0, 0.6);
+        }
+        
+        @keyframes energyFloat {
+          0% {
+            transform: translateY(100vh) translateX(0) scale(0) rotate(0deg);
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+            transform: translateY(90vh) translateX(10px) scale(1) rotate(45deg);
+          }
+          50% {
+            opacity: 1;
+            transform: translateY(50vh) translateX(-20px) scale(1.2) rotate(180deg);
+          }
+          90% {
+            opacity: 1;
+            transform: translateY(10vh) translateX(15px) scale(1) rotate(315deg);
+          }
+          100% {
+            transform: translateY(-10vh) translateX(0) scale(0) rotate(360deg);
+            opacity: 0;
+          }
+        }
+        
+        /* Glowing Circular Loader */
+        .loader-container {
+          position: relative;
+          z-index: 10;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 2rem;
+        }
+        
+        .circular-loader {
+          position: relative;
+          width: 100px;
+          height: 100px;
+        }
+        
+        .loader-ring {
+          position: absolute;
+          inset: 0;
+          border: 4px solid transparent;
+          border-top: 4px solid #FFA500;
+          border-right: 4px solid #FF8C00;
+          border-radius: 50%;
+          animation: loaderSpin 1.5s linear infinite;
+          filter: drop-shadow(0 0 15px rgba(255, 165, 0, 0.8));
+        }
+        
+        .loader-core {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 30px;
+          height: 30px;
+          background: radial-gradient(circle, #FFA500 0%, #FF8C00 100%);
+          border-radius: 50%;
+          transform: translate(-50%, -50%);
+          animation: loaderPulse 2s ease-in-out infinite;
+          box-shadow: 0 0 20px rgba(255, 165, 0, 0.9);
+        }
+        
+        @keyframes loaderSpin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes loaderPulse {
+          0%, 100% { 
+            transform: translate(-50%, -50%) scale(1);
+            box-shadow: 0 0 20px rgba(255, 165, 0, 0.9);
+          }
+          50% { 
+            transform: translate(-50%, -50%) scale(1.3);
+            box-shadow: 0 0 30px rgba(255, 165, 0, 1);
+          }
+        }
+        
+        /* Japanese Loading Text */
+        .loading-text {
+          text-align: center;
+        }
+        
+        .japanese-loading {
+          font-size: 1.8rem;
+          font-weight: 500;
+          color: #FFA500;
+          text-shadow: 0 0 15px rgba(255, 165, 0, 0.9), 0 0 30px rgba(255, 165, 0, 0.5);
+          animation: textGlow 2.5s ease-in-out infinite alternate;
+          margin-bottom: 0.5rem;
+          font-family: 'Noto Sans JP', sans-serif;
+        }
+        
+        .english-loading {
+          font-size: 1rem;
+          color: rgba(255, 255, 255, 0.7);
+          font-weight: 300;
+          letter-spacing: 2px;
+        }
+        
+        @keyframes textGlow {
+          0% {
+            text-shadow: 0 0 15px rgba(255, 165, 0, 0.9), 0 0 30px rgba(255, 165, 0, 0.5);
+          }
+          100% {
+            text-shadow: 0 0 25px rgba(255, 165, 0, 1), 0 0 50px rgba(255, 165, 0, 0.7);
+          }
+        }
+        
+        /* Phase 2: Sword Slash */
+        .sword-slash-phase {
+          position: absolute;
+          inset: 0;
+          background: #000;
+        }
+        
+        .dramatic-pause {
+          position: absolute;
+          inset: 0;
+          background: #000;
+          animation: fadeOut 0.1s ease-out 0.1s forwards;
+        }
+        
+        .katana-sword {
+          position: absolute;
+          bottom: 10%;
+          left: 5%;
+          width: 80px;
+          height: 320px;
+          animation: swordSlash 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s forwards;
+          transform-origin: bottom center;
+        }
+        
+        .sword-svg {
+          width: 100%;
+          height: 100%;
+          filter: drop-shadow(0 0 15px rgba(255, 165, 0, 0.9));
+        }
+        
+        @keyframes swordSlash {
+          0% {
+            transform: rotate(-45deg) scale(0.8);
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+            transform: rotate(-45deg) scale(1);
+          }
+          100% {
+            transform: rotate(45deg) translateX(90vw) translateY(-80vh) scale(1.2);
+            opacity: 0.8;
+          }
+        }
+        
+        /* Glowing Trail */
+        .slash-trail {
+          position: absolute;
+          bottom: 10%;
+          left: 5%;
+          width: 4px;
+          height: 100vh;
+          background: linear-gradient(45deg, transparent 0%, #FFA500 20%, #FFFFFF 50%, #FFA500 80%, transparent 100%);
+          transform-origin: bottom left;
+          animation: trailGrow 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.25s forwards;
+          opacity: 0;
+          box-shadow: 0 0 20px rgba(255, 165, 0, 0.8), 0 0 40px rgba(255, 255, 255, 0.4);
+        }
+        
+        @keyframes trailGrow {
+          0% {
+            transform: rotate(45deg) scaleY(0) scaleX(0.5);
+            opacity: 0;
+          }
+          20% {
+            opacity: 1;
+            transform: rotate(45deg) scaleY(0.3) scaleX(1);
+          }
+          60% {
+            transform: rotate(45deg) scaleY(1.2) scaleX(3);
+            opacity: 1;
+            box-shadow: 0 0 30px rgba(255, 165, 0, 1), 0 0 60px rgba(255, 255, 255, 0.6);
+          }
+          100% {
+            transform: rotate(45deg) scaleY(1.4) scaleX(5);
+            opacity: 0;
+          }
+        }
+        
+        /* Spark Particles */
+        .spark-particles {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+        }
+        
+        .spark-particle {
+          position: absolute;
+          width: 6px;
+          height: 6px;
+          background: radial-gradient(circle, #FFFFFF 0%, #FFA500 50%, transparent 100%);
+          border-radius: 50%;
+          bottom: 20%;
+          left: 15%;
+          animation: sparkFly 1s ease-out forwards;
+          opacity: 0;
+          box-shadow: 0 0 10px rgba(255, 165, 0, 0.8);
+        }
+        
+        @keyframes sparkFly {
+          0% {
+            transform: translate(0, 0) scale(0) rotate(0deg);
+            opacity: 0;
+          }
+          20% {
+            opacity: 1;
+            transform: translate(20vw, -10vh) scale(1) rotate(90deg);
+          }
+          100% {
+            transform: translate(80vw, -70vh) scale(0.3) rotate(360deg);
+            opacity: 0;
+          }
+        }
+        
+        /* Phase 3: Curtain Reveal */
+        .curtain-reveal-phase {
+          position: absolute;
+          inset: 0;
+          background: #000;
+        }
+        
+        .diagonal-curtain {
+          position: absolute;
+          inset: 0;
+          background: #000;
+          animation: curtainWipe 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+          clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+        }
+        
+        @keyframes curtainWipe {
+          0% {
+            clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+          }
+          100% {
+            clip-path: polygon(0 0, 100% 0, 0 100%, 0 100%);
+            opacity: 0;
+          }
+        }
+        
+        /* General Animations */
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        
+        @keyframes fadeOut {
+          from { opacity: 1; }
+          to { opacity: 0; }
         }
       `}</style>
     </div>
