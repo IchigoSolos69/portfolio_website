@@ -21,7 +21,7 @@ const Home = () => {
   useEffect(() => {
     const phase2Timer = setTimeout(() => {
       setLoadingPhase(2);
-      // Play sword slash sound effect with precise timing
+      // Play sword slash sound effect synced with slash-line animation start
       setTimeout(() => {
         const audio = new Audio('/sounds/sword-slash.mp3');
         audio.volume = 0.3;
@@ -29,10 +29,10 @@ const Home = () => {
           // Handle autoplay restrictions gracefully
           console.log('Audio autoplay prevented');
         });
-      }, 400); // Sync with slash animation start
-    }, 3000);
+      }, 200); // Sync with black-pause duration + tiny delay for slash-line start
+    }, 2500);
     
-    const phase3Timer = setTimeout(() => setLoadingPhase(3), 4500);
+    const phase3Timer = setTimeout(() => setLoadingPhase(3), 4200);
     const completeTimer = setTimeout(() => {
       setIsLoading(false);
       setIsVisible(true);
@@ -140,11 +140,15 @@ const Home = () => {
               <div className="slash-line"></div>
               <div className="slash-glow"></div>
               <div className="slash-particles">
-                {[...Array(8)].map((_, i) => (
+                {[...Array(12)].map((_, i) => (
                   <div 
                     key={i} 
                     className="slash-particle" 
-                    style={{ animationDelay: `${i * 0.1}s` }}
+                    style={{ 
+                      animationDelay: `${i * 0.05}s`,
+                      top: `${20 + Math.random() * 60}%`,
+                      left: `${10 + Math.random() * 80}%`
+                    }}
                   />
                 ))}
               </div>
@@ -152,53 +156,14 @@ const Home = () => {
           </div>
         )}
         
-        {/* Phase 3: Reveal with SVG Katana */}
+        {/* Phase 3: Reveal with Curtain Wipe */}
         {loadingPhase === 3 && (
           <div className="reveal-phase">
-            {/* Curtain Split Reveal */}
-            <div className="curtain-reveal">
-              <div className="curtain-left"></div>
-              <div className="curtain-right"></div>
-            </div>
+            {/* Curtain Wipe Reveal */}
+            <div className="curtain-reveal"></div>
             
-            {/* SVG Katana */}
-            <div className="katana-container">
-              <svg className="katana-svg" viewBox="0 0 400 40" fill="none">
-                <defs>
-                  <linearGradient id="katanaGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#C0C0C0" />
-                    <stop offset="30%" stopColor="#FFFFFF" />
-                    <stop offset="70%" stopColor="#FFA500" />
-                    <stop offset="100%" stopColor="#FF6B00" />
-                  </linearGradient>
-                  <filter id="katanaGlow">
-                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                    <feMerge> 
-                      <feMergeNode in="coloredBlur"/>
-                      <feMergeNode in="SourceGraphic"/> 
-                    </feMerge>
-                  </filter>
-                </defs>
-                
-                {/* Blade */}
-                <path d="M60 20 L360 20 L370 15 L380 20 L370 25 L360 20" 
-                      stroke="url(#katanaGradient)" 
-                      strokeWidth="4" 
-                      fill="url(#katanaGradient)" 
-                      filter="url(#katanaGlow)"
-                      strokeLinecap="round"/>
-                
-                {/* Handle */}
-                <rect x="20" y="15" width="45" height="10" 
-                      fill="#2C1810" 
-                      rx="3"/>
-                
-                {/* Guard */}
-                <rect x="58" y="12" width="6" height="16" 
-                      fill="#8B4513" 
-                      rx="2"/>
-              </svg>
-            </div>
+            {/* Katana Sparkle Effect */}
+            <div className="katana-sparkle">⚔️</div>
           </div>
         )}
       </div>
