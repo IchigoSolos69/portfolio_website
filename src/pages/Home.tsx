@@ -26,7 +26,7 @@ const Home = () => {
                 <Sword className="w-6 h-6 text-spiritual-energy animate-zanpakuto-shine" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-spiritual-energy text-spiritual-glow">Soul Reaper</h1>
+                <h1 className="text-xl font-bold text-spiritual-energy text-spiritual-glow">Soul A Reaper</h1>
                 <p className="text-xs text-reiatsu-glow japanese-text">護廷十三隊</p>
               </div>
             </div>
