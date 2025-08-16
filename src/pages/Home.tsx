@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Cpu, Github, Zap, Mail, Award, Trophy, ChevronDown, Linkedin } from 'lucide-react'
 
 const Home = () => {
@@ -310,7 +310,7 @@ const Home = () => {
             <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent animate-gradient-text">
               About Me
             </span>
-            <span className="text-2xl japanese-text text-reiatsu-glow ml-4 block mt-2">私について (About Me)</span>
+            <span className="text-2xl japanese-text text-reiatsu-glow ml-4 block mt-2">私について</span>
           </h2>
           
           <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -471,8 +471,10 @@ const Home = () => {
       <section id="contact" className="py-20 px-6 relative overflow-hidden">
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <h2 className="text-4xl font-bold mb-8 text-spiritual-energy animate-fade-in-up">
-            Connect With Me <span className="text-2xl japanese-text text-reiatsu-glow ml-4">連絡</span>
-          </h2>
+            Connect With Me 
+            </h2>
+          <span className="text-2xl japanese-text text-reiatsu-glow ml-4">連絡</span>
+          
           <div className="flex flex-col sm:flex-row justify-center gap-6 mb-10">
             <a href="mailto:adimaitre123@gmail.com" className="flex items-center gap-3 px-8 py-4 bg-spiritual-energy/10 hover:bg-spiritual-energy/20 rounded-lg border border-spiritual-energy/20 hover:border-spiritual-energy/40 transition-all duration-500">
               <Mail className="w-6 h-6 text-spiritual-energy" /> Email
