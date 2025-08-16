@@ -254,13 +254,9 @@ const Home = () => {
                 Adi Rajendra Maitre
               </span>
             </h1>
-            <div className="relative text-2xl md:text-3xl text-gray-300 mb-6 h-12 flex items-center justify-center overflow-hidden">
-              <span className="border-r-2 border-spiritual-energy animate-blink pr-1 bg-spiritual-gradient bg-clip-text text-transparent animate-gradient-move flex items-center">
-                {typingText.split('').map((char, i) => (
-                  <span key={i} className={`inline-block transition-all duration-200 ${i === typingText.length - 1 ? 'text-spiritual-glow animate-spiritual-pulse' : ''}`}>
-                    {char}
-                  </span>
-                ))}
+            <div className="text-2xl md:text-3xl text-gray-300 mb-6 h-12 flex items-center justify-center">
+              <span className="border-r-2 border-spiritual-energy animate-blink pr-1">
+                {typingText}
               </span>
             </div>
             <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">

@@ -1566,21 +1566,21 @@
     contain: layout style paint;
   }
 
-  .optimized-particle:nth-child(1) { animation: float-static 120s infinite linear; animation-delay: 0s; }
-  .optimized-particle:nth-child(2) { animation: float-static 150s infinite linear; animation-delay: -10s; }
-  .optimized-particle:nth-child(3) { animation: float-static 130s infinite linear; animation-delay: -20s; }
-  .optimized-particle:nth-child(4) { animation: float-static 180s infinite linear; animation-delay: -30s; }
-  .optimized-particle:nth-child(5) { animation: float-static 140s infinite linear; animation-delay: -40s; }
-  .optimized-particle:nth-child(6) { animation: float-static 160s infinite linear; animation-delay: -50s; }
-  .optimized-particle:nth-child(7) { animation: float-static 200s infinite linear; animation-delay: -60s; }
-  .optimized-particle:nth-child(8) { animation: float-static 170s infinite linear; animation-delay: -70s; }
-  .optimized-particle:nth-child(9) { animation: float-static 110s infinite linear; animation-delay: -80s; }
-  .optimized-particle:nth-child(10) { animation: float-static 190s infinite linear; animation-delay: -90s; }
-  .optimized-particle:nth-child(11) { animation: float-static 100s infinite linear; animation-delay: -100s; }
-  .optimized-particle:nth-child(12) { animation: float-static 220s infinite linear; animation-delay: -110s; }
-  .optimized-particle:nth-child(13) { animation: float-static 125s infinite linear; animation-delay: -120s; }
-  .optimized-particle:nth-child(14) { animation: float-static 155s infinite linear; animation-delay: -130s; }
-  .optimized-particle:nth-child(15) { animation: float-static 135s infinite linear; animation-delay: -140s; }
+  .optimized-particle:nth-child(1) { animation: none; }
+  .optimized-particle:nth-child(2) { animation: none; }
+  .optimized-particle:nth-child(3) { animation: none; }
+  .optimized-particle:nth-child(4) { animation: none; }
+  .optimized-particle:nth-child(5) { animation: none; }
+  .optimized-particle:nth-child(6) { animation: none; }
+  .optimized-particle:nth-child(7) { animation: none; }
+  .optimized-particle:nth-child(8) { animation: none; }
+  .optimized-particle:nth-child(9) { animation: none; }
+  .optimized-particle:nth-child(10) { animation: none; }
+  .optimized-particle:nth-child(11) { animation: none; }
+  .optimized-particle:nth-child(12) { animation: none; }
+  .optimized-particle:nth-child(13) { animation: none; }
+  .optimized-particle:nth-child(14) { animation: none; }
+  .optimized-particle:nth-child(15) { animation: none; }
 
   @keyframes float-optimized {
     0% {
