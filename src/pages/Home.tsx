@@ -84,11 +84,11 @@ const Home = () => {
       
       playSlashSound();
       
-      // End loading after 8 seconds (diagonal reveal handles the transition)
+      // End loading after 5.5 seconds (coordinated with new animation timing)
       const timer = setTimeout(() => {
         setIsLoading(false);
         setIsVisible(true);
-      }, 8000);
+      }, 5500);
       return () => clearTimeout(timer);
     }
   }, [loadingPhase, isLoading]);
@@ -205,14 +205,37 @@ const Home = () => {
           </div>
         )}
         
-        {/* Phase 2: Sword Slash */}
+        {/* Phase 2: Cinematic Sword Slash */}
         {loadingPhase === 2 && (
           <div className="sword-slash-phase">
+            {/* Dramatic pause before slash */}
             <div className="dramatic-pause"></div>
             
-            <div className="diagonal-slash-container">
-              {/* Website content goes here - will be revealed diagonally */}
-              <div className={`min-h-screen bg-black text-white transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+            {/* Glowing sword trail */}
+            <div className="sword-trail"></div>
+            
+            {/* Enhanced slash particles */}
+            <div className="slash-particles">
+              {[...Array(16)].map((_, i) => (
+                <div 
+                  key={i} 
+                  className="diagonal-particle" 
+                  style={{
+                    left: `${5 + i * 6}%`,
+                    top: `${90 - i * 5.5}%`,
+                    animationDelay: `${0.3 + i * 0.08}s`
+                  }}
+                />
+              ))}
+            </div>
+            
+            {/* Diagonal curtain panels */}
+            <div className="curtain-panel curtain-panel-top"></div>
+            <div className="curtain-panel curtain-panel-bottom"></div>
+            
+            {/* Website content with reveal animation */}
+            <div className="content-reveal">
+              <div className="min-h-screen bg-black text-white">
                 {/* Fixed Background Effects */}
                 <div className="fixed inset-0 pointer-events-none">
                   <div className="dynamic-background" />
@@ -257,21 +280,6 @@ const Home = () => {
                   </div>
                 </section>
               </div>
-            </div>
-            
-            {/* Slash Particles */}
-            <div className="slash-particles">
-              {[...Array(12)].map((_, i) => (
-                <div 
-                  key={i} 
-                  className="diagonal-particle" 
-                  style={{
-                    left: `${20 + i * 5}%`,
-                    top: `${80 - i * 5}%`,
-                    animationDelay: `${0.6 + i * 0.05}s`
-                  }}
-                />
-              ))}
             </div>
           </div>
         )}
