@@ -6,7 +6,7 @@ A modern, responsive personal portfolio website built with Vite, React, and Tail
 
 ## Demo
 
-[Live Site](https://ichigosolos69.github.io/portfolio_website)
+[Live Site](https://adimaitre.pages.dev)
 
 ## Features
 
