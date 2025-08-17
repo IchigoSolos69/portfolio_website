@@ -224,7 +224,7 @@
     0 0 20px rgba(255, 255, 255, 0.8),
     0 0 40px rgba(255, 165, 0, 0.6),
     0 0 60px rgba(255, 100, 0, 0.4);
-  animation: enhancedGlowTrail 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: enhancedGlowTrail 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   will-change: transform, opacity;
 }
 
@@ -298,7 +298,7 @@
     0 0 20px rgba(255, 255, 255, 0.8),
     0 0 40px rgba(255, 255, 255, 0.4),
     0 0 60px rgba(255, 255, 255, 0.2);
-  animation: ultraSmoothSlash 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: ultraSmoothSlash 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   z-index: -1;
 }
 
@@ -369,7 +369,7 @@
     0 0 60px rgba(255, 165, 0, 0.4),
     0 0 90px rgba(255, 100, 0, 0.3);
   opacity: 0;
-  animation: glowLine 1s ease-out 1.5s forwards;
+  animation: glowLine 1s ease-out 2.2s forwards;
   z-index: -1;
 }
 
@@ -406,7 +406,7 @@
   left: 0;
   transform-origin: top left;
   clip-path: polygon(0 0, 100% 0, 0 100%);
-  animation: enhancedSlideTopLeft 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) 1.8s forwards;
+  animation: enhancedSlideTopLeft 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) 2.5s forwards;
   border-bottom: 1px solid rgba(255, 165, 0, 0.3);
   box-shadow: 
     0 0 50px rgba(255, 165, 0, 0.2),
@@ -418,7 +418,7 @@
   right: 0;
   transform-origin: bottom right;
   clip-path: polygon(100% 0, 100% 100%, 0 100%);
-  animation: enhancedSlideBottomRight 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) 1.8s forwards;
+  animation: enhancedSlideBottomRight 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) 2.5s forwards;
   border-top: 1px solid rgba(255, 165, 0, 0.3);
   box-shadow: 
     0 0 50px rgba(255, 165, 0, 0.2),
@@ -476,7 +476,7 @@
   opacity: 0;
   transform: scale(0.95) translateY(20px);
   filter: blur(2px);
-  animation: enhancedContentReveal 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 2.5s forwards;
+  animation: enhancedContentReveal 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 3.2s forwards;
 }
 
 /* Add entrance glow effect */
