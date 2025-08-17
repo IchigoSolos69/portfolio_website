@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { DesktopComputer, Beaker, Hashtag, ArchiveBox, GlobeAlt, Hospital, CloudSun } from '@heroicons/react/24/outline'
 import { Github, Linkedin, Mail, ExternalLink, ChevronDown, Cpu, Trophy, Award, Zap } from 'lucide-react';
 
 // TypeScript interfaces
@@ -549,37 +550,69 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-8">
             {[
               {
-                title: "Chemistry Manual Digitizer",
-                description: "PyQt5 application for digitizing chemistry lab manuals with automated data extraction",
-                icon: <Cpu className="w-8 h-8" />,
-                tech: ["Python", "PyQt5", "Data Processing"],
-                github: "https://github.com/adimaitre/chemistry-digitizer",
-                status: "Completed"
+                title: "Portfolio Website",
+                description: "Fast, responsive personal portfolio built with Vite, React, and Tailwind CSS",
+                icon: <DesktopComputer className="w-8 h-8" />,
+                tech: ["Vite", "React", "TypeScript", "Tailwind CSS"],
+                github: "https://github.com/IchigoSolos69/portfolio_website",
+                status: "Production"
               },
               {
-                title: "Event Analysis Tool",
-                description: "Comprehensive data analysis platform for event management and performance metrics",
-                icon: <Zap className="w-8 h-8" />,
-                tech: ["Python", "Pandas", "Data Visualization"],
-                github: "https://github.com/adimaitre/event-analyzer",
+                title: "Chemistry Manual Digitizer",
+                description: "Python tool for digitizing and managing chemistry experiment manuals using structured JSON data",
+                icon: <Beaker className="w-8 h-8" />,
+                tech: ["Python", "JSON"],
+                github: "https://github.com/IchigoSolos69/Chemistry-Manual-Digitizer",
+                status: "Production"
+              },
+              {
+                title: "IRC: Data Analyzer",
+                description: "CLI & GUI toolkit for scanning, sorting, and visualizing Instagram hashtag and user data",
+                icon: <Hashtag className="w-8 h-8" />,
+                tech: ["Python", "PyQt5", "pandas", "qrcode", "matplotlib"],
+                github: "https://github.com/IchigoSolos69/IRC",
+                status: "On Hold"
+              },
+              {
+                title: "Inventory Management System",
+                description: "Desktop GUI for tracking stock, pricing, and expiry dates with CSV import/export",
+                icon: <ArchiveBox className="w-8 h-8" />,
+                tech: ["Python", "PyQt5", "CSV"],
+                github: "https://github.com/IchigoSolos69/Inventory-Management-System",
+                status: "Production"
+              },
+              {
+                title: "Number Guessing Game",
+                description: "Interactive CLI game where the computer deduces your chosen number using bitwise magic",
+                icon: <Cpu className="w-8 h-8" />,
+                tech: ["Python"],
+                github: "https://github.com/IchigoSolos69/Computer-Guesses-your-the-Number",
+                status: "Production"
+              },
+              {
+                title: "PyQt5 Web Browser",
+                description: "Lightweight custom browser with tabbed browsing, ad blocking, and download management using PyQt5 and QtWebEngine",
+                icon: <GlobeAlt className="w-8 h-8" />,
+                tech: ["Python", "PyQt5", "QtWebEngine"],
+                github: "https://github.com/IchigoSolos69/Web-Browser",
+                status: "On Hold"
+              },
+              {
+                title: "Hospital Management System (C++)",
+                description: "Console-based patient queue management system using singly linked list, designed for emergency room workflows",
+                icon: <Hospital className="w-8 h-8" />,
+                tech: ["C++", "Data Structures", "Linked List"],
+                github: "https://github.com/IchigoSolos69/Hospital-Management",
                 status: "Active"
               },
               {
-                title: "Hemoglobin Report Classifier",
-                description: "AI-powered medical data classification system for hemoglobin analysis reports",
-                icon: <Cpu className="w-8 h-8" />,
-                tech: ["Machine Learning", "Python", "Medical AI"],
-                github: "https://github.com/adimaitre/hb-classifier",
-                status: "Research"
-              },
-              {
-                title: "Hone.gg Platform",
-                description: "Gaming platform enhancements and partnership integrations for competitive esports",
-                icon: <Trophy className="w-8 h-8" />,
-                tech: ["Full-Stack", "Partnership APIs", "Gaming"],
-                github: "https://github.com/hone-gg",
-                status: "Professional"
-              }
+                title: "Weather System",
+                description: "Live desktop weather dashboard with AQI, icons, and detailed forecasts using Python, PyQt5, and Open-Meteo API",
+                icon: <CloudSun className="w-8 h-8" />,
+                tech: ["Python", "PyQt5", "requests", "Open-Meteo API"],
+                github: "https://github.com/IchigoSolos69/Weather-System",
+                status: "Production"
+              }              
             ].map((project, idx) => (
               <div 
                 key={project.title} 
