@@ -224,7 +224,7 @@
     0 0 20px rgba(255, 255, 255, 0.8),
     0 0 40px rgba(255, 165, 0, 0.6),
     0 0 60px rgba(255, 100, 0, 0.4);
-  animation: enhancedGlowTrail 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: enhancedGlowTrail 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   will-change: transform, opacity;
 }
 
@@ -301,7 +301,7 @@
     0 0 40px rgba(255, 165, 0, 0.6),
     0 0 80px rgba(255, 100, 0, 0.4),
     0 0 120px rgba(255, 255, 255, 0.2);
-  animation: ultraSmoothSlash 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: ultraSmoothSlash 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   will-change: transform, opacity;
 }
 
@@ -324,7 +324,7 @@
   transform-origin: center;
   transform: translate(-50%, -50%) rotate(45deg) scaleY(0);
   filter: blur(2px);
-  animation: ultraSmoothSlash 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s forwards;
+  animation: ultraSmoothSlash 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s forwards;
   will-change: transform, opacity;
 }
 
@@ -382,7 +382,7 @@
   left: 0;
   transform-origin: top left;
   clip-path: polygon(0 0, 100% 0, 0 100%);
-  animation: enhancedSlideTopLeft 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) 2.8s forwards;
+  animation: enhancedSlideTopLeft 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) 2s forwards;
 }
 
 .panel-bottom {
@@ -390,7 +390,7 @@
   right: 0;
   transform-origin: bottom right;
   clip-path: polygon(100% 0, 100% 100%, 0 100%);
-  animation: enhancedSlideBottomRight 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) 2.8s forwards;
+  animation: enhancedSlideBottomRight 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) 2s forwards;
 }
 
 @keyframes enhancedSlideTopLeft {
@@ -444,7 +444,7 @@
   opacity: 0;
   transform: scale(0.95) translateY(20px);
   filter: blur(2px);
-  animation: enhancedContentReveal 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 4s forwards;
+  animation: enhancedContentReveal 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 2.8s forwards;
 }
 
 @keyframes enhancedContentReveal {

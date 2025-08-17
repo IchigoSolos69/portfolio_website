@@ -60,10 +60,10 @@ export default function Home() {
     }
 
     if (loadingPhase === 1) {
-      // Phase 1: Loading screen (2 seconds)
+      // Phase 1: Loading screen (1 second)
       const timer = setTimeout(() => {
         setLoadingPhase(2);
-      }, 2000);
+      }, 1000);
       return () => clearTimeout(timer);
     }
     
@@ -90,11 +90,11 @@ export default function Home() {
       
       const audio = playSlashSound();
       
-      // Set a timer to complete loading after animation (3s animation + 1s for split/fade)
+      // Set a timer to complete loading after animation (2.5s animation + 0.5s for split/fade)
       const timer = setTimeout(() => {
         setIsLoading(false);
         setIsVisible(true);
-      }, 4000); // 4 seconds total
+      }, 3000); // 3 seconds total
       
       // Cleanup function
       return () => {
