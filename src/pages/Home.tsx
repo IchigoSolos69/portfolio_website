@@ -227,12 +227,7 @@ export default function Home() {
               <div className="panel panel-bottom"></div>
             </div>
             
-            {/* Name reveal */}
-            <div className="absolute inset-0 flex items-center justify-center z-10">
-              <h1 className="text-5xl md:text-7xl font-bold text-white opacity-0 animate-[fadeIn_0.5s_ease-out_1.5s_forwards]">
-                Adi Rajendra Maitre
-              </h1>
-            </div>
+            {/* Name reveal removed */}
             
             {/* Content reveal */}
             <div className="content-reveal">
