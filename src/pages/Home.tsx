@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Github, Linkedin, Mail, Twitter } from 'lucide-react';
+import { Github, Linkedin, Mail, Twitter, Award, Zap, ChevronDown, Cpu, Trophy } from 'lucide-react';
 
 // TypeScript interfaces
 declare global {
@@ -25,6 +25,7 @@ export default function Home() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [charIndex, setCharIndex] = useState(0);
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
+  const [showGlitch, setShowGlitch] = useState(false);
 
   // Auto-detect viewport coordinates for slash animation
   useEffect(() => {
@@ -66,47 +67,44 @@ export default function Home() {
       return () => clearTimeout(timer);
     }
     
-    // Phase 2: Play sword slash sound and animation
-    useEffect(() => {
-      if (loadingPhase === 2) {
-        // Play sword slash sound
-        const playSlashSound = () => {
-          try {
-            // Using local audio file
-            const slashAudio = new Audio('/sounds/sword-slash.mp3');
-            slashAudio.volume = 0.3; // Lower volume
-            slashAudio.loop = false;
-            slashAudio.preload = 'auto';
-            
-            slashAudio.play().catch((error) => {
-              console.log('Audio play failed:', error);
-            });
-            
-            return slashAudio; // Return the audio element for cleanup
-          } catch (e) {
-            console.log('Audio initialization failed:', e);
-            return null;
-          }
-        };
-        
-        const audio = playSlashSound();
-        
-        // Set a timer to complete loading after animation (3s animation + 1s for split/fade)
-        const timer = setTimeout(() => {
-          setIsLoading(false);
-          setIsVisible(true);
-        }, 4000); // 4 seconds total
-        
-        // Cleanup function
-        return () => {
-          clearTimeout(timer);
-          if (audio) {
-            audio.pause();
-            audio.currentTime = 0;
-          }
-        };
-      }
-    }, [loadingPhase, setIsLoading, setIsVisible]);
+    if (loadingPhase === 2) {
+      // Phase 2: Play sword slash sound and animation
+      const playSlashSound = () => {
+        try {
+          // Using local audio file
+          const slashAudio = new Audio('/sounds/sword-slash.mp3');
+          slashAudio.volume = 0.3; // Lower volume
+          slashAudio.loop = false;
+          slashAudio.preload = 'auto';
+          
+          slashAudio.play().catch((error) => {
+            console.log('Audio play failed:', error);
+          });
+          
+          return slashAudio; // Return the audio element for cleanup
+        } catch (e) {
+          console.log('Audio initialization failed:', e);
+          return null;
+        }
+      };
+      
+      const audio = playSlashSound();
+      
+      // Set a timer to complete loading after animation (3s animation + 1s for split/fade)
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+        setIsVisible(true);
+      }, 4000); // 4 seconds total
+      
+      // Cleanup function
+      return () => {
+        clearTimeout(timer);
+        if (audio) {
+          audio.pause();
+          audio.currentTime = 0;
+        }
+      };
+    }
   }, [loadingPhase, isLoading]);
 
   // Enhanced Typing Effect with Character Animations
