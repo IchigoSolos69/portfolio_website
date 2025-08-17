@@ -60,75 +60,64 @@ export default function Home() {
     }
 
     if (loadingPhase === 1) {
-      // Phase 1: Loading screen (1 second) - start audio near end
+      // Phase 1: Loading screen (2 seconds for slower pace)
+      const timer = setTimeout(() => {
+        setLoadingPhase(2);
+      }, 2000);
+      
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+    
+    if (loadingPhase === 2) {
+      // Phase 2: Slash animation with audio (4 seconds for slower, more cinematic pace)
       let slashAudio: HTMLAudioElement | null = null;
       
-      // Initialize and play audio immediately when phase 1 starts
-      try {
+      // Initialize audio immediately when slash phase starts
+      const initAudio = () => {
         slashAudio = new Audio('/sounds/sword-slash.mp3');
-        slashAudio.volume = 0.7;
-        slashAudio.preload = 'auto';
+        slashAudio.volume = 0.6;
+        slashAudio.currentTime = 0;
         
-        // Try to play audio immediately
-        const playAudio = async () => {
-          try {
-            await slashAudio!.play();
-            console.log('Audio playing successfully');
-          } catch (error) {
-            console.log('Autoplay blocked, setting up user interaction handler');
-            // Autoplay blocked - set up user interaction handler
-            const playOnInteraction = async () => {
-              try {
+        // Attempt to play audio
+        const playAudio = () => {
+          if (slashAudio) {
+            slashAudio.play().catch(() => {
+              // If autoplay fails, wait for user interaction
+              const handleInteraction = () => {
                 if (slashAudio) {
-                  await slashAudio.play();
-                  console.log('Audio started after user interaction');
+                  slashAudio.play().catch(() => {});
                 }
-              } catch (e) {
-                console.log('Audio play failed:', e);
-              }
-              document.removeEventListener('click', playOnInteraction);
-              document.removeEventListener('touchstart', playOnInteraction);
-              document.removeEventListener('keydown', playOnInteraction);
-            };
-            
-            document.addEventListener('click', playOnInteraction, { once: true });
-            document.addEventListener('touchstart', playOnInteraction, { once: true });
-            document.addEventListener('keydown', playOnInteraction, { once: true });
+                document.removeEventListener('click', handleInteraction);
+                document.removeEventListener('touchstart', handleInteraction);
+              };
+              
+              document.addEventListener('click', handleInteraction, { once: true });
+              document.addEventListener('touchstart', handleInteraction, { once: true });
+            });
           }
         };
         
-        // Start audio after a short delay to ensure it's loaded
-        setTimeout(playAudio, 100);
-        
-      } catch (error) {
-        console.log('Audio initialization failed:', error);
-      }
+        // Play audio immediately
+        playAudio();
+      };
+      
+      // Start audio right away
+      initAudio();
       
       const timer = setTimeout(() => {
-        setLoadingPhase(2);
-      }, 1000);
+        setIsLoading(false);
+        setIsVisible(true);
+      }, 4000); // 4 seconds total for slower animation
       
+      // Cleanup function
       return () => {
         clearTimeout(timer);
         if (slashAudio) {
           slashAudio.pause();
           slashAudio.currentTime = 0;
         }
-      };
-    }
-    
-    if (loadingPhase === 2) {
-      // Phase 2: Slash animation (audio already started in phase 1)
-      
-      // Set a timer to complete loading after animation (2.5s animation + 0.5s for split/fade)
-      const timer = setTimeout(() => {
-        setIsLoading(false);
-        setIsVisible(true);
-      }, 3000); // 3 seconds total
-      
-      // Cleanup function
-      return () => {
-        clearTimeout(timer);
       };
     }
   }, [loadingPhase, isLoading]);
