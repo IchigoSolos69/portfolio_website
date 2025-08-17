@@ -1,5 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Cpu, Github, Zap, Mail, Award, Trophy, ChevronDown, Linkedin } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Github, Linkedin, Mail, Twitter } from 'lucide-react';
+
+// TypeScript interfaces
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      [elemName: string]: any;
+    }
+  }
+}
 
 const roles = [
   '学生 | Student',
@@ -9,14 +18,13 @@ const roles = [
 ];
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
+  const [loadingPhase, setLoadingPhase] = useState(0);
   const [typingText, setTypingText] = useState('');
-  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [charIndex, setCharIndex] = useState(0);
-  const [showGlitch, setShowGlitch] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [loadingPhase, setLoadingPhase] = useState(0);
+  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
 
   // Auto-detect viewport coordinates for slash animation
   useEffect(() => {
@@ -58,33 +66,47 @@ export default function Home() {
       return () => clearTimeout(timer);
     }
     
-    if (loadingPhase === 2) {
-      // Phase 2: 8-second sword slash with synchronized audio
-      const playSlashSound = () => {
-        try {
-          const slashAudio = new Audio('https://raw.githubusercontent.com/IchigoSolos69/portfolio_website/da0030ba1ecfc2a8b6f7e7a2127da7cdea1e62b3/public/sounds/sword-slash.mp3');
-          slashAudio.volume = 0.3;
-          slashAudio.loop = false;
-          slashAudio.preload = 'auto';
-          
-          // Play sound immediately when phase 2 begins
-          slashAudio.play().catch((error) => {
-            console.log('Audio play failed:', error);
-          });
-        } catch (e) {
-          console.log('Audio initialization failed:', e);
-        }
-      };
-      
-      playSlashSound();
-      
-      // End loading after 15 seconds total (8s trail + 3s name + 2.5s split + 1.5s buffer)
-      const timer = setTimeout(() => {
-        setIsLoading(false);
-        setIsVisible(true);
-      }, 15000);
-      return () => clearTimeout(timer);
-    }
+    // Phase 2: Play sword slash sound and animation
+    useEffect(() => {
+      if (loadingPhase === 2) {
+        // Play sword slash sound
+        const playSlashSound = () => {
+          try {
+            // Using local audio file
+            const slashAudio = new Audio('/sounds/sword-slash.mp3');
+            slashAudio.volume = 0.3; // Lower volume
+            slashAudio.loop = false;
+            slashAudio.preload = 'auto';
+            
+            slashAudio.play().catch((error) => {
+              console.log('Audio play failed:', error);
+            });
+            
+            return slashAudio; // Return the audio element for cleanup
+          } catch (e) {
+            console.log('Audio initialization failed:', e);
+            return null;
+          }
+        };
+        
+        const audio = playSlashSound();
+        
+        // Set a timer to complete loading after animation (3s animation + 1s for split/fade)
+        const timer = setTimeout(() => {
+          setIsLoading(false);
+          setIsVisible(true);
+        }, 4000); // 4 seconds total
+        
+        // Cleanup function
+        return () => {
+          clearTimeout(timer);
+          if (audio) {
+            audio.pause();
+            audio.currentTime = 0;
+          }
+        };
+      }
+    }, [loadingPhase, setIsLoading, setIsVisible]);
   }, [loadingPhase, isLoading]);
 
   // Enhanced Typing Effect with Character Animations
@@ -101,8 +123,6 @@ export default function Home() {
     } else if (!isDeleting && charIndex > roles[currentRoleIndex].length) {
       // Pause before deleting
       timer = setTimeout(() => {
-        setShowGlitch(true);
-        setTimeout(() => setShowGlitch(false), 300);
         setIsDeleting(true);
       }, 2500);
     } else if (isDeleting && charIndex > 0) {
@@ -111,10 +131,8 @@ export default function Home() {
         setCharIndex(prev => prev - 1);
       }, 30);
     } else if (isDeleting && charIndex === 0) {
-      // Move to next role with glitch effect
+      // Move to next role
       timer = setTimeout(() => {
-        setShowGlitch(true);
-        setTimeout(() => setShowGlitch(false), 300);
         setIsDeleting(false);
         setCurrentRoleIndex(prev => (prev + 1) % roles.length);
         setCharIndex(0);
@@ -199,68 +217,32 @@ export default function Home() {
           </div>
         )}
         
-        {/* Phase 2: Cinematic Sword Slash */}
+        {/* Phase 2: Glow Trail Animation */}
         {loadingPhase === 2 && (
-          <div className="sword-slash-phase">
-            {/* Dramatic pause before slash */}
-            <div className="dramatic-pause"></div>
+          <div className="fixed inset-0 z-50 overflow-hidden">
+            {/* Glow trail effect */}
+            <div className="glow-trail"></div>
             
-            {/* Optimized 8-second trail particles */}
-            <div className="slash-particles">
-              {[...Array(20)].map((_, i) => (
-                <div 
-                  key={i} 
-                  className="diagonal-particle" 
-                  style={{
-                    left: `${3 + i * 4.8}%`,
-                    top: `${95 - i * 4.7}%`,
-                    animationDelay: `${0.2 + i * 0.05}s`
-                  }}
-                />
-              ))}
+            {/* Diagonal split panels */}
+            <div className="split-panels">
+              <div className="panel panel-top"></div>
+              <div className="panel panel-bottom"></div>
             </div>
             
-            {/* Name appears after trail, then splits */}
-            <div className="name-appear-and-split">
-              <h1>Adi Rajendra Maitre</h1>
+            {/* Name reveal */}
+            <div className="absolute inset-0 flex items-center justify-center z-10">
+              <h1 className="text-5xl md:text-7xl font-bold text-white opacity-0 animate-[fadeIn_0.5s_ease-out_1.5s_forwards]">
+                Adi Rajendra Maitre
+              </h1>
             </div>
             
-            {/* Diagonal split curtains */}
-            <div className="diagonal-split-curtains">
-              <div className="diagonal-curtain-left"></div>
-              <div className="diagonal-curtain-right"></div>
-            </div>
-            
-            {/* Website content revealed after split */}
-            <div className="website-content-reveal">
-              <div className="min-h-screen bg-black text-white">
-                {/* Fixed Background Effects */}
-                <div className="fixed inset-0 pointer-events-none">
-                  <div className="dynamic-background" />
-                  <div className="optimized-particle-field">
-                    {[...Array(15)].map((_, i) => (
-                      <div
-                        key={i}
-                        className="optimized-particle"
-                        style={{ left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%` }}
-                      />
-                    ))}
-                  </div>
+            {/* Content reveal */}
+            <div className="content-reveal">
+              {!isLoading && (
+                <div className="main-content">
+                  {/* Main content goes here */}
                 </div>
-
-                {/* Hero Section with all content */}
-                <section className="min-h-screen flex items-center justify-center relative z-10 px-6">
-                  <div className="text-center max-w-4xl mx-auto relative z-10">
-                    <div className="mb-12">
-                      <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
-                        <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent animate-gradient-text">
-                          Adi Rajendra Maitre
-                        </span>
-                      </h1>
-                    </div>
-                  </div>
-                </section>
-              </div>
+              )}
             </div>
           </div>
         )}
