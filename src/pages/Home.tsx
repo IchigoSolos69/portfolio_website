@@ -27,17 +27,18 @@ const Home = () => {
       
       // Calculate diagonal distance from bottom-left to top-right
       const diagonalLength = Math.sqrt(vw * vw + vh * vh);
-      // Fixed angle for bottom-left to top-right diagonal
-      const angle = 45; // Always 45 degrees for perfect diagonal
+      // Calculate proper angle for bottom-left to top-right diagonal
+      const angle = Math.atan2(vh, vw) * (180 / Math.PI);
       
-      // Set CSS variables for consistent styling
+      // Set CSS variables for responsive diagonal slash
+      document.documentElement.style.setProperty('--diagonal-length', `${diagonalLength}px`);
+      document.documentElement.style.setProperty('--diagonal-angle', `${angle}deg`);
       document.documentElement.style.setProperty('--slash-width', `${diagonalLength}px`);
       document.documentElement.style.setProperty('--slash-height', '6px');
-      document.documentElement.style.setProperty('--slash-angle', `${angle}deg`);
       
       setSlashCoords({
         width: `${diagonalLength}px`,
-        height: `6px`, // Fixed height for the slash line
+        height: `6px`,
         angle: angle
       });
     };
@@ -271,7 +272,7 @@ const Home = () => {
                   </div>
                   <div className="text-center max-w-4xl mx-auto relative z-10">
                     <div className="mb-12">
-                      <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
+                      <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight hero-name-transition">
                         <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent animate-gradient-text">
                           Adi Rajendra Maitre
                         </span>
