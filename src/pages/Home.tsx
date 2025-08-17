@@ -60,29 +60,22 @@ export default function Home() {
     }
 
     if (loadingPhase === 1) {
-      // Phase 1: Loading screen (1 second)
-      const timer = setTimeout(() => {
-        setLoadingPhase(2);
-      }, 1000);
-      return () => clearTimeout(timer);
-    }
-    
-    if (loadingPhase === 2) {
-      // Phase 2: Play sword slash sound and animation with proper sync
+      // Phase 1: Loading screen (1 second) + start audio early
       const playSlashSound = () => {
         try {
-          // Using local audio file
           const slashAudio = new Audio('/sounds/sword-slash.mp3');
-          slashAudio.volume = 0.4; // Slightly higher volume
+          slashAudio.volume = 0.4;
           slashAudio.loop = false;
           slashAudio.preload = 'auto';
           
-          // Play audio immediately when slash phase starts
-          slashAudio.play().catch((error) => {
-            console.log('Audio play failed:', error);
-          });
+          // Start audio 4 seconds early to prevent cutoff
+          setTimeout(() => {
+            slashAudio.play().catch((error) => {
+              console.log('Audio play failed:', error);
+            });
+          }, 600); // Start audio 600ms into loading phase
           
-          return slashAudio; // Return the audio element for cleanup
+          return slashAudio;
         } catch (e) {
           console.log('Audio initialization failed:', e);
           return null;
@@ -90,6 +83,22 @@ export default function Home() {
       };
       
       const audio = playSlashSound();
+      
+      const timer = setTimeout(() => {
+        setLoadingPhase(2);
+      }, 1000);
+      
+      return () => {
+        clearTimeout(timer);
+        if (audio) {
+          audio.pause();
+          audio.currentTime = 0;
+        }
+      };
+    }
+    
+    if (loadingPhase === 2) {
+      // Phase 2: Slash animation (audio already started in phase 1)
       
       // Set a timer to complete loading after animation (2.5s animation + 0.5s for split/fade)
       const timer = setTimeout(() => {
@@ -100,10 +109,6 @@ export default function Home() {
       // Cleanup function
       return () => {
         clearTimeout(timer);
-        if (audio) {
-          audio.pause();
-          audio.currentTime = 0;
-        }
       };
     }
   }, [loadingPhase, isLoading]);
