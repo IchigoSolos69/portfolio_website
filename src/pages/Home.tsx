@@ -358,7 +358,7 @@ export default function Home() {
             
             <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
               Crafting digital experiences with precision and passion.
-              <span className="text-spiritual-energy japanese-text block mt-2">開発者</span>
+              <span className="text-spiritual-energy japanese-text block mt-2">開発者 - Developer</span>
             </p>
           </div>
 
