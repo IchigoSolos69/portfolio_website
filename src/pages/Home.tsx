@@ -33,11 +33,17 @@ declare global {
 }
 
 const roles = [
-  '学生 | Student',
-  'デベロッパー | Developer', 
-  'パートナーシップマネージャー | Partnership Manager',
-  'ブリーチファン | Bleach Fan',
+  '学生 | Lifelong Learner',
+  'デベロッパー | Full-Stack Architect',
+  'AI研究者 | AI/ML Enthusiast',
+  '連携担当 | Community Builder',
+  '技術オタク | Tech Explorer',
+  'デザイン愛好家 | Design Lover',
+  'アニメファン | Anime Nerd',
+  'ゲーマー | Competitive Gamer',
+  '執筆者 | Technical Writer'
 ];
+
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
