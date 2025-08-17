@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Github, Linkedin, Mail, Twitter, Award, Zap, ChevronDown, Cpu, Trophy } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Github, Linkedin, Mail, ExternalLink, ChevronDown, Cpu, Trophy, Award, Zap } from 'lucide-react';
 
 // TypeScript interfaces
 declare global {
@@ -25,7 +25,7 @@ export default function Home() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [charIndex, setCharIndex] = useState(0);
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
-  const [showGlitch, setShowGlitch] = useState(false);
+  const [showGlitch] = useState(false);
 
   // Auto-detect viewport coordinates for slash animation
   useEffect(() => {
@@ -63,36 +63,46 @@ export default function Home() {
       // Phase 1: Loading screen (1 second) - start audio near end
       let slashAudio: HTMLAudioElement | null = null;
       
-      // Start audio 200ms before loading ends for perfect sync
-      const audioTimer = setTimeout(() => {
-        try {
-          slashAudio = new Audio('/sounds/sword-slash.mp3');
-          slashAudio.volume = 0.5;
-          slashAudio.preload = 'auto';
-          
-          const playPromise = slashAudio.play();
-          
-          if (playPromise !== undefined) {
-            playPromise.catch(() => {
-              // Autoplay blocked - set up user interaction handler
-              const playOnInteraction = () => {
+      // Initialize and play audio immediately when phase 1 starts
+      try {
+        slashAudio = new Audio('/sounds/sword-slash.mp3');
+        slashAudio.volume = 0.7;
+        slashAudio.preload = 'auto';
+        
+        // Try to play audio immediately
+        const playAudio = async () => {
+          try {
+            await slashAudio!.play();
+            console.log('Audio playing successfully');
+          } catch (error) {
+            console.log('Autoplay blocked, setting up user interaction handler');
+            // Autoplay blocked - set up user interaction handler
+            const playOnInteraction = async () => {
+              try {
                 if (slashAudio) {
-                  slashAudio.play().catch(() => {});
+                  await slashAudio.play();
+                  console.log('Audio started after user interaction');
                 }
-                document.removeEventListener('click', playOnInteraction);
-                document.removeEventListener('touchstart', playOnInteraction);
-                document.removeEventListener('keydown', playOnInteraction);
-              };
-              
-              document.addEventListener('click', playOnInteraction, { once: true });
-              document.addEventListener('touchstart', playOnInteraction, { once: true });
-              document.addEventListener('keydown', playOnInteraction, { once: true });
-            });
+              } catch (e) {
+                console.log('Audio play failed:', e);
+              }
+              document.removeEventListener('click', playOnInteraction);
+              document.removeEventListener('touchstart', playOnInteraction);
+              document.removeEventListener('keydown', playOnInteraction);
+            };
+            
+            document.addEventListener('click', playOnInteraction, { once: true });
+            document.addEventListener('touchstart', playOnInteraction, { once: true });
+            document.addEventListener('keydown', playOnInteraction, { once: true });
           }
-        } catch (error) {
-          console.log('Audio initialization failed:', error);
-        }
-      }, 800); // Start audio 200ms before phase ends
+        };
+        
+        // Start audio after a short delay to ensure it's loaded
+        setTimeout(playAudio, 100);
+        
+      } catch (error) {
+        console.log('Audio initialization failed:', error);
+      }
       
       const timer = setTimeout(() => {
         setLoadingPhase(2);
@@ -100,7 +110,6 @@ export default function Home() {
       
       return () => {
         clearTimeout(timer);
-        clearTimeout(audioTimer);
         if (slashAudio) {
           slashAudio.pause();
           slashAudio.currentTime = 0;
