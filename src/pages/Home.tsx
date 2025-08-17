@@ -10,7 +10,7 @@ import {
   Award, 
   Zap, 
   Monitor, 
-  Flask, 
+  TestTube, 
   Hash, 
   Archive, 
   Globe, 
@@ -576,7 +576,7 @@ export default function Home() {
               {
                 title: "Chemistry Manual Digitizer",
                 description: "Python tool for digitizing and managing chemistry experiment manuals using structured JSON data",
-                icon: <Flask className="w-8 h-8" />,
+                icon: <TestTube className="w-8 h-8" />,
                 tech: ["Python", "JSON"],
                 github: "https://github.com/IchigoSolos69/Chemistry-Manual-Digitizer",
                 status: "Production"
