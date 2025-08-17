@@ -394,48 +394,13 @@ export default function Home() {
             <p className="text-lg text-gray-300 leading-relaxed mb-6">
               Just a code Shinigami - Adi, B.Tech IT student, slicing bugs across the digital Soul Society. 🗡️<br />
               Blending tech wizardry with community spirit. At AuraSide, I wrangle partnerships, test new features, and help keep things running (or respawning).<br />
-              My squad: Python (zanpakutō), plus C and Java. 🐍⚔️<br />
-              Forever building, breaking, and remixing projects - always chasing the bankai of perfect UI. ✨
             </p>
             <p className="text-lg text-gray-300 leading-relaxed mb-8">
+              Forever building, breaking, and remixing projects - always chasing the bankai of perfect UI. ✨<br/>
               ⚡ Fueled by caffeine, Ctrl+Z, and way too many unfinished side quests.<br/>
               ☁️ Legacy plan: GitHub, drifting in the cloud.<br/>
               <span className="italic">“If it runs, it’s bankai.”</span>
             </p>
-              <div className="space-y-4">
-                <div className="skill-bar group cursor-pointer">
-                  <div className="flex justify-between mb-2">
-                    <span className="text-spiritual-energy font-medium group-hover:text-reiatsu-glow transition-colors duration-300">Full-Stack Development</span>
-                    <span className="text-gray-400 group-hover:text-spiritual-energy transition-colors duration-300">90%</span>
-                  </div>
-                  <div className="w-full bg-gray-700 rounded-full h-3 relative overflow-hidden group-hover:h-4 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-spiritual-energy/30">
-                    <div className="bg-gradient-to-r from-spiritual-energy to-reiatsu-glow h-full rounded-full skill-progress group-hover:from-reiatsu-glow group-hover:to-spiritual-energy transition-all duration-500" style={{'--target-width': '90%', animationDelay: '0.5s'}}></div>
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-pulse rounded-full"></div>
-                  </div>
-                </div>
-                <div className="skill-bar group cursor-pointer">
-                  <div className="flex justify-between mb-2">
-                    <span className="text-spiritual-energy font-medium group-hover:text-reiatsu-glow transition-colors duration-300">AI/ML Research</span>
-                    <span className="text-gray-400 group-hover:text-spiritual-energy transition-colors duration-300">85%</span>
-                  </div>
-                  <div className="w-full bg-gray-700 rounded-full h-3 relative overflow-hidden group-hover:h-4 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-reiatsu-glow/30">
-                    <div className="bg-gradient-to-r from-reiatsu-glow to-kido-purple h-full rounded-full skill-progress group-hover:from-kido-purple group-hover:to-reiatsu-glow transition-all duration-500" style={{'--target-width': '85%', animationDelay: '0.7s'}}></div>
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-pulse rounded-full"></div>
-                  </div>
-                </div>
-                <div className="skill-bar group cursor-pointer">
-                  <div className="flex justify-between mb-2">
-                    <span className="text-spiritual-energy font-medium group-hover:text-reiatsu-glow transition-colors duration-300">Partnership Management</span>
-                    <span className="text-gray-400 group-hover:text-spiritual-energy transition-colors duration-300">95%</span>
-                  </div>
-                  <div className="w-full bg-gray-700 rounded-full h-3 relative overflow-hidden group-hover:h-4 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-kido-purple/30">
-                    <div className="bg-gradient-to-r from-kido-purple to-spiritual-energy h-full rounded-full skill-progress group-hover:from-spiritual-energy group-hover:to-kido-purple transition-all duration-500" style={{'--target-width': '95%', animationDelay: '0.9s'}}></div>
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-pulse rounded-full"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="animate-fade-in-up" style={{animationDelay: '0.3s'}}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
                 {[
                   { name: 'JavaScript', level: 'Expert' },
@@ -473,6 +438,81 @@ export default function Home() {
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+            <div className="animate-fade-in-up" style={{animationDelay: '0.3s'}}>
+              <div className="space-y-4">
+                {/* Sorted in ascending order by percentage */}
+                <div className="skill-bar group cursor-pointer">
+                  <div className="flex justify-between mb-2">
+                    <span className="text-spiritual-energy font-medium group-hover:text-reiatsu-glow transition-colors duration-300">🧠 AI/ML Research</span>
+                    <span className="text-gray-400 group-hover:text-spiritual-energy transition-colors duration-300">35%</span>
+                  </div>
+                  <div className="w-full bg-gray-700 rounded-full h-3 relative overflow-hidden group-hover:h-4 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-reiatsu-glow/30">
+                    <div className="bg-gradient-to-r from-reiatsu-glow to-kido-purple h-full rounded-full skill-progress group-hover:from-kido-purple group-hover:to-reiatsu-glow transition-all duration-500" style={{'--target-width': '35%', animationDelay: '0.7s'}}></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-pulse rounded-full"></div>
+                  </div>
+                </div>
+                <div className="skill-bar group cursor-pointer">
+                  <div className="flex justify-between mb-2">
+                    <span className="text-spiritual-energy font-medium group-hover:text-reiatsu-glow transition-colors duration-300">📚 Consistency</span>
+                    <span className="text-gray-400 group-hover:text-spiritual-energy transition-colors duration-300">69%</span>
+                  </div>
+                  <div className="w-full bg-gray-700 rounded-full h-3 relative overflow-hidden group-hover:h-4 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-spiritual-energy/30">
+                    <div className="bg-gradient-to-r from-spiritual-energy to-reiatsu-glow h-full rounded-full skill-progress group-hover:from-reiatsu-glow group-hover:to-spiritual-energy transition-all duration-500" style={{'--target-width': '69%', animationDelay: '0.5s'}}></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-pulse rounded-full"></div>
+                  </div>
+                </div>
+                <div className="skill-bar group cursor-pointer">
+                  <div className="flex justify-between mb-2">
+                    <span className="text-spiritual-energy font-medium group-hover:text-reiatsu-glow transition-colors duration-300">🎨 UI/UX Design Sense</span>
+                    <span className="text-gray-400 group-hover:text-spiritual-energy transition-colors duration-300">80%</span>
+                  </div>
+                  <div className="w-full bg-gray-700 rounded-full h-3 relative overflow-hidden group-hover:h-4 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-spiritual-energy/30">
+                    <div className="bg-gradient-to-r from-spiritual-energy to-reiatsu-glow h-full rounded-full skill-progress group-hover:from-reiatsu-glow group-hover:to-spiritual-energy transition-all duration-500" style={{'--target-width': '80%', animationDelay: '0.5s'}}></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-pulse rounded-full"></div>
+                  </div>
+                </div>
+                <div className="skill-bar group cursor-pointer">
+                  <div className="flex justify-between mb-2">
+                    <span className="text-spiritual-energy font-medium group-hover:text-reiatsu-glow transition-colors duration-300">🌌 Full-Stack Development</span>
+                    <span className="text-gray-400 group-hover:text-spiritual-energy transition-colors duration-300">87%</span>
+                  </div>
+                  <div className="w-full bg-gray-700 rounded-full h-3 relative overflow-hidden group-hover:h-4 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-spiritual-energy/30">
+                    <div className="bg-gradient-to-r from-spiritual-energy to-reiatsu-glow h-full rounded-full skill-progress group-hover:from-reiatsu-glow group-hover:to-spiritual-energy transition-all duration-500" style={{'--target-width': '87%', animationDelay: '0.5s'}}></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-pulse rounded-full"></div>
+                  </div>
+                </div>
+                <div className="skill-bar group cursor-pointer">
+                  <div className="flex justify-between mb-2">
+                    <span className="text-spiritual-energy font-medium group-hover:text-reiatsu-glow transition-colors duration-300">🌐 Community Building</span>
+                    <span className="text-gray-400 group-hover:text-spiritual-energy transition-colors duration-300">87%</span>
+                  </div>
+                  <div className="w-full bg-gray-700 rounded-full h-3 relative overflow-hidden group-hover:h-4 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-spiritual-energy/30">
+                    <div className="bg-gradient-to-r from-spiritual-energy to-reiatsu-glow h-full rounded-full skill-progress group-hover:from-reiatsu-glow group-hover:to-spiritual-energy transition-all duration-500" style={{'--target-width': '87%', animationDelay: '0.5s'}}></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-pulse rounded-full"></div>
+                  </div>
+                </div>
+                <div className="skill-bar group cursor-pointer">
+                  <div className="flex justify-between mb-2">
+                    <span className="text-spiritual-energy font-medium group-hover:text-reiatsu-glow transition-colors duration-300">🤝 Programming Languages</span>
+                    <span className="text-gray-400 group-hover:text-spiritual-energy transition-colors duration-300">92%</span>
+                  </div>
+                  <div className="w-full bg-gray-700 rounded-full h-3 relative overflow-hidden group-hover:h-4 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-kido-purple/30">
+                    <div className="bg-gradient-to-r from-kido-purple to-spiritual-energy h-full rounded-full skill-progress group-hover:from-spiritual-energy group-hover:to-kido-purple transition-all duration-500" style={{'--target-width': '92%', animationDelay: '0.9s'}}></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-pulse rounded-full"></div>
+                  </div>
+                </div>
+                <div className="skill-bar group cursor-pointer">
+                  <div className="flex justify-between mb-2">
+                    <span className="text-spiritual-energy font-medium group-hover:text-reiatsu-glow transition-colors duration-300">🔋 Energy</span>
+                    <span className="text-gray-400 group-hover:text-spiritual-energy transition-colors duration-300">∞</span>
+                  </div>
+                  <div className="w-full bg-gray-700 rounded-full h-3 relative overflow-hidden group-hover:h-4 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-spiritual-energy/30">
+                    <div className="bg-gradient-to-r from-spiritual-energy to-reiatsu-glow h-full rounded-full skill-progress group-hover:from-reiatsu-glow group-hover:to-spiritual-energy transition-all duration-500" style={{'--target-width': '100%', animationDelay: '0.5s'}}></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-pulse rounded-full"></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -716,8 +756,8 @@ export default function Home() {
       <footer className="py-8 px-6 border-t border-spiritual-energy/20 bg-soul-society/40">
         <div className="max-w-6xl mx-auto text-center">
           <p className="text-gray-400">
-            © 2025 Adi Rajendra Maitre. Crafted with spiritual energy and code.
-            <span className="text-spiritual-energy japanese-text block mt-2">魂の力で作られた</span>
+          © 2025 Adi R. Maitre | Portals crafted through code, empowered by spirit
+            <span className="text-spiritual-energy japanese-text block mt-2">革新は魂から生まれる - Innovation is born from the soul</span>
           </p>
         </div>
       </footer>
