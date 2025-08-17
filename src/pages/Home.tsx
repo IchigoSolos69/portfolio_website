@@ -60,45 +60,51 @@ export default function Home() {
     }
 
     if (loadingPhase === 1) {
-      // Phase 1: Loading screen (1 second) + start audio early
-      const playSlashSound = () => {
-        try {
-          const slashAudio = new Audio('/sounds/sword-slash.mp3');
-          slashAudio.volume = 0.4;
-          slashAudio.loop = false;
-          slashAudio.preload = 'auto';
-          
-          // Start audio 4 seconds early to prevent cutoff
-          setTimeout(() => {
-            slashAudio.play().catch((error) => {
-              console.log('Audio play failed:', error);
-            });
-          }, 600); // Start audio 600ms into loading phase
-          
-          return slashAudio;
-        } catch (e) {
-          console.log('Audio initialization failed:', e);
-          return null;
-        }
-      };
-      
-      const audio = playSlashSound();
-      
+      // Phase 1: Loading screen (1 second)
       const timer = setTimeout(() => {
         setLoadingPhase(2);
       }, 1000);
-      
-      return () => {
-        clearTimeout(timer);
-        if (audio) {
-          audio.pause();
-          audio.currentTime = 0;
-        }
-      };
+      return () => clearTimeout(timer);
     }
     
     if (loadingPhase === 2) {
-      // Phase 2: Slash animation (audio already started in phase 1)
+      // Phase 2: Slash animation with audio
+      let slashAudio: HTMLAudioElement | null = null;
+      
+      // Enhanced audio handling with user interaction fallback
+      const initializeAudio = () => {
+        try {
+          slashAudio = new Audio('/sounds/sword-slash.mp3');
+          slashAudio.volume = 0.5;
+          slashAudio.preload = 'auto';
+          
+          // Try to play immediately
+          const playPromise = slashAudio.play();
+          
+          if (playPromise !== undefined) {
+            playPromise.catch(() => {
+              // Autoplay blocked - set up user interaction handler
+              const playOnInteraction = () => {
+                if (slashAudio) {
+                  slashAudio.play().catch(() => {});
+                }
+                document.removeEventListener('click', playOnInteraction);
+                document.removeEventListener('touchstart', playOnInteraction);
+                document.removeEventListener('keydown', playOnInteraction);
+              };
+              
+              document.addEventListener('click', playOnInteraction, { once: true });
+              document.addEventListener('touchstart', playOnInteraction, { once: true });
+              document.addEventListener('keydown', playOnInteraction, { once: true });
+            });
+          }
+        } catch (error) {
+          console.log('Audio initialization failed:', error);
+        }
+      };
+      
+      // Initialize audio immediately
+      initializeAudio();
       
       // Set a timer to complete loading after animation (2.5s animation + 0.5s for split/fade)
       const timer = setTimeout(() => {
@@ -109,6 +115,10 @@ export default function Home() {
       // Cleanup function
       return () => {
         clearTimeout(timer);
+        if (slashAudio) {
+          slashAudio.pause();
+          slashAudio.currentTime = 0;
+        }
       };
     }
   }, [loadingPhase, isLoading]);
