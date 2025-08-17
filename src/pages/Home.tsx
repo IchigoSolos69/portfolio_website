@@ -736,13 +736,6 @@ export default function Home() {
                 type: "Technical"
               },
               {
-                title: "Community Events Coordinator",
-                organization: "IT Student Association (ITSA), International Relations Cell (IRC), Spectrum Team - PCCOE",
-                description: "Planned and executed campus events, workshops, and cultural exchanges, significantly increasing student participation and cross-community engagement.",
-                icon: <Calendar className="w-8 h-8" />,
-                type: "Leadership"
-              },
-              {
                 title: "Open Source Contributor",
                 organization: "Programming Ecosystem",
                 description: "Enhanced widely used front-end libraries with bug fixes, performance improvements, and feature contributions.",
@@ -750,11 +743,11 @@ export default function Home() {
                 type: "Technical"
               },
               {
-                title: "Creative Project Developer",
-                organization: "Personal & Academic Projects",
-                description: "Built interactive applications including a digitized chemistry manual with TTS, search functionality, and experiment-wise modular design.",
-                icon: <Lightbulb className="w-8 h-8" />,
-                type: "Creative"
+                title: "Community Events Coordinator",
+                organization: "IT Student Association (ITSA), International Relations Cell (IRC), Spectrum Team - PCCOE",
+                description: "Planned and executed campus events, workshops, and cultural exchanges, significantly increasing student participation and cross-community engagement.",
+                icon: <Calendar className="w-8 h-8" />,
+                type: "Leadership"
               },
               {
                 title: "Community Builder",
@@ -762,6 +755,13 @@ export default function Home() {
                 description: "Grew and managed digital communities of 70k+ members, maintaining engagement, moderating activity, and fostering collaboration.",
                 icon: <Users className="w-8 h-8" />,
                 type: "Leadership"
+              },
+              {
+                title: "Creative Project Developer",
+                organization: "Personal & Academic Projects",
+                description: "Built interactive applications including a digitized chemistry manual with TTS, search functionality, and experiment-wise modular design.",
+                icon: <Lightbulb className="w-8 h-8" />,
+                type: "Creative"
               }                                        
             ].map((achievement, idx) => (
               <div key={achievement.title} className="achievement-card group relative bg-gradient-to-br from-hollow-mask/15 to-soul-society/10 rounded-xl p-6 border border-spiritual-energy/20 hover:border-reiatsu-glow transition-all duration-500 animate-fade-in-up" style={{animationDelay:`${idx*0.15}s`}}>
