@@ -392,26 +392,28 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="animate-fade-in-up">
             <p className="text-lg text-gray-300 leading-relaxed mb-6">
-              Just a code Shinigami, Adi - a B.Tech IT student wandering the digital Soul Society, blending technical skills with community-driven initiatives. Along the way, I’ve dabbled in partnership wrangling, staff coordination, and testing projects at AuraSide’s Hone.gg and Ghast.io, gaining hands-on experience in both tech and community spaces.
+              Just a code Shinigami - Adi, a B.Tech IT student wandering the digital Soul Society, blending technical skills with community-driven initiatives. Along the way, I’ve dabbled in partnership wrangling, staff coordination, and testing projects at AuraSide’s Hone.gg and Ghast.io, gaining hands-on experience in both tech and community spaces.
               <br />
-              <span className="block h-[2px]"></span>
+              <span className="block h-[1.5rem]"></span>
               I slice bugs, debug souls, and chase that elusive bankai of perfect UI.
               <br />
-              <span className="block h-[2px]"></span>
-              Technically, my squad includes Python (my zanpakutō), along with C and Java. I love building, breaking, and remaking - whether it’s community events, new features, or half-finished projects that always teach me something along the way.
+              <span className="block h-[1.5rem]"></span>
+              My squad technically includes Python (my zanpakutō), alongside C and Java. I love building, breaking, and remaking - whether it’s community events, new features, or half-finished projects that always teach me something along the way.
             </p>
-              <p className="text-lg text-gray-300 leading-relaxed mb-8">
+            <p className="text-lg text-gray-300 leading-relaxed mb-8">
               I like to think of myself as a code Shinigami wandering the digital Soul Society:
-              ⚔️ Slicing bugs.
-              ⚡ Debugging souls.
+              <br />
+              ⚔️ Slicing bugs.<br />
+              ⚡ Debugging souls.<br />
               🎯 Chasing the bankai of perfect UI.
-
-              Fueled by caffeine, Ctrl+Z, and side quests, I approach challenges with creativity, adaptability, and curiosity.
-
-              Legacy? Just leave my GitHub drifting in the cloud.
-              Because at the end of the day -
-              “If it runs, it’s bankai.”
-              </p>
+              <br />
+              Fueled by caffeine, Ctrl+Z, and side quests, I tackle challenges with creativity, adaptability, and curiosity.
+              <br />
+              Legacy? Just leave my GitHub drifting in the cloud.  
+              <br />
+              Because at the end of the day  -   
+              <em>“If it runs, it’s bankai.”</em>
+            </p>
               <div className="space-y-4">
                 <div className="skill-bar group cursor-pointer">
                   <div className="flex justify-between mb-2">
