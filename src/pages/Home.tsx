@@ -1,5 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, ExternalLink, ChevronDown, Cpu, Trophy, Award, Zap, Monitor, Flask, Hash, Archive, Globe, Heart, Cloud } from 'lucide-react';
+import { 
+  Github, 
+  Linkedin, 
+  Mail, 
+  ExternalLink, 
+  ChevronDown, 
+  Cpu, 
+  Trophy, 
+  Award, 
+  Zap, 
+  Monitor, 
+  Flask, 
+  Hash, 
+  Archive, 
+  Globe, 
+  Heart, 
+  Cloud 
+} from 'lucide-react';
 
 // TypeScript interfaces
 declare global {
