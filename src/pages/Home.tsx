@@ -85,11 +85,11 @@ const Home = () => {
       
       playSlashSound();
       
-      // End loading after 6 seconds (coordinated with slower slash timing)
+      // End loading after 6.5 seconds (coordinated with new glow timing)
       const timer = setTimeout(() => {
         setIsLoading(false);
         setIsVisible(true);
-      }, 6000);
+      }, 6500);
       return () => clearTimeout(timer);
     }
   }, [loadingPhase, isLoading]);
@@ -206,39 +206,48 @@ const Home = () => {
           </div>
         )}
         
-        {/* Phase 2: Cinematic Sword Slash */}
+        {/* Phase 2: Sleek Trailing Glow */}
         {loadingPhase === 2 && (
-          <div className="sword-slash-phase">
-            {/* Dramatic pause before slash */}
+          <div className="trailing-glow-phase">
+            {/* Dramatic pause before glow */}
             <div className="dramatic-pause"></div>
             
-            {/* Glowing sword trail */}
-            <div className="sword-trail"></div>
+            {/* Sleek trailing glow */}
+            <div className="trailing-glow"></div>
             
-            {/* Enhanced slash particles - aligned with slash trail */}
-            <div className="slash-particles">
-              {[...Array(16)].map((_, i) => {
-                const progress = i / 15; // 0 to 1
+            {/* Minimal glow particles */}
+            <div className="glow-particles">
+              {[...Array(8)].map((_, i) => {
+                const progress = i / 7; // 0 to 1
                 return (
                   <div 
                     key={i} 
-                    className="diagonal-particle" 
+                    className="glow-particle" 
                     style={{
                       left: `${progress * 100}%`,
                       bottom: `${(1 - progress) * 100}%`,
-                      animationDelay: `${0.4 + i * 0.12}s`
+                      animationDelay: `${0.6 + i * 0.15}s`
                     }}
                   />
                 );
               })}
             </div>
             
-            {/* Diagonal curtain panels */}
-            <div className="curtain-panel curtain-panel-top"></div>
-            <div className="curtain-panel curtain-panel-bottom"></div>
+            {/* Cinematic name reveal at trail peak */}
+            <div className="hero-name-cinematic">
+              <h1 className="text-6xl md:text-8xl font-bold leading-tight">
+                <span className="gradient-shimmer">
+                  Adi Rajendra Maitre
+                </span>
+              </h1>
+            </div>
             
-            {/* Website content with reveal animation */}
-            <div className="content-reveal">
+            {/* Diagonal split panels */}
+            <div className="split-panel split-panel-top"></div>
+            <div className="split-panel split-panel-bottom"></div>
+            
+            {/* Homepage content with reveal animation */}
+            <div className="homepage-reveal">
               <div className="min-h-screen bg-black text-white">
                 {/* Fixed Background Effects */}
                 <div className="fixed inset-0 pointer-events-none">
@@ -275,7 +284,7 @@ const Home = () => {
                   </div>
                   <div className="text-center max-w-4xl mx-auto relative z-10">
                     <div className="mb-12">
-                      <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight hero-name-transition">
+                      <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
                         <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent animate-gradient-text">
                           Adi Rajendra Maitre
                         </span>
