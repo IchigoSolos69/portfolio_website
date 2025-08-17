@@ -60,10 +60,21 @@ export default function Home() {
     }
 
     if (loadingPhase === 1) {
-      // Phase 1: Loading screen (1 second) with audio starting early
+      // Phase 1: Loading screen (1 second)
+      const timer = setTimeout(() => {
+        setLoadingPhase(2);
+      }, 1000);
+      
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+    
+    if (loadingPhase === 2) {
+      // Phase 2: Slash animation with audio (4 seconds for slower, more cinematic pace)
       let slashAudio: HTMLAudioElement | null = null;
       
-      // Start audio immediately when loading phase begins
+      // Initialize audio immediately when slash phase starts
       const initAudio = () => {
         slashAudio = new Audio('/sounds/sword-slash.mp3');
         slashAudio.volume = 0.6;
@@ -96,28 +107,17 @@ export default function Home() {
       initAudio();
       
       const timer = setTimeout(() => {
-        setLoadingPhase(2);
-      }, 1000);
+        setIsLoading(false);
+        setIsVisible(true);
+      }, 4000); // 4 seconds total for slower animation
       
+      // Cleanup function
       return () => {
         clearTimeout(timer);
         if (slashAudio) {
           slashAudio.pause();
           slashAudio.currentTime = 0;
         }
-      };
-    }
-    
-    if (loadingPhase === 2) {
-      // Phase 2: Slash animation (4 seconds, audio already started in phase 1)
-      const timer = setTimeout(() => {
-        setIsLoading(false);
-        setIsVisible(true);
-      }, 4000); // 4 seconds total for animation
-      
-      // Cleanup function
-      return () => {
-        clearTimeout(timer);
       };
     }
   }, [loadingPhase, isLoading]);
