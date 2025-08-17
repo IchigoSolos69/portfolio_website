@@ -85,11 +85,11 @@ const Home = () => {
       
       playSlashSound();
       
-      // End loading after 4 seconds (particles only timing)
+      // End loading after 5.5 seconds (coordinated with new animation timing)
       const timer = setTimeout(() => {
         setIsLoading(false);
         setIsVisible(true);
-      }, 4000);
+      }, 5500);
       return () => clearTimeout(timer);
     }
   }, [loadingPhase, isLoading]);
@@ -206,32 +206,36 @@ const Home = () => {
           </div>
         )}
         
-        {/* Phase 2: Diagonal Particles Only */}
+        {/* Phase 2: Cinematic Sword Slash */}
         {loadingPhase === 2 && (
-          <div className="particles-only-phase">
-            {/* Dramatic pause before particles */}
+          <div className="sword-slash-phase">
+            {/* Dramatic pause before slash */}
             <div className="dramatic-pause"></div>
             
-            {/* Only diagonal particles */}
+            {/* Glowing sword trail */}
+            <div className="sword-trail"></div>
+            
+            {/* Enhanced slash particles */}
             <div className="slash-particles">
-              {[...Array(16)].map((_, i) => {
-                const progress = i / 15; // 0 to 1
-                return (
-                  <div 
-                    key={i} 
-                    className="diagonal-particle" 
-                    style={{
-                      left: `${progress * 100}%`,
-                      bottom: `${(1 - progress) * 100}%`,
-                      animationDelay: `${0.4 + i * 0.1}s`
-                    }}
-                  />
-                );
-              })}
+              {[...Array(16)].map((_, i) => (
+                <div 
+                  key={i} 
+                  className="diagonal-particle" 
+                  style={{
+                    left: `${5 + i * 6}%`,
+                    top: `${90 - i * 5.5}%`,
+                    animationDelay: `${0.3 + i * 0.08}s`
+                  }}
+                />
+              ))}
             </div>
             
-            {/* Simple content reveal without extra animations */}
-            <div style={{position: 'absolute', inset: 0, opacity: 0, animation: 'fadeIn 1s ease-out 4s forwards', zIndex: 10}}>
+            {/* Diagonal curtain panels */}
+            <div className="curtain-panel curtain-panel-top"></div>
+            <div className="curtain-panel curtain-panel-bottom"></div>
+            
+            {/* Website content with reveal animation */}
+            <div className="content-reveal">
               <div className="min-h-screen bg-black text-white">
                 {/* Fixed Background Effects */}
                 <div className="fixed inset-0 pointer-events-none">

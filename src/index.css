@@ -178,29 +178,83 @@
   to   { text-shadow:0 0 25px rgba(255,165,0,1) }
 }
 
-/* Phase 2: Sleek Trailing Glow Animation */
-.trailing-glow-phase { 
-  position: absolute; 
-  inset: 0; 
-  background: #000; 
-  overflow: hidden;
-  z-index: 10000;
-}
+/* Phase 2: Cinematic Sword Slash */
+.sword-slash-phase { position:absolute; inset:0; background:#000; overflow:hidden; }
 
 .dramatic-pause {
-  position: absolute; 
-  inset: 0; 
-  background: #000;
+  position:absolute; inset:0; background:#000;
   animation: fadeOut 0.3s ease-out 0.1s forwards;
 }
+@keyframes fadeOut { to { opacity:0; visibility:hidden } }
 
-@keyframes fadeOut { 
-  to { opacity: 0; visibility: hidden; } 
+/* Glowing Sword Trail */
+.sword-trail {
+  position: absolute;
+  width: 6px;
+  height: 0;
+  background: linear-gradient(to top, 
+    transparent 0%,
+    rgba(255, 255, 255, 0.9) 20%,
+    rgba(255, 165, 0, 1) 50%,
+    rgba(255, 255, 255, 0.9) 80%,
+    transparent 100%
+  );
+  left: 0;
+  bottom: 0;
+  transform-origin: bottom left;
+  transform: rotate(45deg);
+  box-shadow: 
+    0 0 20px rgba(255, 165, 0, 0.8),
+    0 0 40px rgba(255, 255, 255, 0.6),
+    0 0 60px rgba(255, 165, 0, 0.4);
+  animation: swordSlashTrail 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  z-index: 30;
 }
 
-/* Original Sword trail removed - keeping only particles */
+@keyframes swordSlashTrail {
+  0% {
+    height: 0;
+    opacity: 0;
+    filter: blur(4px);
+  }
+  15% {
+    height: 50vh;
+    opacity: 1;
+    filter: blur(2px);
+    box-shadow: 
+      0 0 30px rgba(255, 165, 0, 1),
+      0 0 60px rgba(255, 255, 255, 0.8),
+      0 0 90px rgba(255, 165, 0, 0.6);
+  }
+  50% {
+    height: 141.42vh;
+    opacity: 1;
+    filter: blur(0px);
+    box-shadow: 
+      0 0 40px rgba(255, 165, 0, 1),
+      0 0 80px rgba(255, 255, 255, 0.9),
+      0 0 120px rgba(255, 165, 0, 0.7);
+  }
+  85% {
+    height: 141.42vh;
+    opacity: 0.8;
+    filter: blur(1px);
+  }
+  100% {
+    height: 141.42vh;
+    opacity: 0;
+    filter: blur(3px);
+  }
+}
 
-/* Original Slash Particles */
+.diagonal-slash-container { 
+  position: absolute; 
+  inset: 0; 
+  clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+  animation: diagonalReveal 8s ease-out forwards;
+  z-index: 1000;
+}
+
 .slash-particles {
   position: absolute;
   inset: 0;
@@ -249,15 +303,71 @@
   }
 }
 
-/* Remove split panels - not needed for original slash */
+@keyframes diagonalReveal {
+  0%   { clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%); }
+  100% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+}
 
-/* Simple fade in animation for content reveal */
+/* Diagonal Curtain Panels */
+.curtain-panel {
+  position: absolute;
+  background: #000;
+  z-index: 20;
+}
+
+.curtain-panel-top {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+  animation: curtainSlideTop 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 3s forwards;
+}
+
+.curtain-panel-bottom {
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  animation: curtainSlideBottom 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 3s forwards;
+}
+
+@keyframes curtainSlideTop {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-100%, -100%); }
+}
+
+@keyframes curtainSlideBottom {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(100%, 100%); }
+}
+
+/* Content Reveal Animation */
+.content-reveal {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(0.95);
+  animation: contentFadeInScale 1.5s ease-out 4.8s forwards;
+  z-index: 10;
+}
+
+@keyframes contentFadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
-
-/* Responsive styles removed since sword trail is removed */
 
 
 
