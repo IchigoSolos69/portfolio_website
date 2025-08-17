@@ -8,7 +8,7 @@ const roles = [
   'ブリーチファン | Bleach Fan',
 ];
 
-const Home = () => {
+export default function Home() {
   const [isVisible, setIsVisible] = useState(false);
   const [typingText, setTypingText] = useState('');
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
@@ -17,7 +17,6 @@ const Home = () => {
   const [showGlitch, setShowGlitch] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [loadingPhase, setLoadingPhase] = useState(0);
-  const [slashCoords, setSlashCoords] = useState({ width: '100vw', height: '100vh', angle: 45 });
 
   // Auto-detect viewport coordinates for slash animation
   useEffect(() => {
@@ -35,12 +34,6 @@ const Home = () => {
       document.documentElement.style.setProperty('--diagonal-angle', `${angle}deg`);
       document.documentElement.style.setProperty('--slash-width', `${diagonalLength}px`);
       document.documentElement.style.setProperty('--slash-height', '6px');
-      
-      setSlashCoords({
-        width: `${diagonalLength}px`,
-        height: `6px`,
-        angle: angle
-      });
     };
 
     calculateSlashCoords();
@@ -58,7 +51,7 @@ const Home = () => {
     }
 
     if (loadingPhase === 1) {
-      // Phase 1: Loading screen (2 seconds - 1 second faster)
+      // Phase 1: Loading screen (2 seconds)
       const timer = setTimeout(() => {
         setLoadingPhase(2);
       }, 2000);
@@ -66,7 +59,7 @@ const Home = () => {
     }
     
     if (loadingPhase === 2) {
-      // Phase 2: Sword slash with synchronized 8-second audio
+      // Phase 2: Sword slash with synchronized audio
       const playSlashSound = () => {
         try {
           const slashAudio = new Audio('https://raw.githubusercontent.com/IchigoSolos69/portfolio_website/da0030ba1ecfc2a8b6f7e7a2127da7cdea1e62b3/public/sounds/sword-slash.mp3');
@@ -85,7 +78,7 @@ const Home = () => {
       
       playSlashSound();
       
-      // End loading after 5.5 seconds (coordinated with new animation timing)
+      // End loading after 5.5 seconds (coordinated with animation timing)
       const timer = setTimeout(() => {
         setIsLoading(false);
         setIsVisible(true);
@@ -212,8 +205,6 @@ const Home = () => {
             {/* Dramatic pause before slash */}
             <div className="dramatic-pause"></div>
             
-            {/* Sword trail removed - keeping only particles */}
-            
             {/* Enhanced slash particles */}
             <div className="slash-particles">
               {[...Array(16)].map((_, i) => (
@@ -276,16 +267,17 @@ const Home = () => {
                       <div className="small-particles">
                         {[...Array(30)].map((_, i) => (
                           <div
-                          key={i}
-                          className="small-particle"
-                          style={{
-                            left: `${Math.random() * 100}%`,
-                            top: `${Math.random() * 100}%`,
-                            animationDelay: `${Math.random() * 10}s`,
-                            animationDuration: `${15 + Math.random() * 10}s`
-                          }}
-                        />
-                      ))}
+                            key={i}
+                            className="small-particle"
+                            style={{
+                              left: `${Math.random() * 100}%`,
+                              top: `${Math.random() * 100}%`,
+                              animationDelay: `${Math.random() * 10}s`,
+                              animationDuration: `${15 + Math.random() * 10}s`
+                            }}
+                          />
+                        ))}
+                      </div>
                     </div>
                     
                     {/* Main Homepage Content */}
@@ -304,7 +296,6 @@ const Home = () => {
             </div>
           </div>
         )}
-        
       </div>
     );
   }
@@ -756,5 +747,3 @@ const Home = () => {
     </div>
   );
 }
-
-export default Home;
