@@ -218,7 +218,7 @@
     0 0 20px rgba(255, 165, 0, 0.8),
     0 0 40px rgba(255, 255, 255, 0.6),
     0 0 60px rgba(255, 165, 0, 0.4);
-  animation: swordSlashTrail 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: swordSlashTrail 3.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   z-index: 30;
 }
 
@@ -277,7 +277,7 @@
     0 0 12px rgba(255, 165, 0, 0.9),
     0 0 24px rgba(255, 255, 255, 0.7),
     0 0 36px rgba(255, 165, 0, 0.5);
-  animation: enhancedParticleFly 2.8s ease-out forwards;
+  animation: enhancedParticleFly 3.5s ease-out forwards;
 }
 
 @keyframes enhancedParticleFly {
@@ -324,7 +324,7 @@
   width: 100%;
   height: 100%;
   clip-path: polygon(0 0, 100% 0, 0 100%);
-  animation: curtainSlideTopLeft 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 2.2s forwards;
+  animation: curtainSlideTopLeft 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 2.8s forwards;
 }
 
 .curtain-panel-bottom {
@@ -333,7 +333,7 @@
   width: 100%;
   height: 100%;
   clip-path: polygon(100% 0, 100% 100%, 0 100%);
-  animation: curtainSlideBottomRight 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 2.2s forwards;
+  animation: curtainSlideBottomRight 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 2.8s forwards;
 }
 
 /* Responsive diagonal calculations */
@@ -378,7 +378,7 @@
   opacity: 0;
   transform: scale(0.95) translateY(50px);
   filter: blur(2px);
-  animation: contentFadeInScale 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 3.8s forwards;
+  animation: contentFadeInScale 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 4.2s forwards;
   z-index: 10;
 }
 
@@ -405,25 +405,36 @@
   }
 }
 
-/* Smooth name transition for hero text */
+/* Smooth name transition for hero text - matches home page position */
 .hero-name-transition {
-  animation: heroNameSlideUp 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 4.5s both;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateY(50px) scale(0.9);
+  opacity: 0;
+  filter: blur(3px);
+  animation: heroNameSlideUp 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 4.2s both;
 }
 
 @keyframes heroNameSlideUp {
   0% {
     opacity: 0;
-    transform: translateY(100px) scale(0.9);
+    transform: translate(-50%, -50%) translateY(50px) scale(0.9);
     filter: blur(3px);
   }
-  40% {
-    opacity: 0.6;
-    transform: translateY(40px) scale(0.95);
-    filter: blur(1px);
+  30% {
+    opacity: 0.4;
+    transform: translate(-50%, -50%) translateY(20px) scale(0.95);
+    filter: blur(2px);
+  }
+  70% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) translateY(5px) scale(0.98);
+    filter: blur(0.5px);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translate(-50%, -50%) translateY(0) scale(1);
     filter: blur(0px);
   }
 }

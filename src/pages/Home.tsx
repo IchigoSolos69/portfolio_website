@@ -58,10 +58,10 @@ const Home = () => {
     }
 
     if (loadingPhase === 1) {
-      // Phase 1: Loading screen (3 seconds)
+      // Phase 1: Loading screen (2 seconds - 1 second faster)
       const timer = setTimeout(() => {
         setLoadingPhase(2);
-      }, 3000);
+      }, 2000);
       return () => clearTimeout(timer);
     }
     
@@ -85,11 +85,11 @@ const Home = () => {
       
       playSlashSound();
       
-      // End loading after 5.5 seconds (coordinated with new animation timing)
+      // End loading after 6 seconds (coordinated with slower slash timing)
       const timer = setTimeout(() => {
         setIsLoading(false);
         setIsVisible(true);
-      }, 5500);
+      }, 6000);
       return () => clearTimeout(timer);
     }
   }, [loadingPhase, isLoading]);
@@ -215,19 +215,22 @@ const Home = () => {
             {/* Glowing sword trail */}
             <div className="sword-trail"></div>
             
-            {/* Enhanced slash particles */}
+            {/* Enhanced slash particles - aligned with slash trail */}
             <div className="slash-particles">
-              {[...Array(16)].map((_, i) => (
-                <div 
-                  key={i} 
-                  className="diagonal-particle" 
-                  style={{
-                    left: `${5 + i * 6}%`,
-                    top: `${90 - i * 5.5}%`,
-                    animationDelay: `${0.3 + i * 0.08}s`
-                  }}
-                />
-              ))}
+              {[...Array(16)].map((_, i) => {
+                const progress = i / 15; // 0 to 1
+                return (
+                  <div 
+                    key={i} 
+                    className="diagonal-particle" 
+                    style={{
+                      left: `${progress * 100}%`,
+                      bottom: `${(1 - progress) * 100}%`,
+                      animationDelay: `${0.4 + i * 0.12}s`
+                    }}
+                  />
+                );
+              })}
             </div>
             
             {/* Diagonal curtain panels */}
