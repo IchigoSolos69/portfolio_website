@@ -68,18 +68,21 @@ export default function Home() {
     }
     
     if (loadingPhase === 2) {
-      // Phase 2: Play sword slash sound and animation
+      // Phase 2: Play sword slash sound and animation with proper sync
       const playSlashSound = () => {
         try {
           // Using local audio file
           const slashAudio = new Audio('/sounds/sword-slash.mp3');
-          slashAudio.volume = 0.3; // Lower volume
+          slashAudio.volume = 0.4; // Slightly higher volume
           slashAudio.loop = false;
           slashAudio.preload = 'auto';
           
-          slashAudio.play().catch((error) => {
-            console.log('Audio play failed:', error);
-          });
+          // Delay audio to sync with slash animation start (200ms delay)
+          setTimeout(() => {
+            slashAudio.play().catch((error) => {
+              console.log('Audio play failed:', error);
+            });
+          }, 200);
           
           return slashAudio; // Return the audio element for cleanup
         } catch (e) {
