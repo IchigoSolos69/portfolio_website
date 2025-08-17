@@ -15,7 +15,12 @@ import {
   Archive, 
   Globe, 
   Heart, 
-  Cloud 
+  Cloud,
+  Users,
+  Calendar,
+  Shield,
+  Lightbulb,
+  Code 
 } from 'lucide-react';
 
 // TypeScript interfaces
@@ -571,7 +576,7 @@ export default function Home() {
                 icon: <Monitor className="w-8 h-8" />,
                 tech: ["Vite", "React", "TypeScript", "Tailwind CSS"],
                 github: "https://github.com/IchigoSolos69/portfolio_website",
-                status: "Production"
+                status: "Completed"
               },
               {
                 title: "Chemistry Manual Digitizer",
@@ -579,7 +584,7 @@ export default function Home() {
                 icon: <TestTube className="w-8 h-8" />,
                 tech: ["Python", "JSON"],
                 github: "https://github.com/IchigoSolos69/Chemistry-Manual-Digitizer",
-                status: "Production"
+                status: "Completed"
               },
               {
                 title: "IRC: Data Analyzer",
@@ -587,7 +592,7 @@ export default function Home() {
                 icon: <Hash className="w-8 h-8" />,
                 tech: ["Python", "PyQt5", "pandas", "qrcode", "matplotlib"],
                 github: "https://github.com/IchigoSolos69/IRC",
-                status: "On Hold"
+                status: "Research"
               },
               {
                 title: "Inventory Management System",
@@ -595,7 +600,7 @@ export default function Home() {
                 icon: <Archive className="w-8 h-8" />,
                 tech: ["Python", "PyQt5", "CSV"],
                 github: "https://github.com/IchigoSolos69/Inventory-Management-System",
-                status: "Production"
+                status: "Completed"
               },
               {
                 title: "Number Guessing Game",
@@ -603,7 +608,7 @@ export default function Home() {
                 icon: <Cpu className="w-8 h-8" />,
                 tech: ["Python"],
                 github: "https://github.com/IchigoSolos69/Computer-Guesses-your-the-Number",
-                status: "Production"
+                status: "Completed"
               },
               {
                 title: "PyQt5 Web Browser",
@@ -611,7 +616,7 @@ export default function Home() {
                 icon: <Globe className="w-8 h-8" />,
                 tech: ["Python", "PyQt5", "QtWebEngine"],
                 github: "https://github.com/IchigoSolos69/Web-Browser",
-                status: "On Hold"
+                status: "Research"
               },
               {
                 title: "Hospital Management System (C++)",
@@ -627,7 +632,7 @@ export default function Home() {
                 icon: <Cloud className="w-8 h-8" />,
                 tech: ["Python", "PyQt5", "requests", "Open-Meteo API"],
                 github: "https://github.com/IchigoSolos69/Weather-System",
-                status: "Production"
+                status: "Completed"
               }              
             ].map((project, idx) => (
               <div 
@@ -709,36 +714,53 @@ export default function Home() {
             {[
               {
                 title: "Staff & Partnership Manager",
-                organization: "Hone.gg",
-                description: "Leading strategic partnerships and platform development for competitive gaming ecosystem",
+                organization: "AuraSide Product (Hone.gg & Ghast.io)",
+                description: "Driving strategic partnerships, product testing, and platform growth for a global competitive gaming ecosystem.",
                 icon: <Trophy className="w-8 h-8" />,
-                year: "2024",
                 type: "Professional"
               },
               {
-                title: "BTech Information Technology",
-                organization: "PCCOE Akurdi",
-                description: "Pursuing advanced studies in IT with focus on software development and emerging technologies",
-                icon: <Award className="w-8 h-8" />,
-                year: "2022-2026",
-                type: "Academic"
+                title: "NDA Product Tester",
+                organization: "AuraSide Product (Hone.gg)",
+                description: "Conducted early-stage product testing, feature validation, and user experience feedback to refine gaming and community platforms.",
+                icon: <Shield className="w-8 h-8" />,
+                type: "Professional"
               },
               {
                 title: "Full-Stack Developer",
-                organization: "Multiple Projects",
-                description: "Developed comprehensive web applications using modern frameworks and technologies",
+                organization: "Independent & Collaborative Projects",
+                description: "Designed and deployed scalable web applications using modern frameworks, APIs, and cloud-based technologies.",
                 icon: <Zap className="w-8 h-8" />,
-                year: "2023-2024",
                 type: "Technical"
               },
               {
-                title: "AI/ML Research",
-                organization: "Medical Data Classification",
-                description: "Built machine learning models for medical data classification and analysis",
-                icon: <Cpu className="w-8 h-8" />,
-                year: "2024",
-                type: "Research"
-              }
+                title: "Community Events Coordinator",
+                organization: "IT Student Association (ITSA), International Relations Cell (IRC), Spectrum Team - PCCOE",
+                description: "Planned and executed campus events, workshops, and cultural exchanges, significantly increasing student participation and cross-community engagement.",
+                icon: <Calendar className="w-8 h-8" />,
+                type: "Leadership"
+              },
+              {
+                title: "Open Source Contributor",
+                organization: "Programming Ecosystem",
+                description: "Enhanced widely used front-end libraries with bug fixes, performance improvements, and feature contributions.",
+                icon: <Code className="w-8 h-8" />,
+                type: "Technical"
+              },
+              {
+                title: "Creative Project Developer",
+                organization: "Personal & Academic Projects",
+                description: "Built interactive applications including a digitized chemistry manual with TTS, search functionality, and experiment-wise modular design.",
+                icon: <Lightbulb className="w-8 h-8" />,
+                type: "Creative"
+              },
+              {
+                title: "Community Builder",
+                organization: "Discord & Online Gaming Spaces",
+                description: "Grew and managed digital communities of 70k+ members, maintaining engagement, moderating activity, and fostering collaboration.",
+                icon: <Users className="w-8 h-8" />,
+                type: "Leadership"
+              }                                        
             ].map((achievement, idx) => (
               <div key={achievement.title} className="achievement-card group relative bg-gradient-to-br from-hollow-mask/15 to-soul-society/10 rounded-xl p-6 border border-spiritual-energy/20 hover:border-reiatsu-glow transition-all duration-500 animate-fade-in-up" style={{animationDelay:`${idx*0.15}s`}}>
                 <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-reiatsu-glow/0 via-reiatsu-glow/10 to-reiatsu-glow/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -754,7 +776,6 @@ export default function Home() {
                       </div>
                       <p className="text-spiritual-energy font-medium text-sm mb-2">{achievement.organization}</p>
                       <p className="text-gray-300 text-sm mb-3 leading-relaxed">{achievement.description}</p>
-                      <span className="text-xs text-reiatsu-glow bg-reiatsu-glow/10 px-2 py-1 rounded border border-reiatsu-glow/20">{achievement.year}</span>
                     </div>
                   </div>
                 </div>
@@ -791,10 +812,10 @@ export default function Home() {
             <a href="mailto:adimaitre56@gmail.com" className="flex items-center gap-3 px-8 py-4 bg-spiritual-energy/10 hover:bg-spiritual-energy/20 rounded-lg border border-spiritual-energy/20 hover:border-spiritual-energy/40 transition-all duration-500">
               <Mail className="w-6 h-6 text-spiritual-energy" /> Email
             </a>
-            <a href="https://github.com/adimaitre" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 px-8 py-4 bg-spiritual-energy/10 hover:bg-spiritual-energy/20 rounded-lg border border-spiritual-energy/20 hover:border-spiritual-energy/40 transition-all duration-500">
+            <a href="https://github.com/IchigoSolos69" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 px-8 py-4 bg-spiritual-energy/10 hover:bg-spiritual-energy/20 rounded-lg border border-spiritual-energy/20 hover:border-spiritual-energy/40 transition-all duration-500">
               <Github className="w-6 h-6 text-spiritual-energy" /> GitHub
             </a>
-            <a href="https://linkedin.com/in/adi-maitre" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 px-8 py-4 bg-spiritual-energy/10 hover:bg-spiritual-energy/20 rounded-lg border border-spiritual-energy/20 hover:border-spiritual-energy/40 transition-all duration-500">
+            <a href="https://www.linkedin.com/in/adimaitre" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 px-8 py-4 bg-spiritual-energy/10 hover:bg-spiritual-energy/20 rounded-lg border border-spiritual-energy/20 hover:border-spiritual-energy/40 transition-all duration-500">
               <Linkedin className="w-6 h-6 text-spiritual-energy" /> LinkedIn
             </a>
           </div>
