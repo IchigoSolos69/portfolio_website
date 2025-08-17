@@ -212,8 +212,7 @@ const Home = () => {
             {/* Dramatic pause before slash */}
             <div className="dramatic-pause"></div>
             
-            {/* Glowing sword trail */}
-            <div className="sword-trail"></div>
+            {/* Sword trail removed - keeping only particles */}
             
             {/* Enhanced slash particles */}
             <div className="slash-particles">
