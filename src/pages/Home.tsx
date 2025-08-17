@@ -425,14 +425,16 @@ export default function Home() {
             </p>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
                 {[
-                  { name: 'JavaScript', level: 'Expert' },
-                  { name: 'TypeScript', level: 'Expert' },
-                  { name: 'Python', level: 'Expert' },
-                  { name: 'React', level: 'Expert' },
-                  { name: 'Node.js', level: 'Advanced' },
-                  { name: 'Java', level: 'Advanced' },
-                  { name: 'C++', level: 'Intermediate' },
-                  { name: 'Go', level: 'Learning' }
+                    { name: 'Python', level: 'Expert' },
+                    { name: 'HTML', level: 'Advanced' },
+                    { name: 'Java', level: 'Intermediate' },
+                    { name: 'C', level: 'Intermediate' },
+                    { name: 'C++', level: 'Intermediate' },
+                    { name: 'CSS', level: 'Intermediate' },
+                    { name: 'JavaScript', level: 'Learning' },
+                    { name: 'TypeScript', level: 'Learning' },
+                    { name: 'React', level: 'Learning' },
+                    { name: 'Node.js', level: 'Learning' }                  
                 ].map((lang, idx) => (
                   <div 
                     key={lang.name} 
