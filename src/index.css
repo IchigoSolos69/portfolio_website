@@ -198,71 +198,121 @@
   to { opacity: 0; visibility: hidden; } 
 }
 
-/* Removed trailing glow line - keeping only particles */
+/* Original Sword Slash Trail */
+.sword-trail {
+  position: absolute;
+  width: 6px;
+  height: 0;
+  background: linear-gradient(to top, 
+    transparent 0%,
+    rgba(255, 255, 255, 0.9) 20%,
+    rgba(255, 165, 0, 1) 50%,
+    rgba(255, 255, 255, 0.9) 80%,
+    transparent 100%
+  );
+  left: 0;
+  bottom: 0;
+  transform-origin: bottom left;
+  transform: rotate(var(--diagonal-angle, 45deg));
+  box-shadow: 
+    0 0 20px rgba(255, 165, 0, 0.8),
+    0 0 40px rgba(255, 255, 255, 0.6),
+    0 0 60px rgba(255, 165, 0, 0.4);
+  animation: swordSlashTrail 3.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  z-index: 30;
+}
 
-/* Minimal Glow Particles */
-.glow-particles {
+@keyframes swordSlashTrail {
+  0% {
+    height: 0;
+    opacity: 0;
+    filter: blur(4px);
+  }
+  15% {
+    height: calc(var(--diagonal-length, 141.42vh) * 0.35);
+    opacity: 1;
+    filter: blur(2px);
+    box-shadow: 
+      0 0 30px rgba(255, 165, 0, 1),
+      0 0 60px rgba(255, 255, 255, 0.8),
+      0 0 90px rgba(255, 165, 0, 0.6);
+  }
+  50% {
+    height: var(--diagonal-length, 141.42vh);
+    opacity: 1;
+    filter: blur(0px);
+    box-shadow: 
+      0 0 40px rgba(255, 165, 0, 1),
+      0 0 80px rgba(255, 255, 255, 0.9),
+      0 0 120px rgba(255, 165, 0, 0.7);
+  }
+  85% {
+    height: var(--diagonal-length, 141.42vh);
+    opacity: 0.8;
+    filter: blur(1px);
+  }
+  100% {
+    height: var(--diagonal-length, 141.42vh);
+    opacity: 0;
+    filter: blur(3px);
+  }
+}
+
+/* Original Slash Particles */
+.slash-particles {
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 25;
 }
 
-.glow-particles .glow-particle {
+.slash-particles .diagonal-particle {
   position: absolute;
-  width: 2px;
-  height: 2px;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.3) 60%, transparent 100%);
+  width: 3px;
+  height: 3px;
+  background: radial-gradient(circle, #FFF 0%, #FFA500 40%, transparent 80%);
   border-radius: 50%;
   opacity: 0;
   box-shadow: 
-    0 0 8px rgba(255, 255, 255, 0.5),
-    0 0 16px rgba(255, 255, 255, 0.2);
-  animation: minimalParticleFloat 3.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    0 0 12px rgba(255, 165, 0, 0.9),
+    0 0 24px rgba(255, 255, 255, 0.7),
+    0 0 36px rgba(255, 165, 0, 0.5);
+  animation: enhancedParticleFly 3.5s ease-out forwards;
 }
 
-@keyframes minimalParticleFloat {
+@keyframes enhancedParticleFly {
   0% { 
     opacity: 0; 
-    transform: translate(0, 0) scale(0.5); 
+    transform: translate(0, 0) scale(0.3) rotate(0deg); 
   }
-  25% { 
-    opacity: 0.8; 
-    transform: translate(calc(100vw * 0.25), calc(-100vh * 0.25)) scale(1); 
+  10% { 
+    opacity: 1; 
+    transform: translate(calc(100vw * 0.15), calc(-100vh * 0.15)) scale(0.8) rotate(45deg); 
   }
-  75% { 
-    opacity: 0.6; 
-    transform: translate(calc(100vw * 0.75), calc(-100vh * 0.75)) scale(0.8); 
+  30% { 
+    opacity: 0.9; 
+    transform: translate(calc(100vw * 0.4), calc(-100vh * 0.4)) scale(1.2) rotate(90deg); 
+  }
+  60% { 
+    opacity: 0.7; 
+    transform: translate(calc(100vw * 0.7), calc(-100vh * 0.7)) scale(1) rotate(135deg); 
+  }
+  85% { 
+    opacity: 0.3; 
+    transform: translate(calc(100vw * 0.9), calc(-100vh * 0.9)) scale(0.6) rotate(180deg); 
   }
   100% { 
     opacity: 0; 
-    transform: translate(calc(100vw * 1), calc(-100vh * 1)) scale(0.3); 
+    transform: translate(calc(100vw * 1.1), calc(-100vh * 1.1)) scale(0.2) rotate(225deg); 
   }
 }
 
-/* Diagonal Split Panels */
-.split-panel {
-  position: absolute;
-  background: #000;
-  z-index: 20;
-}
+/* Remove split panels - not needed for original slash */
 
-.split-panel-top {
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  clip-path: polygon(0 0, 100% 0, 0 100%);
-  animation: splitPanelTopLeft 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1.8s forwards;
-}
-
-.split-panel-bottom {
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  clip-path: polygon(100% 0, 100% 100%, 0 100%);
-  animation: splitPanelBottomRight 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1.8s forwards;
+/* Simple fade in animation for content reveal */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* Responsive diagonal calculations */
@@ -278,77 +328,8 @@
   }
 }
 
-@keyframes splitPanelTopLeft {
-  0% {
-    clip-path: polygon(0 0, 100% 0, 0 100%);
-    transform: translate(0, 0);
-  }
-  100% {
-    clip-path: polygon(0 0, 100% 0, 0 100%);
-    transform: translate(-100%, -100%);
-  }
-}
 
-@keyframes splitPanelBottomRight {
-  0% {
-    clip-path: polygon(100% 0, 100% 100%, 0 100%);
-    transform: translate(0, 0);
-  }
-  100% {
-    clip-path: polygon(100% 0, 100% 100%, 0 100%);
-    transform: translate(100%, 100%);
-  }
-}
 
-/* Homepage Content Reveal */
-.homepage-reveal {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transform: scale(0.95) translateY(30px);
-  filter: blur(1px);
-  animation: homepageFadeInScale 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 5.1s forwards;
-  z-index: 10;
-}
-
-@keyframes homepageFadeInScale {
-  0% {
-    opacity: 0;
-    transform: scale(0.95) translateY(30px);
-    filter: blur(1px);
-  }
-  40% {
-    opacity: 0.6;
-    transform: scale(0.98) translateY(15px);
-    filter: blur(0.5px);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-    filter: blur(0px);
-  }
-}
-
-/* Name appears after split, moving upward */
-.hero-name-after-split {
-  position: absolute;
-  top: 60%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  animation: nameAppearUp 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 3.6s forwards;
-}
-
-@keyframes nameAppearUp {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) translateY(30px);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, -40%) translateY(0);
-  }
-}
 
 /* Enhanced Typing Animation */
 .typing-container {

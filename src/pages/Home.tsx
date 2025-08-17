@@ -85,11 +85,11 @@ const Home = () => {
       
       playSlashSound();
       
-      // End loading after 5.1 seconds (particles + split + name reveal)
+      // End loading after 4.5 seconds (original sword slash timing)
       const timer = setTimeout(() => {
         setIsLoading(false);
         setIsVisible(true);
-      }, 5100);
+      }, 4500);
       return () => clearTimeout(timer);
     }
   }, [loadingPhase, isLoading]);
@@ -206,45 +206,35 @@ const Home = () => {
           </div>
         )}
         
-        {/* Phase 2: Particles and Split */}
+        {/* Phase 2: Original Sword Slash */}
         {loadingPhase === 2 && (
-          <div className="trailing-glow-phase">
-            {/* Dramatic pause before particles */}
+          <div className="sword-slash-phase">
+            {/* Dramatic pause before slash */}
             <div className="dramatic-pause"></div>
             
-            {/* Minimal glow particles only */}
-            <div className="glow-particles">
-              {[...Array(8)].map((_, i) => {
-                const progress = i / 7; // 0 to 1
+            {/* Original sword trail */}
+            <div className="sword-trail"></div>
+            
+            {/* Original slash particles */}
+            <div className="slash-particles">
+              {[...Array(16)].map((_, i) => {
+                const progress = i / 15; // 0 to 1
                 return (
                   <div 
                     key={i} 
-                    className="glow-particle" 
+                    className="diagonal-particle" 
                     style={{
                       left: `${progress * 100}%`,
                       bottom: `${(1 - progress) * 100}%`,
-                      animationDelay: `${0.6 + i * 0.15}s`
+                      animationDelay: `${0.4 + i * 0.1}s`
                     }}
                   />
                 );
               })}
             </div>
             
-            {/* Name appears after split, moving upward */}
-            <div className="hero-name-after-split">
-              <h1 className="text-6xl md:text-8xl font-bold leading-tight">
-                <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent">
-                  Adi Rajendra Maitre
-                </span>
-              </h1>
-            </div>
-            
-            {/* Diagonal split panels */}
-            <div className="split-panel split-panel-top"></div>
-            <div className="split-panel split-panel-bottom"></div>
-            
-            {/* Homepage content with reveal animation */}
-            <div className="homepage-reveal">
+            {/* Simple content reveal without extra animations */}
+            <div style={{position: 'absolute', inset: 0, opacity: 0, animation: 'fadeIn 1s ease-out 4s forwards', zIndex: 10}}>
               <div className="min-h-screen bg-black text-white">
                 {/* Fixed Background Effects */}
                 <div className="fixed inset-0 pointer-events-none">
