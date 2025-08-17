@@ -85,11 +85,11 @@ const Home = () => {
       
       playSlashSound();
       
-      // End loading after 6.5 seconds (coordinated with new glow timing)
+      // End loading after 5.1 seconds (particles + split + name reveal)
       const timer = setTimeout(() => {
         setIsLoading(false);
         setIsVisible(true);
-      }, 6500);
+      }, 5100);
       return () => clearTimeout(timer);
     }
   }, [loadingPhase, isLoading]);
@@ -206,16 +206,13 @@ const Home = () => {
           </div>
         )}
         
-        {/* Phase 2: Sleek Trailing Glow */}
+        {/* Phase 2: Particles and Split */}
         {loadingPhase === 2 && (
           <div className="trailing-glow-phase">
-            {/* Dramatic pause before glow */}
+            {/* Dramatic pause before particles */}
             <div className="dramatic-pause"></div>
             
-            {/* Sleek trailing glow */}
-            <div className="trailing-glow"></div>
-            
-            {/* Minimal glow particles */}
+            {/* Minimal glow particles only */}
             <div className="glow-particles">
               {[...Array(8)].map((_, i) => {
                 const progress = i / 7; // 0 to 1
@@ -233,10 +230,10 @@ const Home = () => {
               })}
             </div>
             
-            {/* Cinematic name reveal at trail peak */}
-            <div className="hero-name-cinematic">
+            {/* Name appears after split, moving upward */}
+            <div className="hero-name-after-split">
               <h1 className="text-6xl md:text-8xl font-bold leading-tight">
-                <span className="gradient-shimmer">
+                <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent">
                   Adi Rajendra Maitre
                 </span>
               </h1>
