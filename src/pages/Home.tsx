@@ -85,11 +85,11 @@ const Home = () => {
       
       playSlashSound();
       
-      // End loading after 4.5 seconds (original sword slash timing)
+      // End loading after 4 seconds (particles only timing)
       const timer = setTimeout(() => {
         setIsLoading(false);
         setIsVisible(true);
-      }, 4500);
+      }, 4000);
       return () => clearTimeout(timer);
     }
   }, [loadingPhase, isLoading]);
@@ -206,16 +206,13 @@ const Home = () => {
           </div>
         )}
         
-        {/* Phase 2: Original Sword Slash */}
+        {/* Phase 2: Diagonal Particles Only */}
         {loadingPhase === 2 && (
-          <div className="sword-slash-phase">
-            {/* Dramatic pause before slash */}
+          <div className="particles-only-phase">
+            {/* Dramatic pause before particles */}
             <div className="dramatic-pause"></div>
             
-            {/* Original sword trail */}
-            <div className="sword-trail"></div>
-            
-            {/* Original slash particles */}
+            {/* Only diagonal particles */}
             <div className="slash-particles">
               {[...Array(16)].map((_, i) => {
                 const progress = i / 15; // 0 to 1
