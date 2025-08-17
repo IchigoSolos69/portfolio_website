@@ -77,12 +77,10 @@ export default function Home() {
           slashAudio.loop = false;
           slashAudio.preload = 'auto';
           
-          // Delay audio to sync with slash animation start (200ms delay)
-          setTimeout(() => {
-            slashAudio.play().catch((error) => {
-              console.log('Audio play failed:', error);
-            });
-          }, 200);
+          // Play audio immediately when slash phase starts
+          slashAudio.play().catch((error) => {
+            console.log('Audio play failed:', error);
+          });
           
           return slashAudio; // Return the audio element for cleanup
         } catch (e) {
