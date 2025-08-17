@@ -60,25 +60,16 @@ export default function Home() {
     }
 
     if (loadingPhase === 1) {
-      // Phase 1: Loading screen (1 second)
-      const timer = setTimeout(() => {
-        setLoadingPhase(2);
-      }, 1000);
-      return () => clearTimeout(timer);
-    }
-    
-    if (loadingPhase === 2) {
-      // Phase 2: Slash animation with audio
+      // Phase 1: Loading screen (1 second) - start audio near end
       let slashAudio: HTMLAudioElement | null = null;
       
-      // Enhanced audio handling with user interaction fallback
-      const initializeAudio = () => {
+      // Start audio 200ms before loading ends for perfect sync
+      const audioTimer = setTimeout(() => {
         try {
           slashAudio = new Audio('/sounds/sword-slash.mp3');
           slashAudio.volume = 0.5;
           slashAudio.preload = 'auto';
           
-          // Try to play immediately
           const playPromise = slashAudio.play();
           
           if (playPromise !== undefined) {
@@ -101,10 +92,24 @@ export default function Home() {
         } catch (error) {
           console.log('Audio initialization failed:', error);
         }
-      };
+      }, 800); // Start audio 200ms before phase ends
       
-      // Initialize audio immediately
-      initializeAudio();
+      const timer = setTimeout(() => {
+        setLoadingPhase(2);
+      }, 1000);
+      
+      return () => {
+        clearTimeout(timer);
+        clearTimeout(audioTimer);
+        if (slashAudio) {
+          slashAudio.pause();
+          slashAudio.currentTime = 0;
+        }
+      };
+    }
+    
+    if (loadingPhase === 2) {
+      // Phase 2: Slash animation (audio already started in phase 1)
       
       // Set a timer to complete loading after animation (2.5s animation + 0.5s for split/fade)
       const timer = setTimeout(() => {
@@ -115,10 +120,6 @@ export default function Home() {
       // Cleanup function
       return () => {
         clearTimeout(timer);
-        if (slashAudio) {
-          slashAudio.pause();
-          slashAudio.currentTime = 0;
-        }
       };
     }
   }, [loadingPhase, isLoading]);
