@@ -182,230 +182,271 @@
   to   { text-shadow:0 0 25px rgba(255,165,0,1) }
 }
 
-/* Phase 2: Enhanced Trail Animation with Smooth Name Transition & Diagonal Split */
-.sword-slash-phase { position:absolute; inset:0; background:#000; overflow:hidden; }
-
-.dramatic-pause {
-  position:absolute; inset:0; background:#000;
-  animation: fadeOut 0.3s ease-out 0.1s forwards;
-}
-@keyframes fadeOut { to { opacity:0; visibility:hidden } }
-
-/* Enhanced glowing diagonal trail effect */
-.diagonal-slash-container { 
+/* Phase 2: Ultra-Smooth Optimized Trail with Perfect Audio Sync */
+.sword-slash-phase { 
   position: absolute; 
   inset: 0; 
-  z-index: 1000;
+  background: #000; 
+  overflow: hidden;
+  will-change: transform; /* GPU acceleration hint */
 }
 
+.dramatic-pause {
+  position: absolute; 
+  inset: 0; 
+  background: #000;
+  animation: fadeOut 0.2s ease-out 0.1s forwards;
+}
+@keyframes fadeOut { to { opacity: 0; visibility: hidden } }
+
+/* Optimized Trail Container */
 .slash-particles {
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 25;
+  transform: translateZ(0); /* Force hardware acceleration */
+  backface-visibility: hidden; /* Smooth animations */
 }
 
+/* Ultra-smooth particle trail - 8 second duration to match audio */
 .slash-particles .diagonal-particle {
   position: absolute;
-  width: 8px;
-  height: 8px;
-  background: radial-gradient(circle, #FFF 0%, #FFA500 30%, #FF8C00 60%, transparent 90%);
+  width: 10px;
+  height: 10px;
+  background: radial-gradient(circle, #FFF 0%, #FFA500 25%, #FF8C00 50%, transparent 85%);
   border-radius: 50%;
   opacity: 0;
+  will-change: transform, opacity;
+  transform: translateZ(0); /* Hardware acceleration */
   box-shadow: 
-    0 0 25px rgba(255, 165, 0, 1),
-    0 0 50px rgba(255, 255, 255, 0.8),
-    0 0 75px rgba(255, 165, 0, 0.6);
-  animation: enhancedTrailEffect 6s ease-out forwards;
+    0 0 30px rgba(255, 165, 0, 1),
+    0 0 60px rgba(255, 255, 255, 0.8),
+    0 0 90px rgba(255, 165, 0, 0.6),
+    0 0 120px rgba(255, 140, 0, 0.3);
+  animation: ultraSmoothTrail 8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
-/* Smoother, more cinematic trail animation */
-@keyframes enhancedTrailEffect {
+/* 8-second ultra-smooth trail animation synchronized with audio */
+@keyframes ultraSmoothTrail {
   0% { 
     opacity: 0; 
-    transform: translate(0, 0) scale(0.3) rotate(0deg); 
-    filter: blur(4px);
+    transform: translate3d(0, 0, 0) scale(0.2) rotate(0deg); 
+    filter: blur(8px) brightness(0.5);
   }
-  5% { 
-    opacity: 0.8; 
-    transform: translate(calc(100vw * 0.1), calc(-100vh * 0.1)) scale(0.9) rotate(15deg); 
-    filter: blur(2px);
+  3% { 
+    opacity: 0.4; 
+    transform: translate3d(calc(100vw * 0.03), calc(-100vh * 0.03), 0) scale(0.6) rotate(8deg); 
+    filter: blur(6px) brightness(0.8);
+  }
+  8% { 
+    opacity: 0.7; 
+    transform: translate3d(calc(100vw * 0.08), calc(-100vh * 0.08), 0) scale(0.9) rotate(20deg); 
+    filter: blur(4px) brightness(1);
   }
   15% { 
-    opacity: 1; 
-    transform: translate(calc(100vw * 0.3), calc(-100vh * 0.3)) scale(1.4) rotate(40deg); 
-    filter: blur(1px);
-  }
-  35% { 
-    opacity: 1; 
-    transform: translate(calc(100vw * 0.55), calc(-100vh * 0.55)) scale(1.8) rotate(75deg); 
-    filter: blur(0px);
-  }
-  60% { 
     opacity: 0.9; 
-    transform: translate(calc(100vw * 0.8), calc(-100vh * 0.8)) scale(1.6) rotate(110deg); 
-    filter: blur(1px);
+    transform: translate3d(calc(100vw * 0.15), calc(-100vh * 0.15), 0) scale(1.1) rotate(35deg); 
+    filter: blur(2px) brightness(1.2);
   }
-  80% { 
-    opacity: 0.6; 
-    transform: translate(calc(100vw * 1.1), calc(-100vh * 1.1)) scale(1.2) rotate(145deg); 
-    filter: blur(3px);
+  25% { 
+    opacity: 1; 
+    transform: translate3d(calc(100vw * 0.25), calc(-100vh * 0.25), 0) scale(1.4) rotate(55deg); 
+    filter: blur(1px) brightness(1.5);
   }
-  95% { 
+  40% { 
+    opacity: 1; 
+    transform: translate3d(calc(100vw * 0.4), calc(-100vh * 0.4), 0) scale(1.8) rotate(80deg); 
+    filter: blur(0px) brightness(2);
+  }
+  55% { 
+    opacity: 1; 
+    transform: translate3d(calc(100vw * 0.55), calc(-100vh * 0.55), 0) scale(2.0) rotate(105deg); 
+    filter: blur(0px) brightness(2.2);
+  }
+  70% { 
+    opacity: 0.95; 
+    transform: translate3d(calc(100vw * 0.7), calc(-100vh * 0.7), 0) scale(1.9) rotate(130deg); 
+    filter: blur(1px) brightness(2);
+  }
+  82% { 
+    opacity: 0.8; 
+    transform: translate3d(calc(100vw * 0.82), calc(-100vh * 0.82), 0) scale(1.6) rotate(150deg); 
+    filter: blur(2px) brightness(1.7);
+  }
+  90% { 
+    opacity: 0.5; 
+    transform: translate3d(calc(100vw * 0.9), calc(-100vh * 0.9), 0) scale(1.2) rotate(165deg); 
+    filter: blur(4px) brightness(1.3);
+  }
+  96% { 
     opacity: 0.2; 
-    transform: translate(calc(100vw * 1.4), calc(-100vh * 1.4)) scale(0.8) rotate(180deg); 
-    filter: blur(6px);
+    transform: translate3d(calc(100vw * 0.96), calc(-100vh * 0.96), 0) scale(0.8) rotate(175deg); 
+    filter: blur(6px) brightness(0.9);
   }
   100% { 
     opacity: 0; 
-    transform: translate(calc(100vw * 1.6), calc(-100vh * 1.6)) scale(0.3) rotate(200deg); 
-    filter: blur(8px);
+    transform: translate3d(calc(100vw * 1.05), calc(-100vh * 1.05), 0) scale(0.3) rotate(180deg); 
+    filter: blur(10px) brightness(0.5);
   }
 }
 
-/* Diagonal Split Curtain Panels - Smoother Animation */
-.curtain-panel {
+/* Name Appears and Splits Animation */
+.name-appear-and-split {
   position: absolute;
-  background: #000;
-  z-index: 20;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+  opacity: 0;
+  animation: nameAppearThenSplit 4s ease-out 8s forwards;
 }
 
-.curtain-panel-top {
+.name-appear-and-split h1 {
+  font-size: 4rem;
+  font-weight: bold;
+  background: linear-gradient(90deg, #FFA500, #FFFFFF, #FFA500);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 40px rgba(255,165,0,0.8);
+  filter: drop-shadow(0 0 20px rgba(255,255,255,0.6));
+  will-change: transform, opacity;
+}
+
+@keyframes nameAppearThenSplit {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+    filter: blur(5px);
+  }
+  15% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0px);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0px);
+  }
+  85% {
+    opacity: 0.8;
+    transform: scale(1.1) translateY(-10px);
+    filter: blur(1px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.3) translateY(-30px);
+    filter: blur(3px);
+  }
+}
+
+/* Diagonal Split Curtains - Triggered after name disappears */
+.diagonal-split-curtains {
+  position: absolute;
+  inset: 0;
+  z-index: 25;
+  pointer-events: none;
+}
+
+.diagonal-curtain-left {
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  background: #000;
   clip-path: polygon(0 0, 100% 0, 0 100%);
-  animation: curtainSlideTop 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) 3s forwards;
+  transform: translateX(0) translateY(0);
+  animation: curtainSlideLeft 2.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) 11s forwards;
 }
 
-.curtain-panel-bottom {
-  bottom: 0;
-  right: 0;
+.diagonal-curtain-right {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  background: #000;
   clip-path: polygon(100% 0, 100% 100%, 0 100%);
-  animation: curtainSlideBottom 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) 3s forwards;
+  transform: translateX(0) translateY(0);
+  animation: curtainSlideRight 2.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) 11s forwards;
 }
 
-@keyframes curtainSlideTop {
+@keyframes curtainSlideLeft {
   0% { 
-    transform: translate(0, 0) scale(1); 
+    transform: translateX(0) translateY(0);
     opacity: 1;
   }
   70% {
-    transform: translate(-80%, -80%) scale(1.1);
+    transform: translateX(-80%) translateY(-80%);
     opacity: 0.8;
   }
   100% { 
-    transform: translate(-120%, -120%) scale(1.2); 
+    transform: translateX(-150%) translateY(-150%);
     opacity: 0;
   }
 }
 
-@keyframes curtainSlideBottom {
+@keyframes curtainSlideRight {
   0% { 
-    transform: translate(0, 0) scale(1); 
+    transform: translateX(0) translateY(0);
     opacity: 1;
   }
   70% {
-    transform: translate(80%, 80%) scale(1.1);
+    transform: translateX(80%) translateY(80%);
     opacity: 0.8;
   }
   100% { 
-    transform: translate(120%, 120%) scale(1.2); 
+    transform: translateX(150%) translateY(150%);
     opacity: 0;
   }
 }
 
-/* Content Reveal Animation */
-.content-reveal {
+/* Website Content Reveal - After curtains part */
+.website-content-reveal {
   position: absolute;
   inset: 0;
   opacity: 0;
   transform: scale(0.95);
-  animation: contentFadeInScale 2s ease-out 4.8s forwards;
+  filter: blur(3px);
+  animation: websiteReveal 2.5s ease-out 12.5s forwards;
   z-index: 10;
 }
 
-@keyframes contentFadeInScale {
+@keyframes websiteReveal {
   0% {
     opacity: 0;
-    transform: scale(0.95) translateY(20px);
+    transform: scale(0.95) translateY(30px);
     filter: blur(3px);
-  }
-  60% {
-    opacity: 0.7;
-    transform: scale(0.98) translateY(5px);
-    filter: blur(1px);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-    filter: blur(0px);
-  }
-}
-
-/* Enhanced Name Transition Animation */
-@keyframes nameTransition {
-  0% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-    filter: blur(0px) brightness(1);
-  }
-  20% {
-    opacity: 0.9;
-    transform: scale(1.05) translateY(-5px);
-    filter: blur(0.5px) brightness(1.1);
   }
   40% {
     opacity: 0.6;
-    transform: scale(1.15) translateY(-15px);
-    filter: blur(2px) brightness(1.3);
-  }
-  60% {
-    opacity: 0.3;
-    transform: scale(1.3) translateY(-30px);
-    filter: blur(4px) brightness(1.5);
-  }
-  80% {
-    opacity: 0.1;
-    transform: scale(1.5) translateY(-50px);
-    filter: blur(6px) brightness(1.8);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(2) translateY(-80px);
-    filter: blur(10px) brightness(2);
-  }
-}
-
-/* Homepage Content Reveal */
-@keyframes homepageReveal {
-  0% {
-    opacity: 0;
-    transform: scale(0.93) translateY(30px);
-    filter: blur(4px);
-  }
-  30% {
-    opacity: 0.3;
-    transform: scale(0.96) translateY(15px);
-    filter: blur(2px);
-  }
-  60% {
-    opacity: 0.7;
-    transform: scale(0.98) translateY(8px);
+    transform: scale(0.98) translateY(10px);
     filter: blur(1px);
   }
-  85% {
+  70% {
     opacity: 0.9;
-    transform: scale(1.01) translateY(2px);
-    filter: blur(0.2px);
+    transform: scale(1) translateY(3px);
+    filter: blur(0.3px);
   }
   100% {
     opacity: 1;
     transform: scale(1) translateY(0);
     filter: blur(0px);
+  }
+}
+
+/* Reduced motion for performance */
+@media (prefers-reduced-motion: reduce) {
+  .diagonal-particle {
+    animation-duration: 4s !important;
+  }
+  
+  .ultraSmoothTrail {
+    animation-duration: 4s !important;
   }
 }
 

@@ -59,7 +59,7 @@ export default function Home() {
     }
     
     if (loadingPhase === 2) {
-      // Phase 2: Sword slash with synchronized audio
+      // Phase 2: 8-second sword slash with synchronized audio
       const playSlashSound = () => {
         try {
           const slashAudio = new Audio('https://raw.githubusercontent.com/IchigoSolos69/portfolio_website/da0030ba1ecfc2a8b6f7e7a2127da7cdea1e62b3/public/sounds/sword-slash.mp3');
@@ -78,11 +78,11 @@ export default function Home() {
       
       playSlashSound();
       
-      // End loading after 5.5 seconds (coordinated with animation timing)
+      // End loading after 15 seconds total (8s trail + 3s name + 2.5s split + 1.5s buffer)
       const timer = setTimeout(() => {
         setIsLoading(false);
         setIsVisible(true);
-      }, 5500);
+      }, 15000);
       return () => clearTimeout(timer);
     }
   }, [loadingPhase, isLoading]);
@@ -205,27 +205,34 @@ export default function Home() {
             {/* Dramatic pause before slash */}
             <div className="dramatic-pause"></div>
             
-            {/* Enhanced slash particles */}
+            {/* Optimized 8-second trail particles */}
             <div className="slash-particles">
-              {[...Array(16)].map((_, i) => (
+              {[...Array(20)].map((_, i) => (
                 <div 
                   key={i} 
                   className="diagonal-particle" 
                   style={{
-                    left: `${5 + i * 6}%`,
-                    top: `${90 - i * 5.5}%`,
-                    animationDelay: `${0.3 + i * 0.08}s`
+                    left: `${3 + i * 4.8}%`,
+                    top: `${95 - i * 4.7}%`,
+                    animationDelay: `${0.2 + i * 0.05}s`
                   }}
                 />
               ))}
             </div>
             
-            {/* Diagonal curtain panels */}
-            <div className="curtain-panel curtain-panel-top"></div>
-            <div className="curtain-panel curtain-panel-bottom"></div>
+            {/* Name appears after trail, then splits */}
+            <div className="name-appear-and-split">
+              <h1>Adi Rajendra Maitre</h1>
+            </div>
             
-            {/* Website content with reveal animation */}
-            <div className="content-reveal">
+            {/* Diagonal split curtains */}
+            <div className="diagonal-split-curtains">
+              <div className="diagonal-curtain-left"></div>
+              <div className="diagonal-curtain-right"></div>
+            </div>
+            
+            {/* Website content revealed after split */}
+            <div className="website-content-reveal">
               <div className="min-h-screen bg-black text-white">
                 {/* Fixed Background Effects */}
                 <div className="fixed inset-0 pointer-events-none">
@@ -241,54 +248,15 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Hero Section */}
+                {/* Hero Section with all content */}
                 <section className="min-h-screen flex items-center justify-center relative z-10 px-6">
-                  {/* Transitioning Name Element */}
-                  <div 
-                    className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
-                    style={{
-                      animation: 'nameTransition 2s ease-out 5.5s forwards'
-                    }}
-                  >
-                    <h1 className="text-6xl md:text-8xl font-bold bg-gradient-to-r from-orange-400 via-white to-orange-400 bg-clip-text text-transparent">
-                      Adi Rajendra Maitre
-                    </h1>
-                  </div>
-
-                  {/* Homepage Content (appears after name transition) */}
-                  <div 
-                    className="opacity-0 w-full"
-                    style={{
-                      animation: 'homepageReveal 2.5s ease-out 7.5s forwards'
-                    }}
-                  >
-                    {/* Small Background Particles */}
-                    <div className="absolute inset-0 pointer-events-none">
-                      <div className="small-particles">
-                        {[...Array(30)].map((_, i) => (
-                          <div
-                            key={i}
-                            className="small-particle"
-                            style={{
-                              left: `${Math.random() * 100}%`,
-                              top: `${Math.random() * 100}%`,
-                              animationDelay: `${Math.random() * 10}s`,
-                              animationDuration: `${15 + Math.random() * 10}s`
-                            }}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                    
-                    {/* Main Homepage Content */}
-                    <div className="text-center max-w-4xl mx-auto relative z-10">
-                      <div className="mb-12">
-                        <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
-                          <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent animate-gradient-text">
-                            Adi Rajendra Maitre
-                          </span>
-                        </h1>
-                      </div>
+                  <div className="text-center max-w-4xl mx-auto relative z-10">
+                    <div className="mb-12">
+                      <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
+                        <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent animate-gradient-text">
+                          Adi Rajendra Maitre
+                        </span>
+                      </h1>
                     </div>
                   </div>
                 </section>
