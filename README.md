@@ -69,16 +69,37 @@ This setup guarantees fast global delivery and automatic updates whenever change
 ## Folder Structure
 
 ```
-/public            # Static resources: images, sounds, favicon, fonts
-/src
-  /components      # Modular React UI components (cards, badges, animations)
-  /data            # JSON or TS files with projects, skills, achievements data
-  /hooks           # Custom React hooks
-  /pages           # Page components (Home, About, Contact, etc.)
-  index.css        # Global CSS and Tailwind imports
-  main.tsx         # React entry point
-vite.config.ts     # Vite build configuration
-package.json       # NPM dependencies and scripts
+portfolio_website/
+│
+├── public/                ← Static assets (images, icons, fonts, sounds)
+│
+├── src/                   ← Source code
+│   │
+│   ├── components/        ← Reusable UI elements (cards, badges, loaders, animations)
+│   │
+│   ├── data/              ← Portfolio/project/skills/achievements data (JSON or TS)
+│   │
+│   ├── hooks/             ← Custom React hooks (e.g., theme toggle, media queries)
+│   │
+│   ├── pages/             ← Route-level sections (Home, About, Contact, etc.)
+│   │
+│   ├── styles/            ← Tailwind/global CSS, custom stylesheets
+│   │
+│   ├── App.tsx            ← Root React component
+│   │
+│   └── main.tsx           ← App entry point (mounts to DOM)
+│
+├── index.html             ← HTML template (metadata, favicon, root element)
+│
+├── tailwind.config.js     ← Tailwind configuration (colors, fonts, breakpoints)
+│
+├── postcss.config.js      ← PostCSS setup (for Tailwind & autoprefixing)
+│
+├── tsconfig.json          ← TypeScript configuration
+│
+├── vite.config.ts         ← Vite build tool configuration
+│
+└── package.json           ← Project metadata, dependencies, scripts
 ```
 
 ***
