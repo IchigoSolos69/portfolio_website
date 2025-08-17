@@ -252,11 +252,30 @@ const Home = () => {
 
                 {/* Hero Section */}
                 <section className="min-h-screen flex items-center justify-center relative z-10 px-6">
-                  {/* Small Background Particles */}
-                  <div className="absolute inset-0 pointer-events-none">
-                    <div className="small-particles">
-                      {[...Array(30)].map((_, i) => (
-                        <div
+                  {/* Transitioning Name Element */}
+                  <div 
+                    className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
+                    style={{
+                      animation: 'nameTransition 2s ease-out 5.5s forwards'
+                    }}
+                  >
+                    <h1 className="text-6xl md:text-8xl font-bold bg-gradient-to-r from-orange-400 via-white to-orange-400 bg-clip-text text-transparent">
+                      Adi Rajendra Maitre
+                    </h1>
+                  </div>
+
+                  {/* Homepage Content (appears after name transition) */}
+                  <div 
+                    className="opacity-0 w-full"
+                    style={{
+                      animation: 'homepageReveal 2.5s ease-out 7.5s forwards'
+                    }}
+                  >
+                    {/* Small Background Particles */}
+                    <div className="absolute inset-0 pointer-events-none">
+                      <div className="small-particles">
+                        {[...Array(30)].map((_, i) => (
+                          <div
                           key={i}
                           className="small-particle"
                           style={{
@@ -268,14 +287,16 @@ const Home = () => {
                         />
                       ))}
                     </div>
-                  </div>
-                  <div className="text-center max-w-4xl mx-auto relative z-10">
-                    <div className="mb-12">
-                      <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
-                        <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent animate-gradient-text">
-                          Adi Rajendra Maitre
-                        </span>
-                      </h1>
+                    
+                    {/* Main Homepage Content */}
+                    <div className="text-center max-w-4xl mx-auto relative z-10">
+                      <div className="mb-12">
+                        <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
+                          <span className="bg-gradient-to-r from-spiritual-energy via-reiatsu-glow to-kido-purple bg-clip-text text-transparent animate-gradient-text">
+                            Adi Rajendra Maitre
+                          </span>
+                        </h1>
+                      </div>
                     </div>
                   </div>
                 </section>
