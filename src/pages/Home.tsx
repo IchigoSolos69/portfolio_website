@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { DesktopComputer, Beaker, Hashtag, ArchiveBox, GlobeAlt, Hospital, CloudSun } from '@heroicons/react/24/outline'
-import { Github, Linkedin, Mail, ExternalLink, ChevronDown, Cpu, Trophy, Award, Zap } from 'lucide-react';
+import { Github, Linkedin, Mail, ExternalLink, ChevronDown, Cpu, Trophy, Award, Zap, Monitor, Flask, Hash, Archive, Globe, Heart, Cloud } from 'lucide-react';
 
 // TypeScript interfaces
 declare global {
@@ -552,7 +551,7 @@ export default function Home() {
               {
                 title: "Portfolio Website",
                 description: "Fast, responsive personal portfolio built with Vite, React, and Tailwind CSS",
-                icon: <DesktopComputer className="w-8 h-8" />,
+                icon: <Monitor className="w-8 h-8" />,
                 tech: ["Vite", "React", "TypeScript", "Tailwind CSS"],
                 github: "https://github.com/IchigoSolos69/portfolio_website",
                 status: "Production"
@@ -560,7 +559,7 @@ export default function Home() {
               {
                 title: "Chemistry Manual Digitizer",
                 description: "Python tool for digitizing and managing chemistry experiment manuals using structured JSON data",
-                icon: <Beaker className="w-8 h-8" />,
+                icon: <Flask className="w-8 h-8" />,
                 tech: ["Python", "JSON"],
                 github: "https://github.com/IchigoSolos69/Chemistry-Manual-Digitizer",
                 status: "Production"
@@ -568,7 +567,7 @@ export default function Home() {
               {
                 title: "IRC: Data Analyzer",
                 description: "CLI & GUI toolkit for scanning, sorting, and visualizing Instagram hashtag and user data",
-                icon: <Hashtag className="w-8 h-8" />,
+                icon: <Hash className="w-8 h-8" />,
                 tech: ["Python", "PyQt5", "pandas", "qrcode", "matplotlib"],
                 github: "https://github.com/IchigoSolos69/IRC",
                 status: "On Hold"
@@ -576,7 +575,7 @@ export default function Home() {
               {
                 title: "Inventory Management System",
                 description: "Desktop GUI for tracking stock, pricing, and expiry dates with CSV import/export",
-                icon: <ArchiveBox className="w-8 h-8" />,
+                icon: <Archive className="w-8 h-8" />,
                 tech: ["Python", "PyQt5", "CSV"],
                 github: "https://github.com/IchigoSolos69/Inventory-Management-System",
                 status: "Production"
@@ -592,7 +591,7 @@ export default function Home() {
               {
                 title: "PyQt5 Web Browser",
                 description: "Lightweight custom browser with tabbed browsing, ad blocking, and download management using PyQt5 and QtWebEngine",
-                icon: <GlobeAlt className="w-8 h-8" />,
+                icon: <Globe className="w-8 h-8" />,
                 tech: ["Python", "PyQt5", "QtWebEngine"],
                 github: "https://github.com/IchigoSolos69/Web-Browser",
                 status: "On Hold"
@@ -600,7 +599,7 @@ export default function Home() {
               {
                 title: "Hospital Management System (C++)",
                 description: "Console-based patient queue management system using singly linked list, designed for emergency room workflows",
-                icon: <Hospital className="w-8 h-8" />,
+                icon: <Heart className="w-8 h-8" />,
                 tech: ["C++", "Data Structures", "Linked List"],
                 github: "https://github.com/IchigoSolos69/Hospital-Management",
                 status: "Active"
@@ -608,7 +607,7 @@ export default function Home() {
               {
                 title: "Weather System",
                 description: "Live desktop weather dashboard with AQI, icons, and detailed forecasts using Python, PyQt5, and Open-Meteo API",
-                icon: <CloudSun className="w-8 h-8" />,
+                icon: <Cloud className="w-8 h-8" />,
                 tech: ["Python", "PyQt5", "requests", "Open-Meteo API"],
                 github: "https://github.com/IchigoSolos69/Weather-System",
                 status: "Production"
