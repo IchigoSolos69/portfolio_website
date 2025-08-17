@@ -58,64 +58,287 @@
 --------------------------------- */
 .cinematic-loading-overlay { position: fixed; inset: 0; z-index: 10000; }
 
-/* Phase 0: Click to Start */
+/* Phase 0:/* Enhanced Click to Start Screen - Soul Society Theme */
 .click-to-start-screen {
-  position: absolute;
-  inset: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, #0a0a0a 0%, #000000 100%);
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 9999;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .click-background {
   position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, #0a0a1a, #1a1a2e, #16213e);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Floating Spiritual Orbs */
+.floating-orbs {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.floating-orb {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, rgba(255, 165, 0, 0.8) 0%, rgba(255, 100, 0, 0.4) 50%, transparent 100%);
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(255, 165, 0, 0.6);
+  animation: floatOrb 8s ease-in-out infinite;
+}
+
+.orb-1 { top: 10%; left: 15%; animation-delay: 0s; }
+.orb-2 { top: 20%; right: 20%; animation-delay: 1s; }
+.orb-3 { bottom: 30%; left: 10%; animation-delay: 2s; }
+.orb-4 { bottom: 15%; right: 15%; animation-delay: 3s; }
+.orb-5 { top: 50%; left: 5%; animation-delay: 4s; }
+.orb-6 { top: 60%; right: 8%; animation-delay: 5s; }
+.orb-7 { top: 80%; left: 25%; animation-delay: 6s; }
+.orb-8 { top: 30%; right: 30%; animation-delay: 7s; }
+
+/* Energy Waves Background */
+.energy-waves {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 300px;
+  transform: translate(-50%, -50%);
+  border: 2px solid rgba(255, 165, 0, 0.2);
+  border-radius: 50%;
+  animation: energyPulse 4s ease-in-out infinite;
+}
+
+.energy-waves::before,
+.energy-waves::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 1px solid rgba(255, 165, 0, 0.15);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.energy-waves::before {
+  width: 200px;
+  height: 200px;
+  animation: energyPulse 3s ease-in-out infinite 0.5s;
+}
+
+.energy-waves::after {
+  width: 400px;
+  height: 400px;
+  animation: energyPulse 5s ease-in-out infinite 1s;
 }
 
 .click-content {
-  position: relative;
-  z-index: 10;
   text-align: center;
-  animation: clickContentFloat 3s ease-in-out infinite;
+  z-index: 10;
+  color: white;
+  position: relative;
+}
+
+/* Soul Reaper Emblem */
+.soul-reaper-emblem {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 2rem;
+  animation: emblemRotate 10s linear infinite;
+}
+
+.emblem-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 3px solid rgba(255, 165, 0, 0.6);
+  border-radius: 50%;
+  border-top-color: rgba(255, 165, 0, 1);
+  border-right-color: rgba(255, 165, 0, 0.3);
+  animation: ringSpin 3s linear infinite;
+}
+
+.emblem-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+  font-weight: bold;
+  color: #ff6b35;
+  text-shadow: 0 0 20px rgba(255, 107, 53, 0.8);
+  animation: soulGlow 2s ease-in-out infinite;
 }
 
 .click-title {
-  font-family: 'Noto Sans JP', sans-serif;
-  font-size: 2.5rem;
-  color: #FFA500;
-  text-shadow: 0 0 20px rgba(255,165,0,0.8);
-  margin-bottom: 1rem;
+  font-size: 3.5rem;
   font-weight: 700;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.title-line-1,
+.title-line-2 {
+  display: block;
+  background: linear-gradient(45deg, #ffffff, #ff6b35, #ffa500, #ffffff);
+  background-size: 300% 300%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: titleFlow 3s ease-in-out infinite;
+}
+
+.title-line-2 {
+  animation-delay: 0.5s;
+  font-size: 4rem;
 }
 
 .click-subtitle {
-  font-size: 1.2rem;
-  color: rgba(255,255,255,0.8);
-  letter-spacing: 2px;
-  margin-bottom: 2rem;
+  font-size: 1.3rem;
+  margin-bottom: 3rem;
+  opacity: 0.9;
+  color: #cccccc;
+  animation: subtitlePulse 2s ease-in-out infinite;
 }
 
 .click-indicator {
-  font-size: 2rem;
-  animation: clickIndicatorBounce 1.5s ease-in-out infinite;
+  position: relative;
+  display: inline-block;
+}
+
+.pulse-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  border: 2px solid rgba(255, 165, 0, 0.6);
+  border-radius: 50%;
+  animation: pulseRing 2s ease-out infinite;
+}
+
+.cursor-icon {
+  font-size: 2.5rem;
+  position: relative;
+  z-index: 2;
+  animation: iconFloat 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(255, 165, 0, 0.8));
 }
 
 .click-overlay {
   position: absolute;
-  inset: 0;
-  z-index: 20;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  z-index: 5;
 }
 
-@keyframes clickContentFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+/* Animations */
+@keyframes floatOrb {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-20px) scale(1.1);
+    opacity: 1;
+  }
 }
 
-@keyframes clickIndicatorBounce {
-  0%, 100% { transform: translateY(0); opacity: 1; }
-  50% { transform: translateY(-15px); opacity: 0.7; }
+@keyframes energyPulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 0.6;
+  }
+}
+
+@keyframes emblemRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ringSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes soulGlow {
+  0%, 100% {
+    text-shadow: 0 0 20px rgba(255, 107, 53, 0.8);
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    text-shadow: 0 0 30px rgba(255, 107, 53, 1), 0 0 40px rgba(255, 165, 0, 0.6);
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+
+@keyframes titleFlow {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes subtitlePulse {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes pulseRing {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes iconFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 /* Phase 1: Loading */

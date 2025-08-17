@@ -76,7 +76,7 @@ export default function Home() {
       
       // Initialize audio immediately when slash phase starts
       const initAudio = () => {
-        slashAudio = new Audio('/sounds/sword-slash.mp3');
+        slashAudio = new Audio('https://github.com/IchigoSolos69/portfolio_website/raw/06e98219d3d081a4e5648ae439dc9432f5ca8e46/public/sounds/sword-slash.mp3');
         slashAudio.volume = 0.6;
         slashAudio.currentTime = 0;
         
@@ -183,11 +183,28 @@ export default function Home() {
         {/* Phase 0: Click to Start */}
         {loadingPhase === 0 && (
           <div className="click-to-start-screen">
-            <div className="click-background"></div>
+            <div className="click-background">
+              <div className="floating-orbs">
+                {[...Array(8)].map((_, i) => (
+                  <div key={i} className={`floating-orb orb-${i + 1}`}></div>
+                ))}
+              </div>
+              <div className="energy-waves"></div>
+            </div>
             <div className="click-content">
-              <h1 className="click-title">Welcome to the Experience</h1>
-              <p className="click-subtitle">Click anywhere to begin</p>
-              <div className="click-indicator">👆</div>
+              <div className="soul-reaper-emblem">
+                <div className="emblem-ring"></div>
+                <div className="emblem-center">魂</div>
+              </div>
+              <h1 className="click-title">
+                <span className="title-line-1">Enter the</span>
+                <span className="title-line-2">Soul Society</span>
+              </h1>
+              <p className="click-subtitle">Click anywhere to unleash your spiritual pressure</p>
+              <div className="click-indicator">
+                <div className="pulse-ring"></div>
+                <div className="cursor-icon">⚔️</div>
+              </div>
             </div>
             <div className="click-overlay" onClick={handleStartExperience}></div>
           </div>
