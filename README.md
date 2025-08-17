@@ -1,5 +1,3 @@
-# README.md
-
 # Portfolio Website
 
 A modern, responsive personal portfolio website built with Vite, React, and Tailwind CSS to showcase projects, skills, and contact information.
