@@ -6,6 +6,7 @@ import Projects from './components/Projects';
 import Experience from './components/Experience';
 import Contact from './components/Contact';
 import DigitalSerenity from "@/components/ui/digital-serenity-animated-landing-page";
+import Footer from "./components/Footer";
 
 function App() {
   useEffect(() => {
@@ -24,6 +25,7 @@ function App() {
         <Experience />
         <Contact />
       </main>
+      <Footer />
     </div>
   );
 }
