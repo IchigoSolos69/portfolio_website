@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useRef, useEffect, useState } from "react";
+import { motion, AnimatePresence, useSpring } from "framer-motion";
 import {
   Clock,
   GitBranch,
@@ -27,8 +27,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useExpandable } from "@/components/hooks/use-expandable";
-
 interface ProjectStatusCardProps {
   title: string;
   progress: number;
@@ -37,6 +35,8 @@ interface ProjectStatusCardProps {
   tasks: Array<{ title: string; completed: boolean }>;
   githubStars: number;
   openIssues: number;
+  isExpanded?: boolean;
+  onToggle?: () => void;
 }
 
 export function ProjectStatusCard({
@@ -47,20 +47,33 @@ export function ProjectStatusCard({
   tasks,
   githubStars,
   openIssues,
+  isExpanded,
+  onToggle,
 }: ProjectStatusCardProps) {
-  const { isExpanded, toggleExpand, animatedHeight } = useExpandable();
+  const [internalExpanded, setInternalExpanded] = useState(false);
+  const animatedHeight = useSpring(0, { stiffness: 300, damping: 30 });
+  const expanded = typeof isExpanded === "boolean" ? isExpanded : internalExpanded;
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (contentRef.current) {
-      animatedHeight.set(isExpanded ? contentRef.current.scrollHeight : 0);
+      animatedHeight.set(expanded ? contentRef.current.scrollHeight : 0);
     }
-  }, [isExpanded, animatedHeight]);
+  }, [expanded, animatedHeight]);
+
+  const handleToggle = () => {
+    if (typeof isExpanded === "boolean") {
+      onToggle?.();
+    } else {
+      setInternalExpanded((prev) => !prev);
+      onToggle?.();
+    }
+  };
 
   return (
     <Card
-      className="w-full max-w-md cursor-pointer transition-all duration-300 hover:shadow-lg"
-      onClick={toggleExpand}
+      className="w-full max-w-md cursor-pointer transition-all duration-300 hover:shadow-lg bg-slate-900/80 border border-slate-700 text-slate-100"
+      onClick={handleToggle}
     >
       <CardHeader className="space-y-1">
         <div className="flex justify-between items-start w-full">
@@ -69,8 +82,8 @@ export function ProjectStatusCard({
               variant="secondary"
               className={
                 progress === 100
-                  ? "bg-green-100 text-green-600"
-                  : "bg-blue-100 text-blue-600"
+                  ? "bg-emerald-500/20 text-emerald-200"
+                  : "bg-blue-500/20 text-blue-200"
               }
             >
               {progress === 100 ? "Completed" : "In Progress"}
@@ -80,7 +93,11 @@ export function ProjectStatusCard({
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button size="icon" variant="outline" className="h-8 w-8">
+                <Button
+                  size="icon"
+                  variant="outline"
+                  className="h-8 w-8 border-slate-700 text-slate-200 hover:bg-slate-800"
+                >
                   <Github className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
@@ -95,11 +112,11 @@ export function ProjectStatusCard({
       <CardContent>
         <div className="space-y-4">
           <div className="space-y-2">
-            <div className="flex justify-between text-sm text-gray-600">
+            <div className="flex justify-between text-sm text-slate-300">
               <span>Progress</span>
               <span>{progress}%</span>
             </div>
-            <ProgressBar value={progress} className="h-2" />
+            <ProgressBar value={progress} className="h-2 bg-slate-800" />
           </div>
 
           <motion.div
@@ -109,14 +126,14 @@ export function ProjectStatusCard({
           >
             <div ref={contentRef}>
               <AnimatePresence>
-                {isExpanded && (
+                {expanded && (
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     className="space-y-4 pt-2"
                   >
-                    <div className="flex items-center justify-between text-sm text-gray-600">
+                    <div className="flex items-center justify-between text-sm text-slate-300">
                       <div className="flex items-center">
                         <Clock className="h-4 w-4 mr-2" />
                         <span>Due {dueDate}</span>
@@ -134,7 +151,7 @@ export function ProjectStatusCard({
                     </div>
 
                     <div className="space-y-2">
-                      <h4 className="font-medium text-sm flex items-center">
+                      <h4 className="font-medium text-sm flex items-center text-slate-200">
                         <Users className="h-4 w-4 mr-2" />
                         Contributors
                       </h4>
@@ -143,7 +160,7 @@ export function ProjectStatusCard({
                           <TooltipProvider key={index}>
                             <Tooltip>
                               <TooltipTrigger asChild>
-                                <Avatar className="border-2 border-white">
+                                  <Avatar className="border-2 border-slate-900">
                                   <AvatarImage
                                     src={
                                       contributor.image ||
@@ -166,13 +183,13 @@ export function ProjectStatusCard({
                     </div>
 
                     <div className="space-y-2">
-                      <h4 className="font-medium text-sm">Recent Tasks</h4>
+                      <h4 className="font-medium text-sm text-slate-200">Recent Tasks</h4>
                       {tasks.map((task, index) => (
                         <div
                           key={index}
                           className="flex items-center justify-between text-sm"
                         >
-                          <span className="text-gray-600">{task.title}</span>
+                          <span className="text-slate-300">{task.title}</span>
                           {task.completed && (
                             <CheckCircle2 className="h-4 w-4 text-green-500" />
                           )}
@@ -181,7 +198,7 @@ export function ProjectStatusCard({
                     </div>
 
                     <div className="space-y-2">
-                      <Button className="w-full">
+                      <Button className="w-full bg-primary text-white hover:bg-primary/90">
                         <MessageSquare className="h-4 w-4 mr-2" />
                         View Discussion
                       </Button>
@@ -195,7 +212,7 @@ export function ProjectStatusCard({
       </CardContent>
 
       <CardFooter>
-        <div className="flex items-center justify-between w-full text-sm text-gray-600">
+        <div className="flex items-center justify-between w-full text-sm text-slate-400">
           <span>Last updated: 2 hours ago</span>
           <span>{openIssues} open issues</span>
         </div>

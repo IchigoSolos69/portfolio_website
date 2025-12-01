@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { projects } from '../data/portfolioData';
@@ -59,6 +60,8 @@ const projectStatusData: Record<
 };
 
 const Projects = () => {
+  const [expandedProjectId, setExpandedProjectId] = useState<number | null>(null);
+
   return (
     <section id="projects" className="py-20 relative">
       <AnimatedGridPattern
@@ -81,7 +84,7 @@ const Projects = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
           {projects.map((project) => {
             const status =
               projectStatusData[project.id] || {
@@ -106,6 +109,12 @@ const Projects = () => {
                   tasks={status.tasks}
                   githubStars={status.githubStars}
                   openIssues={status.openIssues}
+                  isExpanded={expandedProjectId === project.id}
+                  onToggle={() =>
+                    setExpandedProjectId((prev) =>
+                      prev === project.id ? null : project.id
+                    )
+                  }
                 />
               </div>
             );
