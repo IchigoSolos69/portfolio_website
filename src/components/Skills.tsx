@@ -13,10 +13,6 @@ const Skills = () => {
     return acc;
   }, {} as Record<string, typeof skills>);
 
-  const handleLearnMore = (skillName: string) => {
-    console.log(`Showing details for ${skillName}`);
-  };
-
   return (
     <section id="skills" className="py-20 relative">
       <AnimatedGridPattern
@@ -56,8 +52,6 @@ const Skills = () => {
                     name={skill.name}
                     category={skill.category}
                     level={skill.level}
-                    experience={skill.experience}
-                    onLearnMore={handleLearnMore}
                   />
                 ))}
               </div>

@@ -145,6 +145,13 @@ export const skills: Skill[] = [
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg",
   },
   {
+    name: "Express.js",
+    level: 82,
+    category: "Backend",
+    experience: 3,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg",
+  },
+  {
     name: "MongoDB",
     level: 75,
     category: "Database",
