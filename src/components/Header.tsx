@@ -79,7 +79,7 @@ const Header = () => {
         <div className="flex justify-between items-center">
           <div className="flex-shrink-0">
             <a href="#home" className="text-2xl font-bold text-white">
-              Adi<span className="text-accent">Maitre</span>
+              Adi<span className="text-accent"> Maitre</span>
             </a>
           </div>
 

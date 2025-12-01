@@ -141,7 +141,10 @@ const DigitalSerenity = () => {
   return (
     <>
       <style>{pageStyles}</style>
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-black to-slate-800 text-slate-100 font-primary overflow-hidden relative">
+      <section
+        id="home"
+        className="min-h-screen bg-gradient-to-br from-slate-900 via-black to-slate-800 text-slate-100 font-primary overflow-hidden relative"
+      >
         
         <svg className="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <defs>
@@ -186,31 +189,38 @@ const DigitalSerenity = () => {
         <div className="relative z-10 min-h-screen flex flex-col justify-between items-center px-6 py-10 sm:px-8 sm:py-12 md:px-16 md:py-20">
           <div className="text-center">
             <h2 className="text-xs sm:text-sm font-mono font-light text-slate-300 uppercase tracking-[0.2em] opacity-80">
-              <span className="word-animate" data-delay="0">Stillness</span>
-              <span className="word-animate" data-delay="300">speaks.</span>
+              <span className="word-animate" data-delay="0">Full</span>
+              <span className="word-animate" data-delay="250">Stack</span>
+              <span className="word-animate" data-delay="500">Developer</span>
+              <span className="word-animate" data-delay="900">&amp;</span>
+              <span className="word-animate" data-delay="1150">AI</span>
+              <span className="word-animate" data-delay="1400">Enthusiast</span>
             </h2>
             <div className="mt-4 w-12 sm:w-16 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent opacity-30 mx-auto"></div>
           </div>
 
           <div className="text-center max-w-5xl mx-auto relative">
-            {/* Responsive Main Heading Sizes */}
+            {/* Main Heading with personal information */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extralight leading-tight tracking-tight text-slate-50 text-decoration-animate">
               <div className="mb-4 md:mb-6">
-                <span className="word-animate" data-delay="700">Find</span>
-                <span className="word-animate" data-delay="850">your</span>
-                <span className="word-animate" data-delay="1000">center,</span>
+                <span className="word-animate" data-delay="700">Hi,</span>
+                <span className="word-animate" data-delay="900">I'm</span>
+                <span className="word-animate" data-delay="1150">Adi</span>
+                <span className="word-animate" data-delay="1350">Maitre.</span>
               </div>
-              {/* Responsive Secondary Heading Sizes & Added tracking-wide for letter spacing */}
               <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-thin text-slate-300 leading-relaxed tracking-wide">
-                <span className="word-animate" data-delay="1400">where</span>
-                <span className="word-animate" data-delay="1550">peace</span>
-                <span className="word-animate" data-delay="1700">resides</span>
-                <span className="word-animate" data-delay="1850">and</span>
-                <span className="word-animate" data-delay="2000">clarity</span>
-                <span className="word-animate" data-delay="2150">awakens</span>
-                <span className="word-animate" data-delay="2300">within</span>
-                <span className="word-animate" data-delay="2450">the</span>
-                <span className="word-animate" data-delay="2600">soul.</span>
+                <span className="word-animate" data-delay="1700">I</span>
+                <span className="word-animate" data-delay="1850">craft</span>
+                <span className="word-animate" data-delay="2000">fast,</span>
+                <span className="word-animate" data-delay="2150">accessible,</span>
+                <span className="word-animate" data-delay="2300">and</span>
+                <span className="word-animate" data-delay="2450">visually</span>
+                <span className="word-animate" data-delay="2600">refined</span>
+                <span className="word-animate" data-delay="2750">digital</span>
+                <span className="word-animate" data-delay="2900">experiences</span>
+                <span className="word-animate" data-delay="3050">you</span>
+                <span className="word-animate" data-delay="3200">can</span>
+                <span className="word-animate" data-delay="3350">trust.</span>
               </div>
             </h1>
             {/* Responsive Detail Line Offsets */}
@@ -221,10 +231,11 @@ const DigitalSerenity = () => {
           <div className="text-center">
             <div className="mb-4 w-12 sm:w-16 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent opacity-30 mx-auto"></div>
             <h2 className="text-xs sm:text-sm font-mono font-light text-slate-300 uppercase tracking-[0.2em] opacity-80">
-              <span className="word-animate" data-delay="3000">Observe,</span>
-              <span className="word-animate" data-delay="3200">accept,</span>
-              <span className="word-animate" data-delay="3400">let</span>
-              <span className="word-animate" data-delay="3550">go.</span>
+              <span className="word-animate" data-delay="3300">React,</span>
+              <span className="word-animate" data-delay="3450">TypeScript,</span>
+              <span className="word-animate" data-delay="3600">and</span>
+              <span className="word-animate" data-delay="3750">AI-driven</span>
+              <span className="word-animate" data-delay="3900">experiences.</span>
             </h2>
             <div className="mt-6 flex justify-center space-x-4 opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '4.2s' }}>
               <div className="w-1 h-1 bg-slate-300 rounded-full opacity-40"></div>
@@ -252,7 +263,7 @@ const DigitalSerenity = () => {
             style={{ left: `${ripple.x}px`, top: `${ripple.y}px` }}
           ></div>
         ))}
-      </div>
+      </section>
     </>
   );
 };
