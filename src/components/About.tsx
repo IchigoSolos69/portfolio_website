@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
+import { TrailCard } from "@/components/ui/trail-card";
 
 const About = () => {
   return (
@@ -39,40 +40,25 @@ const About = () => {
               world of web development.
             </p>
           </div>
-          
-          <div className="bg-dark/50 p-8 rounded-xl shadow-lg border border-gray-700">
-            <h3 className="text-2xl font-bold mb-6 text-white">Personal Info</h3>
-            <div className="space-y-4">
-              <div className="flex">
-                <span className="font-semibold w-32 text-white">Name:</span>
-                <span className="text-gray-300">Adi Rajendra Maitre</span>
-              </div>
-              <div className="flex">
-                <span className="font-semibold w-32 text-white">Email:</span>
-                <span className="text-gray-300">adimaitre@example.com</span>
-              </div>
-              <div className="flex">
-                <span className="font-semibold w-32 text-white">Location:</span>
-                <span className="text-gray-300">Mumbai, India</span>
-              </div>
-              <div className="flex">
-                <span className="font-semibold w-32 text-white">Education:</span>
-                <span className="text-gray-300">B.Tech in IT</span>
-              </div>
-              <div className="flex">
-                <span className="font-semibold w-32 text-white">Freelance:</span>
-                <span className="text-gray-300">Available</span>
-              </div>
-            </div>
-            
-            <div className="mt-8">
-              <h4 className="font-bold mb-3 text-white">Languages</h4>
-              <div className="flex flex-wrap gap-2">
-                <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">English</span>
-                <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">Hindi</span>
-                <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">Japanese</span>
-              </div>
-            </div>
+
+          <div className="flex justify-center lg:justify-end">
+            <TrailCard
+              className="bg-dark/70 border border-gray-700 shadow-2xl"
+              imageUrl="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=80"
+              mapImageUrl="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=500&q=80"
+              title="Adi Maitre"
+              location="Fornt-End Developer · AI Enthusiast"
+              difficulty="Pune, India"
+              creators="Languages: English · Hindi · Marathi"
+              distance="B.Tech in IT"
+              elevation="Still Learning"
+              duration="Freelance: Available"
+              onDirectionsClick={() =>
+                document
+                  .getElementById("contact")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
+            />
           </div>
         </div>
       </div>
