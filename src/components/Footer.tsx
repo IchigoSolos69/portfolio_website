@@ -3,7 +3,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-slate-950/95 text-slate-200 border-t border-slate-800">
-      <div className="max-w-7xl mx-auto px-4 py-10 md:py-12 flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+      <div className="max-w-7xl mx-auto px-4 py-6 md:py-8 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
         <div className="space-y-2">
           <p className="text-xs uppercase tracking-[0.25em] text-slate-400">
             Crafted with care
