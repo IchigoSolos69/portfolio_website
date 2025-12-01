@@ -25,19 +25,18 @@ const About = () => {
           <div>
             <h3 className="text-2xl font-bold mb-4 text-white">Who am I?</h3>
             <p className="text-gray-300 mb-6">
-              I'm a passionate Full Stack Developer with over 5 years of experience creating 
-              digital solutions that make a difference. I specialize in building responsive, 
-              accessible, and performant web applications using modern technologies.
+            I am a B.Tech IT student and Front-End Developer with a focus on crafting intuitive, 
+            pixel-perfect user interfaces. My approach blends technical precision with a community-first mindset.
             </p>
             <p className="text-gray-300 mb-6">
-              My journey in tech started with a curiosity about how things work, which led me 
-              to pursue a degree in Computer Science. Since then, I've worked with startups 
-              and established companies to bring their ideas to life through code.
+            Currently, I contribute to AuraSide, where I wear multiple hats,managing strategic partnerships, 
+            executing rigorous feature testing, and ensuring operational stability. 
+            This experience has taught me that great software isn't just about code, it's about the ecosystem it serves and the community it builds.
             </p>
             <p className="text-gray-300">
-              When I'm not coding, you can find me contributing to open-source projects, 
-              writing technical articles, or exploring new technologies in the ever-evolving 
-              world of web development.
+            I am constantly iterating on my craft ("building, breaking, and remixing") to stay ahead of modern web standards. 
+            Whether I am squashing bugs or refining a UI component, 
+            I am driven by a pursuit of excellence and a desire to leave a lasting impact in the cloud.
             </p>
           </div>
 
@@ -47,13 +46,13 @@ const About = () => {
               imageUrl="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=80"
               mapImageUrl="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=500&q=80"
               title="Adi Maitre"
-              location="Fornt-End Developer · AI Enthusiast"
+              location="Front-End Developer · AI Enthusiast"
               difficulty="Pune, India"
               creators="Languages: English · Hindi · Marathi"
               distance="B.Tech in IT"
               elevation="Still Learning"
-              duration="Freelance: Available"
-              onDirectionsClick={() =>
+              duration="Partially Available"
+              onContactClick={() =>
                 document
                   .getElementById("contact")
                   ?.scrollIntoView({ behavior: "smooth" })
