@@ -23,7 +23,7 @@ const Skills = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {Object.entries(groupedSkills).map(([category, categorySkills], index) => (
+          {Object.entries(groupedSkills).map(([category, categorySkills]) => (
             <div
               key={category}
               className="bg-white p-6 rounded-xl shadow-md card-hover"

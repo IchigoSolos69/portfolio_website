@@ -15,7 +15,7 @@ const Projects = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
+          {projects.map((project) => (
             <div
               key={project.id}
               className="bg-gray-50 rounded-xl overflow-hidden shadow-md card-hover flex flex-col h-full"
