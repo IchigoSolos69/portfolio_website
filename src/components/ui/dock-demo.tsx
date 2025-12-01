@@ -23,4 +23,4 @@ function DockDemo() {
   return <Dock items={items} />
 }
 
-export { DockDemo }
+export  { DockDemo }

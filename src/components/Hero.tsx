@@ -1,17 +1,17 @@
 import { FiDownload, FiMail, FiGithub, FiLinkedin } from 'react-icons/fi';
-import { AnimatedGridPattern } from '@/components/ui/animated-grid-pattern';
-import { cn } from '@/lib/utils';
+import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
+import { cn } from "@/lib/utils";
 
 const Hero = () => {
   return (
-    <section id="home" className="relative min-h-screen flex items-center pt-16 bg-gradient-to-br from-white to-blue-50 overflow-hidden">
+    <section id="home" className="min-h-screen flex items-center pt-16 relative overflow-hidden">
       <AnimatedGridPattern
         numSquares={30}
         maxOpacity={0.1}
         duration={3}
         repeatDelay={1}
         className={cn(
-          "[mask-image:radial-gradient(500px_circle_at_center,white,transparent)]",
+          "[mask-image:radial-gradient(800px_circle_at_center,white,transparent)]",
           "inset-x-0 inset-y-[-30%] h-[200%] skew-y-12",
         )}
       />
