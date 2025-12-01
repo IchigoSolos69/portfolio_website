@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -6,13 +7,16 @@ import Projects from './components/Projects';
 import Experience from './components/Experience';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import { PortfolioDock } from './components/PortfolioDock';
 
 function App() {
+  useEffect(() => {
+    // Ensure dark mode is enabled
+    document.documentElement.classList.add('dark');
+  }, []);
+
   return (
-    <div className="App">
+    <div className="App bg-dark text-light">
       <Header />
-      <PortfolioDock />
       <main>
         <Hero />
         <About />

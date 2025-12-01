@@ -1,9 +1,22 @@
+import { cn } from "@/lib/utils";
+import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
+
 const Footer = () => {
   return (
-    <footer className="bg-dark text-light py-12">
-      <div className="section-container">
+    <footer className="bg-dark text-light py-12 relative">
+      <AnimatedGridPattern
+        numSquares={30}
+        maxOpacity={0.05}
+        duration={3}
+        repeatDelay={1}
+        className={cn(
+          "[mask-image:radial-gradient(800px_circle_at_center,white,transparent)]",
+          "inset-x-0 inset-y-[-30%] h-[200%] skew-y-12",
+        )}
+      />
+      <div className="section-container relative z-10">
         <div className="text-center">
-          <div className="text-2xl font-bold mb-4">
+          <div className="text-2xl font-bold mb-4 text-white">
             Adi<span className="text-accent">Maitre</span>
           </div>
           <p className="text-gray-400 max-w-2xl mx-auto mb-8">

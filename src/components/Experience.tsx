@@ -1,11 +1,23 @@
+import { cn } from "@/lib/utils";
+import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { experiences } from '../data/portfolioData';
 
 const Experience = () => {
   return (
-    <section id="experience" className="py-20 bg-gray-50">
-      <div className="section-container">
+    <section id="experience" className="py-20 relative">
+      <AnimatedGridPattern
+        numSquares={30}
+        maxOpacity={0.1}
+        duration={3}
+        repeatDelay={1}
+        className={cn(
+          "[mask-image:radial-gradient(800px_circle_at_center,white,transparent)]",
+          "inset-x-0 inset-y-[-30%] h-[200%] skew-y-12",
+        )}
+      />
+      <div className="section-container relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Work Experience</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Work Experience</h2>
           <div className="w-20 h-1 bg-primary mx-auto"></div>
         </div>
         
@@ -19,16 +31,16 @@ const Experience = () => {
               className={`mb-12 flex flex-col md:flex-row ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
             >
               <div className="md:w-1/2 mb-4 md:mb-0 md:px-8">
-                <div className={`bg-white p-6 rounded-xl shadow-md ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
+                <div className={`bg-dark/50 p-6 rounded-xl shadow-md ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'} border border-gray-700`}>
                   <span className="text-sm text-primary font-medium">{exp.period}</span>
-                  <h3 className="text-xl font-bold mt-2">{exp.role}</h3>
+                  <h3 className="text-xl font-bold mt-2 text-white">{exp.role}</h3>
                   <h4 className="text-lg text-accent font-medium">{exp.company}</h4>
-                  <p className="text-gray-600 mt-3">{exp.description}</p>
+                  <p className="text-gray-300 mt-3">{exp.description}</p>
                   <ul className="mt-4 space-y-2">
                     {exp.achievements.map((achievement, i) => (
                       <li key={i} className="flex items-start">
                         <span className="text-primary mr-2">â€¢</span>
-                        <span className="text-gray-600">{achievement}</span>
+                        <span className="text-gray-300">{achievement}</span>
                       </li>
                     ))}
                   </ul>
@@ -36,7 +48,7 @@ const Experience = () => {
               </div>
               
               <div className="md:w-1/2 flex justify-center md:justify-start items-center">
-                <div className="w-4 h-4 rounded-full bg-primary border-4 border-white shadow-md z-10"></div>
+                <div className="w-4 h-4 rounded-full bg-primary border-4 border-dark shadow-md z-10"></div>
               </div>
               
               <div className="md:w-1/2"></div>
@@ -49,3 +61,4 @@ const Experience = () => {
 };
 
 export default Experience;
+    

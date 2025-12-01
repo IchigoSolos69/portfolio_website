@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { skills } from '../data/portfolioData';
 
 const Skills = () => {
@@ -11,12 +13,22 @@ const Skills = () => {
   }, {} as Record<string, typeof skills>);
 
   return (
-    <section id="skills" className="py-20 bg-gray-50">
-      <div className="section-container">
+    <section id="skills" className="py-20 relative">
+      <AnimatedGridPattern
+        numSquares={30}
+        maxOpacity={0.1}
+        duration={3}
+        repeatDelay={1}
+        className={cn(
+          "[mask-image:radial-gradient(800px_circle_at_center,white,transparent)]",
+          "inset-x-0 inset-y-[-30%] h-[200%] skew-y-12",
+        )}
+      />
+      <div className="section-container relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">My Skills</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">My Skills</h2>
           <div className="w-20 h-1 bg-primary mx-auto"></div>
-          <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
+          <p className="text-gray-300 mt-4 max-w-2xl mx-auto">
             I've worked with a range of technologies in the web development world, 
             from front-end to back-end and everything in between.
           </p>
@@ -26,17 +38,17 @@ const Skills = () => {
           {Object.entries(groupedSkills).map(([category, categorySkills]) => (
             <div
               key={category}
-              className="bg-white p-6 rounded-xl shadow-md card-hover"
+              className="bg-dark/50 p-6 rounded-xl shadow-md card-hover border border-gray-700"
             >
               <h3 className="text-xl font-bold mb-4 text-primary">{category}</h3>
               <div className="space-y-4">
                 {categorySkills.map((skill) => (
                   <div key={skill.name}>
                     <div className="flex justify-between mb-1">
-                      <span className="font-medium">{skill.name}</span>
-                      <span className="text-gray-600">{skill.level}%</span>
+                      <span className="font-medium text-white">{skill.name}</span>
+                      <span className="text-gray-300">{skill.level}%</span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="w-full bg-gray-700 rounded-full h-2">
                       <div 
                         className="bg-primary h-2 rounded-full"
                         style={{ width: `${skill.level}%` }}
@@ -49,8 +61,8 @@ const Skills = () => {
           ))}
         </div>
         
-        <div className="mt-16 bg-white p-8 rounded-xl shadow-md text-center">
-          <h3 className="text-2xl font-bold mb-4">Additional Skills</h3>
+        <div className="mt-16 bg-dark/50 p-8 rounded-xl shadow-md text-center border border-gray-700">
+          <h3 className="text-2xl font-bold mb-4 text-white">Additional Skills</h3>
           <div className="flex flex-wrap justify-center gap-3">
             {['Git', 'Docker', 'AWS', 'CI/CD', 'Testing', 'Agile', 'UI/UX', 'Responsive Design'].map((skill) => (
               <span 

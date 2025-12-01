@@ -3,8 +3,18 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --background: 15 23 42; /* dark slate */
+    --foreground: 248 250 252; /* light */
+    --primary: 37 99 235; /* blue */
+    --secondary: 30 64 175; /* darker blue */
+    --accent: 249 115 22; /* orange */
+    --dark: 15 23 42; /* dark slate */
+    --light: 248 250 252; /* light */
+  }
+  
   body {
-    @apply bg-light text-dark font-sans antialiased;
+    @apply bg-dark text-light font-sans antialiased;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -16,7 +26,7 @@
   }
   
   .btn-primary {
-    @apply bg-primary hover:bg-secondary text-white font-medium py-3 px-6 rounded-lg transition duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50;
+    @apply bg-primary hover:bg-blue-500 text-white font-medium py-3 px-6 rounded-lg transition duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50;
   }
   
   .btn-secondary {
