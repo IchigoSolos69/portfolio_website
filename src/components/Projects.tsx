@@ -1,5 +1,3 @@
-import React from 'react';
-import { motion } from 'framer-motion';
 import { FiGithub, FiExternalLink } from 'react-icons/fi';
 import { projects } from '../data/portfolioData';
 
@@ -7,29 +5,19 @@ const Projects = () => {
   return (
     <section id="projects" className="py-20 bg-white">
       <div className="section-container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
-        >
+        <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">My Projects</h2>
           <div className="w-20 h-1 bg-primary mx-auto"></div>
           <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
             Here are some of my recent projects. Each project reflects my passion for 
             creating meaningful digital experiences.
           </p>
-        </motion.div>
+        </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
-            <motion.div
+            <div
               key={project.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
               className="bg-gray-50 rounded-xl overflow-hidden shadow-md card-hover flex flex-col h-full"
             >
               <div className="h-48 overflow-hidden">
@@ -71,21 +59,15 @@ const Projects = () => {
                   )}
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
         
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mt-12"
-        >
+        <div className="text-center mt-12">
           <a href="#" className="btn-primary inline-flex items-center">
             View All Projects
           </a>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

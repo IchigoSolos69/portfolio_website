@@ -1,33 +1,21 @@
-import React from 'react';
-import { motion } from 'framer-motion';
 import { experiences } from '../data/portfolioData';
 
 const Experience = () => {
   return (
     <section id="experience" className="py-20 bg-gray-50">
       <div className="section-container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
-        >
+        <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Work Experience</h2>
           <div className="w-20 h-1 bg-primary mx-auto"></div>
-        </motion.div>
+        </div>
         
         <div className="relative">
           {/* Vertical line */}
           <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 bg-primary transform md:translate-x-[-1px]"></div>
           
           {experiences.map((exp, index) => (
-            <motion.div
+            <div
               key={exp.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
               className={`mb-12 flex flex-col md:flex-row ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
             >
               <div className="md:w-1/2 mb-4 md:mb-0 md:px-8">
@@ -52,7 +40,7 @@ const Experience = () => {
               </div>
               
               <div className="md:w-1/2"></div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

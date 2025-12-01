@@ -1,5 +1,3 @@
-import React from 'react';
-import { motion } from 'framer-motion';
 import { skills } from '../data/portfolioData';
 
 const Skills = () => {
@@ -15,29 +13,19 @@ const Skills = () => {
   return (
     <section id="skills" className="py-20 bg-gray-50">
       <div className="section-container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
-        >
+        <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">My Skills</h2>
           <div className="w-20 h-1 bg-primary mx-auto"></div>
           <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
             I've worked with a range of technologies in the web development world, 
             from front-end to back-end and everything in between.
           </p>
-        </motion.div>
+        </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {Object.entries(groupedSkills).map(([category, categorySkills], index) => (
-            <motion.div
+            <div
               key={category}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
               className="bg-white p-6 rounded-xl shadow-md card-hover"
             >
               <h3 className="text-xl font-bold mb-4 text-primary">{category}</h3>
@@ -49,28 +37,19 @@ const Skills = () => {
                       <span className="text-gray-600">{skill.level}%</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
-                      <motion.div 
+                      <div 
                         className="bg-primary h-2 rounded-full"
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${skill.level}%` }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1, delay: 0.2 }}
-                      ></motion.div>
+                        style={{ width: `${skill.level}%` }}
+                      ></div>
                     </div>
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
         
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mt-16 bg-white p-8 rounded-xl shadow-md text-center"
-        >
+        <div className="mt-16 bg-white p-8 rounded-xl shadow-md text-center">
           <h3 className="text-2xl font-bold mb-4">Additional Skills</h3>
           <div className="flex flex-wrap justify-center gap-3">
             {['Git', 'Docker', 'AWS', 'CI/CD', 'Testing', 'Agile', 'UI/UX', 'Responsive Design'].map((skill) => (
@@ -82,7 +61,7 @@ const Skills = () => {
               </span>
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { FiMail, FiPhone, FiMapPin } from 'react-icons/fi';
 
 const Contact = () => {
@@ -36,28 +35,17 @@ const Contact = () => {
   return (
     <section id="contact" className="py-20 bg-white">
       <div className="section-container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
-        >
+        <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Get In Touch</h2>
           <div className="w-20 h-1 bg-primary mx-auto"></div>
           <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
             Have a project in mind or want to discuss potential opportunities? 
             Feel free to reach out!
           </p>
-        </motion.div>
+        </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
+          <div>
             <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
             
             <div className="space-y-6">
@@ -106,14 +94,9 @@ const Contact = () => {
                 </a>
               </div>
             </div>
-          </motion.div>
+          </div>
           
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
+          <div>
             <form onSubmit={handleSubmit} className="bg-gray-50 p-8 rounded-xl shadow-md">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
                 <div>
@@ -186,7 +169,7 @@ const Contact = () => {
                 </div>
               )}
             </form>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
