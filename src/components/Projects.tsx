@@ -1,7 +1,62 @@
 import { cn } from "@/lib/utils";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
-import { FiGithub, FiExternalLink } from 'react-icons/fi';
 import { projects } from '../data/portfolioData';
+import { ProjectStatusCard } from "@/components/ui/expandable-card";
+
+const projectStatusData: Record<
+  number,
+  {
+    progress: number;
+    dueDate: string;
+    contributors: Array<{ name: string; image?: string }>;
+    tasks: Array<{ title: string; completed: boolean }>;
+    githubStars: number;
+    openIssues: number;
+  }
+> = {
+  1: {
+    progress: 90,
+    dueDate: "Dec 31, 2024",
+    contributors: [
+      { name: "Adi", image: "/adi.jpg" },
+      { name: "John" },
+    ],
+    tasks: [
+      { title: "Polish UI animations", completed: true },
+      { title: "Add more case studies", completed: false },
+    ],
+    githubStars: 120,
+    openIssues: 3,
+  },
+  2: {
+    progress: 75,
+    dueDate: "Jan 15, 2025",
+    contributors: [
+      { name: "Adi" },
+      { name: "Sarah" },
+    ],
+    tasks: [
+      { title: "Implement checkout flow", completed: true },
+      { title: "Add wishlist feature", completed: false },
+    ],
+    githubStars: 340,
+    openIssues: 8,
+  },
+  3: {
+    progress: 60,
+    dueDate: "Feb 10, 2025",
+    contributors: [
+      { name: "Adi" },
+      { name: "Alex" },
+    ],
+    tasks: [
+      { title: "Refine real-time sync", completed: false },
+      { title: "Improve notifications", completed: false },
+    ],
+    githubStars: 210,
+    openIssues: 5,
+  },
+};
 
 const Projects = () => {
   return (
@@ -27,52 +82,34 @@ const Projects = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project) => (
-            <div
-              key={project.id}
-              className="bg-dark/50 rounded-xl overflow-hidden shadow-md card-hover flex flex-col h-full border border-gray-700"
-            >
-              <div className="h-48 overflow-hidden">
-                <div className="bg-gray-700 border-2 border-dashed rounded-xl w-full h-full" />
+          {projects.map((project) => {
+            const status =
+              projectStatusData[project.id] || {
+                progress: 50,
+                dueDate: "TBD",
+                contributors: [{ name: "Adi" }],
+                tasks: [
+                  { title: "Plan next milestone", completed: false },
+                  { title: "Review requirements", completed: false },
+                ],
+                githubStars: 0,
+                openIssues: 0,
+              };
+
+            return (
+              <div key={project.id} className="flex justify-center">
+                <ProjectStatusCard
+                  title={project.title}
+                  progress={status.progress}
+                  dueDate={status.dueDate}
+                  contributors={status.contributors}
+                  tasks={status.tasks}
+                  githubStars={status.githubStars}
+                  openIssues={status.openIssues}
+                />
               </div>
-              <div className="p-6 flex-grow flex flex-col">
-                <h3 className="text-xl font-bold mb-2 text-white">{project.title}</h3>
-                <p className="text-gray-300 mb-4 flex-grow">{project.description}</p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.technologies.map((tech) => (
-                    <span 
-                      key={tech}
-                      className="bg-primary/10 text-primary text-xs px-2 py-1 rounded"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-                <div className="flex space-x-4 mt-auto">
-                  {project.githubUrl && (
-                    <a 
-                      href={project.githubUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-gray-300 hover:text-primary transition-colors"
-                    >
-                      <FiGithub className="w-5 h-5" />
-                    </a>
-                  )}
-                  {project.liveUrl && (
-                    <a 
-                      href={project.liveUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-gray-300 hover:text-primary transition-colors"
-                    >
-                      <FiExternalLink className="w-5 h-5" />
-                    </a>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
         
         <div className="text-center mt-12">
