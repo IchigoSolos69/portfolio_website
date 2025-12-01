@@ -40,18 +40,19 @@ const DockIconButton = React.forwardRef<HTMLButtonElement, DockIconButtonProps>(
         whileTap={{ scale: 0.95 }}
         onClick={onClick}
         className={cn(
-          "relative group p-3 rounded-lg",
+          "relative group p-3 rounded-lg flex flex-col items-center",
           "hover:bg-blue-400/20 transition-colors", // Lighter blue hover
           className
         )}
       >
         <Icon className="w-5 h-5 text-white" />
         <span className={cn(
-          "absolute -top-8 left-1/2 -translate-x-1/2",
+          "absolute top-full mt-2 left-1/2 -translate-x-1/2",
           "px-2 py-1 rounded text-xs",
           "bg-popover text-popover-foreground",
           "opacity-0 group-hover:opacity-100",
-          "transition-opacity whitespace-nowrap pointer-events-none"
+          "transition-opacity whitespace-nowrap pointer-events-none",
+          "z-20"
         )}>
           {label}
         </span>
@@ -64,8 +65,8 @@ DockIconButton.displayName = "DockIconButton"
 const Dock = React.forwardRef<HTMLDivElement, DockProps>(
   ({ items, className }, ref) => {
     return (
-      <div ref={ref} className={cn("w-full h-64 flex items-center justify-center p-2", className)}>
-        <div className="w-full max-w-4xl h-64 rounded-2xl flex items-center justify-center relative">
+      <div ref={ref} className={cn("w-full flex items-center justify-center p-2", className)}>
+        <div className="w-full max-w-4xl rounded-2xl flex items-center justify-center relative">
           <motion.div
             initial="initial"
             animate="animate"

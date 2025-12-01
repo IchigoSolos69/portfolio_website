@@ -105,13 +105,11 @@ const Header = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-dark/90 backdrop-blur-lg">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <Dock 
-              items={dockItems} 
-              className="h-40 flex-wrap justify-center" 
-            />
-          </div>
+        <div className="md:hidden bg-dark/90 backdrop-blur-lg py-4">
+          <Dock 
+            items={dockItems} 
+            className="h-24 flex-wrap justify-center" 
+          />
         </div>
       )}
     </header>
