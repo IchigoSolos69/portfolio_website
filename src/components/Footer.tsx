@@ -6,8 +6,8 @@ const Footer = () => {
   return (
     <footer className="bg-gradient-to-b from-slate-900 to-slate-950 text-slate-100">
       {/* Main Footer Content */}
-      <div className="section-container py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+      <div className="section-container py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
           {/* Brand Section */}
           <div className="flex flex-col">
             <h3 className="text-2xl font-bold mb-3">
@@ -57,10 +57,10 @@ const Footer = () => {
         </div>
 
         {/* Divider */}
-        <div className="h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent mb-8"></div>
+        <div className="h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent mb-6"></div>
 
         {/* Bottom Section */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           {/* Copyright */}
           <div className="text-slate-400 text-sm">
             &copy; {currentYear} Adi Rajendra Maitre. All rights reserved.
