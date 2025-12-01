@@ -1,13 +1,13 @@
 // components/ui/trail-card.tsx
 import * as React from "react";
-import { motion } from "framer-motion";
+import { motion, type HTMLMotionProps } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 import { cn } from "@/lib/utils"; // Your utility for merging class names
 import { Button } from "@/components/ui/button"; // Assuming you have a Button component
 
 // Define the props interface for type safety and reusability
-interface TrailCardProps extends React.HTMLAttributes<HTMLDivElement> {
+interface TrailCardProps extends HTMLMotionProps<"div"> {
   imageUrl: string;
   mapImageUrl: string;
   title: string;
