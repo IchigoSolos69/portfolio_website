@@ -1,13 +1,13 @@
 import * as React from "react";
-import { motion } from "framer-motion";
-import { ArrowUpRight, ArrowDownRight, Star, TrendingUp } from "lucide-react";
+import { motion, type HTMLMotionProps } from "framer-motion";
+import { ArrowDownRight, Star, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 /**
  * Props for the SkillCard component.
  */
-interface SkillCardProps extends React.HTMLAttributes<HTMLDivElement> {
+interface SkillCardProps extends HTMLMotionProps<"div"> {
   /** The source URL for the skill icon. */
   iconSrc: string;
   /** The skill name (e.g., "React"). */

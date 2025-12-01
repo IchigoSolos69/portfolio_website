@@ -1,21 +1,32 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+type Ripple = {
+  id: number;
+  x: number;
+  y: number;
+};
+
+type GradientStyle = {
+  left: string;
+  top: string;
+  opacity: number;
+};
+
 const DigitalSerenity = () => {
-  const [mouseGradientStyle, setMouseGradientStyle] = useState({
+  const [mouseGradientStyle, setMouseGradientStyle] = useState<GradientStyle>({
     left: '0px',
     top: '0px',
     opacity: 0,
   });
-  const [ripples, setRipples] = useState([]);
+  const [ripples, setRipples] = useState<Ripple[]>([]);
   const [scrolled, setScrolled] = useState(false);
-  const wordsRef = useRef([]); // Not strictly necessary if not directly manipulating post-initial animation
-  const floatingElementsRef = useRef([]);
+  const floatingElementsRef = useRef<HTMLElement[]>([]);
 
   useEffect(() => {
     const animateWords = () => {
-      const wordElements = document.querySelectorAll('.word-animate');
+      const wordElements = document.querySelectorAll<HTMLElement>('.word-animate');
       wordElements.forEach(word => {
-        const delay = parseInt(word.getAttribute('data-delay')) || 0;
+        const delay = parseInt(word.getAttribute('data-delay') ?? '0') || 0;
         setTimeout(() => {
           if (word) word.style.animation = 'word-appear 0.8s ease-out forwards';
         }, delay);
@@ -26,7 +37,7 @@ const DigitalSerenity = () => {
   }, []);
 
   useEffect(() => {
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: MouseEvent) => {
       setMouseGradientStyle({
         left: `${e.clientX}px`,
         top: `${e.clientY}px`,
@@ -34,7 +45,7 @@ const DigitalSerenity = () => {
       });
     };
     const handleMouseLeave = () => {
-      setMouseGradientStyle(prev => ({ ...prev, opacity: 0 }));
+      setMouseGradientStyle((prev) => ({ ...prev, opacity: 0 }));
     };
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseleave', handleMouseLeave);
@@ -45,19 +56,28 @@ const DigitalSerenity = () => {
   }, []);
 
   useEffect(() => {
-    const handleClick = (e) => {
-      const newRipple = { id: Date.now(), x: e.clientX, y: e.clientY };
-      setRipples(prev => [...prev, newRipple]);
-      setTimeout(() => setRipples(prev => prev.filter(r => r.id !== newRipple.id)), 1000);
+    const handleClick = (e: MouseEvent) => {
+      const newRipple: Ripple = { id: Date.now(), x: e.clientX, y: e.clientY };
+      setRipples((prev) => [...prev, newRipple]);
+      setTimeout(
+        () => setRipples((prev) => prev.filter((r) => r.id !== newRipple.id)),
+        1000,
+      );
     };
     document.addEventListener('click', handleClick);
     return () => document.removeEventListener('click', handleClick);
   }, []);
   
   useEffect(() => {
-    const wordElements = document.querySelectorAll('.word-animate');
-    const handleMouseEnter = (e) => { if (e.target) e.target.style.textShadow = '0 0 20px rgba(203, 213, 225, 0.5)'; };
-    const handleMouseLeave = (e) => { if (e.target) e.target.style.textShadow = 'none'; };
+    const wordElements = document.querySelectorAll<HTMLElement>('.word-animate');
+    const handleMouseEnter = (e: Event) => {
+      const target = e.target as HTMLElement | null;
+      if (target) target.style.textShadow = '0 0 20px rgba(203, 213, 225, 0.5)';
+    };
+    const handleMouseLeave = (e: Event) => {
+      const target = e.target as HTMLElement | null;
+      if (target) target.style.textShadow = 'none';
+    };
     wordElements.forEach(word => {
       word.addEventListener('mouseenter', handleMouseEnter);
       word.addEventListener('mouseleave', handleMouseLeave);
@@ -73,12 +93,12 @@ const DigitalSerenity = () => {
   }, []);
 
   useEffect(() => {
-    const elements = document.querySelectorAll('.floating-element-animate');
+    const elements = document.querySelectorAll<HTMLElement>('.floating-element-animate');
     floatingElementsRef.current = Array.from(elements);
     const handleScroll = () => {
       if (!scrolled) {
         setScrolled(true);
-        floatingElementsRef.current.forEach((el, index) => {
+        floatingElementsRef.current.forEach((el: HTMLElement, index: number) => {
           setTimeout(() => {
             if (el) {
               el.style.animationPlayState = 'running';
@@ -225,7 +245,7 @@ const DigitalSerenity = () => {
           }}
         ></div>
 
-        {ripples.map(ripple => (
+        {ripples.map((ripple: Ripple) => (
           <div
             key={ripple.id}
             className="ripple-effect"
