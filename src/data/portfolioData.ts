@@ -21,6 +21,8 @@ export interface Skill {
   name: string;
   level: number;
   category: string;
+  experience: number;
+  icon: string;
 }
 
 export const projects: Project[] = [
@@ -93,16 +95,109 @@ export const experiences: Experience[] = [
 ];
 
 export const skills: Skill[] = [
-  { name: "React", level: 95, category: "Frontend" },
-  { name: "TypeScript", level: 90, category: "Frontend" },
-  { name: "JavaScript", level: 92, category: "Frontend" },
-  { name: "HTML/CSS", level: 95, category: "Frontend" },
-  { name: "Node.js", level: 85, category: "Backend" },
-  { name: "Python", level: 80, category: "Backend" },
-  { name: "MongoDB", level: 75, category: "Database" },
-  { name: "PostgreSQL", level: 80, category: "Database" },
-  { name: "AWS", level: 70, category: "Cloud" },
-  { name: "Docker", level: 75, category: "DevOps" },
-  { name: "Git", level: 90, category: "Tools" },
-  { name: "Figma", level: 85, category: "Design" }
+  {
+    name: "React",
+    level: 95,
+    category: "Frontend",
+    experience: 5,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+  },
+  {
+    name: "TypeScript",
+    level: 92,
+    category: "Frontend",
+    experience: 4,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
+  },
+  {
+    name: "Next.js",
+    level: 88,
+    category: "Frontend",
+    experience: 3,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
+  },
+  {
+    name: "Tailwind CSS",
+    level: 90,
+    category: "Frontend",
+    experience: 4,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg",
+  },
+  {
+    name: "Node.js",
+    level: 85,
+    category: "Backend",
+    experience: 4,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
+  },
+  {
+    name: "Python",
+    level: 80,
+    category: "Backend",
+    experience: 5,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+  },
+  {
+    name: "GraphQL",
+    level: 78,
+    category: "Backend",
+    experience: 3,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg",
+  },
+  {
+    name: "MongoDB",
+    level: 75,
+    category: "Database",
+    experience: 4,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
+  },
+  {
+    name: "PostgreSQL",
+    level: 80,
+    category: "Database",
+    experience: 4,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
+  },
+  {
+    name: "AWS",
+    level: 72,
+    category: "Cloud",
+    experience: 3,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original.svg",
+  },
+  {
+    name: "Docker",
+    level: 78,
+    category: "DevOps",
+    experience: 3,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
+  },
+  {
+    name: "Kubernetes",
+    level: 65,
+    category: "DevOps",
+    experience: 2,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg",
+  },
+  {
+    name: "Git",
+    level: 90,
+    category: "Tools",
+    experience: 6,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
+  },
+  {
+    name: "Figma",
+    level: 85,
+    category: "Design",
+    experience: 4,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
+  },
+  {
+    name: "Framer",
+    level: 70,
+    category: "Design",
+    experience: 2,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/framer/framer-original.svg",
+  },
 ];

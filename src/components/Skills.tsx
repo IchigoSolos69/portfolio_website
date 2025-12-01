@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { skills } from '../data/portfolioData';
+import { SkillCard } from "@/components/ui/skill-card";
 
 const Skills = () => {
   // Group skills by category
@@ -11,6 +12,10 @@ const Skills = () => {
     acc[skill.category].push(skill);
     return acc;
   }, {} as Record<string, typeof skills>);
+
+  const handleLearnMore = (skillName: string) => {
+    console.log(`Showing details for ${skillName}`);
+  };
 
   return (
     <section id="skills" className="py-20 relative">
@@ -34,27 +39,26 @@ const Skills = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="space-y-10">
           {Object.entries(groupedSkills).map(([category, categorySkills]) => (
-            <div
-              key={category}
-              className="bg-dark/50 p-6 rounded-xl shadow-md card-hover border border-gray-700"
-            >
-              <h3 className="text-xl font-bold mb-4 text-primary">{category}</h3>
-              <div className="space-y-4">
+            <div key={category} className="bg-dark/40 p-6 rounded-2xl border border-slate-800 shadow-lg">
+              <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
+                <h3 className="text-2xl font-semibold text-white">{category}</h3>
+                <p className="text-sm text-slate-400">
+                  {categorySkills.length} {categorySkills.length === 1 ? "skill" : "skills"}
+                </p>
+              </div>
+              <div className="grid gap-5 grid-cols-1 xl:grid-cols-2">
                 {categorySkills.map((skill) => (
-                  <div key={skill.name}>
-                    <div className="flex justify-between mb-1">
-                      <span className="font-medium text-white">{skill.name}</span>
-                      <span className="text-gray-300">{skill.level}%</span>
-                    </div>
-                    <div className="w-full bg-gray-700 rounded-full h-2">
-                      <div 
-                        className="bg-primary h-2 rounded-full"
-                        style={{ width: `${skill.level}%` }}
-                      ></div>
-                    </div>
-                  </div>
+                  <SkillCard
+                    key={skill.name}
+                    iconSrc={skill.icon}
+                    name={skill.name}
+                    category={skill.category}
+                    level={skill.level}
+                    experience={skill.experience}
+                    onLearnMore={handleLearnMore}
+                  />
                 ))}
               </div>
             </div>
@@ -64,7 +68,7 @@ const Skills = () => {
         <div className="mt-16 bg-dark/50 p-8 rounded-xl shadow-md text-center border border-gray-700">
           <h3 className="text-2xl font-bold mb-4 text-white">Additional Skills</h3>
           <div className="flex flex-wrap justify-center gap-3">
-            {['Git', 'Docker', 'AWS', 'CI/CD', 'Testing', 'Agile', 'UI/UX', 'Responsive Design'].map((skill) => (
+            {['CI/CD', 'Testing', 'Agile', 'UI/UX Strategy', 'Performance Optimization', 'Microservices', 'Design Systems'].map((skill) => (
               <span 
                 key={skill}
                 className="bg-primary/10 text-primary px-4 py-2 rounded-full"
