@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
-import { experiences } from '../data/portfolioData';
+import { experiences } from "../data/portfolioData";
+import { Timeline } from "@/components/ui/timeline";
 
 const Experience = () => {
   return (
@@ -16,45 +17,41 @@ const Experience = () => {
         )}
       />
       <div className="section-container relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Work Experience</h2>
+        <div className="text-center mb-10">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+            Work Experience
+          </h2>
           <div className="w-20 h-1 bg-primary mx-auto"></div>
         </div>
-        
-        <div className="relative">
-          {/* Vertical line */}
-          <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 bg-primary transform md:translate-x-[-1px]"></div>
-          
-          {experiences.map((exp, index) => (
-            <div
-              key={exp.id}
-              className={`mb-12 flex flex-col md:flex-row ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
-            >
-              <div className="md:w-1/2 mb-4 md:mb-0 md:px-8">
-                <div className={`bg-dark/50 p-6 rounded-xl shadow-md ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'} border border-gray-700`}>
-                  <span className="text-sm text-primary font-medium">{exp.period}</span>
-                  <h3 className="text-xl font-bold mt-2 text-white">{exp.role}</h3>
-                  <h4 className="text-lg text-accent font-medium">{exp.company}</h4>
-                  <p className="text-gray-300 mt-3">{exp.description}</p>
-                  <ul className="mt-4 space-y-2">
-                    {exp.achievements.map((achievement, i) => (
-                      <li key={i} className="flex items-start">
-                        <span className="text-primary mr-2">â€¢</span>
-                        <span className="text-gray-300">{achievement}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+
+        <Timeline
+          data={experiences.map((exp) => ({
+            title: exp.period,
+            content: (
+              <div className="bg-dark/70 border border-gray-700 rounded-2xl p-6 md:p-8 shadow-lg">
+                <p className="text-sm text-primary font-semibold mb-1">
+                  {exp.company}
+                </p>
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
+                  {exp.role}
+                </h3>
+                <p className="text-gray-300 text-sm md:text-base mb-4">
+                  {exp.description}
+                </p>
+                <ul className="space-y-2 text-sm md:text-base text-gray-300">
+                  {exp.achievements.map((achievement, i) => (
+                    <li key={i} className="flex gap-2">
+                      <span className="text-primary mt-1">•</span>
+                      <span>{achievement}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              
-              <div className="md:w-1/2 flex justify-center md:justify-start items-center">
-                <div className="w-4 h-4 rounded-full bg-primary border-4 border-dark shadow-md z-10"></div>
-              </div>
-              
-              <div className="md:w-1/2"></div>
-            </div>
-          ))}
-        </div>
+            ),
+          }))}
+          title="Experience timeline"
+          description="A quick look at the roles, companies, and impact that have shaped my journey so far."
+        />
       </div>
     </section>
   );
