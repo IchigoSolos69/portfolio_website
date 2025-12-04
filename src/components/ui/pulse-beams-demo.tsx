@@ -20,7 +20,7 @@ const beams = [
       transition: {
         duration: 2,
         repeat: Infinity,
-        repeatType: "loop",
+        repeatType: "loop" as const,
         ease: "linear",
         repeatDelay: 2,
         delay: Math.random() * 2,
@@ -49,7 +49,7 @@ const beams = [
       transition: {
         duration: 2,
         repeat: Infinity,
-        repeatType: "loop",
+        repeatType: "loop" as const,
         ease: "linear",
         repeatDelay: 2,
         delay: Math.random() * 2,
@@ -78,7 +78,7 @@ const beams = [
       transition: {
         duration: 2,
         repeat: Infinity,
-        repeatType: "loop",
+        repeatType: "loop" as const,
         ease: "linear",
         repeatDelay: 2,
         delay: Math.random() * 2,
@@ -107,7 +107,7 @@ const beams = [
       transition: {
         duration: 2,
         repeat: Infinity,
-        repeatType: "loop",
+        repeatType: "loop" as const,
         ease: "linear",
         repeatDelay: 2,
         delay: Math.random() * 2,
@@ -136,7 +136,7 @@ const beams = [
       transition: {
         duration: 2,
         repeat: Infinity,
-        repeatType: "loop",
+        repeatType: "loop" as const,
         ease: "linear",
         repeatDelay: 2,
         delay: Math.random() * 2,
