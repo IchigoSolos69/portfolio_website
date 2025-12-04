@@ -84,7 +84,20 @@ export const PulseBeams = ({
   );
 };
 
-const SVGs = ({ beams, width, height, baseColor, accentColor, gradientColors }) => {
+interface SVGsProps {
+  beams: BeamPath[];
+  width: number;
+  height: number;
+  baseColor: string;
+  accentColor: string;
+  gradientColors?: {
+    start: string;
+    middle: string;
+    end: string;
+  };
+}
+
+const SVGs = ({ beams, width, height, baseColor, accentColor, gradientColors }: SVGsProps) => {
   return (
     <svg
       width={width}
@@ -94,7 +107,7 @@ const SVGs = ({ beams, width, height, baseColor, accentColor, gradientColors }) 
       xmlns="http://www.w3.org/2000/svg"
       className="flex flex-shrink-0"
     >
-      {beams.map((beam, index) => (
+      {beams.map((beam: BeamPath, index: number) => (
         <React.Fragment key={index}>
           <path
             d={beam.path}
@@ -107,7 +120,7 @@ const SVGs = ({ beams, width, height, baseColor, accentColor, gradientColors }) 
             strokeWidth="2"
             strokeLinecap="round"
           />
-          {beam.connectionPoints?.map((point, pointIndex) => (
+          {beam.connectionPoints?.map((point: { cx: number; cy: number; r: number }, pointIndex: number) => (
             <circle
               key={`${index}-${pointIndex}`}
               cx={point.cx}
@@ -120,7 +133,7 @@ const SVGs = ({ beams, width, height, baseColor, accentColor, gradientColors }) 
         </React.Fragment>
       ))}
       <defs>
-        {beams.map((beam, index) => (
+        {beams.map((beam: BeamPath, index: number) => (
           <motion.linearGradient
             key={index}
             id={`grad${index}`}
@@ -137,11 +150,19 @@ const SVGs = ({ beams, width, height, baseColor, accentColor, gradientColors }) 
   );
 };
 
+interface GradientColorsProps {
+  colors?: {
+    start: string;
+    middle: string;
+    end: string;
+  };
+}
+
 const GradientColors = ({ colors = {
   start: "#18CCFC",
   middle: "#6344F5",
   end: "#AE48FF"
-} }) => {
+} }: GradientColorsProps) => {
   return (
     <>
       <stop offset="0%" stopColor={colors.start} stopOpacity="0" />
