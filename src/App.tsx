@@ -6,7 +6,6 @@ import Projects from './components/Projects';
 import Experience from './components/Experience';
 import Contact from './components/Contact';
 import DigitalSerenity from "@/components/ui/digital-serenity-animated-landing-page";
-import { PulseBeamsFirstDemo } from "@/components/ui/pulse-beams-demo";
 import Footer from "./components/Footer";
 
 function App() {
@@ -20,7 +19,6 @@ function App() {
       <Header />
       <main>
         <DigitalSerenity />
-        <PulseBeamsFirstDemo />
         <About />
         <Skills />
         <Projects />
