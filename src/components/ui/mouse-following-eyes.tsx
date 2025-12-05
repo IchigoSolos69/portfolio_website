@@ -98,13 +98,13 @@ const MouseFollowingEyes: React.FC<MouseFollowingEyesProps> = ({ imageUrl, class
         {/* Eye containers positioned over the actual eyes in the image - smaller and closer together */}
         <div
           ref={eye1Ref}
-          className="absolute top-[29%] left-[37.5%] transform -translate-x-1/2 -translate-y-1/2"
+          className="absolute top-[28.5%] left-[37.5%] transform -translate-x-1/2 -translate-y-1/2"
         >
           <Eye />
         </div>
         <div
           ref={eye2Ref}
-          className="absolute top-[29%] right-[41.5%] transform translate-x-1/2 -translate-y-1/2"
+          className="absolute top-[28.5%] right-[41.5%] transform translate-x-1/2 -translate-y-1/2"
         >
           <Eye />
         </div>
