@@ -15,6 +15,20 @@ const Skills = () => {
 
   return (
     <section id="skills" className="py-20 relative bg-black/70">
+      {/* Smooth transition gradient at top - fades from dark blue (from previous section) to black */}
+      <div 
+        className="absolute top-0 left-0 right-0 h-[300px] pointer-events-none z-20"
+        style={{
+          background: 'linear-gradient(to bottom, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.5) 30%, rgba(0, 0, 0, 0.3) 70%, transparent 100%)'
+        }}
+      />
+      {/* Smooth transition gradient at bottom - continues black */}
+      <div 
+        className="absolute bottom-0 left-0 right-0 h-[300px] pointer-events-none z-20"
+        style={{
+          background: 'linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.5) 100%)'
+        }}
+      />
       <AnimatedGridPattern
         numSquares={30}
         maxOpacity={0.1}

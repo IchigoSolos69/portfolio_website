@@ -64,6 +64,13 @@ const Projects = () => {
 
   return (
     <section id="projects" className="py-20 relative">
+      {/* Smooth transition gradient at bottom - fades from dark blue to black */}
+      <div 
+        className="absolute bottom-0 left-0 right-0 h-[300px] pointer-events-none z-20"
+        style={{
+          background: 'linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.9) 100%)'
+        }}
+      />
       <AnimatedGridPattern
         numSquares={30}
         maxOpacity={0.1}

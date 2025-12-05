@@ -6,6 +6,20 @@ import { Timeline } from "@/components/ui/timeline";
 const Experience = () => {
   return (
     <section id="experience" className="py-20 relative bg-black/70">
+      {/* Smooth transition gradient at top - fades from black (from Skills) to black */}
+      <div 
+        className="absolute top-0 left-0 right-0 h-[300px] pointer-events-none z-20"
+        style={{
+          background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, transparent 100%)'
+        }}
+      />
+      {/* Smooth transition gradient at bottom - fades from black to dark blue (for Contact) */}
+      <div 
+        className="absolute bottom-0 left-0 right-0 h-[300px] pointer-events-none z-20"
+        style={{
+          background: 'linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.3) 50%, rgba(15, 23, 42, 0.7) 100%)'
+        }}
+      />
       <AnimatedGridPattern
         numSquares={30}
         maxOpacity={0.1}

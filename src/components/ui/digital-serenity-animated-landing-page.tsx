@@ -384,6 +384,14 @@ const DigitalSerenity = () => {
             style={{ left: `${ripple.x}px`, top: `${ripple.y}px` }}
           ></div>
         ))}
+
+        {/* Smooth transition gradient at bottom - fades to dark blue for About section */}
+        <div 
+          className="absolute bottom-0 left-0 right-0 h-[300px] pointer-events-none z-30"
+          style={{
+            background: 'linear-gradient(to bottom, transparent 0%, rgba(15, 23, 42, 0.3) 50%, rgba(15, 23, 42, 0.9) 100%)'
+          }}
+        />
       </section>
     </>
   );
