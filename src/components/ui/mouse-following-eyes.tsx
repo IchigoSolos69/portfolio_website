@@ -98,13 +98,13 @@ const MouseFollowingEyes: React.FC<MouseFollowingEyesProps> = ({ imageUrl, class
         {/* Eye containers positioned over the actual eyes in the image - smaller and closer together */}
         <div 
           ref={eye1Ref}
-          className="absolute top-[35%] left-[32%] transform -translate-x-1/2 -translate-y-1/2"
+          className="absolute top-[35%] left-[36%] transform -translate-x-1/2 -translate-y-1/2"
         >
           <Eye />
         </div>
         <div 
           ref={eye2Ref}
-          className="absolute top-[35%] right-[32%] transform translate-x-1/2 -translate-y-1/2"
+          className="absolute top-[35%] right-[36%] transform translate-x-1/2 -translate-y-1/2"
         >
           <Eye />
         </div>
@@ -115,8 +115,8 @@ const MouseFollowingEyes: React.FC<MouseFollowingEyesProps> = ({ imageUrl, class
 
 const Eye: React.FC = () => {
   return (
-    <div className="relative bg-white border-2 border-gray-800 rounded-full h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 flex items-center justify-center">
-      <div className="pupil absolute bg-gray-900 rounded-full h-2.5 w-2.5 sm:h-3 sm:w-3 md:h-3.5 md:w-3.5">
+    <div className="relative bg-white border-2 border-gray-800 rounded-full h-3 w-3 sm:h-6 sm:w-6 md:h-7 md:w-7 flex items-center justify-center">
+      <div className="pupil absolute bg-gray-900 rounded-full h-0.5 w-0.5 sm:h-3 sm:w-3 md:h-3.5 md:w-3.5">
         <div className="w-1 h-1 sm:w-1 sm:h-1 bg-white rounded-full absolute bottom-0 right-0"></div>
       </div>
     </div>
