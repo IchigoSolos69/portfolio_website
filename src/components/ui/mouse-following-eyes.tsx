@@ -1,4 +1,4 @@
-"use client" 
+"use client"
 
 import * as React from "react"
 import { useRef, useEffect, useCallback } from "react";
@@ -46,8 +46,8 @@ const MouseFollowingEyes: React.FC<MouseFollowingEyesProps> = ({ imageUrl, class
       const distance = Math.sqrt(dx * dx + dy * dy);
       const angle = Math.atan2(dy, dx);
 
-      // Increased max movement for better visibility and responsiveness
-      const maxMove = 7;
+      // --- CHANGE 3: Reduced max movement range for smaller eyes ---
+      const maxMove = 5;
       const clampedDistance = Math.min(distance, maxMove * 3);
       const moveDistance = (clampedDistance / (maxMove * 3)) * maxMove;
 
@@ -84,27 +84,27 @@ const MouseFollowingEyes: React.FC<MouseFollowingEyesProps> = ({ imageUrl, class
     >
       {/* Profile image with eye cutouts */}
       <div className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-white/20 shadow-2xl">
-        <img 
-          src={imageUrl} 
-          alt="Profile" 
+        <img
+          src={imageUrl}
+          alt="Profile"
           className="w-full h-full object-cover"
-          style={{ 
+          style={{
             transform: 'scale(1.4)',
             transformOrigin: 'center center',
             objectPosition: 'center 35%'
           }}
         />
-        
+
         {/* Eye containers positioned over the actual eyes in the image - smaller and closer together */}
-        <div 
+        <div
           ref={eye1Ref}
-          className="absolute top-[35%] left-[36%] transform -translate-x-1/2 -translate-y-1/2"
+          className="absolute top-[29%] left-[37.5%] transform -translate-x-1/2 -translate-y-1/2"
         >
           <Eye />
         </div>
-        <div 
+        <div
           ref={eye2Ref}
-          className="absolute top-[35%] right-[38%] transform translate-x-1/2 -translate-y-1/2"
+          className="absolute top-[29%] right-[41.5%] transform translate-x-1/2 -translate-y-1/2"
         >
           <Eye />
         </div>
@@ -115,9 +115,17 @@ const MouseFollowingEyes: React.FC<MouseFollowingEyesProps> = ({ imageUrl, class
 
 const Eye: React.FC = () => {
   return (
-    <div className="relative bg-white border-2 border-gray-800 rounded-full h-3 w-3 sm:h-6 sm:w-6 md:h-7 md:w-7 flex items-center justify-center">
-      <div className="pupil absolute bg-gray-900 rounded-full h-0.5 w-0.5 sm:h-3 sm:w-3 md:h-3.5 md:w-3.5">
-        <div className="w-1 h-1 sm:w-1 sm:h-1 bg-white rounded-full absolute bottom-0 right-0"></div>
+    // --- CHANGE 1: Made outer eye smaller at all breakpoints and reduced border width ---
+    // Added overflow-hidden to ensure pupil doesn't bleed out
+    <div className="relative bg-white border-[1.5px] border-gray-800 rounded-full h-2.5 w-2.5 sm:h-1 sm:w-4.5 md:h-2.5 md:w-5 flex items-center justify-center overflow-hidden">
+       {/* --- CHANGE 1: Made pupil smaller at all breakpoints --- */}
+      <div className="pupil absolute bg-gray-900 rounded-full h-[1.5px] w-[1.5px] sm:h-2.5 sm:w-2.5 md:h-3 md:w-3">
+        {/* --- CHANGE 2: Natural Glint ---
+            - Moved to top-right (top-[15%] right-[20%]) for overhead light effect.
+            - Sized relatively using percentages (w-[30%] h-[30%]) instead of fixed pixels.
+            - Added opacity-80 for softer look.
+        */}
+        <div className="absolute top-[15%] right-[20%] w-[30%] h-[30%] bg-white rounded-full opacity-80"></div>
       </div>
     </div>
   );
