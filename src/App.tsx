@@ -1,6 +1,6 @@
 import { useEffect, Suspense, lazy } from 'react';
 import Header from './components/Header';
-import Hero from "@/components/Hero";
+import DigitalSerenity from "@/components/DigitalSerenity";
 import Footer from "./components/Footer";
 import ContinuousBackground from './components/ContinuousBackground';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -30,7 +30,7 @@ function App() {
       <ContinuousBackground>
         <Header />
         <main>
-          <Hero />
+          <DigitalSerenity />
           
           <AnimatePresence mode="wait">
             <motion.div
