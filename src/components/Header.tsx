@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
 import { Dock } from "@/components/ui/dock-two";
+import { MouseFollowingEyes } from "@/components/ui/mouse-following-eyes";
 import { 
   Home, 
   User, 
@@ -75,6 +76,14 @@ const Header = () => {
 
   return (
     <header className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-dark/90 backdrop-blur-sm py-2' : 'bg-transparent py-4'}`}>
+      {/* Eye-tracking profile picture in top left */}
+      <div className="fixed top-4 left-4 z-50">
+        <MouseFollowingEyes 
+          imageUrl="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&auto=format&fit=crop"
+          className="cursor-pointer"
+        />
+      </div>
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           <div className="flex-shrink-0">
