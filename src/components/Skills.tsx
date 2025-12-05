@@ -98,21 +98,14 @@ const Skills = () => {
         )}
       />
       <div className="section-container relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-slate-200 tracking-tight">
-            Skills & Technologies
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent mx-auto mb-6"></div>
-          <p className="text-slate-400 mt-4 max-w-2xl mx-auto text-lg">
-            A curated collection of technologies I work with to build modern, scalable applications.
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">My Skills</h2>
+          <div className="w-20 h-1 bg-primary mx-auto"></div>
+          <p className="text-gray-300 mt-4 max-w-2xl mx-auto">
+            I've worked with a range of technologies in the web development world, 
+            from front-end to back-end and everything in between.
           </p>
-        </motion.div>
+        </div>
 
         <motion.div
           variants={containerVariants}
@@ -128,7 +121,7 @@ const Skills = () => {
                 key={category}
                 variants={cardVariants}
                 className={cn(
-                  "group relative bg-slate-950/50 backdrop-blur-sm border border-white/10 rounded-2xl p-6",
+                  "group relative bg-slate-950/50 backdrop-blur-sm border border-white/10 rounded-xl p-4",
                   "hover:border-cyan-500/50 hover:shadow-[0_0_30px_rgba(6,182,212,0.3)]",
                   "transition-all duration-300 ease-out",
                   data.glowColor,
@@ -142,18 +135,18 @@ const Skills = () => {
                 )}></div>
                 
                 <div className="relative z-10">
-                  <div className="flex items-center gap-3 mb-6">
+                  <div className="flex items-center gap-3 mb-4">
                     <div className={cn(
-                      "p-2 rounded-lg bg-gradient-to-br border",
+                      "p-1.5 rounded-lg bg-gradient-to-br border",
                       data.color,
                       data.borderColor
                     )}>
-                      <IconComponent className="w-5 h-5 text-cyan-400" />
+                      <IconComponent className="w-4 h-4 text-cyan-400" />
                     </div>
-                    <h3 className="text-xl font-bold text-slate-200">{category}</h3>
+                    <h3 className="text-lg font-bold text-slate-200">{category}</h3>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-3">
                     {data.skills.map((skill) => {
                       const FallbackIcon = skill.fallback;
                       return (
@@ -161,15 +154,15 @@ const Skills = () => {
                           key={skill.name}
                           whileHover={{ scale: 1.05 }}
                           className={cn(
-                            "flex flex-col items-center gap-2 p-4 rounded-xl",
+                            "flex flex-col items-center gap-1.5 p-3 rounded-lg",
                             "bg-slate-900/50 border border-white/5",
                             "hover:border-cyan-500/30 hover:bg-slate-900/70",
                             "transition-all duration-200"
                           )}
                         >
-                          <div className="w-12 h-12 rounded-lg bg-slate-800/50 p-2 flex items-center justify-center">
+                          <div className="w-10 h-10 rounded-lg bg-slate-800/50 p-1.5 flex items-center justify-center">
                             {FallbackIcon ? (
-                              <FallbackIcon className="w-8 h-8 text-cyan-400" />
+                              <FallbackIcon className="w-6 h-6 text-cyan-400" />
                             ) : (
                               <img
                                 src={skill.icon}
@@ -182,7 +175,7 @@ const Skills = () => {
                               />
                             )}
                           </div>
-                          <span className="text-sm font-medium text-slate-300 text-center">
+                          <span className="text-xs font-medium text-slate-300 text-center">
                             {skill.name}
                           </span>
                         </motion.div>
