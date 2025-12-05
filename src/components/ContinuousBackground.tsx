@@ -20,54 +20,34 @@ const ContinuousBackground: React.FC<ContinuousBackgroundProps> = ({ children })
   }, []);
 
   useEffect(() => {
-    // Calculate gradient based on scroll position
-    const calculateGradient = () => {
-      const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const normalizedScroll = documentHeight > 0 ? Math.min(scrollY / documentHeight, 1) : 0;
-
-      // Define color stops for a smooth gradient transition
-      // Using darker RGB values for a consistently dark theme
-      const colorStops = [
-        { pos: 0, r: 2, g: 6, b: 23 },      // Very dark navy (darker than slate-900)
-        { pos: 0.2, r: 15, g: 23, b: 42 },  // slate-900 (dark navy)
-        { pos: 0.4, r: 15, g: 23, b: 42 },  // slate-900
-        { pos: 0.6, r: 30, g: 41, b: 59 },  // slate-800
-        { pos: 0.8, r: 30, g: 41, b: 59 },  // slate-800
-        { pos: 1, r: 51, g: 65, b: 85 }     // slate-700 (darkest end color)
-      ];
-
-      // Find the two colors to interpolate between
-      let startColor = colorStops[0];
-      let endColor = colorStops[1];
-
-      for (let i = 0; i < colorStops.length - 1; i++) {
-        if (normalizedScroll >= colorStops[i].pos && normalizedScroll <= colorStops[i + 1].pos) {
-          startColor = colorStops[i];
-          endColor = colorStops[i + 1];
-          break;
+    // Determine background color based on current section
+    const getBackgroundColor = () => {
+      const sections = ['home', 'about', 'skills', 'projects', 'experience', 'contact'];
+      const scrollPosition = window.scrollY + window.innerHeight / 2;
+      
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const { offsetTop, offsetHeight } = element;
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            // Alternating pattern: black, navy blue, black, navy blue, etc.
+            const sectionIndex = sections.indexOf(section);
+            if (sectionIndex % 2 === 0) {
+              // Even indices: black
+              return { backgroundColor: '#000000' };
+            } else {
+              // Odd indices: navy blue (slate-900)
+              return { backgroundColor: '#0f172a' };
+            }
+          }
         }
       }
-
-      // Calculate interpolation factor
-      const range = endColor.pos - startColor.pos;
-      const factor = range > 0 ? (normalizedScroll - startColor.pos) / range : 0;
-
-      // Interpolate between colors
-      const r = Math.round(startColor.r + (endColor.r - startColor.r) * factor);
-      const g = Math.round(startColor.g + (endColor.g - startColor.g) * factor);
-      const b = Math.round(startColor.b + (endColor.b - startColor.b) * factor);
-
-      // Create a smooth gradient with minimal variation to keep it dark
-      const currentColor = `rgb(${r}, ${g}, ${b})`;
-      const slightlyLighter = `rgb(${Math.min(r + 5, 255)}, ${Math.min(g + 5, 255)}, ${Math.min(b + 5, 255)})`;
-
-      return {
-        background: `linear-gradient(to bottom, ${currentColor} 0%, ${slightlyLighter} 50%, ${currentColor} 100%)`,
-        transition: 'background 0.3s ease-out'
-      };
+      
+      // Default to navy blue
+      return { backgroundColor: '#0f172a' };
     };
 
-    setBackgroundStyle(calculateGradient());
+    setBackgroundStyle(getBackgroundColor());
   }, [scrollY]);
 
   return (

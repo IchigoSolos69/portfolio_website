@@ -79,24 +79,25 @@ const MouseFollowingEyes: React.FC<MouseFollowingEyesProps> = ({ imageUrl, class
       ref={containerRef}
       className={`relative ${className || ''}`}
     >
-      {/* Profile image with eye cutouts */}
+      {/* Profile image with eye cutouts - zoomed in */}
       <div className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-white/20 shadow-2xl">
         <img 
           src={imageUrl} 
           alt="Profile" 
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover scale-150"
+          style={{ objectPosition: 'center 30%' }}
         />
         
-        {/* Eye containers positioned over the actual eyes in the image */}
+        {/* Eye containers positioned over the actual eyes in the image - adjusted for zoom */}
         <div 
           ref={eye1Ref}
-          className="absolute top-[35%] left-[28%] transform -translate-x-1/2 -translate-y-1/2"
+          className="absolute top-[32%] left-[30%] transform -translate-x-1/2 -translate-y-1/2"
         >
           <Eye pupilRef={pupil1Ref} />
         </div>
         <div 
           ref={eye2Ref}
-          className="absolute top-[35%] right-[28%] transform translate-x-1/2 -translate-y-1/2"
+          className="absolute top-[32%] right-[30%] transform translate-x-1/2 -translate-y-1/2"
         >
           <Eye pupilRef={pupil2Ref} />
         </div>
