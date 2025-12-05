@@ -14,11 +14,9 @@ interface TimelineEntry {
 
 interface TimelineProps {
   data: TimelineEntry[];
-  title?: string;
-  description?: string;
 }
 
-export const Timeline = ({ data, title, description }: TimelineProps) => {
+export const Timeline = ({ data}: TimelineProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
@@ -51,15 +49,6 @@ export const Timeline = ({ data, title, description }: TimelineProps) => {
 
   return (
     <div className="w-full font-sans md:px-10" ref={containerRef}>
-      <div className="max-w-7xl mx-auto py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
-        <h2 className="text-xl sm:text-2xl md:text-4xl mb-3 sm:mb-4 text-black dark:text-white max-w-4xl">
-          {title ?? "Changelog from my journey"}
-        </h2>
-        <p className="text-neutral-700 dark:text-neutral-300 text-sm sm:text-base max-w-sm">
-          {description ??
-            "Here is a timeline of how this journey has unfolded over time."}
-        </p>
-      </div>
 
       <div ref={ref} className="relative max-w-7xl mx-auto pb-16 sm:pb-20">
         {data.map((item, index) => (

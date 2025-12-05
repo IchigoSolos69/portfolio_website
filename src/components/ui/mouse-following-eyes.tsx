@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useCallback, useState } from "react";
 
 interface MouseFollowingEyesProps {
   imageUrl: string;
@@ -17,18 +17,48 @@ const MouseFollowingEyes: React.FC<MouseFollowingEyesProps> = ({ imageUrl, class
   const eye2Ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const animationFrameRef = useRef<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const lastUpdateTime = useRef<number>(0);
+  const throttleDelay = 16; // ~60fps
 
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    // Skip mouse tracking on mobile devices for better performance
+    if (isMobile) return;
+
     const handleMouseMove = (e: MouseEvent) => {
       globalMouseX = e.clientX;
       globalMouseY = e.clientY;
     };
 
-    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => document.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  }, [isMobile]);
 
   const updateEyes = useCallback(() => {
+    // Skip updates on mobile for better performance
+    if (isMobile) {
+      animationFrameRef.current = requestAnimationFrame(updateEyes);
+      return;
+    }
+
+    // Throttle updates for better performance
+    const now = performance.now();
+    if (now - lastUpdateTime.current < throttleDelay) {
+      animationFrameRef.current = requestAnimationFrame(updateEyes);
+      return;
+    }
+    lastUpdateTime.current = now;
+
     if (!eye1Ref.current || !eye2Ref.current) {
       animationFrameRef.current = requestAnimationFrame(updateEyes);
       return;
@@ -46,7 +76,7 @@ const MouseFollowingEyes: React.FC<MouseFollowingEyesProps> = ({ imageUrl, class
       const distance = Math.sqrt(dx * dx + dy * dy);
       const angle = Math.atan2(dy, dx);
 
-      // --- CHANGE 3: Reduced max movement range for smaller eyes ---
+      // Reduced max movement range for smaller eyes
       const maxMove = 5;
       const clampedDistance = Math.min(distance, maxMove * 3);
       const moveDistance = (clampedDistance / (maxMove * 3)) * maxMove;
@@ -66,16 +96,18 @@ const MouseFollowingEyes: React.FC<MouseFollowingEyesProps> = ({ imageUrl, class
     }
 
     animationFrameRef.current = requestAnimationFrame(updateEyes);
-  }, []);
+  }, [isMobile]);
 
   useEffect(() => {
-    animationFrameRef.current = requestAnimationFrame(updateEyes);
+    if (!isMobile) {
+      animationFrameRef.current = requestAnimationFrame(updateEyes);
+    }
     return () => {
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [updateEyes]);
+  }, [updateEyes, isMobile]);
 
   return (
     <div

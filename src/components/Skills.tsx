@@ -161,6 +161,7 @@ const Skills = () => {
                   <div className="grid grid-cols-2 gap-3">
                     {data.skills.map((skill) => {
                       const FallbackIcon = skill.fallback;
+                      const isDocker = skill.name === "Docker";
                       return (
                         <motion.div
                           key={skill.name}
@@ -172,16 +173,22 @@ const Skills = () => {
                             "transition-all duration-200"
                           )}
                         >
-                          <div className="w-10 h-10 rounded-lg bg-slate-800/50 p-1.5 flex items-center justify-center">
+                          <div className={cn(
+                            "rounded-lg bg-slate-800/50 p-1.5 flex items-center justify-center",
+                            isDocker ? "w-12 h-12 sm:w-10 sm:h-10" : "w-10 h-10"
+                          )}>
                             {FallbackIcon ? (
                               <FallbackIcon className="w-6 h-6 text-cyan-400" />
                             ) : (
                               <OptimizedImage
                                 src={skill.icon}
                                 alt={skill.name}
-                                className="w-full h-full object-contain"
-                                width={24}
-                                height={24}
+                                className={cn(
+                                  "object-contain",
+                                  isDocker ? "w-9 h-9 sm:w-6 sm:h-6" : "w-full h-full"
+                                )}
+                                width={isDocker ? 36 : 24}
+                                height={isDocker ? 36 : 24}
                               />
                             )}
                           </div>

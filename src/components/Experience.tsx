@@ -32,7 +32,7 @@ const Experience = () => {
       <div className="section-container relative z-10">
         <div className="text-center mb-10 sm:mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-            Work Experience
+            Experience
           </h2>
           <div className="w-20 h-1 bg-primary mx-auto"></div>
         </div>
@@ -62,8 +62,6 @@ const Experience = () => {
               </div>
             ),
           }))}
-          title="Experience timeline"
-          description="A quick look at the roles, companies, and impact that have shaped my journey so far."
         />
       </div>
     </section>

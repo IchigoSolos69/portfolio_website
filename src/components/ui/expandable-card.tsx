@@ -52,10 +52,16 @@ export function ProjectStatusCard({
   onToggle,
 }: ProjectStatusCardProps) {
   const [internalExpanded, setInternalExpanded] = useState(false);
-  const animatedHeight = useSpring(0, { stiffness: 300, damping: 30 });
+  const [isMobile, setIsMobile] = useState(false);
   const expanded = typeof isExpanded === "boolean" ? isExpanded : internalExpanded;
   const contentRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
+  
+  // Optimized spring animation: smoother and faster for desktop, more controlled for mobile
+  const animatedHeight = useSpring(0, { 
+    stiffness: isMobile ? 280 : 400, 
+    damping: isMobile ? 35 : 25,
+    mass: isMobile ? 1 : 0.8
+  });
 
   useEffect(() => {
     const checkMobile = () => {
@@ -133,16 +139,25 @@ export function ProjectStatusCard({
 
           <motion.div
             style={{ height: animatedHeight }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            transition={{ 
+              type: "spring", 
+              stiffness: isMobile ? 280 : 400, 
+              damping: isMobile ? 35 : 25,
+              mass: isMobile ? 1 : 0.8
+            }}
             className="overflow-hidden"
           >
             <div ref={contentRef}>
               <AnimatePresence>
                 {expanded && (
                   <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ 
+                      duration: isMobile ? 0.3 : 0.2,
+                      ease: "easeOut"
+                    }}
                     className="space-y-4 pt-2"
                   >
                     <div className="flex items-center justify-between text-sm text-slate-300">

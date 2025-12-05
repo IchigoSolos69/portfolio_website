@@ -40,15 +40,16 @@ const DockIconButton = React.forwardRef<HTMLButtonElement, DockIconButtonProps>(
         whileTap={{ scale: 0.95 }}
         onClick={onClick}
         className={cn(
-          "relative group p-2 sm:p-3 rounded-lg flex flex-col items-center tap-target focus-ring",
+          // Larger touch targets on mobile for clarity
+          "relative group p-3 sm:p-3 rounded-lg flex flex-col items-center tap-target focus-ring",
           "hover:bg-blue-400/20 transition-colors",
           className
         )}
         aria-label={label}
       >
-        <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+        <Icon className="w-6 h-6 sm:w-5 sm:h-5 text-white" />
         <span className={cn(
-          "absolute top-full mt-1 sm:mt-2 left-1/2 -translate-x-1/2",
+          "absolute top-full mt-2 sm:mt-2 left-1/2 -translate-x-1/2",
           "px-2 py-1 rounded text-xs",
           "bg-popover text-popover-foreground",
           "opacity-0 group-hover:opacity-100",
@@ -89,7 +90,8 @@ const Dock = React.forwardRef<HTMLDivElement, DockProps>(
               "backdrop-blur-lg border shadow-lg",
               "bg-dark/80 border-blue-500/30",
               "hover:shadow-xl transition-shadow duration-300",
-              isMobile ? "scale-90" : ""
+              // Keep full scale on mobile so icons stay readable
+              isMobile ? "scale-100" : ""
             )}
           >
             {items.map((item) => (
