@@ -5,10 +5,6 @@ import {
   Code2, 
   Server, 
   Wrench, 
-  Database,
-  GitBranch,
-  Docker,
-  Figma,
   Monitor
 } from "lucide-react";
 
