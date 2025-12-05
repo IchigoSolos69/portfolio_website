@@ -104,7 +104,7 @@ const MouseFollowingEyes: React.FC<MouseFollowingEyesProps> = ({ imageUrl, class
         </div>
         <div 
           ref={eye2Ref}
-          className="absolute top-[35%] right-[36%] transform translate-x-1/2 -translate-y-1/2"
+          className="absolute top-[35%] right-[38%] transform translate-x-1/2 -translate-y-1/2"
         >
           <Eye />
         </div>
