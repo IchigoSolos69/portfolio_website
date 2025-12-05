@@ -310,19 +310,6 @@ const DigitalSerenity = () => {
           </>
         )}
 
-        <div className="relative z-10 min-h-screen flex flex-col justify-between items-center px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-16">
-          <div className="text-center relative z-20">
-            <h2 className="text-xs sm:text-sm font-mono font-light text-slate-300 uppercase tracking-[0.2em]">
-              <span className="word-animate" data-delay="0">Full</span>
-              <span className="word-animate" data-delay="250">Stack</span>
-              <span className="word-animate" data-delay="500">Developer</span>
-              <span className="word-animate" data-delay="900">&amp;</span>
-              <span className="word-animate" data-delay="1150">AI</span>
-              <span className="word-animate" data-delay="1400">Enthusiast</span>
-            </h2>
-            <div className="mt-3 w-10 sm:w-12 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent opacity-30 mx-auto"></div>
-          </div>
-
           <div className="text-center max-w-5xl mx-auto relative z-20">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extralight leading-tight tracking-tight text-white text-decoration-animate">
               <div className="mb-3 md:mb-4">
