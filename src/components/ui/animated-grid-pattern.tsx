@@ -2,7 +2,6 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { motion } from "framer-motion";
-
 import { cn } from "@/lib/utils";
 
 interface AnimatedGridPatternProps {
@@ -35,6 +34,17 @@ export function AnimatedGridPattern({
   const containerRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [squares, setSquares] = useState(() => generateSquares(numSquares));
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   function getPos() {
     return [
@@ -43,7 +53,6 @@ export function AnimatedGridPattern({
     ];
   }
 
-  // Adjust the generateSquares function to return objects with an id, x, and y
   function generateSquares(count: number) {
     return Array.from({ length: count }, (_, i) => ({
       id: i,
@@ -51,7 +60,6 @@ export function AnimatedGridPattern({
     }));
   }
 
-  // Function to update a single square's position
   const updateSquarePosition = (id: number) => {
     setSquares((currentSquares) =>
       currentSquares.map((sq) =>
@@ -65,14 +73,12 @@ export function AnimatedGridPattern({
     );
   };
 
-  // Update squares to animate in
   useEffect(() => {
     if (dimensions.width && dimensions.height) {
       setSquares(generateSquares(numSquares));
     }
   }, [dimensions, numSquares]);
 
-  // Resize observer to update container dimensions
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
       for (let entry of entries) {
@@ -93,6 +99,10 @@ export function AnimatedGridPattern({
       }
     };
   }, [containerRef]);
+
+  // Reduce animation intensity on mobile
+  const reducedDuration = isMobile ? duration * 1.5 : duration;
+  const reducedMaxOpacity = isMobile ? maxOpacity * 0.7 : maxOpacity;
 
   return (
     <svg
@@ -125,9 +135,9 @@ export function AnimatedGridPattern({
         {squares.map(({ pos: [x, y], id }, index) => (
           <motion.rect
             initial={{ opacity: 0 }}
-            animate={{ opacity: maxOpacity }}
+            animate={{ opacity: reducedMaxOpacity }}
             transition={{
-              duration,
+              duration: reducedDuration,
               repeat: 1,
               delay: index * 0.1,
               repeatType: "reverse",

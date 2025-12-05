@@ -7,50 +7,61 @@ import {
   Trophy, 
   Mail 
 } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 const Header = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const handleNavigation = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
+
   const dockItems = [
     { 
       icon: Home, 
       label: "Home", 
-      onClick: () => {
-        document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' });
-      }
+      onClick: () => handleNavigation('home')
     },
     { 
       icon: User, 
       label: "About", 
-      onClick: () => {
-        document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
-      }
+      onClick: () => handleNavigation('about')
     },
     { 
       icon: Code, 
       label: "Skills", 
-      onClick: () => {
-        document.getElementById('skills')?.scrollIntoView({ behavior: 'smooth' });
-      }
+      onClick: () => handleNavigation('skills')
     },
     { 
       icon: Briefcase, 
       label: "Projects", 
-      onClick: () => {
-        document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
-      }
+      onClick: () => handleNavigation('projects')
     },
     { 
       icon: Trophy, 
       label: "Experience", 
-      onClick: () => {
-        document.getElementById('experience')?.scrollIntoView({ behavior: 'smooth' });
-      }
+      onClick: () => handleNavigation('experience')
     },
     { 
       icon: Mail, 
       label: "Contact", 
-      onClick: () => {
-        document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-      }
+      onClick: () => handleNavigation('contact')
     }
   ];
 
@@ -60,7 +71,7 @@ const Header = () => {
         <div className="pointer-events-auto">
           <Dock 
             items={dockItems} 
-            className="h-20" 
+            className={isMobile ? "h-16 scale-90" : "h-20"}
           />
         </div>
       </div>

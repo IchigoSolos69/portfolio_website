@@ -22,7 +22,7 @@ interface DockIconButtonProps {
 const floatingAnimation = {
   initial: { y: 0 },
   animate: {
-    y: [-2, 2, -2],
+    y: [-1, 1, -1],
     transition: {
       duration: 4,
       repeat: Infinity,
@@ -40,14 +40,15 @@ const DockIconButton = React.forwardRef<HTMLButtonElement, DockIconButtonProps>(
         whileTap={{ scale: 0.95 }}
         onClick={onClick}
         className={cn(
-          "relative group p-3 rounded-lg flex flex-col items-center",
-          "hover:bg-blue-400/20 transition-colors", // Lighter blue hover
+          "relative group p-2 sm:p-3 rounded-lg flex flex-col items-center tap-target focus-ring",
+          "hover:bg-blue-400/20 transition-colors",
           className
         )}
+        aria-label={label}
       >
-        <Icon className="w-5 h-5 text-white" />
+        <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
         <span className={cn(
-          "absolute top-full mt-2 left-1/2 -translate-x-1/2",
+          "absolute top-full mt-1 sm:mt-2 left-1/2 -translate-x-1/2",
           "px-2 py-1 rounded text-xs",
           "bg-popover text-popover-foreground",
           "opacity-0 group-hover:opacity-100",
@@ -64,6 +65,18 @@ DockIconButton.displayName = "DockIconButton"
 
 const Dock = React.forwardRef<HTMLDivElement, DockProps>(
   ({ items, className }, ref) => {
+    const [isMobile, setIsMobile] = React.useState(false);
+
+    React.useEffect(() => {
+      const checkMobile = () => {
+        setIsMobile(window.innerWidth < 768);
+      };
+      
+      checkMobile();
+      window.addEventListener('resize', checkMobile);
+      return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
     return (
       <div ref={ref} className={cn("w-full flex items-center justify-center p-2", className)}>
         <div className="w-full max-w-4xl rounded-2xl flex items-center justify-center relative">
@@ -74,8 +87,9 @@ const Dock = React.forwardRef<HTMLDivElement, DockProps>(
             className={cn(
               "flex items-center gap-1 p-2 rounded-2xl",
               "backdrop-blur-lg border shadow-lg",
-              "bg-dark/80 border-blue-500/30", // Dark mode styling
-              "hover:shadow-xl transition-shadow duration-300"
+              "bg-dark/80 border-blue-500/30",
+              "hover:shadow-xl transition-shadow duration-300",
+              isMobile ? "scale-90" : ""
             )}
           >
             {items.map((item) => (

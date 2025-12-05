@@ -4,17 +4,20 @@
 
 @layer base {
   :root {
-    --background: 15 23 42; /* dark slate */
-    --foreground: 248 250 252; /* light */
-    --primary: 37 99 235; /* blue */
-    --secondary: 30 64 175; /* darker blue */
-    --accent: 249 115 22; /* orange */
-    --dark: 15 23 42; /* dark slate */
-    --light: 248 250 252; /* light */
+    --background: 15 23 42;
+    --foreground: 248 250 252;
+    --primary: 37 99 235;
+    --secondary: 30 64 175;
+    --accent: 249 115 22;
+    --dark: 15 23 42;
+    --light: 248 250 252;
   }
   
   body {
     @apply bg-dark text-light font-sans antialiased;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -42,4 +45,70 @@
   .card-hover {
     @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
   }
+  
+  .tap-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-dark;
+  }
+  
+  .touch-action-pan-y {
+    touch-action: pan-y;
+  }
+  
+  .will-change-transform {
+    will-change: transform;
+  }
+  
+  .will-change-opacity {
+    will-change: opacity;
+  }
+}
+
+/* Mobile-first media queries */
+@media (min-width: 640px) {
+  .sm\:section-container {
+    @apply px-6;
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:section-container {
+    @apply px-8;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:section-container {
+    @apply px-16;
+  }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .animate-float,
+  .animate-pulse,
+  .animate-bounce {
+    animation: none !important;
+  }
+}
+
+/* Focus visible polyfill for better keyboard navigation */
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+}
+
+.js-focus-visible .focus-visible {
+  @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-dark;
 }

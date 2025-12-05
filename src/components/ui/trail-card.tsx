@@ -1,11 +1,9 @@
-// components/ui/trail-card.tsx
 import * as React from "react";
 import { motion, type HTMLMotionProps, useMotionValue, useTransform } from "framer-motion";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import OptimizedImage from "@/components/OptimizedImage";
 
-import { cn } from "@/lib/utils"; // Your utility for merging class names
-import { Button } from "@/components/ui/button"; // Assuming you have a Button component
-
-// Define the props interface for type safety and reusability
 interface TrailCardProps extends HTMLMotionProps<"div"> {
   imageUrl: string;
   mapImageUrl: string;
@@ -19,7 +17,6 @@ interface TrailCardProps extends HTMLMotionProps<"div"> {
   onContactClick?: () => void;
 }
 
-// Define stat item component for DRY principle
 const StatItem = ({ label, value }: { label: string; value: string }) => (
   <div className="flex flex-col">
     <span className="text-sm font-semibold text-foreground">{value}</span>
@@ -47,8 +44,21 @@ const TrailCard = React.forwardRef<HTMLDivElement, TrailCardProps>(
   ) => {
     const rotateX = useMotionValue(0);
     const rotateY = useMotionValue(0);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+      const checkMobile = () => {
+        setIsMobile(window.innerWidth < 768);
+      };
+      
+      checkMobile();
+      window.addEventListener('resize', checkMobile);
+      return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
+      if (isMobile) return;
+      
       const rect = event.currentTarget.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
@@ -73,21 +83,20 @@ const TrailCard = React.forwardRef<HTMLDivElement, TrailCardProps>(
         style={{ rotateX, rotateY }}
         className={cn(
           "w-full max-w-sm overflow-hidden rounded-2xl bg-transparent text-card-foreground shadow-xl",
-          "transition-transform duration-300 will-change-transform",
+          "transition-transform duration-300 will-change-transform touch-action-pan-y",
           className
         )}
-        whileHover={{ y: -6, scale: 1.02 }}
+        whileHover={!isMobile ? { y: -6, scale: 1.02 } : {}}
         transition={{ type: "spring", stiffness: 250, damping: 18 }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         {...props}
       >
-        {/* Top section with background image and content */}
         <div className="relative h-60 w-full overflow-hidden">
-          <img
+          <OptimizedImage
             src={imageUrl}
             alt={title}
-            className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+            className="h-full w-full object-cover transition-transform duration-500 ease-out"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
           <div className="absolute bottom-0 left-0 flex w-full items-end justify-between p-4">
@@ -105,7 +114,7 @@ const TrailCard = React.forwardRef<HTMLDivElement, TrailCardProps>(
                 variant="secondary"
                 onClick={onContactClick}
                 aria-label={`Contact ${title}`}
-                className="bg-white/10 text-white border-white/20 hover:bg-white/20 backdrop-blur-md"
+                className="bg-white/10 text-white border-white/20 hover:bg-white/20 backdrop-blur-md tap-target focus-ring"
               >
                 Contact Me
               </Button>
@@ -113,13 +122,19 @@ const TrailCard = React.forwardRef<HTMLDivElement, TrailCardProps>(
           </div>
         </div>
 
-        {/* Bottom section with details */}
         <div className="p-5 bg-slate-900/70 backdrop-blur-md border border-white/10 border-t-0 rounded-b-2xl">
           <div className="flex items-center justify-between gap-4">
             <div>
               <p className="font-bold text-foreground">{difficulty}</p>
               <p className="text-xs text-muted-foreground">{creators}</p>
             </div>
+            <OptimizedImage
+              src={mapImageUrl}
+              alt="Map"
+              className="h-10 w-20 object-contain"
+              width={80}
+              height={40}
+            />
           </div>
           <div className="my-4 h-px w-full bg-border" />
           <div className="flex justify-between">

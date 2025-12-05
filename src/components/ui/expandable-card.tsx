@@ -27,6 +27,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import OptimizedImage from "@/components/OptimizedImage";
+
 interface ProjectStatusCardProps {
   title: string;
   progress: number;
@@ -54,6 +56,17 @@ export function ProjectStatusCard({
   const animatedHeight = useSpring(0, { stiffness: 300, damping: 30 });
   const expanded = typeof isExpanded === "boolean" ? isExpanded : internalExpanded;
   const contentRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     if (contentRef.current) {
@@ -72,7 +85,7 @@ export function ProjectStatusCard({
 
   return (
     <Card
-      className="w-full max-w-md cursor-pointer transition-all duration-300 hover:shadow-lg bg-slate-900/80 border border-slate-700 text-slate-100"
+      className="w-full max-w-md cursor-pointer transition-all duration-300 hover:shadow-lg bg-slate-900/80 border border-slate-700 text-slate-100 touch-action-pan-y"
       onClick={handleToggle}
     >
       <CardHeader className="space-y-1">
@@ -88,7 +101,7 @@ export function ProjectStatusCard({
             >
               {progress === 100 ? "Completed" : "In Progress"}
             </Badge>
-            <h3 className="text-2xl font-semibold">{title}</h3>
+            <h3 className="text-xl sm:text-2xl font-semibold">{title}</h3>
           </div>
           <TooltipProvider>
             <Tooltip>
@@ -96,7 +109,8 @@ export function ProjectStatusCard({
                 <Button
                   size="icon"
                   variant="outline"
-                  className="h-8 w-8 border-slate-700 text-slate-200 hover:bg-slate-800"
+                  className="h-8 w-8 border-slate-700 text-slate-200 hover:bg-slate-800 tap-target focus-ring"
+                  onClick={(e) => e.stopPropagation()}
                 >
                   <Github className="h-4 w-4" />
                 </Button>
@@ -160,7 +174,7 @@ export function ProjectStatusCard({
                           <TooltipProvider key={index}>
                             <Tooltip>
                               <TooltipTrigger asChild>
-                                  <Avatar className="border-2 border-slate-900">
+                                <Avatar className="border-2 border-slate-900 tap-target focus-ring">
                                   <AvatarImage
                                     src={
                                       contributor.image ||
@@ -181,7 +195,6 @@ export function ProjectStatusCard({
                         ))}
                       </div>
                     </div>
-
                     <div className="space-y-2">
                       <h4 className="font-medium text-sm text-slate-200">Recent Tasks</h4>
                       {tasks.map((task, index) => (
@@ -198,7 +211,10 @@ export function ProjectStatusCard({
                     </div>
 
                     <div className="space-y-2">
-                      <Button className="w-full bg-primary text-white hover:bg-primary/90">
+                      <Button 
+                        className="w-full bg-primary text-white hover:bg-primary/90 tap-target focus-ring"
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         <MessageSquare className="h-4 w-4 mr-2" />
                         View Discussion
                       </Button>

@@ -10,4 +10,26 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom'],
+          'framer-motion': ['framer-motion'],
+          'ui-components': [
+            '@radix-ui/react-avatar',
+            '@radix-ui/react-progress',
+            '@radix-ui/react-slot',
+            '@radix-ui/react-tooltip'
+          ]
+        }
+      }
+    },
+    chunkSizeWarningLimit: 1000
+  },
+  server: {
+    port: 3000,
+    open: true
+  }
 })
+```__

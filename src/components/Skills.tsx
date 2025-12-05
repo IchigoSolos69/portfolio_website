@@ -7,8 +7,8 @@ import {
   Wrench, 
   Monitor
 } from "lucide-react";
+import OptimizedImage from "@/components/OptimizedImage";
 
-// Skill data organized by category
 interface Skill {
   name: string;
   icon: string;
@@ -85,10 +85,25 @@ const cardVariants = {
 };
 
 const Skills = () => {
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Reduce animation intensity on mobile
+  const reducedMotion = isMobile ? 0.5 : 1;
+
   return (
     <section id="skills" className="py-20 relative bg-[#0a0a0a]">
       <AnimatedGridPattern
-        numSquares={30}
+        numSquares={isMobile ? 20 : 30}
         maxOpacity={0.1}
         duration={3}
         repeatDelay={1}
@@ -123,12 +138,11 @@ const Skills = () => {
                 className={cn(
                   "group relative bg-slate-950/50 backdrop-blur-sm border border-white/10 rounded-xl p-4",
                   "hover:border-cyan-500/50 hover:shadow-[0_0_30px_rgba(6,182,212,0.3)]",
-                  "transition-all duration-300 ease-out",
+                  "transition-all duration-300 ease-out touch-action-pan-y",
                   data.glowColor,
-                  index === 0 && "lg:col-span-2", // First card spans 2 columns on large screens
+                  index === 0 && "lg:col-span-2",
                 )}
               >
-                {/* Gradient overlay on hover */}
                 <div className={cn(
                   "absolute inset-0 rounded-2xl bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-300",
                   data.color
@@ -152,22 +166,24 @@ const Skills = () => {
                       return (
                         <motion.div
                           key={skill.name}
-                          whileHover={{ scale: 1.05 }}
+                          whileHover={!isMobile ? { scale: 1.05 } : {}}
                           className={cn(
                             "flex flex-col items-center gap-1.5 p-3 rounded-lg",
                             "bg-slate-900/50 border border-white/5",
                             "hover:border-cyan-500/30 hover:bg-slate-900/70",
-                            "transition-all duration-200"
+                            "transition-all duration-200 tap-target focus-ring"
                           )}
                         >
                           <div className="w-10 h-10 rounded-lg bg-slate-800/50 p-1.5 flex items-center justify-center">
                             {FallbackIcon ? (
                               <FallbackIcon className="w-6 h-6 text-cyan-400" />
                             ) : (
-                              <img
+                              <OptimizedImage
                                 src={skill.icon}
                                 alt={skill.name}
                                 className="w-full h-full object-contain"
+                                width={24}
+                                height={24}
                                 onError={(e) => {
                                   const target = e.target as HTMLImageElement;
                                   target.style.display = 'none';

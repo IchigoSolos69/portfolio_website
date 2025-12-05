@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { projects } from '../data/portfolioData';
 import { ProjectStatusCard } from "@/components/ui/expandable-card";
+import OptimizedImage from "@/components/OptimizedImage";
 
 const projectStatusData: Record<
   number,
@@ -61,11 +62,22 @@ const projectStatusData: Record<
 
 const Projects = () => {
   const [expandedProjectId, setExpandedProjectId] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   return (
     <section id="projects" className="py-20 relative bg-[#0f172a]">
       <AnimatedGridPattern
-        numSquares={30}
+        numSquares={isMobile ? 20 : 30}
         maxOpacity={0.1}
         duration={3}
         repeatDelay={1}
@@ -84,7 +96,7 @@ const Projects = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
+        <div className={`grid grid-cols-1 ${isMobile ? 'gap-6' : 'md:grid-cols-2 lg:grid-cols-3 gap-8'} items-start`}>
           {projects.map((project) => {
             const status =
               projectStatusData[project.id] || {
@@ -122,7 +134,10 @@ const Projects = () => {
         </div>
         
         <div className="text-center mt-12">
-          <a href="#" className="btn-primary inline-flex items-center">
+          <a 
+            href="#" 
+            className="btn-primary inline-flex items-center tap-target focus-ring"
+          >
             View All Projects
           </a>
         </div>
