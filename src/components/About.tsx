@@ -2,7 +2,6 @@ import { cn } from "@/lib/utils";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { TrailCard } from "@/components/ui/trail-card";
 import { useState, useEffect } from 'react';
-import OptimizedImage from "@/components/OptimizedImage";
 
 const About = () => {
   const [isMobile, setIsMobile] = useState(false);

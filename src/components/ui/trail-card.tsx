@@ -44,9 +44,9 @@ const TrailCard = React.forwardRef<HTMLDivElement, TrailCardProps>(
   ) => {
     const rotateX = useMotionValue(0);
     const rotateY = useMotionValue(0);
-    const [isMobile, setIsMobile] = useState(false);
+    const [isMobile, setIsMobile] = React.useState(false);
 
-    useEffect(() => {
+    React.useEffect(() => {
       const checkMobile = () => {
         setIsMobile(window.innerWidth < 768);
       };
@@ -114,7 +114,7 @@ const TrailCard = React.forwardRef<HTMLDivElement, TrailCardProps>(
                 variant="secondary"
                 onClick={onContactClick}
                 aria-label={`Contact ${title}`}
-                className="bg-white/10 text-white border-white/20 hover:bg-white/20 backdrop-blur-md tap-target focus-ring"
+                className="bg-white/10 text-white border-white/20 hover:bg-white/20 backdrop-blur-md"
               >
                 Contact Me
               </Button>

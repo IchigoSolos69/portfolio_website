@@ -50,12 +50,6 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
       height={height}
       loading={loading}
       onLoad={() => setIsLoaded(true)}
-      onError={(e) => {
-        // Fallback to original image if WebP fails
-        if (imageSrc !== src) {
-          (e.target as HTMLImageElement).src = src;
-        }
-      }}
     />
   );
 };
