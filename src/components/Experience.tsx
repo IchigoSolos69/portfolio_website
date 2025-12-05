@@ -5,7 +5,7 @@ import { Timeline } from "@/components/ui/timeline";
 
 const Experience = () => {
   return (
-    <section id="experience" className="py-20 relative bg-black">
+    <section id="experience" className="py-20 relative bg-black/40">
       <AnimatedGridPattern
         numSquares={30}
         maxOpacity={0.1}

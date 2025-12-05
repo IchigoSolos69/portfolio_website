@@ -145,7 +145,7 @@ const DigitalSerenity = () => {
       <style>{pageStyles}</style>
       <section
         id="home"
-        className="min-h-screen bg-gradient-to-br from-slate-900 via-black to-slate-800 text-slate-100 font-primary overflow-hidden relative"
+        className="min-h-screen bg-gradient-to-br from-slate-900/80 via-black/60 to-slate-800/80 text-slate-100 font-primary overflow-hidden relative"
       >
         
         <svg className="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
