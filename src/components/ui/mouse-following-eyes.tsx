@@ -13,11 +13,12 @@ let globalMouseX = 0;
 let globalMouseY = 0;
 
 const MouseFollowingEyes: React.FC<MouseFollowingEyesProps> = ({ imageUrl, className }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
   const eye1Ref = useRef<HTMLDivElement>(null);
   const eye2Ref = useRef<HTMLDivElement>(null);
   const pupil1Ref = useRef<HTMLDivElement>(null);
   const pupil2Ref = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
   const animationFrameRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -36,26 +37,34 @@ const MouseFollowingEyes: React.FC<MouseFollowingEyesProps> = ({ imageUrl, class
       return;
     }
 
-    const updateEye = (eyeRef: React.RefObject<HTMLDivElement>, pupilRef: React.RefObject<HTMLDivElement>) => {
+    const updateEye = (
+      eyeRef: React.RefObject<HTMLDivElement>,
+      pupilRef: React.RefObject<HTMLDivElement>
+    ) => {
       if (!eyeRef.current || !pupilRef.current) return;
 
-      const rect = eyeRef.current.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
+      const eyeRect = eyeRef.current.getBoundingClientRect();
+      const eyeCenterX = eyeRect.left + eyeRect.width / 2;
+      const eyeCenterY = eyeRect.top + eyeRect.height / 2;
 
-      const dx = globalMouseX - centerX;
-      const dy = globalMouseY - centerY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
+      // Calculate angle using Math.atan2
+      const dx = globalMouseX - eyeCenterX;
+      const dy = globalMouseY - eyeCenterY;
       const angle = Math.atan2(dy, dx);
 
-      // Increased max movement for better visibility and responsiveness
-      const maxMove = 7;
-      const clampedDistance = Math.min(distance, maxMove * 3);
-      const moveDistance = (clampedDistance / (maxMove * 3)) * maxMove;
+      // Calculate distance from center
+      const distance = Math.sqrt(dx * dx + dy * dy);
 
-      const pupilX = Math.cos(angle) * moveDistance;
-      const pupilY = Math.sin(angle) * moveDistance;
+      // Eye socket radius (clamp distance so pupil never leaves socket)
+      const pupilSize = pupilRef.current.getBoundingClientRect().width;
+      const socketRadius = (eyeRect.width / 2) - (pupilSize / 2) - 2; // 2px padding
+      const maxDistance = Math.min(distance, socketRadius);
 
+      // Calculate pupil position
+      const pupilX = Math.cos(angle) * maxDistance;
+      const pupilY = Math.sin(angle) * maxDistance;
+
+      // Apply transform
       pupilRef.current.style.transform = `translate(${pupilX}px, ${pupilY}px)`;
     };
 
@@ -79,9 +88,10 @@ const MouseFollowingEyes: React.FC<MouseFollowingEyesProps> = ({ imageUrl, class
       ref={containerRef}
       className={`relative ${className || ''}`}
     >
-      {/* Profile image with eye cutouts - zoomed in */}
+      {/* Profile image with SVG mask for eye cutouts */}
       <div className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-white/20 shadow-2xl">
         <img 
+          ref={imageRef}
           src={imageUrl} 
           alt="Profile" 
           className="w-full h-full object-cover"
@@ -92,40 +102,89 @@ const MouseFollowingEyes: React.FC<MouseFollowingEyesProps> = ({ imageUrl, class
           }}
         />
         
-        {/* Eye containers positioned over the actual eyes in the image - adjusted for zoom */}
+        {/* Eye hit boxes - transparent containers positioned exactly where eyes are */}
+        {/* Left Eye Socket */}
         <div 
           ref={eye1Ref}
-          className="absolute top-[38%] left-[27%] transform -translate-x-1/2 -translate-y-1/2"
+          className="absolute rounded-full"
+          style={{
+            left: '23%',
+            top: '34%',
+            width: '8%',
+            height: '8%',
+            minWidth: '24px',
+            minHeight: '24px',
+            clipPath: 'circle(50% at 50% 50%)',
+            pointerEvents: 'none',
+          }}
         >
-          <Eye pupilRef={pupil1Ref} />
+          {/* Left Pupil */}
+          <div 
+            ref={pupil1Ref}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gray-900"
+            style={{
+              width: '35%',
+              height: '35%',
+              minWidth: '10px',
+              minHeight: '10px',
+              transition: 'transform 0.1s ease-out',
+            }}
+          >
+            {/* Pupil highlight */}
+            <div 
+              className="absolute rounded-full bg-white opacity-90"
+              style={{
+                width: '30%',
+                height: '30%',
+                bottom: '15%',
+                right: '15%',
+              }}
+            ></div>
+          </div>
         </div>
+
+        {/* Right Eye Socket */}
         <div 
           ref={eye2Ref}
-          className="absolute top-[38%] right-[27%] transform translate-x-1/2 -translate-y-1/2"
+          className="absolute rounded-full"
+          style={{
+            left: '69%',
+            top: '34%',
+            width: '8%',
+            height: '8%',
+            minWidth: '24px',
+            minHeight: '24px',
+            clipPath: 'circle(50% at 50% 50%)',
+            pointerEvents: 'none',
+          }}
         >
-          <Eye pupilRef={pupil2Ref} />
+          {/* Right Pupil */}
+          <div 
+            ref={pupil2Ref}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gray-900"
+            style={{
+              width: '35%',
+              height: '35%',
+              minWidth: '10px',
+              minHeight: '10px',
+              transition: 'transform 0.1s ease-out',
+            }}
+          >
+            {/* Pupil highlight */}
+            <div 
+              className="absolute rounded-full bg-white opacity-90"
+              style={{
+                width: '30%',
+                height: '30%',
+                bottom: '15%',
+                right: '15%',
+              }}
+            ></div>
+          </div>
         </div>
-      </div>
-    </div>
-  );
-};
-
-interface EyeProps {
-  pupilRef: React.RefObject<HTMLDivElement>;
-}
-
-const Eye: React.FC<EyeProps> = ({ pupilRef }) => {
-  return (
-    <div className="relative bg-white border-2 border-gray-800 rounded-full h-7 w-7 sm:h-8 sm:w-8 md:h-9 md:w-9 flex items-center justify-center">
-      <div 
-        ref={pupilRef}
-        className="absolute bg-gray-900 rounded-full h-3 w-3 sm:h-3.5 sm:w-3.5 md:h-4 md:w-4"
-      >
-        <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-white rounded-full absolute bottom-0 right-0"></div>
       </div>
     </div>
   );
 };
 
 export { MouseFollowingEyes };
-
