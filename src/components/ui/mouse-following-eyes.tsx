@@ -56,8 +56,11 @@ const MouseFollowingEyes: React.FC<MouseFollowingEyesProps> = ({ imageUrl, class
       const distance = Math.sqrt(dx * dx + dy * dy);
 
       // Eye socket radius (clamp distance so pupil never leaves socket)
+      // For oval eyes, use the smaller radius (height) to ensure pupil stays inside
       const pupilSize = pupilRef.current.getBoundingClientRect().width;
-      const socketRadius = (eyeRect.width / 2) - (pupilSize / 2) - 2; // 2px padding
+      const socketRadiusX = (eyeRect.width / 2) - (pupilSize / 2) - 3; // 3px padding
+      const socketRadiusY = (eyeRect.height / 2) - (pupilSize / 2) - 3; // 3px padding
+      const socketRadius = Math.min(socketRadiusX, socketRadiusY); // Use smaller radius for oval
       const maxDistance = Math.min(distance, socketRadius);
 
       // Calculate pupil position
@@ -102,31 +105,29 @@ const MouseFollowingEyes: React.FC<MouseFollowingEyesProps> = ({ imageUrl, class
           }}
         />
         
-        {/* Eye hit boxes - transparent containers positioned exactly where eyes are */}
-        {/* Left Eye Socket */}
+        {/* Eye hit boxes - white oval containers positioned exactly where eyes are */}
+        {/* Left Eye Socket - Oval shape fitting natural eye socket */}
         <div 
           ref={eye1Ref}
-          className="absolute rounded-full"
+          className="absolute bg-white rounded-full"
           style={{
-            left: '23%',
-            top: '34%',
-            width: '8%',
-            height: '8%',
-            minWidth: '24px',
-            minHeight: '24px',
-            clipPath: 'circle(50% at 50% 50%)',
+            left: '34%',
+            top: '45%',
+            width: '22%',
+            height: '14%',
+            clipPath: 'ellipse(50% 50% at 50% 50%)',
             pointerEvents: 'none',
+            transform: 'translate(-50%, -50%)',
+            border: '1px solid rgba(0, 0, 0, 0.1)',
           }}
         >
-          {/* Left Pupil */}
+          {/* Left Pupil - 1/3 the size of white part, strictly inside boundary */}
           <div 
             ref={pupil1Ref}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gray-900"
             style={{
-              width: '35%',
-              height: '35%',
-              minWidth: '10px',
-              minHeight: '10px',
+              width: '33.33%',
+              height: '33.33%',
               transition: 'transform 0.1s ease-out',
             }}
           >
@@ -143,30 +144,28 @@ const MouseFollowingEyes: React.FC<MouseFollowingEyesProps> = ({ imageUrl, class
           </div>
         </div>
 
-        {/* Right Eye Socket */}
+        {/* Right Eye Socket - Oval shape fitting natural eye socket */}
         <div 
           ref={eye2Ref}
-          className="absolute rounded-full"
+          className="absolute bg-white rounded-full"
           style={{
-            left: '69%',
-            top: '34%',
-            width: '8%',
-            height: '8%',
-            minWidth: '24px',
-            minHeight: '24px',
-            clipPath: 'circle(50% at 50% 50%)',
+            left: '66%',
+            top: '45%',
+            width: '22%',
+            height: '14%',
+            clipPath: 'ellipse(50% 50% at 50% 50%)',
             pointerEvents: 'none',
+            transform: 'translate(-50%, -50%)',
+            border: '1px solid rgba(0, 0, 0, 0.1)',
           }}
         >
-          {/* Right Pupil */}
+          {/* Right Pupil - 1/3 the size of white part, strictly inside boundary */}
           <div 
             ref={pupil2Ref}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gray-900"
             style={{
-              width: '35%',
-              height: '35%',
-              minWidth: '10px',
-              minHeight: '10px',
+              width: '33.33%',
+              height: '33.33%',
               transition: 'transform 0.1s ease-out',
             }}
           >
