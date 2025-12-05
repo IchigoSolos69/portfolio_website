@@ -310,6 +310,7 @@ const DigitalSerenity = () => {
           </>
         )}
 
+        <div className="relative z-10 min-h-screen flex flex-col justify-center items-center px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-16">
           <div className="text-center max-w-5xl mx-auto relative z-20">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extralight leading-tight tracking-tight text-white text-decoration-animate">
               <div className="mb-3 md:mb-4">
