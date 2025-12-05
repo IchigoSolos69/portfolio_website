@@ -29,11 +29,11 @@
   }
   
   .btn-primary {
-    @apply bg-primary hover:bg-blue-500 text-white font-medium py-3 px-6 rounded-lg transition duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 tap-target;
+    @apply bg-primary hover:bg-blue-500 text-white font-medium py-3 px-6 rounded-lg transition duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50;
   }
   
   .btn-secondary {
-    @apply border-2 border-primary text-primary hover:bg-primary hover:text-white font-medium py-3 px-6 rounded-lg transition duration-300 tap-target;
+    @apply border-2 border-primary text-primary hover:bg-primary hover:text-white font-medium py-3 px-6 rounded-lg transition duration-300;
   }
 }
 
