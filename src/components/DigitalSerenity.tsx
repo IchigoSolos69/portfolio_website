@@ -43,12 +43,17 @@ const DigitalSerenity = () => {
       wordElements.forEach(word => {
         const delay = parseInt(word.getAttribute('data-delay') ?? '0') || 0;
         setTimeout(() => {
-          if (word) word.style.animation = 'word-appear 0.8s ease-out forwards';
+          if (word) {
+            word.style.animation = 'word-appear 0.8s ease-out forwards';
+            word.classList.add('visible');
+          }
         }, delay);
       });
     };
     
-    const timeoutId = setTimeout(animateWords, 500);
+    // Start animations immediately and also after a short delay as fallback
+    animateWords();
+    const timeoutId = setTimeout(animateWords, 100);
     return () => clearTimeout(timeoutId);
   }, []);
 
@@ -148,7 +153,10 @@ const DigitalSerenity = () => {
       display: inline-block; 
       opacity: 0; 
       margin: 0 0.1em; 
-      transition: color 0.3s ease, transform 0.3s ease; 
+      transition: color 0.3s ease, transform 0.3s ease, opacity 0.8s ease-out; 
+    }
+    .word-animate.visible {
+      opacity: 1 !important;
     }
     .word-animate:hover { 
       color: #cbd5e1; 
@@ -303,8 +311,8 @@ const DigitalSerenity = () => {
         )}
 
         <div className="relative z-10 min-h-screen flex flex-col justify-between items-center px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-16">
-          <div className="text-center">
-            <h2 className="text-xs sm:text-sm font-mono font-light text-slate-300 uppercase tracking-[0.2em] opacity-80">
+          <div className="text-center relative z-20">
+            <h2 className="text-xs sm:text-sm font-mono font-light text-slate-300 uppercase tracking-[0.2em]">
               <span className="word-animate" data-delay="0">Full</span>
               <span className="word-animate" data-delay="250">Stack</span>
               <span className="word-animate" data-delay="500">Developer</span>
@@ -315,15 +323,15 @@ const DigitalSerenity = () => {
             <div className="mt-3 w-10 sm:w-12 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent opacity-30 mx-auto"></div>
           </div>
 
-          <div className="text-center max-w-5xl mx-auto relative">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extralight leading-tight tracking-tight text-slate-50 text-decoration-animate">
+          <div className="text-center max-w-5xl mx-auto relative z-20">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extralight leading-tight tracking-tight text-white text-decoration-animate">
               <div className="mb-3 md:mb-4">
                 <span className="word-animate" data-delay="700">Hi,</span>
                 <span className="word-animate" data-delay="900">I'm</span>
                 <span className="word-animate" data-delay="1150">Adi</span>
                 <span className="word-animate" data-delay="1350">Maitre.</span>
               </div>
-              <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-thin text-slate-300 leading-relaxed tracking-wide">
+              <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-thin text-slate-200 leading-relaxed tracking-wide">
                 <span className="word-animate" data-delay="1700">I</span>
                 <span className="word-animate" data-delay="1850">craft</span>
                 <span className="word-animate" data-delay="2000">fast,</span>
@@ -349,9 +357,9 @@ const DigitalSerenity = () => {
             />
           </div>
 
-          <div className="text-center">
+          <div className="text-center relative z-20">
             <div className="mb-3 w-10 sm:w-12 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent opacity-30 mx-auto"></div>
-            <h2 className="text-xs sm:text-sm font-mono font-light text-slate-300 uppercase tracking-[0.2em] opacity-80">
+            <h2 className="text-xs sm:text-sm font-mono font-light text-slate-300 uppercase tracking-[0.2em]">
               <span className="word-animate" data-delay="3300">React,</span>
               <span className="word-animate" data-delay="3450">TypeScript,</span>
               <span className="word-animate" data-delay="3600">and</span>
