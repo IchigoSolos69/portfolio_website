@@ -2,7 +2,6 @@ import { cn } from "@/lib/utils";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { useState, useEffect } from 'react';
 import { FiMail, FiPhone, FiMapPin } from 'react-icons/fi';
-import OptimizedImage from "@/components/OptimizedImage";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -145,7 +144,7 @@ const Contact = () => {
                       {item.action ? (
                         <a 
                           href={item.action} 
-                          className="text-gray-300 hover:text-primary transition-colors tap-target focus-ring"
+                          className="text-gray-300 hover:text-primary transition-colors"
                         >
                           {item.content}
                         </a>
@@ -171,7 +170,7 @@ const Contact = () => {
                     href={social.url}
                     target={social.url.startsWith('http') ? "_blank" : undefined}
                     rel={social.url.startsWith('http') ? "noopener noreferrer" : undefined}
-                    className="bg-primary/10 text-primary p-3 rounded-full hover:bg-primary hover:text-white transition-colors tap-target focus-ring"
+                    className="bg-primary/10 text-primary p-3 rounded-full hover:bg-primary hover:text-white transition-colors"
                     aria-label={social.label}
                   >
                     <social.icon className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -274,7 +273,7 @@ const Contact = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className={`w-full btn-primary flex items-center justify-center tap-target focus-ring ${
+                className={`w-full btn-primary flex items-center justify-center ${
                   isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
                 }`}
               >
