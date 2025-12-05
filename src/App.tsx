@@ -15,7 +15,7 @@ function App() {
   // Define background colors for each page
   const backgroundColors = {
     home: '#0f172a', // dark slate (navy blue)
-    about: '#1e293b', // slate 900
+    about: '#0f172a', // dark slate (matching projects)
     skills: '#000000', // black
     projects: '#0f172a', // dark slate
     experience: '#000000', // black
