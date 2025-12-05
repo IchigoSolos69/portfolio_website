@@ -292,116 +292,114 @@ const DigitalSerenity = () => {
           <div className="absolute bottom-0 right-0 w-1 h-1 bg-slate-300 opacity-30 rounded-full"></div>
         </div>
 
-        // ... (previous code remains the same)
+        {!isMobile && (
+        <>
+            <div className="floating-element-animate" style={{ top: '25%', left: '15%', animationDelay: '0.5s' }}></div>
+            <div className="floating-element-animate" style={{ top: '60%', left: '85%', animationDelay: '1s' }}></div>
+            <div className="floating-element-animate" style={{ top: '40%', left: '10%', animationDelay: '1.5s' }}></div>
+            <div className="floating-element-animate" style={{ top: '75%', left: '90%', animationDelay: '2s' }}></div>
+        </>
+        )}
 
-{!isMobile && (
-  <>
-    <div className="floating-element-animate" style={{ top: '25%', left: '15%', animationDelay: '0.5s' }}></div>
-    <div className="floating-element-animate" style={{ top: '60%', left: '85%', animationDelay: '1s' }}></div>
-    <div className="floating-element-animate" style={{ top: '40%', left: '10%', animationDelay: '1.5s' }}></div>
-    <div className="floating-element-animate" style={{ top: '75%', left: '90%', animationDelay: '2s' }}></div>
-  </>
-)}
-
-<div className="relative z-10 min-h-screen flex flex-col justify-between items-center px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-16">
-  <div className="text-center">
-    <h2 className="text-xs sm:text-sm font-mono font-light text-slate-300 uppercase tracking-[0.2em] opacity-80">
-      <span className="word-animate" data-delay="0">Full</span>
-      <span className="word-animate" data-delay="250">Stack</span>
-      <span className="word-animate" data-delay="500">Developer</span>
-      <span className="word-animate" data-delay="900">&amp;</span>
-      <span className="word-animate" data-delay="1150">AI</span>
-      <span className="word-animate" data-delay="1400">Enthusiast</span>
-    </h2>
-    <div className="mt-3 w-10 sm:w-12 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent opacity-30 mx-auto"></div>
-  </div>
-
-  <div className="text-center max-w-5xl mx-auto relative">
-    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extralight leading-tight tracking-tight text-slate-50 text-decoration-animate">
-      <div className="mb-3 md:mb-4">
-        <span className="word-animate" data-delay="700">Hi,</span>
-        <span className="word-animate" data-delay="900">I'm</span>
-        <span className="word-animate" data-delay="1150">Adi</span>
-        <span className="word-animate" data-delay="1350">Maitre.</span>
-      </div>
-      <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-thin text-slate-300 leading-relaxed tracking-wide">
-        <span className="word-animate" data-delay="1700">I</span>
-        <span className="word-animate" data-delay="1850">craft</span>
-        <span className="word-animate" data-delay="2000">fast,</span>
-        <span className="word-animate" data-delay="2150">accessible,</span>
-        <span className="word-animate" data-delay="2300">and</span>
-        <span className="word-animate" data-delay="2450">visually</span>
-        <span className="word-animate" data-delay="2600">refined</span>
-        <span className="word-animate" data-delay="2750">digital</span>
-        <span className="word-animate" data-delay="2900">experiences</span>
-        <span className="word-animate" data-delay="3050">you</span>
-        <span className="word-animate" data-delay="3200">can</span>
-        <span className="word-animate" data-delay="3350">trust.</span>
-      </div>
-    </h1>
-    <div className="absolute -left-4 sm:-left-6 top-1/2 transform -translate-y-1/2 w-2 sm:w-3 h-px bg-slate-300 opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '3.2s' }}></div>
-    <div className="absolute -right-4 sm:-right-6 top-1/2 transform -translate-y-1/2 w-2 sm:w-3 h-px bg-slate-300 opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '3.4s' }}></div>
-  </div>
-
-  <div className="text-center">
-    <div className="mb-3 w-10 sm:w-12 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent opacity-30 mx-auto"></div>
-    <h2 className="text-xs sm:text-sm font-mono font-light text-slate-300 uppercase tracking-[0.2em] opacity-80">
-      <span className="word-animate" data-delay="3300">React,</span>
-      <span className="word-animate" data-delay="3450">TypeScript,</span>
-      <span className="word-animate" data-delay="3600">and</span>
-      <span className="word-animate" data-delay="3750">AI-driven</span>
-      <span className="word-animate" data-delay="3900">experiences.</span>
-    </h2>
-    <div className="mt-4 flex justify-center space-x-2 sm:space-x-3 opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '4.2s' }}>
-      <div className="w-1 h-1 bg-slate-300 rounded-full opacity-40"></div>
-      <div className="w-1 h-1 bg-slate-300 rounded-full opacity-60"></div>
-      <div className="w-1 h-1 bg-slate-300 rounded-full opacity-40"></div>
-    </div>
-    
-    <div className="mt-8 sm:mt-10 relative opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '4.5s' }}>
-      <button 
-        onClick={() => {
-          const contactSection = document.getElementById('contact');
-          if (contactSection) {
-            contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        }}
-        className="relative z-50 bg-slate-800 w-[180px] sm:w-[200px] h-[50px] sm:h-[60px] no-underline group cursor-pointer shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6 text-white inline-block hover:scale-105 transition-transform duration-300 tap-target focus-ring"
-      >
-        <span className="absolute inset-0 overflow-hidden rounded-full">
-          <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-        </span>
-        <div className="relative flex justify-center w-full text-center space-x-2 h-full items-center z-10 rounded-full bg-zinc-950 py-0.5 px-4 ring-1 ring-white/10">
-          <span className="text-base sm:text-lg md:text-xl inline-block bg-clip-text text-transparent bg-gradient-to-r from-neutral-300 via-neutral-600 to-neutral-300">
-            Connect
-          </span>
+        <div className="relative z-10 min-h-screen flex flex-col justify-between items-center px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-16">
+        <div className="text-center">
+            <h2 className="text-xs sm:text-sm font-mono font-light text-slate-300 uppercase tracking-[0.2em] opacity-80">
+            <span className="word-animate" data-delay="0">Full</span>
+            <span className="word-animate" data-delay="250">Stack</span>
+            <span className="word-animate" data-delay="500">Developer</span>
+            <span className="word-animate" data-delay="900">&amp;</span>
+            <span className="word-animate" data-delay="1150">AI</span>
+            <span className="word-animate" data-delay="1400">Enthusiast</span>
+            </h2>
+            <div className="mt-3 w-10 sm:w-12 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent opacity-30 mx-auto"></div>
         </div>
-      </button>
-    </div>
-  </div>
-</div>
 
-<div 
-  id="mouse-gradient-react"
-  className="w-40 h-40 blur-lg sm:w-60 sm:h-60 sm:blur-xl md:w-80 md:h-80 md:blur-2xl"
-  style={{
-    left: mouseGradientStyle.left,
-    top: mouseGradientStyle.top,
-    opacity: mouseGradientStyle.opacity,
-  }}
-></div>
+        <div className="text-center max-w-5xl mx-auto relative">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extralight leading-tight tracking-tight text-slate-50 text-decoration-animate">
+            <div className="mb-3 md:mb-4">
+                <span className="word-animate" data-delay="700">Hi,</span>
+                <span className="word-animate" data-delay="900">I'm</span>
+                <span className="word-animate" data-delay="1150">Adi</span>
+                <span className="word-animate" data-delay="1350">Maitre.</span>
+            </div>
+            <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-thin text-slate-300 leading-relaxed tracking-wide">
+                <span className="word-animate" data-delay="1700">I</span>
+                <span className="word-animate" data-delay="1850">craft</span>
+                <span className="word-animate" data-delay="2000">fast,</span>
+                <span className="word-animate" data-delay="2150">accessible,</span>
+                <span className="word-animate" data-delay="2300">and</span>
+                <span className="word-animate" data-delay="2450">visually</span>
+                <span className="word-animate" data-delay="2600">refined</span>
+                <span className="word-animate" data-delay="2750">digital</span>
+                <span className="word-animate" data-delay="2900">experiences</span>
+                <span className="word-animate" data-delay="3050">you</span>
+                <span className="word-animate" data-delay="3200">can</span>
+                <span className="word-animate" data-delay="3350">trust.</span>
+            </div>
+            </h1>
+            <div className="absolute -left-4 sm:-left-6 top-1/2 transform -translate-y-1/2 w-2 sm:w-3 h-px bg-slate-300 opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '3.2s' }}></div>
+            <div className="absolute -right-4 sm:-right-6 top-1/2 transform -translate-y-1/2 w-2 sm:w-3 h-px bg-slate-300 opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '3.4s' }}></div>
+        </div>
 
-{ripples.map((ripple: Ripple) => (
-  <div
-    key={ripple.id}
-    className="ripple-effect"
-    style={{ left: `${ripple.x}px`, top: `${ripple.y}px` }}
-  ></div>
-))}
-</section>
-</>
-);
-};
+        <div className="text-center">
+            <div className="mb-3 w-10 sm:w-12 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent opacity-30 mx-auto"></div>
+            <h2 className="text-xs sm:text-sm font-mono font-light text-slate-300 uppercase tracking-[0.2em] opacity-80">
+            <span className="word-animate" data-delay="3300">React,</span>
+            <span className="word-animate" data-delay="3450">TypeScript,</span>
+            <span className="word-animate" data-delay="3600">and</span>
+            <span className="word-animate" data-delay="3750">AI-driven</span>
+            <span className="word-animate" data-delay="3900">experiences.</span>
+            </h2>
+            <div className="mt-4 flex justify-center space-x-2 sm:space-x-3 opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '4.2s' }}>
+            <div className="w-1 h-1 bg-slate-300 rounded-full opacity-40"></div>
+            <div className="w-1 h-1 bg-slate-300 rounded-full opacity-60"></div>
+            <div className="w-1 h-1 bg-slate-300 rounded-full opacity-40"></div>
+            </div>
+            
+            <div className="mt-8 sm:mt-10 relative opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '4.5s' }}>
+            <button 
+                onClick={() => {
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                }}
+                className="relative z-50 bg-slate-800 w-[180px] sm:w-[200px] h-[50px] sm:h-[60px] no-underline group cursor-pointer shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6 text-white inline-block hover:scale-105 transition-transform duration-300 tap-target focus-ring"
+            >
+                <span className="absolute inset-0 overflow-hidden rounded-full">
+                <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                </span>
+                <div className="relative flex justify-center w-full text-center space-x-2 h-full items-center z-10 rounded-full bg-zinc-950 py-0.5 px-4 ring-1 ring-white/10">
+                <span className="text-base sm:text-lg md:text-xl inline-block bg-clip-text text-transparent bg-gradient-to-r from-neutral-300 via-neutral-600 to-neutral-300">
+                    Connect
+                </span>
+                </div>
+            </button>
+            </div>
+        </div>
+        </div>
 
-export default DigitalSerenity;
+        <div 
+        id="mouse-gradient-react"
+        className="w-40 h-40 blur-lg sm:w-60 sm:h-60 sm:blur-xl md:w-80 md:h-80 md:blur-2xl"
+        style={{
+            left: mouseGradientStyle.left,
+            top: mouseGradientStyle.top,
+            opacity: mouseGradientStyle.opacity,
+        }}
+        ></div>
+
+        {ripples.map((ripple: Ripple) => (
+        <div
+            key={ripple.id}
+            className="ripple-effect"
+            style={{ left: `${ripple.x}px`, top: `${ripple.y}px` }}
+        ></div>
+        ))}
+        </section>
+        </>
+        );
+        };
+
+        export default DigitalSerenity;
 
