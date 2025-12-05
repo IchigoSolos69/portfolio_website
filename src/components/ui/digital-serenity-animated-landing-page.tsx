@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { MouseFollowingEyes } from "@/components/ui/mouse-following-eyes";
 
 type Ripple = {
   id: number;
@@ -227,6 +228,13 @@ const DigitalSerenity = () => {
             {/* Responsive Detail Line Offsets */}
             <div className="absolute -left-6 sm:-left-8 top-1/2 transform -translate-y-1/2 w-3 sm:w-4 h-px bg-slate-300 opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '3.2s' }}></div>
             <div className="absolute -right-6 sm:-right-8 top-1/2 transform -translate-y-1/2 w-3 sm:w-4 h-px bg-slate-300 opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '3.4s' }}></div>
+          </div>
+
+          {/* Interactive Eyes Component */}
+          <div className="my-8 md:my-12 flex justify-center opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '3.6s' }}>
+            <MouseFollowingEyes 
+              imageUrl="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&auto=format&fit=crop"
+            />
           </div>
 
           <div className="text-center">
