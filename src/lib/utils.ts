@@ -1,5 +1,10 @@
-// File: src/utils/web-vitals.ts
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 import { ReportHandler } from 'web-vitals';
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
 
 export const reportWebVitals = (onPerfEntry?: ReportHandler) => {
   if (onPerfEntry && onPerfEntry instanceof Function) {
