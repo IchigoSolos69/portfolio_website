@@ -77,7 +77,7 @@ export const Timeline = ({ data, title, description }: TimelineProps) => {
             </div>
 
             <div className="relative pl-16 sm:pl-20 pr-4 md:pl-4 w-full">
-              <h3 className="md:hidden block text-xl sm:text-2xl mb-4 text-left font-bold text-neutral-500 dark:text-neutral-500">
+            <h3 className="md:hidden block text-xl sm:text-2xl mb-4 text-left font-bold text-neutral-500 dark:text-neutral-500">
                 {item.title}
               </h3>
               {item.content}
@@ -102,3 +102,4 @@ export const Timeline = ({ data, title, description }: TimelineProps) => {
     </div>
   );
 };
+

@@ -27,7 +27,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import OptimizedImage from "@/components/OptimizedImage";
 
 interface ProjectStatusCardProps {
   title: string;
@@ -127,8 +126,7 @@ export function ProjectStatusCard({
         <div className="space-y-4">
           <div className="space-y-2">
             <div className="flex justify-between text-sm text-slate-300">
-              <span>Progress</span>
-              <span>{progress}%</span>
+            <span>{progress}%</span>
             </div>
             <ProgressBar value={progress} className="h-2 bg-slate-800" />
           </div>
@@ -195,6 +193,7 @@ export function ProjectStatusCard({
                         ))}
                       </div>
                     </div>
+
                     <div className="space-y-2">
                       <h4 className="font-medium text-sm text-slate-200">Recent Tasks</h4>
                       {tasks.map((task, index) => (

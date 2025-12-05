@@ -51,24 +51,23 @@ const Experience = () => {
                 <p className="text-gray-300 text-sm md:text-base mb-4">
                   {exp.description}
                 </p>
-                    <ul className="space-y-2 text-sm md:text-base text-gray-300">
-                      {exp.achievements.map((achievement, i) => (
-                        <li key={i} className="flex gap-2">
-                          <span className="text-primary mt-1">•</span>
-                          <span>{achievement}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ),
-              }))}
-              title="Experience timeline"
-              description="A quick look at the roles, companies, and impact that have shaped my journey so far."
-            />
-          </div>
-        </div>
-      </section>
-    );
-  };
+                <ul className="space-y-2 text-sm md:text-base text-gray-300">
+                  {exp.achievements.map((achievement, i) => (
+                    <li key={i} className="flex gap-2">
+                      <span className="text-primary mt-1">•</span>
+                      <span>{achievement}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ),
+          }))}
+          title="Experience timeline"
+          description="A quick look at the roles, companies, and impact that have shaped my journey so far."
+        />
+      </div>
+    </section>
+  );
+};
 
-  export default Experience;
+export default Experience;
