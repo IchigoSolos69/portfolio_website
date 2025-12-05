@@ -14,7 +14,7 @@ const Skills = () => {
   }, {} as Record<string, typeof skills>);
 
   return (
-    <section id="skills" className="py-20 relative">
+    <section id="skills" className="py-20 relative bg-black">
       <AnimatedGridPattern
         numSquares={30}
         maxOpacity={0.1}

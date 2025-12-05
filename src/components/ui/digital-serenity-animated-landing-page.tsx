@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { PulseBeams } from "@/components/ui/pulse-beams";
+import { motion } from 'framer-motion';
 
 type Ripple = {
   id: number;
@@ -247,69 +247,93 @@ const DigitalSerenity = () => {
             {/* Connect CTA Button with Pulse Beams */}
             <div className="mt-12 relative opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '4.5s' }}>
               <div className="relative flex items-center justify-center h-[180px] w-full">
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-visible">
-                  <PulseBeams
-                    beams={[
-                      {
-                        path: "M269 220.5H16.5C10.9772 220.5 6.5 224.977 6.5 230.5V398.5",
-                        gradientConfig: {
-                          initial: { x1: "0%", x2: "0%", y1: "80%", y2: "100%" },
-                          animate: {
-                            x1: ["0%", "0%", "200%"],
-                            x2: ["0%", "0%", "180%"],
-                            y1: ["80%", "0%", "0%"],
-                            y2: ["100%", "20%", "20%"],
-                          },
-                          transition: {
-                            duration: 2,
-                            repeat: Infinity,
-                            repeatType: "loop" as const,
-                            ease: "linear",
-                            repeatDelay: 2,
-                            delay: Math.random() * 2,
-                          },
-                        },
-                        connectionPoints: [
-                          { cx: 6.5, cy: 398.5, r: 6 },
-                          { cx: 269, cy: 220.5, r: 6 }
-                        ]
-                      },
-                      {
-                        path: "M568 200H841C846.523 200 851 195.523 851 190V40",
-                        gradientConfig: {
-                          initial: { x1: "0%", x2: "0%", y1: "80%", y2: "100%" },
-                          animate: {
-                            x1: ["20%", "100%", "100%"],
-                            x2: ["0%", "90%", "90%"],
-                            y1: ["80%", "80%", "-20%"],
-                            y2: ["100%", "100%", "0%"],
-                          },
-                          transition: {
-                            duration: 2,
-                            repeat: Infinity,
-                            repeatType: "loop" as const,
-                            ease: "linear",
-                            repeatDelay: 2,
-                            delay: Math.random() * 2,
-                          },
-                        },
-                        connectionPoints: [
-                          { cx: 851, cy: 34, r: 6.5 },
-                          { cx: 568, cy: 200, r: 6 }
-                        ]
-                      },
-                    ]}
-                    gradientColors={{
-                      start: "#18CCFC",
-                      middle: "#6344F5",
-                      end: "#AE48FF"
-                    }}
-                    baseColor="rgba(148, 163, 184, 0.3)"
-                    accentColor="rgba(203, 213, 225, 0.5)"
-                    className="!h-[180px] !w-full max-w-[600px]"
-                    width={600}
-                    height={180}
-                  />
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ width: '100%', height: '180px' }}>
+                  <svg
+                    width="600"
+                    height="180"
+                    viewBox="0 0 858 434"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="absolute"
+                    style={{ maxWidth: '600px', width: '100%', height: 'auto' }}
+                  >
+                    <defs>
+                      <motion.linearGradient
+                        id="grad0"
+                        gradientUnits="userSpaceOnUse"
+                        initial={{ x1: "0%", x2: "0%", y1: "80%", y2: "100%" }}
+                        animate={{
+                          x1: ["0%", "0%", "200%"],
+                          x2: ["0%", "0%", "180%"],
+                          y1: ["80%", "0%", "0%"],
+                          y2: ["100%", "20%", "20%"],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          repeatType: "loop",
+                          ease: "linear",
+                          repeatDelay: 2,
+                          delay: Math.random() * 2,
+                        }}
+                      >
+                        <stop offset="0%" stopColor="#18CCFC" stopOpacity="0" />
+                        <stop offset="20%" stopColor="#18CCFC" stopOpacity="1" />
+                        <stop offset="50%" stopColor="#6344F5" stopOpacity="1" />
+                        <stop offset="100%" stopColor="#AE48FF" stopOpacity="0" />
+                      </motion.linearGradient>
+                      <motion.linearGradient
+                        id="grad1"
+                        gradientUnits="userSpaceOnUse"
+                        initial={{ x1: "0%", x2: "0%", y1: "80%", y2: "100%" }}
+                        animate={{
+                          x1: ["20%", "100%", "100%"],
+                          x2: ["0%", "90%", "90%"],
+                          y1: ["80%", "80%", "-20%"],
+                          y2: ["100%", "100%", "0%"],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          repeatType: "loop",
+                          ease: "linear",
+                          repeatDelay: 2,
+                          delay: Math.random() * 2,
+                        }}
+                      >
+                        <stop offset="0%" stopColor="#18CCFC" stopOpacity="0" />
+                        <stop offset="20%" stopColor="#18CCFC" stopOpacity="1" />
+                        <stop offset="50%" stopColor="#6344F5" stopOpacity="1" />
+                        <stop offset="100%" stopColor="#AE48FF" stopOpacity="0" />
+                      </motion.linearGradient>
+                    </defs>
+                    <path
+                      d="M269 220.5H16.5C10.9772 220.5 6.5 224.977 6.5 230.5V398.5"
+                      stroke="rgba(148, 163, 184, 0.3)"
+                      strokeWidth="1"
+                    />
+                    <path
+                      d="M269 220.5H16.5C10.9772 220.5 6.5 224.977 6.5 230.5V398.5"
+                      stroke="url(#grad0)"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                    <circle cx="6.5" cy="398.5" r="6" fill="rgba(148, 163, 184, 0.3)" stroke="rgba(203, 213, 225, 0.5)" />
+                    <circle cx="269" cy="220.5" r="6" fill="rgba(148, 163, 184, 0.3)" stroke="rgba(203, 213, 225, 0.5)" />
+                    <path
+                      d="M568 200H841C846.523 200 851 195.523 851 190V40"
+                      stroke="rgba(148, 163, 184, 0.3)"
+                      strokeWidth="1"
+                    />
+                    <path
+                      d="M568 200H841C846.523 200 851 195.523 851 190V40"
+                      stroke="url(#grad1)"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                    <circle cx="851" cy="34" r="6.5" fill="rgba(148, 163, 184, 0.3)" stroke="rgba(203, 213, 225, 0.5)" />
+                    <circle cx="568" cy="200" r="6" fill="rgba(148, 163, 184, 0.3)" stroke="rgba(203, 213, 225, 0.5)" />
+                  </svg>
                 </div>
                 <button 
                   onClick={() => {
