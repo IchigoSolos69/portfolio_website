@@ -145,7 +145,7 @@ const DigitalSerenity = () => {
       <style>{pageStyles}</style>
       <section
         id="home"
-        className="min-h-screen bg-gradient-to-br from-slate-900/80 via-black/60 to-slate-800/80 text-slate-100 font-primary overflow-hidden relative"
+        className="min-h-screen bg-gradient-to-br from-slate-950/90 via-black/80 to-slate-900/90 text-slate-100 font-primary overflow-hidden relative"
       >
         
         <svg className="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -233,7 +233,7 @@ const DigitalSerenity = () => {
           {/* Interactive Eyes Component */}
           <div className="my-8 md:my-12 flex justify-center opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '3.6s' }}>
             <MouseFollowingEyes 
-              imageUrl="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&auto=format&fit=crop"
+              imageUrl="/unnamed.jpg"
             />
           </div>
 
