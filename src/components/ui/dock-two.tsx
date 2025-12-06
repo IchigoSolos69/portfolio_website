@@ -31,21 +31,32 @@ const floatingAnimation = {
   }
 }
 
-const DockIconButton = React.forwardRef<HTMLButtonElement, DockIconButtonProps>(
+// Memoized icon button to prevent unnecessary re-renders
+const DockIconButton = React.memo(React.forwardRef<HTMLButtonElement, DockIconButtonProps>(
   ({ icon: Icon, label, onClick, className }, ref) => {
+    const handleClick = React.useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+      onClick?.();
+    }, [onClick]);
+
     return (
       <motion.button
         ref={ref}
         whileHover={{ scale: 1.1, y: -2 }}
         whileTap={{ scale: 0.95 }}
-        onClick={onClick}
+        onClick={handleClick}
         className={cn(
-          // Larger touch targets on mobile for clarity
+          // Larger touch targets on mobile for clarity (minimum 44x44px for accessibility)
           "relative group p-3 sm:p-3 rounded-lg flex flex-col items-center tap-target focus-ring",
           "hover:bg-blue-400/20 transition-colors",
+          "min-w-[44px] min-h-[44px] touch-manipulation", // Better touch handling
           className
         )}
         aria-label={label}
+        style={{
+          willChange: 'transform',
+          touchAction: 'manipulation', // Optimize touch interactions
+        }}
       >
         <Icon className="w-6 h-6 sm:w-5 sm:h-5 text-white" />
         <span className={cn(
@@ -61,25 +72,33 @@ const DockIconButton = React.forwardRef<HTMLButtonElement, DockIconButtonProps>(
       </motion.button>
     )
   }
-)
+))
 DockIconButton.displayName = "DockIconButton"
 
-const Dock = React.forwardRef<HTMLDivElement, DockProps>(
+const Dock = React.memo(React.forwardRef<HTMLDivElement, DockProps>(
   ({ items, className }, ref) => {
     const [isMobile, setIsMobile] = React.useState(false);
 
-    React.useEffect(() => {
-      const checkMobile = () => {
-        setIsMobile(window.innerWidth < 768);
-      };
-      
-      checkMobile();
-      window.addEventListener('resize', checkMobile);
-      return () => window.removeEventListener('resize', checkMobile);
+    const checkMobile = React.useCallback(() => {
+      setIsMobile(window.innerWidth < 768);
     }, []);
 
+    React.useEffect(() => {
+      checkMobile();
+      const handleResize = () => checkMobile();
+      window.addEventListener('resize', handleResize, { passive: true });
+      return () => window.removeEventListener('resize', handleResize);
+    }, [checkMobile]);
+
+    // Memoize items to prevent unnecessary re-renders
+    const memoizedItems = React.useMemo(() => items, [items]);
+
     return (
-      <div ref={ref} className={cn("w-full flex items-center justify-center p-2", className)}>
+      <div 
+        ref={ref} 
+        className={cn("w-full flex items-center justify-center p-2", className)}
+        style={{ contain: 'layout style' }}
+      >
         <div className="w-full max-w-4xl rounded-2xl flex items-center justify-center relative">
           <motion.div
             initial="initial"
@@ -93,8 +112,12 @@ const Dock = React.forwardRef<HTMLDivElement, DockProps>(
               // Keep full scale on mobile so icons stay readable
               isMobile ? "scale-100" : ""
             )}
+            style={{
+              willChange: 'transform',
+              transform: 'translate3d(0, 0, 0)', // Force GPU acceleration
+            }}
           >
-            {items.map((item) => (
+            {memoizedItems.map((item) => (
               <DockIconButton key={item.label} {...item} />
             ))}
           </motion.div>
@@ -102,7 +125,7 @@ const Dock = React.forwardRef<HTMLDivElement, DockProps>(
       </div>
     )
   }
-)
+))
 Dock.displayName = "Dock"
 
 export { Dock }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FiGithub, FiLinkedin, FiTwitter, FiMail } from 'react-icons/fi';
+import { FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -16,25 +16,21 @@ const Footer = () => {
   }, []);
 
   const socialLinks = [
-    { icon: FiGithub, url: "https://github.com", label: "GitHub" },
-    { icon: FiLinkedin, url: "https://linkedin.com", label: "LinkedIn" },
-    { icon: FiTwitter, url: "https://twitter.com", label: "Twitter" },
-    { icon: FiMail, url: "mailto:adimaitre@example.com", label: "Email" }
+    { icon: FiGithub, url: "https://github.com/IchigoSolos69", label: "GitHub" },
+    { icon: FiLinkedin, url: "https://www.linkedin.com/in/adimaitre/", label: "LinkedIn" },
+    { icon: FiMail, url: "mailto:adimaitre56@gmail.com", label: "Email" }
   ];
 
   return (
     <footer className="bg-slate-950/95 text-slate-200 border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 py-6 md:py-8 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
         <div className="space-y-2">
-          <p className="text-xs uppercase tracking-[0.25em] text-slate-400">
-            Crafted with care
-          </p>
-          <h3 className="text-xl md:text-2xl font-semibold text-slate-50">
+          <h3 
+            className="text-xl md:text-2xl font-semibold text-slate-50"
+            style={{ fontFamily: "'Rockybilly', sans-serif" }}
+          >
             Adi <span className="text-slate-300">Rajendra</span> Maitre
           </h3>
-          <p className="text-sm text-slate-400 max-w-md">
-            Full Stack Developer &amp; AI Enthusiast building performant, elegant, and reliable digital experiences.
-          </p>
         </div>
 
         <div className="flex flex-col items-start md:items-end gap-4">
@@ -72,11 +68,11 @@ const Footer = () => {
           </div>
 
           <div className="text-xs text-slate-500">
-            &copy; {currentYear} Adi Rajendra Maitre. All rights reserved.
+            &copy; {currentYear} All rights reserved.
           </div>
         </div>
       </div>
-    </footer>
+    </footer> 
   );
 };
 

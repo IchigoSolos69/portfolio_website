@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { useState, useEffect } from 'react';
-import { FiMail, FiPhone, FiMapPin } from 'react-icons/fi';
+import { FiMail, FiPhone, FiMapPin, FiGithub, FiInstagram, FiLinkedin } from 'react-icons/fi';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -89,20 +89,14 @@ const Contact = () => {
     {
       icon: FiMail,
       title: "Email",
-      content: "adimaitre@example.com",
-      action: "mailto:adimaitre@example.com"
-    },
-    {
-      icon: FiPhone,
-      title: "Phone",
-      content: "+91 98765 43210",
-      action: "tel:+919876543210"
+      content: "adimaitre56@gmail.com",
+      action: "mailto:adimaitre56@gmail.com"
     },
     {
       icon: FiMapPin,
       title: "Location",
-      content: "Mumbai, India",
-      action: null
+      content: "Pune, India",
+      action: "https://maps.app.goo.gl/SBVmjStX7ZAekHrp9"
     }
   ];
 
@@ -161,9 +155,9 @@ const Contact = () => {
               <h4 className="text-lg sm:text-xl font-bold mb-4 text-white">Follow Me</h4>
               <div className="flex space-x-4">
                 {[
-                  { icon: FiMail, url: "mailto:adimaitre@example.com", label: "Email" },
-                  { icon: FiMail, url: "https://github.com", label: "GitHub" },
-                  { icon: FiMail, url: "https://linkedin.com", label: "LinkedIn" }
+                  { icon: FiLinkedin, url: "https://www.linkedin.com/in/adimaitre/", label: "LinkedIn" },
+                  { icon: FiGithub, url: "https://github.com/IchigoSolos69", label: "GitHub" },
+                  { icon: FiInstagram, url: "https://instagram.com/adi_maitre/", label: "Instagram" }
                 ].map((social, index) => (
                   <a 
                     key={index}

@@ -10,6 +10,7 @@ const About = lazy(() => import('./components/About'));
 const Skills = lazy(() => import('./components/Skills'));
 const Projects = lazy(() => import('./components/Projects'));
 const Experience = lazy(() => import('./components/Experience'));
+const Organizations = lazy(() => import('./components/Organizations'));
 const Contact = lazy(() => import('./components/Contact'));
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
                 <Skills />
                 <Projects />
                 <Experience />
+                <Organizations />
                 <Contact />
               </Suspense>
             </motion.div>

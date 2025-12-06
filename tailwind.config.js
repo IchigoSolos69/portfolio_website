@@ -16,7 +16,8 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
-        heading: ['Poppins', 'sans-serif']
+        heading: ['Poppins', 'sans-serif'],
+        rockybilly: ['Rockybilly', 'sans-serif']
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

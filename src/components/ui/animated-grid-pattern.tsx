@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState, useMemo, useCallback } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -17,6 +17,11 @@ interface AnimatedGridPatternProps {
   repeatDelay?: number;
 }
 
+interface Square {
+  id: number;
+  pos: [number, number];
+}
+
 export function AnimatedGridPattern({
   width = 40,
   height = 40,
@@ -31,60 +36,84 @@ export function AnimatedGridPattern({
   ...props
 }: AnimatedGridPatternProps) {
   const id = useId();
-  const containerRef = useRef(null);
+  const containerRef = useRef<SVGSVGElement>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const [squares, setSquares] = useState(() => generateSquares(numSquares));
   const [isMobile, setIsMobile] = useState(false);
+  const animationFrameRef = useRef<number | null>(null);
 
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+  // Memoize mobile detection
+  const checkMobile = useCallback(() => {
+    setIsMobile(window.innerWidth < 768);
   }, []);
 
-  function getPos() {
+  useEffect(() => {
+    checkMobile();
+    const handleResize = () => checkMobile();
+    window.addEventListener('resize', handleResize, { passive: true });
+    return () => window.removeEventListener('resize', handleResize);
+  }, [checkMobile]);
+
+  // Memoize position calculation
+  const getPos = useCallback((): [number, number] => {
+    if (!dimensions.width || !dimensions.height) return [0, 0];
     return [
       Math.floor((Math.random() * dimensions.width) / width),
       Math.floor((Math.random() * dimensions.height) / height),
     ];
-  }
+  }, [dimensions, width, height]);
 
-  function generateSquares(count: number) {
+  // Memoize square generation
+  const generateSquares = useCallback((count: number): Square[] => {
     return Array.from({ length: count }, (_, i) => ({
       id: i,
       pos: getPos(),
     }));
-  }
+  }, [getPos]);
 
-  const updateSquarePosition = (id: number) => {
-    setSquares((currentSquares) =>
-      currentSquares.map((sq) =>
-        sq.id === id
-          ? {
-              ...sq,
-              pos: getPos(),
-            }
-          : sq,
-      ),
-    );
-  };
+  // Optimize: Reduce number of squares on mobile
+  const optimizedNumSquares = useMemo(() => {
+    return isMobile ? Math.floor(numSquares * 0.6) : numSquares;
+  }, [isMobile, numSquares]);
+
+  const [squares, setSquares] = useState<Square[]>([]);
+
+  // Batch square position updates using requestAnimationFrame
+  const updateSquarePosition = useCallback((id: number) => {
+    if (animationFrameRef.current === null) {
+      animationFrameRef.current = requestAnimationFrame(() => {
+        setSquares((currentSquares) =>
+          currentSquares.map((sq) =>
+            sq.id === id
+              ? {
+                  ...sq,
+                  pos: getPos(),
+                }
+              : sq,
+          ),
+        );
+        animationFrameRef.current = null;
+      });
+    }
+  }, [getPos]);
 
   useEffect(() => {
     if (dimensions.width && dimensions.height) {
-      setSquares(generateSquares(numSquares));
+      setSquares(generateSquares(optimizedNumSquares));
     }
-  }, [dimensions, numSquares]);
+  }, [dimensions, optimizedNumSquares, generateSquares]);
 
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
-      for (let entry of entries) {
-        setDimensions({
-          width: entry.contentRect.width,
-          height: entry.contentRect.height,
+      // Use requestAnimationFrame to batch dimension updates
+      if (animationFrameRef.current === null) {
+        animationFrameRef.current = requestAnimationFrame(() => {
+          for (let entry of entries) {
+            setDimensions({
+              width: entry.contentRect.width,
+              height: entry.contentRect.height,
+            });
+          }
+          animationFrameRef.current = null;
         });
       }
     });
@@ -97,12 +126,16 @@ export function AnimatedGridPattern({
       if (containerRef.current) {
         resizeObserver.unobserve(containerRef.current);
       }
+      if (animationFrameRef.current !== null) {
+        cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
+      }
     };
-  }, [containerRef]);
+  }, []);
 
   // Reduce animation intensity on mobile
-  const reducedDuration = isMobile ? duration * 1.5 : duration;
-  const reducedMaxOpacity = isMobile ? maxOpacity * 0.7 : maxOpacity;
+  const reducedDuration = useMemo(() => isMobile ? duration * 1.5 : duration, [isMobile, duration]);
+  const reducedMaxOpacity = useMemo(() => isMobile ? maxOpacity * 0.7 : maxOpacity, [isMobile, maxOpacity]);
 
   return (
     <svg
@@ -112,6 +145,10 @@ export function AnimatedGridPattern({
         "pointer-events-none absolute inset-0 h-full w-full fill-gray-400/30 stroke-gray-400/30",
         className,
       )}
+      style={{
+        contain: 'layout style paint',
+        willChange: 'contents',
+      }}
       {...props}
     >
       <defs>
@@ -140,16 +177,20 @@ export function AnimatedGridPattern({
               duration: reducedDuration,
               repeat: 1,
               delay: index * 0.1,
-              repeatType: "reverse",
+              repeatType: "reverse" as const,
             }}
             onAnimationComplete={() => updateSquarePosition(id)}
-            key={`${x}-${y}-${index}`}
+            key={`${x}-${y}-${id}`}
             width={width - 1}
             height={height - 1}
             x={x * width + 1}
             y={y * height + 1}
             fill="currentColor"
             strokeWidth="0"
+            style={{
+              willChange: 'opacity',
+              transform: 'translate3d(0, 0, 0)', // Force GPU acceleration
+            }}
           />
         ))}
       </svg>

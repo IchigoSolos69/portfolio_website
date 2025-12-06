@@ -57,7 +57,7 @@ const About = () => {
             <TrailCard
               className="bg-dark/70 border border-gray-700 shadow-2xl w-full max-w-sm"
               imageUrl="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80"
-              mapImageUrl="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=80"
+              mapImageUrl="https://satellites.pro/Google/Pune_map.India#"
               title="Adi Maitre"
               location="Front-End Developer · AI Enthusiast"
               difficulty="Pune, India"

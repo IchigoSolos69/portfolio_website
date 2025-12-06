@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { MouseFollowingEyes } from "@/components/ui/mouse-following-eyes";
+import { EtherealShadow } from "@/components/ui/etheral-shadow";
+import { PulseBeams } from "@/components/ui/pulse-beams";
 
 type Ripple = {
   id: number;
@@ -257,12 +259,21 @@ const DigitalSerenity = () => {
       <style>{pageStyles}</style>
       <section
         id="home"
-        className="min-h-screen bg-black text-slate-100 font-primary overflow-hidden relative"
+        className="min-h-screen text-slate-100 font-primary overflow-hidden relative"
       >
+        <EtherealShadow
+          color="rgba(15, 23, 42, 0.6)"
+          animation={{ scale: 100, speed: 90 }}
+          noise={{ opacity: 1.2, scale: 1.2 }}
+          sizing="fill"
+          className="absolute inset-0 w-full h-full"
+          style={{ zIndex: 0, opacity: 1 }}
+        />
         <svg 
           className="absolute inset-0 w-full h-full pointer-events-none" 
           xmlns="http://www.w3.org/2000/svg" 
           aria-hidden="true"
+          style={{ zIndex: 1 }}
         >
           <defs>
             <pattern id="gridReactDarkResponsive" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -302,108 +313,271 @@ const DigitalSerenity = () => {
         </div>
 
         {!isMobile && (
-          <>
+        <>
             <div className="floating-element-animate" style={{ top: '25%', left: '15%', animationDelay: '0.5s' }}></div>
             <div className="floating-element-animate" style={{ top: '60%', left: '85%', animationDelay: '1s' }}></div>
             <div className="floating-element-animate" style={{ top: '40%', left: '10%', animationDelay: '1.5s' }}></div>
             <div className="floating-element-animate" style={{ top: '75%', left: '90%', animationDelay: '2s' }}></div>
-          </>
+        </>
         )}
 
-        <div className="relative z-10 min-h-screen flex flex-col justify-center items-center px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-16">
+        <div className="relative z-20 min-h-screen flex flex-col justify-center items-center px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-16">
           <div className="text-center max-w-5xl mx-auto relative z-20">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extralight leading-tight tracking-tight text-white text-decoration-animate">
-              <div className="mb-3 md:mb-4">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extralight leading-tight tracking-tight text-white text-decoration-animate">
+            <div className="mb-2 md:mb-3">
                 <span className="word-animate" data-delay="700">Hi,</span>
                 <span className="word-animate" data-delay="900">I'm</span>
                 <span className="word-animate" data-delay="1150">Adi</span>
                 <span className="word-animate" data-delay="1350">Maitre.</span>
-              </div>
-              <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-thin text-slate-200 leading-relaxed tracking-wide">
-                <span className="word-animate" data-delay="1700">I</span>
-                <span className="word-animate" data-delay="1850">craft</span>
-                <span className="word-animate" data-delay="2000">fast,</span>
-                <span className="word-animate" data-delay="2150">accessible,</span>
-                <span className="word-animate" data-delay="2300">and</span>
-                <span className="word-animate" data-delay="2450">visually</span>
-                <span className="word-animate" data-delay="2600">refined</span>
-                <span className="word-animate" data-delay="2750">digital</span>
-                <span className="word-animate" data-delay="2900">experiences</span>
-                <span className="word-animate" data-delay="3050">you</span>
-                <span className="word-animate" data-delay="3200">can</span>
-                <span className="word-animate" data-delay="3350">trust.</span>
-              </div>
+            </div>
+              <div className="text-base sm:text-lg md:text-xl lg:text-2xl font-thin text-slate-200 leading-relaxed tracking-wide">
+                <span className="word-animate" data-delay="1700">"</span>
+                <span className="word-animate" data-delay="1850">Building</span>
+                <span className="word-animate" data-delay="2000">the</span>
+                <span className="word-animate" data-delay="2150">plane</span>
+                <span className="word-animate" data-delay="2300">while</span>
+                <span className="word-animate" data-delay="2450">I</span>
+                <span className="word-animate" data-delay="2600">fly</span>
+                <span className="word-animate" data-delay="2750">it.</span>
+                <span className="word-animate" data-delay="2900">"</span>
+            </div>
             </h1>
             <div className="absolute -left-4 sm:-left-6 top-1/2 transform -translate-y-1/2 w-2 sm:w-3 h-px bg-slate-300 opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '3.2s' }}></div>
             <div className="absolute -right-4 sm:-right-6 top-1/2 transform -translate-y-1/2 w-2 sm:w-3 h-px bg-slate-300 opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '3.4s' }}></div>
-          </div>
+        </div>
 
           {/* Interactive Eyes Component */}
-          <div className="my-8 md:my-12 flex justify-center opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '3.6s' }}>
+          <div className="my-6 md:my-8 flex justify-center opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '3.6s' }}>
             <MouseFollowingEyes 
               imageUrl="/unnamed.jpg"
             />
           </div>
 
           <div className="text-center relative z-20">
-            <div className="mb-3 w-10 sm:w-12 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent opacity-30 mx-auto"></div>
+            <div className="mb-2 w-8 sm:w-10 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent opacity-30 mx-auto"></div>
             <h2 className="text-xs sm:text-sm font-mono font-light text-slate-300 uppercase tracking-[0.2em]">
-              <span className="word-animate" data-delay="3300">React,</span>
-              <span className="word-animate" data-delay="3450">TypeScript,</span>
-              <span className="word-animate" data-delay="3600">and</span>
-              <span className="word-animate" data-delay="3750">AI-driven</span>
-              <span className="word-animate" data-delay="3900">experiences.</span>
+            <span className="word-animate" data-delay="3300">React,</span>
+            <span className="word-animate" data-delay="3450">TypeScript,</span>
+            <span className="word-animate" data-delay="3600">and</span>
+            <span className="word-animate" data-delay="3750">AI-driven</span>
+            <span className="word-animate" data-delay="3900">experiences.</span>
             </h2>
             <div className="mt-4 flex justify-center space-x-2 sm:space-x-3 opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '4.2s' }}>
-              <div className="w-1 h-1 bg-slate-300 rounded-full opacity-40"></div>
-              <div className="w-1 h-1 bg-slate-300 rounded-full opacity-60"></div>
-              <div className="w-1 h-1 bg-slate-300 rounded-full opacity-40"></div>
+            <div className="w-1 h-1 bg-slate-300 rounded-full opacity-40"></div>
+            <div className="w-1 h-1 bg-slate-300 rounded-full opacity-60"></div>
+            <div className="w-1 h-1 bg-slate-300 rounded-full opacity-80"></div>
+            <div className="w-1 h-1 bg-slate-300 rounded-full opacity-60"></div>
+            <div className="w-1 h-1 bg-slate-300 rounded-full opacity-40"></div>
             </div>
             
-            <div className="mt-8 sm:mt-10 relative opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '4.5s' }}>
-              <button 
-                onClick={() => {
-                  const contactSection = document.getElementById('contact');
-                  if (contactSection) {
-                    contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            {/* Red divider line */}
+            <div className="w-full h-[109px]  my-6 sm:my-8 opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '4.4s' }}></div>
+            
+            <div className="mt-4 sm:mt-6 relative opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '4.5s' }}>
+              <PulseBeams
+                beams={[
+                  {
+                    path: "M269 220.5H16.5C10.9772 220.5 6.5 224.977 6.5 230.5V398.5",
+                    gradientConfig: {
+                      initial: {
+                        x1: "0%",
+                        x2: "0%",
+                        y1: "80%",
+                        y2: "100%",
+                      },
+                      animate: {
+                        x1: ["0%", "0%", "200%"],
+                        x2: ["0%", "0%", "180%"],
+                        y1: ["80%", "0%", "0%"],
+                        y2: ["100%", "20%", "20%"],
+                      },
+                      transition: {
+                        duration: 2,
+                        repeat: Infinity,
+                        repeatType: "loop" as const,
+                        ease: "linear",
+                        repeatDelay: 2,
+                        delay: 0,
+                      },
+                    },
+                    connectionPoints: [
+                      { cx: 6.5, cy: 398.5, r: 6 },
+                      { cx: 269, cy: 220.5, r: 6 }
+                    ]
+                  },
+                  {
+                    path: "M568 200H841C846.523 200 851 195.523 851 190V40",
+                    gradientConfig: {
+                      initial: {
+                        x1: "0%",
+                        x2: "0%",
+                        y1: "80%",
+                        y2: "100%",
+                      },
+                      animate: {
+                        x1: ["20%", "100%", "100%"],
+                        x2: ["0%", "90%", "90%"],
+                        y1: ["80%", "80%", "-20%"],
+                        y2: ["100%", "100%", "0%"],
+                      },
+                      transition: {
+                        duration: 2,
+                        repeat: Infinity,
+                        repeatType: "loop" as const,
+                        ease: "linear",
+                        repeatDelay: 2,
+                        delay: 0.5,
+                      },
+                    },
+                    connectionPoints: [
+                      { cx: 851, cy: 34, r: 6.5 },
+                      { cx: 568, cy: 200, r: 6 }
+                    ]
+                  },
+                  {
+                    path: "M425.5 274V333C425.5 338.523 421.023 343 415.5 343H152C146.477 343 142 347.477 142 353V426.5",
+                    gradientConfig: {
+                      initial: {
+                        x1: "0%",
+                        x2: "0%",
+                        y1: "80%",
+                        y2: "100%",
+                      },
+                      animate: {
+                        x1: ["20%", "100%", "100%"],
+                        x2: ["0%", "90%", "90%"],
+                        y1: ["80%", "80%", "-20%"],
+                        y2: ["100%", "100%", "0%"],
+                      },
+                      transition: {
+                        duration: 2,
+                        repeat: Infinity,
+                        repeatType: "loop" as const,
+                        ease: "linear",
+                        repeatDelay: 2,
+                        delay: 1,
+                      },
+                    },
+                    connectionPoints: [
+                      { cx: 142, cy: 427, r: 6.5 },
+                      { cx: 425.5, cy: 274, r: 6 }
+                    ]
+                  },
+                  {
+                    path: "M493 274V333.226C493 338.749 497.477 343.226 503 343.226H760C765.523 343.226 770 347.703 770 353.226V427",
+                    gradientConfig: {
+                      initial: {
+                        x1: "40%",
+                        x2: "50%",
+                        y1: "160%",
+                        y2: "180%",
+                      },
+                      animate: {
+                        x1: "0%",
+                        x2: "10%",
+                        y1: "-40%",
+                        y2: "-20%",
+                      },
+                      transition: {
+                        duration: 2,
+                        repeat: Infinity,
+                        repeatType: "loop" as const,
+                        ease: "linear",
+                        repeatDelay: 2,
+                        delay: 1.5,
+                      },
+                    },
+                    connectionPoints: [
+                      { cx: 770, cy: 427, r: 6.5 },
+                      { cx: 493, cy: 274, r: 6 }
+                    ]
+                  },
+                  {
+                    path: "M380 168V17C380 11.4772 384.477 7 390 7H414",
+                    gradientConfig: {
+                      initial: {
+                        x1: "-40%",
+                        x2: "-10%",
+                        y1: "0%",
+                        y2: "20%",
+                      },
+                      animate: {
+                        x1: ["40%", "0%", "0%"],
+                        x2: ["10%", "0%", "0%"],
+                        y1: ["0%", "0%", "180%"],
+                        y2: ["20%", "20%", "200%"],
+                      },
+                      transition: {
+                        duration: 2,
+                        repeat: Infinity,
+                        repeatType: "loop" as const,
+                        ease: "linear",
+                        repeatDelay: 2,
+                        delay: 2,
+                      },
+                    },
+                    connectionPoints: [
+                      { cx: 420.5, cy: 6.5, r: 6 },
+                      { cx: 380, cy: 168, r: 6 }
+                    ]
                   }
+                ]}
+                gradientColors={{
+                  start: "#18CCFC",
+                  middle: "#6344F5",
+                  end: "#AE48FF"
                 }}
-                className="relative z-50 bg-slate-800 w-[180px] sm:w-[200px] h-[50px] sm:h-[60px] no-underline group cursor-pointer shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6 text-white inline-block hover:scale-105 transition-transform duration-300 tap-target focus-ring"
+                baseColor="rgba(51, 65, 85, 0.9)"
+                accentColor="rgba(100, 116, 139, 0.9)"
+                width={isMobile ? 400 : 600}
+                height={isMobile ? 180 : 240}
+                className="w-full h-auto max-h-[240px] overflow-visible"
               >
+            <button 
+                onClick={() => {
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                }}
+                  className="relative z-50 bg-slate-800 w-[140px] sm:w-[170px] md:w-[200px] h-[40px] sm:h-[48px] md:h-[52px] no-underline group cursor-pointer shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6 text-white inline-block hover:scale-105 transition-transform duration-300 tap-target focus-ring"
+            >
                 <span className="absolute inset-0 overflow-hidden rounded-full">
-                  <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                 </span>
                 <div className="relative flex justify-center w-full text-center space-x-2 h-full items-center z-10 rounded-full bg-zinc-950 py-0.5 px-4 ring-1 ring-white/10">
-                  <span className="text-base sm:text-lg md:text-xl inline-block bg-clip-text text-transparent bg-gradient-to-r from-neutral-300 via-neutral-600 to-neutral-300">
-                    Connect
-                  </span>
+                    <span className="text-xs sm:text-sm md:text-base lg:text-lg inline-block bg-clip-text text-transparent bg-gradient-to-r from-neutral-300 via-neutral-600 to-neutral-300">
+                      Connect with Me
+                    </span>
                 </div>
-              </button>
+            </button>
+              </PulseBeams>
             </div>
-          </div>
+        </div>
         </div>
 
         <div 
-          id="mouse-gradient-react"
-          className="w-40 h-40 blur-lg sm:w-60 sm:h-60 sm:blur-xl md:w-80 md:h-80 md:blur-2xl"
-          style={{
+        id="mouse-gradient-react"
+        className="w-40 h-40 blur-lg sm:w-60 sm:h-60 sm:blur-xl md:w-80 md:h-80 md:blur-2xl"
+        style={{
             left: mouseGradientStyle.left,
             top: mouseGradientStyle.top,
             opacity: mouseGradientStyle.opacity,
-          }}
+            zIndex: 15,
+        }}
         ></div>
 
         {ripples.map((ripple: Ripple) => (
-          <div
+        <div
             key={ripple.id}
             className="ripple-effect"
-            style={{ left: `${ripple.x}px`, top: `${ripple.y}px` }}
-          ></div>
+            style={{ left: `${ripple.x}px`, top: `${ripple.y}px`, zIndex: 15 }}
+        ></div>
         ))}
-      </section>
-    </>
-  );
-};
+        </section>
+        </>
+        );
+        };
 
-export default DigitalSerenity;
+        export default DigitalSerenity;
 

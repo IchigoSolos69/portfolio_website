@@ -57,20 +57,20 @@ export const PulseBeams = ({
   beams,
   width = 858,
   height = 434,
-  baseColor = "var(--slate-800)",
-  accentColor = "var(--slate-600)",
+  baseColor = "rgba(51, 65, 85, 0.5)",
+  accentColor = "rgba(100, 116, 139, 0.5)",
   gradientColors,
 }: PulseBeamsProps) => {
   return (
     <div
       className={cn(
-        "w-full h-screen relative flex items-center justify-center antialiased overflow-hidden",
+        "relative flex items-center justify-center antialiased overflow-visible",
         className
       )}
     >
       {background}
       <div className="relative z-10">{children}</div>
-      <div className="absolute inset-0 flex items-center justify-center">
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <SVGs
           beams={beams}
           width={width}
@@ -102,10 +102,15 @@ const SVGs = ({ beams, width, height, baseColor, accentColor, gradientColors }: 
     <svg
       width={width}
       height={height}
-      viewBox={`0 0 ${width} ${height}`}
+      viewBox="0 0 858 434"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className="flex flex-shrink-0"
+      preserveAspectRatio="xMidYMid meet"
+      style={{
+        opacity: 0.9,
+        overflow: 'visible',
+      }}
     >
       {beams.map((beam: BeamPath, index: number) => (
         <React.Fragment key={index}>

@@ -13,19 +13,40 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          'react-vendor': ['react', 'react-dom'],
-          'framer-motion': ['framer-motion'],
-          'ui-components': [
-            '@radix-ui/react-avatar',
-            '@radix-ui/react-progress',
-            '@radix-ui/react-slot',
-            '@radix-ui/react-tooltip'
-          ]
-        }
+        manualChunks: (id) => {
+          // Vendor chunks
+          if (id.includes('node_modules')) {
+            // React and React DOM
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'react-vendor';
+            }
+            // Framer Motion
+            if (id.includes('framer-motion')) {
+              return 'framer-motion';
+            }
+            // Radix UI components
+            if (id.includes('@radix-ui')) {
+              return 'radix-ui';
+            }
+            // Icons
+            if (id.includes('lucide-react') || id.includes('react-icons')) {
+              return 'icons';
+            }
+            // Other vendor libraries
+            return 'vendor';
+          }
+        },
+        // Optimize chunk size
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
+        assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
       }
     },
-    chunkSizeWarningLimit: 1000
+    chunkSizeWarningLimit: 1000,
+    // Enable source maps for production debugging (optional)
+    sourcemap: false,
+    // Minify with esbuild (default, faster than terser)
+    minify: 'esbuild',
   },
   server: {
     port: 3000,

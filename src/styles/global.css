@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Rockybilly Font */
+@font-face {
+  font-family: 'Rockybilly';
+  src: url('/fonts/Rockybilly.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Ensure font is available globally */
+.font-rockybilly {
+  font-family: 'Rockybilly', 'Arial', sans-serif !important;
+}
+
 @layer base {
   :root {
     --background: 15 23 42;
