@@ -1,9 +1,11 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+// Assuming you have these components already as stated
 import { MouseFollowingEyes } from "@/components/ui/mouse-following-eyes";
-import { EtherealShadow } from "@/components/ui/etheral-shadow";
 import { PulseBeams } from "@/components/ui/pulse-beams";
+// Imported correctly from step 2
+import { EtherealShadow } from "@/components/ui/etheral-shadow";
 
 type Ripple = {
   id: number;
@@ -237,16 +239,16 @@ const DigitalSerenity = () => {
       <style>{pageStyles}</style>
       <section
         id="home"
-        className="min-h-screen text-slate-100 font-sans overflow-hidden relative bg-slate-950"
+        className="min-h-screen text-slate-100 font-primary overflow-hidden relative bg-slate-950"
       >
-        <EtherealShadow
-          color="rgba(15, 23, 42, 0.8)"
-          animation={{ scale: 100, speed: 90 }}
-          noise={{ opacity: 1, scale: 1.2 }}
-          sizing="fill"
-          className="fixed inset-0 w-full h-full pointer-events-none"
-          style={{ zIndex: 0, opacity: 1 }}
-        />
+        <EtherealShadow 
+        color="#e2e8f0" 
+        animation={{ scale: 100, speed: 50 }} 
+        noise={{ opacity: 0.2, scale: 1.2 }}
+        sizing="fill"
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        style={{ zIndex: 0 }}
+    />
 
         {/* Responsive Corner Elements */}
         <div className="corner-element-animate top-4 left-4" style={{ animationDelay: '4s' }}>
@@ -299,7 +301,7 @@ const DigitalSerenity = () => {
           {/* Interactive Eyes Component */}
           <div className="my-6 md:my-8 flex justify-center opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '3.6s' }}>
             <MouseFollowingEyes 
-              imageUrl="https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=500&auto=format&fit=crop&q=60"
+              imageUrl="/unnamed.jpg"
             />
           </div>
 
@@ -325,7 +327,153 @@ const DigitalSerenity = () => {
             
             <div className="mt-4 sm:mt-6 relative opacity-0" style={{ animation: 'word-appear 1s ease-out forwards', animationDelay: '4.5s' }}>
               <PulseBeams
-                beams={[]} // Empty for placeholder
+                beams={[
+                  {
+                    path: "M269 220.5H16.5C10.9772 220.5 6.5 224.977 6.5 230.5V398.5",
+                    gradientConfig: {
+                      initial: {
+                        x1: "0%",
+                        x2: "0%",
+                        y1: "80%",
+                        y2: "100%",
+                      },
+                      animate: {
+                        x1: ["0%", "0%", "200%"],
+                        x2: ["0%", "0%", "180%"],
+                        y1: ["80%", "0%", "0%"],
+                        y2: ["100%", "20%", "20%"],
+                      },
+                      transition: {
+                        duration: 2,
+                        repeat: Infinity,
+                        repeatType: "loop" as const,
+                        ease: "linear",
+                        repeatDelay: 2,
+                        delay: 0,
+                      },
+                    },
+                    connectionPoints: [
+                      { cx: 6.5, cy: 398.5, r: 6 },
+                      { cx: 269, cy: 220.5, r: 6 }
+                    ]
+                  },
+                  {
+                    path: "M568 200H841C846.523 200 851 195.523 851 190V40",
+                    gradientConfig: {
+                      initial: {
+                        x1: "0%",
+                        x2: "0%",
+                        y1: "80%",
+                        y2: "100%",
+                      },
+                      animate: {
+                        x1: ["20%", "100%", "100%"],
+                        x2: ["0%", "90%", "90%"],
+                        y1: ["80%", "80%", "-20%"],
+                        y2: ["100%", "100%", "0%"],
+                      },
+                      transition: {
+                        duration: 2,
+                        repeat: Infinity,
+                        repeatType: "loop" as const,
+                        ease: "linear",
+                        repeatDelay: 2,
+                        delay: 0.5,
+                      },
+                    },
+                    connectionPoints: [
+                      { cx: 851, cy: 34, r: 6.5 },
+                      { cx: 568, cy: 200, r: 6 }
+                    ]
+                  },
+                  {
+                    path: "M425.5 274V333C425.5 338.523 421.023 343 415.5 343H152C146.477 343 142 347.477 142 353V426.5",
+                    gradientConfig: {
+                      initial: {
+                        x1: "0%",
+                        x2: "0%",
+                        y1: "80%",
+                        y2: "100%",
+                      },
+                      animate: {
+                        x1: ["20%", "100%", "100%"],
+                        x2: ["0%", "90%", "90%"],
+                        y1: ["80%", "80%", "-20%"],
+                        y2: ["100%", "100%", "0%"],
+                      },
+                      transition: {
+                        duration: 2,
+                        repeat: Infinity,
+                        repeatType: "loop" as const,
+                        ease: "linear",
+                        repeatDelay: 2,
+                        delay: 1,
+                      },
+                    },
+                    connectionPoints: [
+                      { cx: 142, cy: 427, r: 6.5 },
+                      { cx: 425.5, cy: 274, r: 6 }
+                    ]
+                  },
+                  {
+                    path: "M493 274V333.226C493 338.749 497.477 343.226 503 343.226H760C765.523 343.226 770 347.703 770 353.226V427",
+                    gradientConfig: {
+                      initial: {
+                        x1: "40%",
+                        x2: "50%",
+                        y1: "160%",
+                        y2: "180%",
+                      },
+                      animate: {
+                        x1: "0%",
+                        x2: "10%",
+                        y1: "-40%",
+                        y2: "-20%",
+                      },
+                      transition: {
+                        duration: 2,
+                        repeat: Infinity,
+                        repeatType: "loop" as const,
+                        ease: "linear",
+                        repeatDelay: 2,
+                        delay: 1.5,
+                      },
+                    },
+                    connectionPoints: [
+                      { cx: 770, cy: 427, r: 6.5 },
+                      { cx: 493, cy: 274, r: 6 }
+                    ]
+                  },
+                  {
+                    path: "M380 168V17C380 11.4772 384.477 7 390 7H414",
+                    gradientConfig: {
+                      initial: {
+                        x1: "-40%",
+                        x2: "-10%",
+                        y1: "0%",
+                        y2: "20%",
+                      },
+                      animate: {
+                        x1: ["40%", "0%", "0%"],
+                        x2: ["10%", "0%", "0%"],
+                        y1: ["0%", "0%", "180%"],
+                        y2: ["20%", "20%", "200%"],
+                      },
+                      transition: {
+                        duration: 2,
+                        repeat: Infinity,
+                        repeatType: "loop" as const,
+                        ease: "linear",
+                        repeatDelay: 2,
+                        delay: 2,
+                      },
+                    },
+                    connectionPoints: [
+                      { cx: 420.5, cy: 6.5, r: 6 },
+                      { cx: 380, cy: 168, r: 6 }
+                    ]
+                  }
+                ]}
                 gradientColors={{
                   start: "#18CCFC",
                   middle: "#6344F5",
@@ -378,9 +526,9 @@ const DigitalSerenity = () => {
             style={{ left: `${ripple.x}px`, top: `${ripple.y}px`, zIndex: 15 }}
         ></div>
         ))}
-      </section>
-    </>
-  );
-};
+        </section>
+        </>
+        );
+        };
 
-export default DigitalSerenity;
+        export default DigitalSerenity;
