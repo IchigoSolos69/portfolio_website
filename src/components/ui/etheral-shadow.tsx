@@ -3,7 +3,6 @@
 import React, { useRef, useId, useEffect, CSSProperties } from 'react';
 import { animate, useMotionValue, AnimationPlaybackControls } from 'framer-motion';
 
-// Type definitions
 interface ResponsiveImage {
     src: string;
     alt?: string;
@@ -31,7 +30,6 @@ interface ShadowOverlayProps {
     noise?: NoiseConfig;
     style?: CSSProperties;
     className?: string;
-    children?: React.ReactNode;
 }
 
 function mapRange(
@@ -55,14 +53,13 @@ const useInstanceId = (): string => {
     return instanceId;
 };
 
-export function EtherealShadow({
+export function EtheralShadow({
     sizing = 'fill',
     color = 'rgba(128, 128, 128, 1)',
     animation,
     noise,
     style,
-    className,
-    children
+    className
 }: ShadowOverlayProps) {
     const id = useInstanceId();
     const animationEnabled = animation && animation.scale > 0;
@@ -116,12 +113,11 @@ export function EtherealShadow({
                 style={{
                     position: "absolute",
                     inset: -displacementScale,
-                    filter: animationEnabled ? `url(#${id}) blur(4px)` : "none",
-                    zIndex: 0,
+                    filter: animationEnabled ? `url(#${id}) blur(4px)` : "none"
                 }}
             >
                 {animationEnabled && (
-                    <svg style={{ position: "absolute", width: 0, height: 0 }}>
+                    <svg style={{ position: "absolute" }}>
                         <defs>
                             <filter id={id}>
                                 <feTurbulence
@@ -167,24 +163,25 @@ export function EtherealShadow({
                         maskRepeat: "no-repeat",
                         maskPosition: "center",
                         width: "100%",
-                        height: "100%",
-                        opacity: 1
+                        height: "100%"
                     }}
                 />
             </div>
 
-            {children && (
-                <div
-                    style={{
-                        position: "relative",
-                        zIndex: 10,
-                        width: "100%",
-                        height: "100%"
-                    }}
-                >
-                    {children}
-                </div>
-            )}
+            <div
+                style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    textAlign: "center",
+                    zIndex: 10
+                }}
+            >
+                <h1 className="md:text-7xl text-6xl lg:text-8xl font-bold text-center text-foreground relative z-20">
+                    Etheral Shadows
+                </h1>
+            </div>
 
             {noise && noise.opacity > 0 && (
                 <div
@@ -192,11 +189,9 @@ export function EtherealShadow({
                         position: "absolute",
                         inset: 0,
                         backgroundImage: `url("https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png")`,
-                        backgroundSize: `${noise.scale * 200}px`,
+                        backgroundSize: noise.scale * 200,
                         backgroundRepeat: "repeat",
-                        opacity: noise.opacity / 2,
-                        zIndex: 1,
-                        pointerEvents: "none"
+                        opacity: noise.opacity / 2
                     }}
                 />
             )}
@@ -204,3 +199,4 @@ export function EtherealShadow({
     );
 }
 
+export default EtheralShadow;

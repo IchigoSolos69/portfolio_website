@@ -9,6 +9,8 @@
     "preview": "vite preview",
     "analyze": "vite-bundle-visualizer",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier --write \"src/**/*.{tsx,ts,js,jsx}\"",
+    "test": "jest",
     "preview-build": "vite preview --port 5000"
   },
   "dependencies": {
@@ -18,7 +20,7 @@
     "@radix-ui/react-tooltip": "^1.0.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
-    "framer-motion": "^10.16.4",
+    "framer-motion": "^10.18.0",
     "lucide-react": "^0.263.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -28,14 +30,21 @@
     "web-vitals": "^3.5.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.0.3",
     "autoprefixer": "^10.4.14",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "jest": "^30.2.0",
     "postcss": "^8.4.27",
+    "prettier": "^3.7.4",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.0.2",
-    "vite": "^4.4.5",
+    "vite": "^7.2.7",
     "vite-bundle-visualizer": "^0.10.0"
   }
 }
