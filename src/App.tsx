@@ -2,7 +2,6 @@ import { useEffect, Suspense, lazy } from 'react';
 import Header from './components/Header';
 import DigitalSerenity from "@/components/DigitalSerenity";
 import Footer from "./components/Footer";
-import ContinuousBackground from './components/ContinuousBackground';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Lazy load components for better performance
@@ -28,7 +27,6 @@ function App() {
 
   return (
     <div className="App text-light">
-      <ContinuousBackground>
         <Header />
         <main>
           <DigitalSerenity />
@@ -53,7 +51,6 @@ function App() {
           </AnimatePresence>
         </main>
         <Footer />
-      </ContinuousBackground>
     </div>
   );
 }
