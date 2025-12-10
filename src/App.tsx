@@ -26,9 +26,9 @@ function App() {
   );
 
   return (
-    <div className="App text-light">
+    <div className="App text-light overflow-x-hidden w-full">
         <Header />
-        <main>
+        <main className="overflow-x-hidden w-full">
           <DigitalSerenity />
           
           <AnimatePresence mode="wait">
@@ -38,6 +38,7 @@ function App() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5 }}
+              className="overflow-x-hidden w-full"
             >
               <Suspense fallback={<LoadingFallback />}>
                 <About />

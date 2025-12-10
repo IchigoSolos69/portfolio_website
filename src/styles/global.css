@@ -27,16 +27,33 @@
     --light: 248 250 252;
   }
   
+  html {
+    background: transparent;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+  }
+  
   body {
     @apply text-light font-sans antialiased;
     background: transparent;
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
   
-  html {
-    background: transparent;
+  #root {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+  }
+  
+  * {
+    box-sizing: border-box;
   }
   
   h1, h2, h3, h4, h5, h6 {

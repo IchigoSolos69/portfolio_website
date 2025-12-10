@@ -1,5 +1,3 @@
-'use client';
-
 import { useState, useEffect, useRef, useId } from 'react';
 import { animate, useMotionValue, AnimationPlaybackControls } from 'framer-motion';
 import { MouseFollowingEyes } from "@/components/ui/mouse-following-eyes";
@@ -56,13 +54,13 @@ const useInstanceId = (): string => {
 };
 
 // --- Main Component ---
-export default function DigitalSerenity(props: ShadowProps = {}) {
+export default function DigitalSerenity(props?: ShadowProps) {
     const {
         sizing = 'fill',
         color = '#FAF2FA', // Base white color
         animation = { scale: 100, speed: 50 },
         noise = { opacity: 0.5, scale: 0.8 }
-    } = props;
+    } = props || {};
     // --- State & Refs ---
     const [mouseGradientStyle, setMouseGradientStyle] = useState<GradientStyle>({
         left: '0px', top: '0px', opacity: 0,
@@ -277,7 +275,7 @@ export default function DigitalSerenity(props: ShadowProps = {}) {
     return (
         <section 
             id="home"
-            className="relative min-h-screen w-full overflow-hidden bg-black font-primary text-slate-100"
+            className="relative min-h-screen w-full overflow-x-hidden overflow-y-auto bg-black font-primary text-slate-100"
         >
             <style>{pageStyles}</style>
 
