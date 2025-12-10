@@ -56,7 +56,7 @@ const Organizations = () => {
           <p className="text-sm md:text-base text-slate-400 mb-4 font-light tracking-wide">
             Distinguished Organizations I Have Had the Privilege to Collaborate With
           </p>
-          <div className="w-20 h-1 bg-primary mx-auto"></div>
+          <div className="w-20 h-1 bg-[#6EACDA] mx-auto"></div>
         </div>
 
         <div className="w-full px-4">

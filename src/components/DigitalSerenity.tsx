@@ -1,8 +1,7 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useId, CSSProperties } from 'react';
+import { useState, useEffect, useRef, useId } from 'react';
 import { animate, useMotionValue, AnimationPlaybackControls } from 'framer-motion';
-// Ensure these paths are correct in your project
 import { MouseFollowingEyes } from "@/components/ui/mouse-following-eyes";
 import { PulseBeams } from "@/components/ui/pulse-beams";
 
@@ -32,7 +31,7 @@ interface NoiseConfig {
 
 interface ShadowProps {
     sizing?: 'fill' | 'stretch';
-    color?: string; // We default this to a light color for visibility
+    color?: string;
     animation?: AnimationConfig;
     noise?: NoiseConfig;
 }
@@ -57,13 +56,14 @@ const useInstanceId = (): string => {
 };
 
 // --- Main Component ---
-export default function DigitalSerenity({
-    sizing = 'fill',
-    color = '#e2e8f0', // Defaulting to light silver/white for visibility against dark bg
-    animation = { scale: 100, speed: 50 },
-    noise = { opacity: 0.2, scale: 1.2 }
-}: ShadowProps) {
-    // --- State & Refs from Snippet 1 ---
+export default function DigitalSerenity(props: ShadowProps = {}) {
+    const {
+        sizing = 'fill',
+        color = '#FAF2FA', // Base white color
+        animation = { scale: 100, speed: 50 },
+        noise = { opacity: 0.5, scale: 0.8 }
+    } = props;
+    // --- State & Refs ---
     const [mouseGradientStyle, setMouseGradientStyle] = useState<GradientStyle>({
         left: '0px', top: '0px', opacity: 0,
     });
@@ -72,7 +72,7 @@ export default function DigitalSerenity({
     const [isMobile, setIsMobile] = useState(false);
     const floatingElementsRef = useRef<HTMLElement[]>([]);
 
-    // --- Logic from Snippet 2 (Shadow Animation) ---
+    // --- Logic for Shadow Animation ---
     const id = useInstanceId();
     const animationEnabled = animation && animation.scale > 0;
     const feColorMatrixRef = useRef<SVGFEColorMatrixElement>(null);
@@ -82,7 +82,7 @@ export default function DigitalSerenity({
     const displacementScale = animation ? mapRange(animation.scale, 1, 100, 20, 100) : 0;
     const animationDuration = animation ? mapRange(animation.speed, 1, 100, 1000, 50) : 1;
 
-    // --- Effects from Snippet 2 (Shadow) ---
+    // --- Effects for Shadow ---
     useEffect(() => {
         if (feColorMatrixRef.current && animationEnabled) {
             if (hueRotateAnimation.current) hueRotateAnimation.current.stop();
@@ -107,7 +107,7 @@ export default function DigitalSerenity({
         }
     }, [animationEnabled, animationDuration, hueRotateMotionValue]);
 
-    // --- Effects from Snippet 1 (Interactivity) ---
+    // --- Effects for Interactivity ---
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 768);
         checkMobile();
@@ -230,8 +230,8 @@ export default function DigitalSerenity({
             bottom: -4px; 
             left: 0; 
             width: 0; 
-            height: 1px; 
-            background: linear-gradient(90deg, transparent, #cbd5e1, transparent); 
+            height: 3.5px; 
+            background: linear-gradient(90deg, transparent, #F2F0EF, transparent); 
             animation: underline-grow 2s ease-out forwards; 
             animation-delay: 2s; 
         }
@@ -277,7 +277,7 @@ export default function DigitalSerenity({
     return (
         <section 
             id="home"
-            className="relative min-h-screen w-full overflow-hidden bg-slate-950 font-primary text-slate-100"
+            className="relative min-h-screen w-full overflow-hidden bg-black font-primary text-slate-100"
         >
             <style>{pageStyles}</style>
 
@@ -290,7 +290,7 @@ export default function DigitalSerenity({
                                 <filter id={id}>
                                     <feTurbulence
                                         result="undulation"
-                                        numOctaves="2"
+                                        numOctaves="1"
                                         baseFrequency={`${mapRange(animation.scale, 0, 100, 0.001, 0.0005)},${mapRange(animation.scale, 0, 100, 0.004, 0.002)}`}
                                         seed="0"
                                         type="turbulence"
@@ -310,7 +310,8 @@ export default function DigitalSerenity({
                     )}
                     <div
                         style={{
-                            backgroundColor: color,
+                            // CHANGED: Replaced solid backgroundColor with a radial gradient
+                            background: `radial-gradient(circle, ${color} 35%, #628141 70%)`,
                             maskImage: `url('https://framerusercontent.com/images/ceBGguIpUU8luwByxuQz79t7To.png')`,
                             maskSize: sizing === "stretch" ? "100% 100%" : "cover",
                             maskRepeat: "no-repeat",
@@ -328,7 +329,7 @@ export default function DigitalSerenity({
                             backgroundImage: `url("https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png")`,
                             backgroundSize: noise.scale * 200,
                             backgroundRepeat: "repeat",
-                            opacity: noise.opacity / 2
+                            opacity: noise.opacity
                         }}
                     />
                 )}
@@ -365,14 +366,14 @@ export default function DigitalSerenity({
                 
                 {/* Header Text */}
                 <div className="text-center max-w-5xl mx-auto relative">
-                    <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extralight leading-tight tracking-tight text-white text-decoration-animate">
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extralight leading-tight tracking-tight text-[#EBD5AB] text-decoration-animate">
                         <div className="mb-2 md:mb-3">
                             <span className="word-animate" data-delay="700">Hi,</span>
                             <span className="word-animate" data-delay="900">I'm</span>
                             <span className="word-animate" data-delay="1150">Adi</span>
                             <span className="word-animate" data-delay="1350">Maitre.</span>
                         </div>
-                        <div className="text-base sm:text-lg md:text-xl lg:text-2xl font-thin text-slate-200 leading-relaxed tracking-wide">
+                        <div className="text-base sm:text-lg md:text-xl lg:text-2xl font-thin text-slate-200 leading-relaxed tracking-wide text-[#EBD5AB]">
                             <span className="word-animate" data-delay="1700">"</span>
                             <span className="word-animate" data-delay="1850">Building</span>
                             <span className="word-animate" data-delay="2000">the</span>
@@ -396,7 +397,7 @@ export default function DigitalSerenity({
                 {/* Subtext and Beams */}
                 <div className="text-center relative">
                     <div className="mb-2 w-8 sm:w-10 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent opacity-30 mx-auto"></div>
-                    <h2 className="text-xs sm:text-sm font-mono font-light text-slate-300 uppercase tracking-[0.2em]">
+                    <h2 className="text-xs sm:text-sm font-mono font-light text-slate-300 uppercase tracking-[0.2em] text-[#EBD5AB]">
                         <span className="word-animate" data-delay="3300">React,</span>
                         <span className="word-animate" data-delay="3450">TypeScript,</span>
                         <span className="word-animate" data-delay="3600">and</span>
@@ -466,9 +467,9 @@ export default function DigitalSerenity({
                                     connectionPoints: [{ cx: 420.5, cy: 6.5, r: 6 }, { cx: 380, cy: 168, r: 6 }]
                                 }
                             ]}
-                            gradientColors={{ start: "#18CCFC", middle: "#6344F5", end: "#AE48FF" }}
-                            baseColor="rgba(51, 65, 85, 0.9)"
-                            accentColor="rgba(100, 116, 139, 0.9)"
+                            gradientColors={{ start: "#8BAE66", middle: "#EBD5AB", end: "#8BAE66" }}
+                            baseColor="#628141"
+                            accentColor="#628141"
                             width={isMobile ? 400 : 600}
                             height={isMobile ? 180 : 240}
                             className="w-full h-auto max-h-[240px] overflow-visible"
@@ -485,8 +486,8 @@ export default function DigitalSerenity({
                                 <span className="absolute inset-0 overflow-hidden rounded-full">
                                     <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                                 </span>
-                                <div className="relative flex justify-center w-full text-center space-x-2 h-full items-center z-10 rounded-full bg-zinc-950 py-0.5 px-4 ring-1 ring-white/10">
-                                    <span className="text-xs sm:text-sm md:text-base lg:text-lg inline-block bg-clip-text text-transparent bg-gradient-to-r from-neutral-300 via-neutral-600 to-neutral-300">
+                                <div className="relative flex justify-center w-full text-center space-x-2 h-full items-center z-10 rounded-full bg-zinc-950 py-0.5 px-4 ring-1 ring-[#8BAE66]/70">
+                                    <span className="text-xs sm:text-sm md:text-base lg:text-lg inline-block bg-clip-text text-transparent bg-gradient-to-r from-[#8BAE66] via-[#EBD5AB] to-[#8BAE66]">
                                         Connect with Me
                                     </span>
                                 </div>

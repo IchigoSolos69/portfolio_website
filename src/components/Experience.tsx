@@ -31,10 +31,10 @@ const Experience = () => {
       />
       <div className="section-container relative z-10">
         <div className="text-center mb-10 sm:mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-            Experience
+        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#E2E2B6]">
+            Journey
           </h2>
-          <div className="w-20 h-1 bg-primary mx-auto"></div>
+          <div className="w-20 h-1 bg-[#6EACDA] mx-auto"></div>
         </div>
 
         <Timeline

@@ -113,8 +113,8 @@ const Contact = () => {
       />
       <div className="section-container relative z-10">
         <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Get In Touch</h2>
-          <div className="w-20 h-1 bg-primary mx-auto"></div>
+        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#E2E2B6]">Get In Touch</h2>
+          <div className="w-20 h-1 bg-[#6EACDA] mx-auto"></div>
           <p className="text-gray-300 mt-4 max-w-2xl mx-auto">
             Have a project in mind or want to discuss potential opportunities? 
             Feel free to reach out!

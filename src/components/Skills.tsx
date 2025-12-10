@@ -112,8 +112,8 @@ const Skills = () => {
       />
       <div className="section-container relative z-10">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">My Skills</h2>
-          <div className="w-20 h-1 bg-primary mx-auto"></div>
+        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#E2E2B6]">Skills</h2>
+          <div className="w-20 h-1 bg-[#6EACDA] mx-auto"></div>
           <p className="text-gray-300 mt-4 max-w-2xl mx-auto">
             I've worked with a range of technologies in the web development world, 
             from front-end to back-end and everything in between.

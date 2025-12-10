@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { useRef, useEffect, useCallback, useState, useMemo } from "react";
+import { useRef, useEffect, useCallback, useState } from "react";
 
 interface MouseFollowingEyesProps {
   imageUrl: string;
@@ -170,7 +170,7 @@ const MouseFollowingEyes: React.FC<MouseFollowingEyesProps> = ({ imageUrl, class
       className={`relative ${className || ''}`}
     >
       {/* Profile image with eye cutouts */}
-      <div className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-white/20 shadow-2xl">
+      <div className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-[#8BAE66]/55 shadow-2xl">
         <img
           src={imageUrl}
           alt="Profile"
