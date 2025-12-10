@@ -179,7 +179,7 @@ export function EtherealShadow({
           zIndex: 10
         }}
       >
-        {/* Removed the H1 here as this component acts as a background in the main implementation */}
+         {/* H1 Title removed to act as background only, as per your design */}
       </div>
 
       {noise && noise.opacity > 0 && (
