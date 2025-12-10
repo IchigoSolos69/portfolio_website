@@ -62,8 +62,7 @@ const ContinuousBackground: React.FC<ContinuousBackgroundProps> = ({ children })
 
   return (
     <div 
-      className="relative min-h-screen w-full transition-colors duration-700 ease-in-out will-change-background"
-      style={backgroundStyle}
+      className="relative min-h-screen w-full"
     >
       {children}
     </div>

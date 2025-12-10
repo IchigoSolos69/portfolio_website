@@ -142,11 +142,6 @@ const DigitalSerenity = () => {
       50% { opacity: 0.8; transform: translateY(10px) scale(0.95); filter: blur(2px); } 
       100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } 
     }
-    @keyframes grid-draw { 
-      0% { stroke-dashoffset: 1000; opacity: 0; } 
-      50% { opacity: 0.3; } 
-      100% { stroke-dashoffset: 0; opacity: 0.15; } 
-    }
     @keyframes pulse-glow { 
       0%, 100% { opacity: 0.1; transform: scale(1); } 
       50% { opacity: 0.3; transform: scale(1.1); } 
@@ -163,19 +158,6 @@ const DigitalSerenity = () => {
     .word-animate:hover { 
       color: #cbd5e1; 
       transform: translateY(-2px); 
-    }
-    .grid-line { 
-      stroke: #94a3b8; 
-      stroke-width: 0.5; 
-      opacity: 0; 
-      stroke-dasharray: 5 5; 
-      stroke-dashoffset: 1000; 
-      animation: grid-draw 2s ease-out forwards; 
-    }
-    .detail-dot { 
-      fill: #cbd5e1; 
-      opacity: 0; 
-      animation: pulse-glow 3s ease-in-out infinite; 
     }
     .corner-element-animate { 
       position: absolute; 
@@ -232,8 +214,6 @@ const DigitalSerenity = () => {
     
     @media (prefers-reduced-motion: reduce) {
       .word-animate,
-      .grid-line,
-      .detail-dot,
       .corner-element-animate,
       .floating-element-animate,
       .ripple-effect {
@@ -259,44 +239,16 @@ const DigitalSerenity = () => {
       <style>{pageStyles}</style>
       <section
         id="home"
-        className="min-h-screen text-slate-100 font-primary overflow-hidden relative"
+        className="min-h-screen text-slate-100 font-primary overflow-hidden relative bg-transparent"
       >
         <EtherealShadow
-          color="rgba(15, 23, 42, 0.6)"
+          color="rgba(15, 23, 42, 0.8)"
           animation={{ scale: 100, speed: 90 }}
-          noise={{ opacity: 1.2, scale: 1.2 }}
+          noise={{ opacity: 1, scale: 1.2 }}
           sizing="fill"
-          className="absolute inset-0 w-full h-full"
+          className="fixed inset-0 w-full h-full pointer-events-none"
           style={{ zIndex: 0, opacity: 1 }}
         />
-        <svg 
-          className="absolute inset-0 w-full h-full pointer-events-none" 
-          xmlns="http://www.w3.org/2000/svg" 
-          aria-hidden="true"
-          style={{ zIndex: 1 }}
-        >
-          <defs>
-            <pattern id="gridReactDarkResponsive" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(100, 116, 139, 0.1)" strokeWidth="0.5"/>
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#gridReactDarkResponsive)" />
-          <line x1="0" y1="20%" x2="100%" y2="20%" className="grid-line" style={{ animationDelay: '0.5s' }} />
-          <line x1="0" y1="80%" x2="100%" y2="80%" className="grid-line" style={{ animationDelay: '1s' }} />
-          <line x1="20%" y1="0" x2="20%" y2="100%" className="grid-line" style={{ animationDelay: '1.5s' }} />
-          <line x1="80%" y1="0" x2="80%" y2="100%" className="grid-line" style={{ animationDelay: '2s' }} />
-          {!isMobile && (
-            <>
-              <line x1="50%" y1="0" x2="50%" y2="100%" className="grid-line" style={{ animationDelay: '2.5s', opacity: '0.05' }} />
-              <line x1="0" y1="50%" x2="100%" y2="50%" className="grid-line" style={{ animationDelay: '3s', opacity: '0.05' }} />
-              <circle cx="20%" cy="20%" r="1.5" className="detail-dot" style={{ animationDelay: '3s' }} />
-              <circle cx="80%" cy="20%" r="1.5" className="detail-dot" style={{ animationDelay: '3.2s' }} />
-              <circle cx="20%" cy="80%" r="1.5" className="detail-dot" style={{ animationDelay: '3.4s' }} />
-              <circle cx="80%" cy="80%" r="1.5" className="detail-dot" style={{ animationDelay: '3.6s' }} />
-              <circle cx="50%" cy="50%" r="1" className="detail-dot" style={{ animationDelay: '4s' }} />
-            </>
-          )}
-        </svg>
 
         {/* Responsive Corner Elements */}
         <div className="corner-element-animate top-4 left-4" style={{ animationDelay: '4s' }}>

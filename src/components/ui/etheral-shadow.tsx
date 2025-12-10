@@ -3,6 +3,7 @@
 import React, { useRef, useId, useEffect, CSSProperties } from 'react';
 import { animate, useMotionValue, AnimationPlaybackControls } from 'framer-motion';
 
+// Type definitions
 interface ResponsiveImage {
     src: string;
     alt?: string;
@@ -53,7 +54,7 @@ const useInstanceId = (): string => {
     return instanceId;
 };
 
-export function EtheralShadow({
+export function EtherealShadow({
     sizing = 'fill',
     color = 'rgba(128, 128, 128, 1)',
     animation,
@@ -117,7 +118,7 @@ export function EtheralShadow({
                 }}
             >
                 {animationEnabled && (
-                    <svg style={{ position: "absolute" }}>
+                    <svg style={{ position: "absolute", width: 0, height: 0 }}>
                         <defs>
                             <filter id={id}>
                                 <feTurbulence
@@ -168,21 +169,6 @@ export function EtheralShadow({
                 />
             </div>
 
-            <div
-                style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    textAlign: "center",
-                    zIndex: 10
-                }}
-            >
-                <h1 className="md:text-7xl text-6xl lg:text-8xl font-bold text-center text-foreground relative z-20">
-                    Etheral Shadows
-                </h1>
-            </div>
-
             {noise && noise.opacity > 0 && (
                 <div
                     style={{
@@ -199,4 +185,4 @@ export function EtheralShadow({
     );
 }
 
-export default EtheralShadow;
+export default EtherealShadow;
