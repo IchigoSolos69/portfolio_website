@@ -275,7 +275,7 @@ export default function DigitalSerenity(props?: ShadowProps) {
     return (
         <section 
             id="home"
-            className="relative min-h-screen w-full overflow-x-hidden overflow-y-auto bg-black font-primary text-slate-100"
+            className="relative min-h-screen w-full overflow-hidden bg-black font-primary text-slate-100"
         >
             <style>{pageStyles}</style>
 
