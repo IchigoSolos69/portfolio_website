@@ -2,20 +2,10 @@ import { cn } from "@/lib/utils";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { experiences } from "../data/portfolioData";
 import { Timeline } from "@/components/ui/timeline";
-import { useState, useEffect } from 'react';
+import useMobileDetection from "@/hooks/useMobileDetection";
 
 const Experience = () => {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  const isMobile = useMobileDetection();
 
   return (
     <section id="experience" className="py-16 sm:py-20 relative bg-black">

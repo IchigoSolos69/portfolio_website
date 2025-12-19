@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { projects } from '../data/portfolioData';
 import { ProjectStatusCard } from "@/components/ui/expandable-card";
 import OptimizedImage from "@/components/OptimizedImage";
+import useMobileDetection from "@/hooks/useMobileDetection";
 
 const projectStatusData: Record<
   number,
@@ -62,17 +63,7 @@ const projectStatusData: Record<
 
 const Projects = () => {
   const [expandedProjectId, setExpandedProjectId] = useState<number | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  const isMobile = useMobileDetection();
 
   return (
     <section id="projects" className="py-20 relative bg-[#0f172a]">
