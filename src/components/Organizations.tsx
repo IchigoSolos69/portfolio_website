@@ -1,10 +1,20 @@
 import { cn } from "@/lib/utils";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { LogoCloud } from "@/components/ui/logo-cloud-4";
-import useMobileDetection from "@/hooks/useMobileDetection";
+import { useState, useEffect } from 'react';
 
 const Organizations = () => {
-  const isMobile = useMobileDetection();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const logos = [
     {

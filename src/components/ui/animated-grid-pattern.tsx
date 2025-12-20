@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, useMemo, useCallback } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import useMobileDetection from "@/hooks/useMobileDetection";
 
 interface AnimatedGridPatternProps {
   width?: number;
@@ -16,17 +15,11 @@ interface AnimatedGridPatternProps {
   maxOpacity?: number;
   duration?: number;
   repeatDelay?: number;
-  shouldAnimate?: boolean;
 }
-
-type Position = [number, number];
 
 interface Square {
   id: number;
-  pos: Position;
-  delay: number;
-  duration: number;
-  opacity: number;
+  pos: [number, number];
 }
 
 export function AnimatedGridPattern({
@@ -40,217 +33,167 @@ export function AnimatedGridPattern({
   maxOpacity = 0.5,
   duration = 4,
   repeatDelay = 0.5,
-  shouldAnimate = true,
   ...props
 }: AnimatedGridPatternProps) {
   const id = useId();
   const containerRef = useRef<SVGSVGElement>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const isMobile = useMobileDetection();
-  const shouldReduceMotion = useReducedMotion();
+  const [isMobile, setIsMobile] = useState(false);
   const animationFrameRef = useRef<number | null>(null);
-  const resizeObserverRef = useRef<ResizeObserver | null>(null);
-  const lastUpdateTime = useRef<number>(0);
-  const updateInterval = 1000 / 30; // 30fps
 
-  // Memoize position calculation with boundary checks
-  const getPos = useCallback((): Position => {
+  // Memoize mobile detection
+  const checkMobile = useCallback(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
+
+  useEffect(() => {
+    checkMobile();
+    const handleResize = () => checkMobile();
+    window.addEventListener('resize', handleResize, { passive: true });
+    return () => window.removeEventListener('resize', handleResize);
+  }, [checkMobile]);
+
+  // Memoize position calculation
+  const getPos = useCallback((): [number, number] => {
     if (!dimensions.width || !dimensions.height) return [0, 0];
-    
-    const maxX = Math.max(1, Math.floor(dimensions.width / width) - 1);
-    const maxY = Math.max(1, Math.floor(dimensions.height / height) - 1);
-    
     return [
-      Math.min(maxX, Math.max(0, Math.floor((Math.random() * dimensions.width) / width))),
-      Math.min(maxY, Math.max(0, Math.floor((Math.random() * dimensions.height) / height))),
+      Math.floor((Math.random() * dimensions.width) / width),
+      Math.floor((Math.random() * dimensions.height) / height),
     ];
   }, [dimensions, width, height]);
 
-  // Generate stable square positions with animation properties
-  const squares = useMemo<Square[]>(() => {
-    const count = isMobile ? Math.max(5, Math.floor(numSquares * 0.4)) : numSquares;
+  // Memoize square generation
+  const generateSquares = useCallback((count: number): Square[] => {
     return Array.from({ length: count }, (_, i) => ({
       id: i,
       pos: getPos(),
-      delay: Math.random() * 0.5,
-      duration: duration * 0.5 + Math.random() * duration * 0.5,
-      opacity: maxOpacity * 0.7 + Math.random() * maxOpacity * 0.3,
     }));
-  }, [isMobile, numSquares, getPos, duration, maxOpacity]);
+  }, [getPos]);
 
-  // Handle container resize with debounce and ResizeObserver
-  useEffect(() => {
-    let mounted = true;
-    
-    const updateDimensions = () => {
-      if (!mounted || !containerRef.current) return;
-      
-      const rect = containerRef.current.getBoundingClientRect();
-      setDimensions({ width: rect.width, height: rect.height });
-    };
+  // Optimize: Reduce number of squares on mobile
+  const optimizedNumSquares = useMemo(() => {
+    return isMobile ? Math.floor(numSquares * 0.6) : numSquares;
+  }, [isMobile, numSquares]);
 
-    // Initial update
-    updateDimensions();
+  const [squares, setSquares] = useState<Square[]>([]);
 
-    // Use ResizeObserver for more efficient resize handling
-    if (typeof ResizeObserver !== 'undefined') {
-      if (resizeObserverRef.current) {
-        resizeObserverRef.current.disconnect();
-      }
-      
-      resizeObserverRef.current = new ResizeObserver((entries) => {
-        if (!mounted || !Array.isArray(entries) || !entries.length) return;
-        
-        const now = performance.now();
-        if (now - lastUpdateTime.current > 100) { // 100ms debounce
-          lastUpdateTime.current = now;
-          updateDimensions();
-        }
+  // Batch square position updates using requestAnimationFrame
+  const updateSquarePosition = useCallback((id: number) => {
+    if (animationFrameRef.current === null) {
+      animationFrameRef.current = requestAnimationFrame(() => {
+        setSquares((currentSquares) =>
+          currentSquares.map((sq) =>
+            sq.id === id
+              ? {
+                  ...sq,
+                  pos: getPos(),
+                }
+              : sq,
+          ),
+        );
+        animationFrameRef.current = null;
       });
+    }
+  }, [getPos]);
 
-      if (containerRef.current) {
-        resizeObserverRef.current.observe(containerRef.current);
+  useEffect(() => {
+    if (dimensions.width && dimensions.height) {
+      setSquares(generateSquares(optimizedNumSquares));
+    }
+  }, [dimensions, optimizedNumSquares, generateSquares]);
+
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver((entries) => {
+      // Use requestAnimationFrame to batch dimension updates
+      if (animationFrameRef.current === null) {
+        animationFrameRef.current = requestAnimationFrame(() => {
+          for (let entry of entries) {
+            setDimensions({
+              width: entry.contentRect.width,
+              height: entry.contentRect.height,
+            });
+          }
+          animationFrameRef.current = null;
+        });
       }
+    });
+
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
     }
 
-    // Fallback for browsers without ResizeObserver
-    const handleResize = () => {
-      if (!mounted) return;
-      
-      const now = performance.now();
-      if (now - lastUpdateTime.current > 100) {
-        lastUpdateTime.current = now;
-        updateDimensions();
-      }
-    };
-
-    window.addEventListener('resize', handleResize, { passive: true });
-
     return () => {
-      mounted = false;
-      
-      if (resizeObserverRef.current) {
-        resizeObserverRef.current.disconnect();
+      if (containerRef.current) {
+        resizeObserver.unobserve(containerRef.current);
       }
-      
-      window.removeEventListener('resize', handleResize);
-      
-      if (animationFrameRef.current) {
+      if (animationFrameRef.current !== null) {
         cancelAnimationFrame(animationFrameRef.current);
         animationFrameRef.current = null;
       }
     };
   }, []);
 
-  // Skip animation if reduced motion is preferred or on mobile
-  if (shouldReduceMotion || !shouldAnimate) {
-    return (
-      <svg
-        ref={containerRef}
-        aria-hidden="true"
-        className={cn(
-          "pointer-events-none absolute inset-0 h-full w-full",
-          "[mask-image:radial-gradient(ellipse_at_center,white,transparent_70%)]",
-          className
-        )}
-        {...props}
-      >
-        <defs>
-          <pattern
-            id={`static-grid-${id}`}
-            width={width}
-            height={height}
-            patternUnits="userSpaceOnUse"
-            x={x}
-            y={y}
-          >
-            <rect
-              width={width}
-              height={height}
-              fill="currentColor"
-              className="text-[#8BAE66]/10"
-            />
-            <path
-              d={`M ${width} 0 L 0 0 0 ${height}`}
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="0.5"
-              className="text-[#8BAE66]/20"
-            />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill={`url(#static-grid-${id})`} />
-      </svg>
-    );
-  }
+  // Reduce animation intensity on mobile
+  const reducedDuration = useMemo(() => isMobile ? duration * 1.5 : duration, [isMobile, duration]);
+  const reducedMaxOpacity = useMemo(() => isMobile ? maxOpacity * 0.7 : maxOpacity, [isMobile, maxOpacity]);
 
-  // Render the animated grid pattern
   return (
     <svg
       ref={containerRef}
       aria-hidden="true"
       className={cn(
-        "pointer-events-none absolute inset-0 h-full w-full",
-        "[mask-image:radial-gradient(ellipse_at_center,white,transparent_70%)]",
-        className
+        "pointer-events-none absolute inset-0 h-full w-full fill-gray-400/30 stroke-gray-400/30",
+        className,
       )}
+      style={{
+        contain: 'layout style paint',
+        willChange: 'contents',
+      }}
       {...props}
     >
       <defs>
         <pattern
-          id={`grid-pattern-${id}`}
+          id={id}
           width={width}
           height={height}
           patternUnits="userSpaceOnUse"
           x={x}
           y={y}
         >
-          <rect
-            width={width}
-            height={height}
-            fill="currentColor"
-            className="text-[#8BAE66]/10"
-          />
           <path
-            d={`M ${width} 0 L 0 0 0 ${height}`}
+            d={`M.5 ${height}V.5H${width}`}
             fill="none"
-            stroke="currentColor"
-            strokeWidth="0.5"
-            className="text-[#8BAE66]/20"
+            strokeDasharray={strokeDasharray}
           />
         </pattern>
       </defs>
-
-      <rect width="100%" height="100%" fill={`url(#grid-pattern-${id})`} />
-
-      {/* Animated squares */}
-      {squares.map((square) => (
-        <motion.rect
-          key={square.id}
-          x={square.pos[0] * width}
-          y={square.pos[1] * height}
-          width={width - 1}
-          height={height - 1}
-          fill="currentColor"
-          className="text-[#8BAE66]"
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: [0, square.opacity, 0],
-            scale: [1, 1.1, 1],
-          }}
-          transition={{
-            duration: square.duration,
-            delay: square.delay,
-            repeat: Infinity,
-            repeatDelay: repeatDelay,
-            ease: "easeInOut",
-          }}
-          style={{
-            willChange: 'opacity, transform',
-            transform: 'translate3d(0, 0, 0)', // Force GPU acceleration
-          }}
-        />
-      ))}
+      <rect width="100%" height="100%" fill={`url(#${id})`} />
+      <svg x={x} y={y} className="overflow-visible">
+        {squares.map(({ pos: [x, y], id }, index) => (
+          <motion.rect
+            initial={{ opacity: 0 }}
+            animate={{ opacity: reducedMaxOpacity }}
+            transition={{
+              duration: reducedDuration,
+              repeat: 1,
+              delay: index * 0.1,
+              repeatType: "reverse" as const,
+            }}
+            onAnimationComplete={() => updateSquarePosition(id)}
+            key={`${x}-${y}-${id}`}
+            width={width - 1}
+            height={height - 1}
+            x={x * width + 1}
+            y={y * height + 1}
+            fill="currentColor"
+            strokeWidth="0"
+            style={{
+              willChange: 'opacity',
+              transform: 'translate3d(0, 0, 0)', // Force GPU acceleration
+            }}
+          />
+        ))}
+      </svg>
     </svg>
   );
 }
