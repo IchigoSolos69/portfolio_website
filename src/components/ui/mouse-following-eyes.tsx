@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -170,11 +171,11 @@ const MouseFollowingEyes: React.FC<MouseFollowingEyesProps> = ({ imageUrl, class
       className={`relative ${className || ''}`}
     >
       {/* Profile image with eye cutouts */}
-      <div className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-[#8BAE66]/55 shadow-2xl">
+      <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-[4px] border-[#EBD5AB] shadow-[0_0_40px_rgba(235,213,171,0.2)]">
         <img
           src={imageUrl}
           alt="Profile"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover grayscale-[15%] brightness-[0.85] contrast-[1.05]"
           style={{
             transform: 'scale(1.4)',
             transformOrigin: 'center center',
@@ -202,26 +203,22 @@ const MouseFollowingEyes: React.FC<MouseFollowingEyesProps> = ({ imageUrl, class
 
 const Eye: React.FC = React.memo(() => {
   return (
-    // --- CHANGE 1: Made outer eye smaller at all breakpoints and reduced border width ---
-    // Added overflow-hidden to ensure pupil doesn't bleed out
     <div 
-      className="relative bg-white border-[1.5px] border-gray-800 rounded-full h-2.5 w-2.5 sm:h-1 sm:w-4.5 md:h-2.5 md:w-5 flex items-center justify-center overflow-hidden"
-      style={{ contain: 'layout style' }}
+      className="relative bg-[#fdfdfd] border-[1px] border-gray-900/40 rounded-full h-2 w-3 sm:h-2.5 sm:w-4.5 md:h-3 md:w-5 flex items-center justify-center overflow-hidden"
+      style={{ 
+        contain: 'layout style',
+        boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.2)' 
+      }}
     >
-       {/* --- CHANGE 1: Made pupil smaller at all breakpoints --- */}
       <div 
-        className="pupil absolute bg-gray-900 rounded-full h-[1.5px] w-[1.5px] sm:h-2.5 sm:w-2.5 md:h-3 md:w-3"
+        className="pupil absolute bg-gray-950 rounded-full h-[3px] w-[3px] sm:h-3 sm:w-3 md:h-3.5 md:w-3.5 flex items-center justify-center"
         style={{ 
           willChange: 'transform',
           transform: 'translate3d(0, 0, 0)', // Force GPU layer
         }}
       >
-        {/* --- CHANGE 2: Natural Glint ---
-            - Moved to top-right (top-[15%] right-[20%]) for overhead light effect.
-            - Sized relatively using percentages (w-[30%] h-[30%]) instead of fixed pixels.
-            - Added opacity-80 for softer look.
-        */}
-        <div className="absolute top-[15%] right-[20%] w-[30%] h-[30%] bg-white rounded-full opacity-80"></div>
+        {/* Natural Glint - overhead light effect */}
+        <div className="absolute top-[15%] right-[20%] w-[35%] h-[35%] bg-white rounded-full opacity-85"></div>
       </div>
     </div>
   );

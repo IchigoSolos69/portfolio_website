@@ -1,146 +1,120 @@
-import { useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
-import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
-import { projects } from '../data/portfolioData';
-import { ProjectStatusCard } from "@/components/ui/expandable-card";
-import OptimizedImage from "@/components/OptimizedImage";
 
-const projectStatusData: Record<
-  number,
-  {
-    progress: number;
-    dueDate: string;
-    contributors: Array<{ name: string; image?: string }>;
-    tasks: Array<{ title: string; completed: boolean }>;
-    githubStars: number;
-    openIssues: number;
-  }
-> = {
-  1: {
-    progress: 90,
-    dueDate: "Dec 31, 2024",
-    contributors: [
-      { name: "Adi", image: "/adi.jpg" },
-      { name: "John" },
-    ],
-    tasks: [
-      { title: "Polish UI animations", completed: true },
-      { title: "Add more case studies", completed: false },
-    ],
-    githubStars: 120,
-    openIssues: 3,
-  },
-  2: {
-    progress: 75,
-    dueDate: "Jan 15, 2025",
-    contributors: [
-      { name: "Adi" },
-      { name: "Sarah" },
-    ],
-    tasks: [
-      { title: "Implement checkout flow", completed: true },
-      { title: "Add wishlist feature", completed: false },
-    ],
-    githubStars: 340,
-    openIssues: 8,
-  },
-  3: {
-    progress: 60,
-    dueDate: "Feb 10, 2025",
-    contributors: [
-      { name: "Adi" },
-      { name: "Alex" },
-    ],
-    tasks: [
-      { title: "Refine real-time sync", completed: false },
-      { title: "Improve notifications", completed: false },
-    ],
-    githubStars: 210,
-    openIssues: 5,
-  },
+import React, { useMemo, useRef } from 'react';
+import { PORTFOLIO_DATA } from '../constants';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { ExternalLink, Github, ArrowRight } from 'lucide-react';
+import { AnimatedTabs } from './ui/animated-tabs';
+
+const ProjectCard: React.FC<{ project: typeof PORTFOLIO_DATA.projects[0] }> = ({ project }) => {
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 50, scale: 0.95 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="group relative glass rounded-[40px] overflow-hidden border-[#EBD5AB]/5 hover:border-[#8BAE66]/30 transition-all duration-700 flex flex-col lg:flex-row min-h-[400px]"
+      whileHover={{ y: -10, rotateX: 2, rotateY: -2 }}
+    >
+      <div className="lg:w-1/2 overflow-hidden h-64 lg:h-auto">
+        <img 
+          src={project.image} 
+          alt={project.title} 
+          className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-1000"
+        />
+      </div>
+
+      <div className="lg:w-1/2 p-8 lg:p-12 flex flex-col justify-between bg-gradient-to-br from-transparent to-[#628141]/5">
+        <div>
+          <div className="flex flex-wrap gap-2 mb-8">
+            {project.tags.map(tag => (
+              <span key={tag} className="text-[10px] px-3 py-1.5 rounded-full border border-[#8BAE66]/20 bg-[#628141]/10 text-[#8BAE66] font-bold uppercase tracking-wider">
+                {tag}
+              </span>
+            ))}
+          </div>
+          
+          <h4 className="text-3xl font-bold font-heading mb-4 text-[#EBD5AB] leading-tight">
+            {project.title}
+          </h4>
+          <p className="text-[#EBD5AB]/60 mb-10 font-light leading-relaxed text-lg">
+            {project.description}
+          </p>
+        </div>
+
+        <div className="flex items-center gap-8">
+          <a 
+            href={project.link} 
+            className="group/btn flex items-center gap-3 text-xs font-bold tracking-[0.2em] uppercase text-[#8BAE66] hover:text-[#EBD5AB] transition-colors"
+          >
+            Launch Prototype
+            <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
+          </a>
+          {project.github && (
+            <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-[#EBD5AB]/30 hover:text-[#EBD5AB] transition-colors">
+              <Github size={20} />
+            </a>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
 };
 
-const Projects = () => {
-  const [expandedProjectId, setExpandedProjectId] = useState<number | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
+const Projects: React.FC = () => {
+  const containerRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
 
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+  const bgY = useTransform(scrollYProgress, [0, 1], [-100, 100]);
+  const rotateShard = useTransform(scrollYProgress, [0, 1], [0, 45]);
+
+  const tabs = useMemo(() => {
+    const categories = Array.from(new Set(PORTFOLIO_DATA.projects.map(p => p.category)));
+    const allCategories = ["All", ...categories];
+
+    return allCategories.map(cat => ({
+      id: cat.toLowerCase(),
+      label: cat,
+      content: (
+        <div className="grid grid-cols-1 gap-12 pt-8">
+          {PORTFOLIO_DATA.projects
+            .filter(p => cat === "All" || p.category === cat)
+            .map((project, index) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+        </div>
+      )
+    }));
   }, []);
 
   return (
-    <section id="projects" className="py-20 relative bg-[#0f172a]">
-      <AnimatedGridPattern
-        numSquares={isMobile ? 20 : 30}
-        maxOpacity={0.1}
-        duration={3}
-        repeatDelay={1}
-        className={cn(
-          "[mask-image:radial-gradient(800px_circle_at_center,white,transparent)]",
-          "inset-x-0 inset-y-[-30%] h-[200%] skew-y-12",
-        )}
+    <section id="projects" ref={containerRef} className="py-32 bg-[#1B211A] relative overflow-hidden">
+      {/* Subtle background parallax elements */}
+      <motion.div 
+        style={{ y: bgY, rotate: rotateShard }}
+        className="absolute top-1/3 -right-20 w-96 h-96 border border-[#8BAE66]/5 rounded-[80px] pointer-events-none opacity-20" 
       />
-      <div className="section-container relative z-10">
-        <div className="text-center mb-16">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#E2E2B6]">Projects</h2>
-          <div className="w-20 h-1 bg-[#6EACDA] mx-auto"></div>
-          <p className="text-gray-300 mt-4 max-w-2xl mx-auto">
-            Here are some of my recent projects. Each project reflects my passion for 
-            creating meaningful digital experiences.
+      <motion.div 
+        style={{ y: useTransform(scrollYProgress, [0, 1], [100, -100]) }}
+        className="absolute bottom-1/4 -left-10 w-64 h-64 border border-[#EBD5AB]/5 rounded-full pointer-events-none opacity-10" 
+      />
+
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-24 gap-8 border-b border-[#EBD5AB]/5 pb-12">
+          <div className="max-w-2xl">
+            <h2 className="text-sm font-bold tracking-[0.5em] uppercase text-[#8BAE66] mb-6">The Legacy</h2>
+            <h3 className="text-5xl md:text-7xl font-bold font-heading text-[#EBD5AB]">
+                Selected <span className="italic text-[#8BAE66]">Works</span>.
+            </h3>
+          </div>
+          <p className="text-[#EBD5AB]/40 max-w-sm font-light leading-relaxed text-lg">
+            A curated intersection of industrial engineering and organic human interaction.
           </p>
         </div>
-        
-        <div className={`grid grid-cols-1 ${isMobile ? 'gap-6' : 'md:grid-cols-2 lg:grid-cols-3 gap-8'} items-start`}>
-          {projects.map((project) => {
-            const status =
-              projectStatusData[project.id] || {
-                progress: 50,
-                dueDate: "TBD",
-                contributors: [{ name: "Adi" }],
-                tasks: [
-                  { title: "Plan next milestone", completed: false },
-                  { title: "Review requirements", completed: false },
-                ],
-                githubStars: 0,
-                openIssues: 0,
-              };
 
-            return (
-              <div key={project.id} className="flex justify-center">
-                <ProjectStatusCard
-                  title={project.title}
-                  progress={status.progress}
-                  dueDate={status.dueDate}
-                  contributors={status.contributors}
-                  tasks={status.tasks}
-                  githubStars={status.githubStars}
-                  openIssues={status.openIssues}
-                  isExpanded={expandedProjectId === project.id}
-                  onToggle={() =>
-                    setExpandedProjectId((prev) =>
-                      prev === project.id ? null : project.id
-                    )
-                  }
-                />
-              </div>
-            );
-          })}
-        </div>
-        
-        <div className="text-center mt-12">
-          <a 
-            href="#" 
-            className="btn-primary inline-flex items-center tap-target focus-ring"
-          >
-            View All Projects
-          </a>
-        </div>
+        <AnimatedTabs tabs={tabs} />
       </div>
     </section>
   );
