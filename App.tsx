@@ -6,7 +6,6 @@ import Skills from './components/Skills';
 import Projects from './components/Projects';
 import Journey from './components/Journey';
 import Footer from './components/Footer';
-import AIAssistant from './components/AIAssistant';
 import { Dock } from './components/ui/dock-two';
 import { Home, User, Code, Briefcase, Trophy, Mail } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
@@ -62,7 +61,6 @@ const App: React.FC = () => {
         <Journey />
       </main>
       
-      <AIAssistant />
       <Footer />
     </div>
   );
