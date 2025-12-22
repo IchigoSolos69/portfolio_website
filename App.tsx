@@ -9,6 +9,7 @@ import Footer from './components/Footer';
 import { Dock } from './components/ui/dock-two';
 import { Home, User, Code, Briefcase, Trophy, Mail } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { OrganizationsMarquee } from './components/OrganizationsMarquee';
 
 const ParallaxBackground = () => {
   const { scrollYProgress } = useScroll();
@@ -59,6 +60,7 @@ const App: React.FC = () => {
         <Skills />
         <Projects />
         <Journey />
+        <OrganizationsMarquee />
       </main>
       
       <Footer />
