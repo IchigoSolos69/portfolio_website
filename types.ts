@@ -35,6 +35,7 @@ export interface PortfolioData {
     linkedin: string;
     github: string;
     twitter: string;
+    instagram: string;
   };
 }
 

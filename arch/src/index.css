@@ -5,6 +5,15 @@
 /* Import fonts */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
 
+@font-face {
+  font-family: 'Motterdam';
+  /* UPDATED PATH 👇 */
+  src: url('/assets/fonts/Motterdam.ttf') format('truetype'); 
+  /* Allow this font to work even when "font-bold" is used */
+  font-weight: 100 900; 
+  font-style: normal;
+}
+
 /* -------------------------------
    Custom CSS Variables & Base
 -------------------------------- */

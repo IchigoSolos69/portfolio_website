@@ -6,12 +6,12 @@ export const PORTFOLIO_DATA: PortfolioData = {
   role: "Code Shinigami | B.Tech IT Student",
   bio: "I am a B.Tech IT student and a self-described 'Code Shinigami' dedicated to slicing through complex bugs and bringing order to the digital Soul Society. I am a builder by nature, constantly breaking and remixing projects in pursuit of the 'Bankai' of perfect UI, where high-level functionality meets seamless aesthetics. I’m focused on leaving a lasting legacy in the cloud, one clean line of code at a time. Because in my world, the mission is simple: if it runs, it’s Bankai.",
   skills: [
-    { subject: 'Core Logic', level: 95, fullMark: 100 },
-    { subject: 'System Design', level: 85, fullMark: 100 },
-    { subject: 'UI/Creative', level: 92, fullMark: 100 },
-    { subject: 'Cloud/Git', level: 80, fullMark: 100 },
-    { subject: 'Problem Solving', level: 98, fullMark: 100 },
-    { subject: 'Soft Skills', level: 90, fullMark: 100 },
+    { subject: 'Core Logic', level: 70, fullMark: 100 },
+    { subject: 'System Design', level: 80, fullMark: 100 },
+    { subject: 'UI/Creative', level: 90, fullMark: 100 },
+    { subject: 'Cloud/Git', level: 90, fullMark: 100 },
+    { subject: 'Problem Solving', level: 85, fullMark: 100 },
+    { subject: 'Soft Skills', level: 100, fullMark: 100 },
   ],
   journey: [
     {
@@ -92,9 +92,10 @@ export const PORTFOLIO_DATA: PortfolioData = {
     }
   ],
   contact: {
-    email: "adi@maitre.dev",
+    email: "adimaitre56@gmail.com",
     linkedin: "linkedin.com/in/adimaitre",
     github: "github.com/IchigoSolos69",
-    twitter: "twitter.com/adimaitre"
+    twitter: "twitter.com/adi_maitre",
+    instagram: "instagram.com/adi_maitre"
   }
 };

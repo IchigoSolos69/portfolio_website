@@ -6,6 +6,11 @@ module.exports = {
   ],
   theme: {
     extend: {
+      // ADD THIS 👇
+      fontFamily: {
+        motterdam: ['Motterdam', 'serif'],
+      },
+      // ... rest of your existing animation config
       animation: {
         'marquee': 'marquee var(--duration, 30s) linear infinite',
       },

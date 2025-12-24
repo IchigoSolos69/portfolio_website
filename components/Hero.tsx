@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { MouseFollowingEyes } from './ui/mouse-following-eyes';
 
 const Hero: React.FC = () => {
-  const profileImage = "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=800";
+  const profileImage = "/assets/avatars/avatar.png";
 
   return (
     <section 
@@ -39,7 +39,7 @@ const Hero: React.FC = () => {
             >
                 <div className="w-6 md:w-10 h-[1px] bg-[#EBD5AB]/40"></div>
                 <p className="text-lg md:text-xl text-[#EBD5AB] font-light italic border-b border-[#EBD5AB]/20 pb-1 px-2">
-                  "Building the plane while I fly it."
+                  "Tactics without strategy is the noise before defeat." ~ Sun Tzu
                 </p>
                 <div className="w-6 md:w-10 h-[1px] bg-[#EBD5AB]/40"></div>
             </motion.div>
