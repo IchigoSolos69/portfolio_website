@@ -132,13 +132,13 @@ const About: React.FC = () => {
                 <StatCard icon={Code2} label="Class" value="Squad 12 - R&D" delay={0.4} />
                 <StatCard icon={Zap} label="Ability" value="Shunpo - Rapid Dev" delay={0.5} />
                 <StatCard icon={Globe} label="Location" value="Pune, IN" delay={0.6} />
-                <StatCard icon={Cpu} label="Current Focus" value="Organic Design Systems" delay={0.7} />
+                <StatCard icon={Cpu} label="Current Focus" value="Achieving Bankai" delay={0.7} />
               </div>
 
               {/* Decorative Barcode/ID */}
               <div className="mt-8 pt-6 border-t border-[#EBD5AB]/10 flex justify-between items-end opacity-50">
                  <div className="h-8 w-32 bg-[url('https://upload.wikimedia.org/wikipedia/commons/5/5b/Barcode_EAN8.svg')] bg-repeat-x bg-contain opacity-50 grayscale invert" />
-                 <span className="text-[10px] font-mono text-[#8BAE66]">ID: SHINIGAMI-V</span>
+                 <span className="text-[14px] font-mono text-[#8BAE66]">ID: SHINIGAMI-{new Date().getFullYear()-2006}{" "}</span>
               </div>
             </motion.div>
             

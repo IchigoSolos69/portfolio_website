@@ -22,9 +22,9 @@ interface SkillCardData {
 // --- Constants ---
 const SKILL_GRID: SkillCardData[] = [
   { icon: Cpu, label: "Core Stack", value: "Python, C, C++, Java, HTML, CSS, JavaScript, TypeScript" },
-  { icon: Shield, label: "Cloud & Dev", value: "GitHub, Vercel, Netlify, Cloudflare, Linux" },
+  { icon: Shield, label: "Cloud & Dev", value: "GitHub, Vercel, Netlify, Cloudflare" },
   { icon: Zap, label: "UI / Art", value: "Framer Motion, Tailwind, WebGL, Three.js, GSAP" },
-  { icon: Target, label: "Soft Skills", value: "Communication, Adaptability, Creative Direction" }
+  { icon: Target, label: "Soft Skills", value: "Communication, Adaptability, Creative, Management, Leadership" }
 ];
 
 // --- Components ---
@@ -77,23 +77,34 @@ const Skills: React.FC = () => {
 
   return (
     <section id="skills" ref={containerRef} className="py-32 bg-[#1B211A] relative overflow-hidden">
-      {/* Enhanced Parallax Background Layers */}
-      <motion.div
-        style={{ y: glowY }}
-        className="absolute top-1/2 left-1/4 w-[600px] h-[600px] bg-[#628141]/5 blur-[150px] rounded-full pointer-events-none"
-      />
-      <motion.div
-        style={{ y: shard1Y, rotate: shardRotate }}
-        className="absolute top-20 right-[15%] w-32 h-32 border border-[#8BAE66]/10 rounded-[40px] pointer-events-none opacity-20"
-      />
-      <motion.div
-        style={{ y: shard2Y, rotate: useTransform(scrollYProgress, [0, 1], [0, -90]) }}
-        className="absolute bottom-40 left-[5%] w-48 h-48 border border-[#EBD5AB]/5 rounded-full pointer-events-none opacity-10"
-      />
-      <motion.div
-        style={{ y: shard3Y }}
-        className="absolute top-1/2 right-[5%] w-16 h-16 border-l border-[#8BAE66]/20 pointer-events-none"
-      />
+      
+      {/* 1. Background Elements with Vignette Mask & Light Shade */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+           maskImage: 'radial-gradient(circle at center, black 60%, transparent 100%)',
+           WebkitMaskImage: 'radial-gradient(circle at center, black 60%, transparent 100%)'
+        }}
+      >
+         <motion.div
+           style={{ y: glowY, willChange: 'transform' }}
+           className="absolute top-1/2 left-1/4 w-[600px] h-[600px] bg-[#628141]/5 blur-[150px] rounded-full"
+         />
+         <motion.div
+           style={{ y: shard1Y, rotate: shardRotate, willChange: 'transform' }}
+           className="absolute top-20 right-[15%] w-32 h-32 border border-[#8BAE66]/10 rounded-[40px] opacity-20"
+         />
+         <motion.div
+           style={{ y: shard2Y, rotate: useTransform(scrollYProgress, [0, 1], [0, -90]), willChange: 'transform' }}
+           className="absolute bottom-40 left-[5%] w-48 h-48 border border-[#EBD5AB]/5 rounded-full opacity-10"
+         />
+         <motion.div
+           style={{ y: shard3Y, willChange: 'transform' }}
+           className="absolute top-1/2 right-[5%] w-16 h-16 border-l border-[#8BAE66]/20"
+         />
+      </div>
+
+
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-4xl mb-24">
@@ -120,7 +131,7 @@ const Skills: React.FC = () => {
           >
             <div className="absolute inset-0 bg-[#628141]/10 blur-[100px] rounded-full scale-75 animate-pulse" />
 
-            <div className="w-full h-full glass rounded-[60px] border-[#EBD5AB]/10 shadow-[0_0_80px_rgba(0,0,0,0.5)] relative overflow-hidden p-6 sm:p-12 flex items-center justify-center">
+            <div className="w-full h-full glass rounded-[60px] border-[#EBD5AB]/10 shadow-[0_0_80px_rgba(0,0,0,0.5)] relative overflow-hidden p-6 sm:p-12 flex items-center justify-center bg-[#1B211A]/40 backdrop-blur-md">
               {/* Decorative Markers */}
               <div className="absolute top-10 left-10 w-10 h-10 border-t-2 border-l-2 border-[#8BAE66]/30" />
               <div className="absolute top-10 right-10 w-10 h-10 border-t-2 border-r-2 border-[#8BAE66]/30" />
@@ -143,7 +154,7 @@ const Skills: React.FC = () => {
                         <feComposite in="SourceGraphic" in2="blur" operator="over" />
                       </filter>
                     </defs>
-                    <PolarGrid stroke="#8BAE66" strokeOpacity={0.12} gridType="polygon" />
+                    <PolarGrid stroke="#8BAE66" strokeOpacity={0.2} gridType="polygon" />
                     <PolarAngleAxis dataKey="subject" tick={(props) => <CustomAngleTick {...props} cx={props.cx} cy={props.cy} />} />
                     <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
                     <Radar
@@ -183,13 +194,14 @@ const Skills: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="p-8 rounded-[32px] bg-[#EBD5AB]/5 border border-[#EBD5AB]/10 group hover:border-[#8BAE66]/40 transition-colors"
+                whileHover={{ y: -5, borderColor: "rgba(139, 174, 102, 0.4)" }}
+                className="p-8 rounded-[32px] bg-[#EBD5AB]/5 border border-[#EBD5AB]/10 group transition-all duration-300 backdrop-blur-sm hover:bg-[#EBD5AB]/10"
               >
                 <div className="flex items-center gap-3 mb-3">
                   <skill.icon size={16} className="text-[#8BAE66] group-hover:scale-110 transition-transform duration-300" />
                   <span className="text-[10px] text-[#8BAE66] font-bold uppercase tracking-widest">{skill.label}</span>
                 </div>
-                <p className="text-[#EBD5AB]/80 text-lg group-hover:text-[#EBD5AB] transition-colors duration-300">{skill.value}</p>
+                <p className="text-[#EBD5AB]/80 text-sm leading-relaxed group-hover:text-[#EBD5AB] transition-colors duration-300">{skill.value}</p>
               </motion.div>
             ))}
           </div>

@@ -2,8 +2,8 @@ import React, { useRef } from 'react';
 import { PORTFOLIO_DATA } from '../constants';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 
-// --- Helper Component for Social Icons ---
-const SocialIcon = ({ name, className }: { name: string; className?: string }) => {
+// --- Helper Component for Social Icons (Optimized) ---
+const SocialIcon = React.memo(({ name, className }: { name: string; className?: string }) => {
   switch (name) {
     case 'LinkedIn':
       return (
@@ -32,7 +32,7 @@ const SocialIcon = ({ name, className }: { name: string; className?: string }) =
     default:
       return null;
   }
-};
+});
 
 const Footer: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
@@ -59,24 +59,41 @@ const Footer: React.FC = () => {
       ref={containerRef} 
       className="py-32 border-t border-[#EBD5AB]/5 bg-[#1B211A] relative overflow-hidden"
     >
-      {/* 1. Background Parallax Elements */}
-      <motion.div 
-        style={{ y: blobY }}
-        className="absolute top-1/2 -right-40 w-[600px] h-[600px] bg-[#8BAE66]/5 blur-[150px] rounded-full pointer-events-none"
-      />
-      <motion.div 
-        style={{ y: useTransform(smoothProgress, [0, 1], [-150, 150]) }}
-        className="absolute bottom-0 -left-20 w-[400px] h-[400px] bg-[#EBD5AB]/3 blur-[120px] rounded-full pointer-events-none"
-      />
-      
-      {/* 2. Decorative Grid Mesh */}
-      <motion.div 
-        style={{ 
-          y: bgGridY,
-          backgroundImage: `linear-gradient(#EBD5AB 1px, transparent 1px), linear-gradient(90deg, #EBD5AB 1px, transparent 1px)`,
-          backgroundSize: '40px 40px'
+      {/* 1. Background Elements with Vignette Mask */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+           // ✨ ADDED: Soft fade mask for edges so bg elements don't cut off hard
+           maskImage: 'radial-gradient(circle at center, black 60%, transparent 100%)',
+           WebkitMaskImage: 'radial-gradient(circle at center, black 60%, transparent 100%)'
         }}
-        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+      >
+        <motion.div 
+          style={{ y: blobY, willChange: 'transform' }}
+          className="absolute top-1/2 -right-40 w-[600px] h-[600px] bg-[#8BAE66]/5 blur-[150px] rounded-full"
+        />
+        <motion.div 
+          style={{ y: useTransform(smoothProgress, [0, 1], [-150, 150]), willChange: 'transform' }}
+          className="absolute bottom-0 -left-20 w-[400px] h-[400px] bg-[#EBD5AB]/3 blur-[120px] rounded-full"
+        />
+        <motion.div 
+          style={{ 
+            y: bgGridY,
+            backgroundImage: `linear-gradient(#EBD5AB 1px, transparent 1px), linear-gradient(90deg, #EBD5AB 1px, transparent 1px)`,
+            backgroundSize: '40px 40px',
+            willChange: 'transform'
+          }}
+          className="absolute inset-0 opacity-[0.03]"
+        />
+      </div>
+
+      {/* 2. ✨ ADDED: Light Shade / Glow Overlay */}
+      {/* This creates the "light coming from top" fade effect */}
+      <div 
+        className="absolute inset-0 pointer-events-none z-0"
+        style={{
+          background: "radial-gradient(circle at 50% 0%, rgba(235, 213, 171, 0.08) 0%, transparent 60%)"
+        }}
       />
 
       <div className="container mx-auto px-6 relative z-10">

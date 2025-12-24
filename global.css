@@ -1,41 +1,96 @@
-@layer utilities {
-  /* Forward Marquee Animation */
-  .animate-marquee {
-    display: flex;
-    min-width: 100%;
-    animation: scroll var(--duration, 40s) linear infinite;
-  }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  /* Reverse Marquee Animation */
-  .animate-marquee-reverse {
-    display: flex;
-    min-width: 100%;
-    animation: scroll-reverse var(--duration, 40s) linear infinite;
-  }
-
-  /* Keyframes must be defined globally */
-  @keyframes scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-
-  @keyframes scroll-reverse {
-    0% { transform: translateX(-50%); }
-    100% { transform: translateX(0); }
-  }
-
-  /* Motterdam Font Utility */
-  .font-motterdam {
-    font-family: 'Motterdam', serif;
-    font-weight: bold;
-    letter-spacing: 0.05em;
-  }
-}
-
+/* 1. Custom Font Setup */
+/* We place this at the top so it loads immediately */
 @font-face {
   font-family: 'Motterdam';
   src: url('/assets/fonts/Motterdam-K74zp.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
+}
+
+/* 2. Custom Utilities */
+@layer utilities {
+  /* Marquee Animations */
+  .animate-marquee {
+    display: flex;
+    min-width: 100%;
+    animation: scroll var(--duration, 40s) linear infinite;
+  }
+
+  .animate-marquee-reverse {
+    display: flex;
+    min-width: 100%;
+    animation: scroll-reverse var(--duration, 40s) linear infinite;
+  }
+
+  /* Font Utility Helper (Optional, if you want to force it via class) */
+  .font-motterdam {
+    font-family: 'Motterdam', serif;
+    font-weight: normal; /* Script fonts usually don't need bold */
+    letter-spacing: 0.05em;
+  }
+}
+
+/* 3. Global Keyframes */
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes scroll-reverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+/* 4. Base Styles & Reset */
+@layer base {
+    html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important; /* Force native smooth scroll off */
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none; /* Improves performance while scrolling over iframes */
+}
+  body {
+    background-color: #1B211A;
+    color: #EBD5AB;
+    overflow-x: hidden; /* Prevent horizontal scroll from parallax elements */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* 5. Custom Scrollbar (Organic Theme) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1B211A; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2d362b; 
+  border-radius: 4px;
+  border: 1px solid rgba(139, 174, 102, 0.1); /* Subtle border */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8BAE66; 
 }

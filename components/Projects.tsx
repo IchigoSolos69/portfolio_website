@@ -16,7 +16,7 @@ const ProjectCard: React.FC<{ project: typeof PORTFOLIO_DATA.projects[0] }> = ({
     >
       <motion.div
         className="group relative glass rounded-[40px] overflow-hidden border border-[#EBD5AB]/5 hover:border-[#8BAE66]/30 bg-[#EBD5AB]/5 transition-colors duration-500 flex flex-col lg:flex-row min-h-[400px]"
-        whileHover={{ y: -5, rotateX: 1, rotateY: 1 }} // Reduced rotation slightly for smoother feel
+        whileHover={{ y: -5, rotateX: 1, rotateY: 1 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
       >
         {/* Image Section */}
@@ -83,12 +83,9 @@ const Projects: React.FC = () => {
   const shardRotate = useTransform(scrollYProgress, [0, 1], [0, 120]);
 
   const tabs = useMemo(() => {
-    // 1. Get unique categories
     const categories = Array.from(new Set(PORTFOLIO_DATA.projects.map(p => p.category)));
-    // 2. Add 'All' to the front
     const allCategories = ["All", ...categories];
 
-    // 3. Create tab objects
     return allCategories.map(cat => ({
       id: cat.toLowerCase(),
       label: cat,
@@ -105,27 +102,36 @@ const Projects: React.FC = () => {
   }, []);
 
   return (
-    // Fixed ID from 'skills' to 'projects'
     <section id="projects" ref={containerRef} className="py-32 bg-[#1B211A] relative overflow-hidden">
           
-          {/* Enhanced Parallax Background Layers */}
-          <motion.div
-            style={{ y: glowY }}
-            className="absolute top-1/2 left-1/4 w-[600px] h-[600px] bg-[#628141]/5 blur-[150px] rounded-full pointer-events-none"
-          />
-          <motion.div
-            style={{ y: shard1Y, rotate: shardRotate }}
-            className="absolute top-20 right-[15%] w-32 h-32 border border-[#8BAE66]/10 rounded-[40px] pointer-events-none opacity-20"
-          />
-          <motion.div
-            style={{ y: shard2Y, rotate: useTransform(scrollYProgress, [0, 1], [0, -90]) }}
-            className="absolute bottom-40 left-[5%] w-48 h-48 border border-[#EBD5AB]/5 rounded-full pointer-events-none opacity-10"
-          />
-          <motion.div
-            style={{ y: shard3Y }}
-            className="absolute top-1/2 right-[5%] w-16 h-16 border-l border-[#8BAE66]/20 pointer-events-none"
-          />
-    
+          {/* 1. Background Elements with Vignette Mask*/}
+          <div 
+            className="absolute inset-0 pointer-events-none"
+            style={{
+               // Soft fade mask for edges so parallax elements fade out gently
+               maskImage: 'radial-gradient(circle at center, black 60%, transparent 100%)',
+               WebkitMaskImage: 'radial-gradient(circle at center, black 60%, transparent 100%)'
+            }}
+          >
+             {/* Parallax Layers */}
+             <motion.div
+               style={{ y: glowY, willChange: 'transform' }}
+               className="absolute top-1/2 left-1/4 w-[600px] h-[600px] bg-[#628141]/5 blur-[150px] rounded-full"
+             />
+             <motion.div
+               style={{ y: shard1Y, rotate: shardRotate, willChange: 'transform' }}
+               className="absolute top-20 right-[15%] w-32 h-32 border border-[#8BAE66]/10 rounded-[40px] opacity-20"
+             />
+             <motion.div
+               style={{ y: shard2Y, rotate: useTransform(scrollYProgress, [0, 1], [0, -90]), willChange: 'transform' }}
+               className="absolute bottom-40 left-[5%] w-48 h-48 border border-[#EBD5AB]/5 rounded-full opacity-10"
+             />
+             <motion.div
+               style={{ y: shard3Y, willChange: 'transform' }}
+               className="absolute top-1/2 right-[5%] w-16 h-16 border-l border-[#8BAE66]/20"
+             />
+          </div>
+
           <div className="container mx-auto px-6 relative z-10">
             <div className="max-w-4xl mb-24">
               <motion.div
