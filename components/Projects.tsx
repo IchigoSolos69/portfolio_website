@@ -49,13 +49,7 @@ const ProjectCard: React.FC<{ project: typeof PORTFOLIO_DATA.projects[0] }> = ({
           </div>
 
           <div className="flex items-center gap-8">
-            <a 
-              href={project.link} 
-              className="group/btn flex items-center gap-3 text-xs font-bold tracking-[0.2em] uppercase text-[#8BAE66] hover:text-[#EBD5AB] transition-colors"
-            >
-              Launch Prototype
-              <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
-            </a>
+
             {project.github && (
               <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-[#EBD5AB]/30 hover:text-[#EBD5AB] transition-colors">
                 <Github size={20} />

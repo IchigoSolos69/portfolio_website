@@ -41,7 +41,6 @@ export const PORTFOLIO_DATA: PortfolioData = {
       description: "A high-end, reactive portfolio website featuring modern design systems, Framed Motion animations, and a tactical HUD aesthetic. Built for peak digital performance.",
       image: "https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&q=80&w=1200",
       tags: ["React", "TypeScript", "Tailwind", "Framer Motion"],
-      link: "https://github.com/IchigoSolos69/portfolio_website",
       github: "https://github.com/IchigoSolos69/portfolio_website"
     },
     {
@@ -51,7 +50,6 @@ export const PORTFOLIO_DATA: PortfolioData = {
       description: "A custom web browser with an inbuilt ad blocker, optimized for speed and distraction-free exploration of the digital Soul Society.",
       image: "https://images.unsplash.com/photo-1481487196290-c152efe083f5?auto=format&fit=crop&q=80&w=1200",
       tags: ["Python", "PyQt", "Automation"],
-      link: "https://github.com/IchigoSolos69/Web-Browser",
       github: "https://github.com/IchigoSolos69/Web-Browser"
     },
     {
@@ -61,7 +59,6 @@ export const PORTFOLIO_DATA: PortfolioData = {
       description: "Data analysis project for the IR club, processing and visualizing complex datasets to reveal tactical insights and trends.",
       image: "https://images.unsplash.com/photo-1551288049-bbbda536ad37?auto=format&fit=crop&q=80&w=1200",
       tags: ["Python", "Pandas", "Matplotlib", "Jupyter"],
-      link: "https://github.com/IchigoSolos69/IRC",
       github: "https://github.com/IchigoSolos69/IRC"
     },
     {
@@ -71,7 +68,6 @@ export const PORTFOLIO_DATA: PortfolioData = {
       description: "Real-time weather application that fetches and processes meteorological data, providing precise atmospheric conditions.",
       image: "https://images.unsplash.com/photo-1592210454359-9043f067919b?auto=format&fit=crop&q=80&w=1200",
       tags: ["Python", "API", "JSON"],
-      link: "https://github.com/IchigoSolos69/Weather-System",
       github: "https://github.com/IchigoSolos69/Weather-System"
     },
     {
@@ -81,7 +77,6 @@ export const PORTFOLIO_DATA: PortfolioData = {
       description: "Robust inventory management system designed to bring order to resource tracking and logistical operations.",
       image: "https://images.unsplash.com/photo-1586769852044-692d6e3703f0?auto=format&fit=crop&q=80&w=1200",
       tags: ["Java", "OOP", "Swing"],
-      link: "https://github.com/IchigoSolos69/Inventory-Management-System",
       github: "https://github.com/IchigoSolos69/Inventory-Management-System"
     }
   ],

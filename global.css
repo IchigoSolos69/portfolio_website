@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 /* 1. Custom Font Setup */
-/* We place this at the top so it loads immediately */
 @font-face {
   font-family: 'Motterdam';
   src: url('/assets/fonts/Motterdam-K74zp.ttf') format('truetype');
@@ -12,7 +11,47 @@
   font-display: swap;
 }
 
-/* 2. Custom Utilities */
+/* 2. Base Styles & Reset (Including Lenis) */
+@layer base {
+  /* Critical Lenis Setup for Premium Scroll */
+  html.lenis, html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important; /* Force disable native smooth scroll */
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  .lenis.lenis-scrolling iframe {
+    pointer-events: none; /* Perf: Disable mouse events on iframes while scrolling */
+  }
+
+  /* Global Body Styles */
+  body {
+    background-color: #1B211A;
+    color: #EBD5AB;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* PREMIUM TOUCH: Custom Text Selection */
+  /* This makes the site feel branded even when highlighting text */
+  ::selection {
+    background-color: rgba(139, 174, 102, 0.3); /* Your Brand Green */
+    color: #ffffff;
+  }
+}
+
+/* 3. Custom Utilities */
 @layer utilities {
   /* Marquee Animations */
   .animate-marquee {
@@ -27,15 +66,23 @@
     animation: scroll-reverse var(--duration, 40s) linear infinite;
   }
 
-  /* Font Utility Helper (Optional, if you want to force it via class) */
+  /* Font Helper */
   .font-motterdam {
     font-family: 'Motterdam', serif;
-    font-weight: normal; /* Script fonts usually don't need bold */
+    font-weight: normal;
     letter-spacing: 0.05em;
+  }
+
+  /* PREMIUM TOUCH: Performance Helper */
+  /* Apply this to any element that lags during scroll (like large images) */
+  .gpu-accelerated {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
 }
 
-/* 3. Global Keyframes */
+/* 4. Global Keyframes */
 @keyframes scroll {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -44,36 +91,6 @@
 @keyframes scroll-reverse {
   0% { transform: translateX(-50%); }
   100% { transform: translateX(0); }
-}
-
-/* 4. Base Styles & Reset */
-@layer base {
-    html.lenis, html.lenis body {
-  height: auto;
-}
-
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important; /* Force native smooth scroll off */
-}
-
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
-.lenis.lenis-scrolling iframe {
-  pointer-events: none; /* Improves performance while scrolling over iframes */
-}
-  body {
-    background-color: #1B211A;
-    color: #EBD5AB;
-    overflow-x: hidden; /* Prevent horizontal scroll from parallax elements */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
 }
 
 /* 5. Custom Scrollbar (Organic Theme) */
@@ -88,7 +105,7 @@
 ::-webkit-scrollbar-thumb {
   background: #2d362b; 
   border-radius: 4px;
-  border: 1px solid rgba(139, 174, 102, 0.1); /* Subtle border */
+  border: 1px solid rgba(139, 174, 102, 0.1);
 }
 
 ::-webkit-scrollbar-thumb:hover {

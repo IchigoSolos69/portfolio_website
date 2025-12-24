@@ -32,14 +32,8 @@ const Journey: React.FC = () => {
   return (
     <section id="journey" ref={sectionRef} className="py-32 bg-[#1B211A] relative overflow-hidden">
       
-      {/* 1. Background Decor (Consistent with About/Footer) */}
       <div className="absolute inset-0 pointer-events-none">
          <motion.div 
-            style={{ 
-              y: bgY,
-              backgroundImage: `linear-gradient(#EBD5AB 1px, transparent 1px), linear-gradient(90deg, #EBD5AB 1px, transparent 1px)`,
-              backgroundSize: '40px 40px'
-            }}
             className="absolute inset-0 opacity-[0.03]"
          />
          <motion.div 
