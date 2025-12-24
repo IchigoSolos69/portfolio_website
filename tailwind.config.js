@@ -1,26 +1,23 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
-      // ADD THIS 👇
       fontFamily: {
-        motterdam: ['Motterdam', 'serif'],
+        motterdam: ['Motterdam', 'cursive'],
       },
-      // ... rest of your existing animation config
       animation: {
-        'marquee': 'marquee var(--duration, 30s) linear infinite',
+        marquee: 'marquee var(--duration, 30s) linear infinite',
+        'marquee-reverse': 'marquee-reverse var(--duration, 30s) linear infinite',
       },
       keyframes: {
         marquee: {
-          'to': { transform: 'translateX(-50%)' },
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
         },
         'marquee-reverse': {
-          'from': { transform: 'translateX(0)' },
-          'to': { transform: 'translateX(50%)' },
+          '0%': { transform: 'translateX(-50%)' },
+          '100%': { transform: 'translateX(0)' },
         },
       },
     },

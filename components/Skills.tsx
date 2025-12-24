@@ -1,18 +1,40 @@
-
 import React, { useRef } from 'react';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer, PolarRadiusAxis } from 'recharts';
 import { PORTFOLIO_DATA } from '../constants';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Cpu, Zap, Shield, Target } from 'lucide-react';
+import { Cpu, Zap, Shield, Target, LucideIcon } from 'lucide-react';
 
-const CustomAngleTick = (props: any) => {
-  const { x, y, payload, cx, cy } = props;
+// --- Types ---
+interface CustomTickProps {
+  x: number;
+  y: number;
+  payload: { value: string };
+  cx: number;
+  cy: number;
+}
+
+interface SkillCardData {
+  icon: LucideIcon;
+  label: string;
+  value: string;
+}
+
+// --- Constants ---
+const SKILL_GRID: SkillCardData[] = [
+  { icon: Cpu, label: "Core Stack", value: "Python, C, C++, Java, HTML, CSS, JavaScript, TypeScript" },
+  { icon: Shield, label: "Cloud & Dev", value: "GitHub, Vercel, Netlify, Cloudflare, Linux" },
+  { icon: Zap, label: "UI / Art", value: "Framer Motion, Tailwind, WebGL, Three.js, GSAP" },
+  { icon: Target, label: "Soft Skills", value: "Communication, Adaptability, Creative Direction" }
+];
+
+// --- Components ---
+const CustomAngleTick: React.FC<CustomTickProps> = ({ x, y, payload, cx, cy }) => {
   const dx = x - cx;
   const dy = y - cy;
   const dist = Math.sqrt(dx * dx + dy * dy);
   const nx = dx / dist;
   const ny = dy / dist;
-  const displacement = 25; 
+  const displacement = 25;
   const tx = x + nx * displacement;
   const ty = y + ny * displacement;
   const textAnchor = nx > 0.1 ? 'start' : nx < -0.1 ? 'end' : 'middle';
@@ -29,7 +51,7 @@ const CustomAngleTick = (props: any) => {
         fontSize="10px"
         fontWeight="800"
         className="uppercase tracking-[0.15em] font-heading"
-        style={{ 
+        style={{
           filter: 'drop-shadow(0px 0px 3px rgba(139, 174, 102, 0.4))',
           opacity: 0.9
         }}
@@ -56,19 +78,19 @@ const Skills: React.FC = () => {
   return (
     <section id="skills" ref={containerRef} className="py-32 bg-[#1B211A] relative overflow-hidden">
       {/* Enhanced Parallax Background Layers */}
-      <motion.div 
+      <motion.div
         style={{ y: glowY }}
-        className="absolute top-1/2 left-1/4 w-[600px] h-[600px] bg-[#628141]/5 blur-[150px] rounded-full pointer-events-none" 
+        className="absolute top-1/2 left-1/4 w-[600px] h-[600px] bg-[#628141]/5 blur-[150px] rounded-full pointer-events-none"
       />
-      <motion.div 
+      <motion.div
         style={{ y: shard1Y, rotate: shardRotate }}
         className="absolute top-20 right-[15%] w-32 h-32 border border-[#8BAE66]/10 rounded-[40px] pointer-events-none opacity-20"
       />
-      <motion.div 
+      <motion.div
         style={{ y: shard2Y, rotate: useTransform(scrollYProgress, [0, 1], [0, -90]) }}
         className="absolute bottom-40 left-[5%] w-48 h-48 border border-[#EBD5AB]/5 rounded-full pointer-events-none opacity-10"
       />
-      <motion.div 
+      <motion.div
         style={{ y: shard3Y }}
         className="absolute top-1/2 right-[5%] w-16 h-16 border-l border-[#8BAE66]/20 pointer-events-none"
       />
@@ -82,13 +104,14 @@ const Skills: React.FC = () => {
           >
             <h2 className="text-sm font-bold tracking-[0.5em] uppercase text-[#8BAE66] mb-6 text-center lg:text-left">The Arsenal</h2>
             <h3 className="text-4xl md:text-5xl font-bold font-heading text-[#EBD5AB] text-center lg:text-left">
-                Technological <span className="text-[#8BAE66]">Depth</span>.
+              Technological <span className="text-[#8BAE66]">Depth</span>.
             </h3>
           </motion.div>
         </div>
 
         <div className="flex flex-col lg:flex-row items-center gap-16">
-          <motion.div 
+          {/* Radar Chart Container */}
+          <motion.div
             style={{ y: useTransform(scrollYProgress, [0, 1], [20, -20]) }}
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -96,8 +119,9 @@ const Skills: React.FC = () => {
             className="flex-1 relative w-full aspect-square max-w-[600px]"
           >
             <div className="absolute inset-0 bg-[#628141]/10 blur-[100px] rounded-full scale-75 animate-pulse" />
-            
+
             <div className="w-full h-full glass rounded-[60px] border-[#EBD5AB]/10 shadow-[0_0_80px_rgba(0,0,0,0.5)] relative overflow-hidden p-6 sm:p-12 flex items-center justify-center">
+              {/* Decorative Markers */}
               <div className="absolute top-10 left-10 w-10 h-10 border-t-2 border-l-2 border-[#8BAE66]/30" />
               <div className="absolute top-10 right-10 w-10 h-10 border-t-2 border-r-2 border-[#8BAE66]/30" />
               <div className="absolute bottom-10 left-10 w-10 h-10 border-b-2 border-l-2 border-[#8BAE66]/30" />
@@ -133,10 +157,10 @@ const Skills: React.FC = () => {
                       animationDuration={2500}
                       animationEasing="ease-out"
                       filter="url(#radarGlow)"
-                      dot={{ 
-                        r: 4.5, 
-                        fill: '#1B211A', 
-                        stroke: '#8BAE66', 
+                      dot={{
+                        r: 4.5,
+                        fill: '#1B211A',
+                        stroke: '#8BAE66',
                         strokeWidth: 2,
                         filter: 'drop-shadow(0px 0px 4px rgba(139, 174, 102, 0.8))'
                       }}
@@ -145,19 +169,15 @@ const Skills: React.FC = () => {
                 </ResponsiveContainer>
               </div>
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-[#1B211A] border border-[#8BAE66]/20 flex items-center justify-center pointer-events-none">
-                 <div className="w-3 h-3 rounded-full bg-[#8BAE66] shadow-[0_0_20px_#8BAE66] animate-pulse" />
+                <div className="w-3 h-3 rounded-full bg-[#8BAE66] shadow-[0_0_20px_#8BAE66] animate-pulse" />
               </div>
             </div>
           </motion.div>
 
+          {/* Skill Cards Grid */}
           <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
-            {[
-              { icon: Cpu, label: "Core Stack", value: "Python, C, C++, Java, HTML, CSS, JavaScript, TypeScript" },
-              { icon: Shield, label: "Cloud", value: "GitHub, Vercel, Netlify, Cloudflare" },
-              { icon: Zap, label: "UI / Art", value: "Framer Motion, Tailwind, WebGL, Three.js, GSAP, Shaders" },
-              { icon: Target, label: "Soft Skills", value: "Communication, Adaptability, Creativity, Management" }
-            ].map((skill, i) => (
-              <motion.div 
+            {SKILL_GRID.map((skill, i) => (
+              <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -165,11 +185,11 @@ const Skills: React.FC = () => {
                 transition={{ delay: i * 0.1 }}
                 className="p-8 rounded-[32px] bg-[#EBD5AB]/5 border border-[#EBD5AB]/10 group hover:border-[#8BAE66]/40 transition-colors"
               >
-                 <div className="flex items-center gap-3 mb-3">
-                   <skill.icon size={16} className="text-[#8BAE66]" />
-                   <span className="text-[10px] text-[#8BAE66] font-bold uppercase tracking-widest">{skill.label}</span>
-                 </div>
-                 <p className="text-[#EBD5AB]/80 text-lg">{skill.value}</p>
+                <div className="flex items-center gap-3 mb-3">
+                  <skill.icon size={16} className="text-[#8BAE66] group-hover:scale-110 transition-transform duration-300" />
+                  <span className="text-[10px] text-[#8BAE66] font-bold uppercase tracking-widest">{skill.label}</span>
+                </div>
+                <p className="text-[#EBD5AB]/80 text-lg group-hover:text-[#EBD5AB] transition-colors duration-300">{skill.value}</p>
               </motion.div>
             ))}
           </div>

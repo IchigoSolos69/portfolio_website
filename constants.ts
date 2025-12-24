@@ -6,12 +6,12 @@ export const PORTFOLIO_DATA: PortfolioData = {
   role: "Code Shinigami | B.Tech IT Student",
   bio: "I am a B.Tech IT student and a self-described 'Code Shinigami' dedicated to slicing through complex bugs and bringing order to the digital Soul Society. I am a builder by nature, constantly breaking and remixing projects in pursuit of the 'Bankai' of perfect UI, where high-level functionality meets seamless aesthetics. I’m focused on leaving a lasting legacy in the cloud, one clean line of code at a time. Because in my world, the mission is simple: if it runs, it’s Bankai.",
   skills: [
-    { subject: 'Core Logic', level: 70, fullMark: 100 },
-    { subject: 'System Design', level: 80, fullMark: 100 },
-    { subject: 'UI/Creative', level: 90, fullMark: 100 },
-    { subject: 'Cloud/Git', level: 90, fullMark: 100 },
-    { subject: 'Problem Solving', level: 85, fullMark: 100 },
-    { subject: 'Soft Skills', level: 100, fullMark: 100 },
+    { subject: 'Core Logic', level: 69, fullMark: 100, value: "Python, C, C++, Java, HTML, CSS, JavaScript, TypeScript" },
+    { subject: 'System Design', level: 89, fullMark: 100 },
+    { subject: 'UI/Creative', level: 90, fullMark: 100, value: "Framer Motion, Tailwind, WebGL, Three.js, GSAP, Shaders" },
+    { subject: 'Cloud/Git', level: 100, fullMark: 100, value: "GitHub, Vercel, Netlify, Cloudflare" },
+    { subject: 'Problem Solving', level: 80, fullMark: 100 },
+    { subject: 'Soft Skills', level: 100, fullMark: 100, value: "Communication, Adaptability, Creativity, Management, Leadership" },
   ],
   journey: [
     {
@@ -31,12 +31,6 @@ export const PORTFOLIO_DATA: PortfolioData = {
       title: "Tester & Support Volunteer",
       company: "Hone.gg",
       description: "Contributed to early-stage feature testing under NDA. Moderated community activity and enforced safety guidelines to ensure a stable user environment."
-    },
-    {
-      year: "2023 — Present",
-      title: "B.Tech IT Student",
-      company: "Technical Institute",
-      description: "Deep diving into Data Structures, Algorithms, and Software Engineering principles while maintaining a suite of open-source tactical tools."
     }
   ],
   projects: [

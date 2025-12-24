@@ -1,0 +1,41 @@
+@layer utilities {
+  /* Forward Marquee Animation */
+  .animate-marquee {
+    display: flex;
+    min-width: 100%;
+    animation: scroll var(--duration, 40s) linear infinite;
+  }
+
+  /* Reverse Marquee Animation */
+  .animate-marquee-reverse {
+    display: flex;
+    min-width: 100%;
+    animation: scroll-reverse var(--duration, 40s) linear infinite;
+  }
+
+  /* Keyframes must be defined globally */
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  @keyframes scroll-reverse {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0); }
+  }
+
+  /* Motterdam Font Utility */
+  .font-motterdam {
+    font-family: 'Motterdam', serif;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+  }
+}
+
+@font-face {
+  font-family: 'Motterdam';
+  src: url('/assets/fonts/Motterdam-K74zp.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}

@@ -7,6 +7,7 @@ interface MarqueeProps extends React.HTMLAttributes<HTMLDivElement> {
   direction?: "left" | "right"
   speed?: number
   className?: string
+  fadeWidth?: string // New prop to control fade size
 }
 
 export function Marquee({
@@ -15,28 +16,33 @@ export function Marquee({
   direction = "left",
   speed = 30,
   className,
+  fadeWidth = "10%", // Default 10% fade on edges
   ...props
 }: MarqueeProps) {
   return (
-    <div 
-      className={cn(
-        "w-full overflow-hidden sm:mt-24 mt-10 z-10",
-        className
-      )} 
+    <div
+      className={cn("w-full overflow-hidden z-10", className)}
+      style={{
+        // 1. mask-image creates the soft fade effect on left/right
+        maskImage: `linear-gradient(to right, transparent, black ${fadeWidth}, black calc(100% - ${fadeWidth}), transparent)`,
+        WebkitMaskImage: `linear-gradient(to right, transparent, black ${fadeWidth}, black calc(100% - ${fadeWidth}), transparent)`,
+      }}
       {...props}
     >
-      <div className="relative flex max-w-[90vw] overflow-hidden py-5">
-        <div 
-          className={cn(
-            "flex w-max animate-marquee",
-            pauseOnHover && "hover:[animation-play-state:paused]",
-            direction === "right" && "animate-marquee-reverse"
-          )}
-          style={{ "--duration": `${speed}s` } as React.CSSProperties}
-        >
+      <div 
+        className={cn(
+          "flex w-max min-w-full shrink-0 items-center gap-8 animate-marquee", 
+          pauseOnHover && "hover:[animation-play-state:paused]",
+          direction === "right" && "animate-marquee-reverse"
+        )}
+        style={{ 
+          "--duration": `${speed}s`,
+          // 2. Performance hint for browsers
+          willChange: "transform" 
+        } as React.CSSProperties}
+      >
           {children}
           {children}
-        </div>
       </div>
     </div>
   )

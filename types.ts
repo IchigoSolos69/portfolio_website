@@ -14,6 +14,7 @@ export interface Skill {
   subject: string;
   level: number;
   fullMark: number;
+  value?: string;
 }
 
 export interface JourneyItem {
