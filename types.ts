@@ -1,45 +1,22 @@
+export type ProjectVisual =
+  | 'trajectory' | 'training' | 'campus' | 'location' | 'world' | 'forecast'
+  | 'browser' | 'weather' | 'inventory' | 'chemistry' | 'data' | 'code'
+  | 'ecology' | 'portfolio';
+
 export interface Project {
   id: string;
+  repository?: string;
   title: string;
+  summary: string;
   description: string;
-  image: string;
-  tags: string[];
-  github?: string;
   category: string;
-}
-
-export interface Skill {
-  subject: string;
-  level: number;
-  fullMark: number;
-  value?: string;
-}
-
-export interface JourneyItem {
-  year: string;
-  title: string;
-  company: string;
-  description: string;
-}
-
-export interface PortfolioData {
-  name: string;
-  role: string;
-  bio: string;
-  skills: Skill[];
-  projects: Project[];
-  journey: JourneyItem[];
-  contact: {
-    email: string;
-    linkedin: string;
-    github: string;
-    twitter: string;
-    instagram: string;
-  };
-}
-
-// Added ChatMessage interface to support the AI Assistant conversation history
-export interface ChatMessage {
-  role: 'user' | 'model';
-  text: string;
+  tags: string[];
+  highlights: string[];
+  illustration: ProjectVisual;
+  github?: string;
+  demo?: string;
+  featured?: boolean;
+  status?: string;
+  source: 'public' | 'private';
+  approved?: boolean;
 }

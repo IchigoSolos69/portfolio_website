@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+<title id="title">Adi Maitre — Ink &amp; Steel</title>
+<desc id="description">Software, systems and creative engineering by Adi Maitre.</desc>
+<style>@font-face{font-family:'Barlow Condensed';src:url('../fonts/BarlowCondensed-SemiBold.ttf') format('truetype');font-weight:600}</style>
+<rect width="1200" height="630" fill="#F5F4F0"/>
+<path d="M960 0 562 630h104L1065 0Z" fill="#151515"/>
+<path d="M1070 0 670 630h31L1100 0Z" fill="#BE332B"/>
+<path d="m927 0 40 0-399 630h-40Z" fill="#B5B7B4"/>
+<text x="66" y="93" fill="#151515" font-family="Arial,sans-serif" font-size="27" font-weight="600">Code Shinigami</text>
+<g fill="#151515" font-family="Barlow Condensed,Arial,sans-serif" font-size="184" font-weight="600" letter-spacing="-3">
+<text x="60" y="283">ADI</text><text x="60" y="451">MAITRE</text></g>
+<text x="66" y="555" fill="#151515" font-family="Arial,sans-serif" font-size="25">Software, systems &amp; creative engineering.</text>
+</svg>

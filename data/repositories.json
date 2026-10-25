@@ -1,0 +1,204 @@
+{
+  "syncedAt": "2026-10-25T06:06:55.522Z",
+  "owner": "IchigoSolos69",
+  "repositories": [
+    {
+      "id": 1422483430,
+      "name": "Autonomous-Driving-Prediction",
+      "fullName": "IchigoSolos69/Autonomous-Driving-Prediction",
+      "url": "https://github.com/IchigoSolos69/Autonomous-Driving-Prediction",
+      "defaultBranch": "main",
+      "archived": false,
+      "description": null,
+      "language": "Python",
+      "topics": []
+    },
+    {
+      "id": 1122453553,
+      "name": "Bleach-portfolio",
+      "fullName": "IchigoSolos69/Bleach-portfolio",
+      "url": "https://github.com/IchigoSolos69/Bleach-portfolio",
+      "defaultBranch": "main",
+      "archived": false,
+      "description": null,
+      "language": "TypeScript",
+      "topics": []
+    },
+    {
+      "id": 1039523574,
+      "name": "Chemistry-Manual-Digitizer",
+      "fullName": "IchigoSolos69/Chemistry-Manual-Digitizer",
+      "url": "https://github.com/IchigoSolos69/Chemistry-Manual-Digitizer",
+      "defaultBranch": "main",
+      "archived": false,
+      "description": null,
+      "language": "Python",
+      "topics": []
+    },
+    {
+      "id": 1039510619,
+      "name": "Computer-Guesses-your-the-Number",
+      "fullName": "IchigoSolos69/Computer-Guesses-your-the-Number",
+      "url": "https://github.com/IchigoSolos69/Computer-Guesses-your-the-Number",
+      "defaultBranch": "main",
+      "archived": false,
+      "description": null,
+      "language": "Python",
+      "topics": []
+    },
+    {
+      "id": 1366102165,
+      "name": "DAA-Assignments",
+      "fullName": "IchigoSolos69/DAA-Assignments",
+      "url": "https://github.com/IchigoSolos69/DAA-Assignments",
+      "defaultBranch": "main",
+      "archived": false,
+      "description": null,
+      "language": "C++",
+      "topics": []
+    },
+    {
+      "id": 1088728671,
+      "name": "Data-Structure-Assignments",
+      "fullName": "IchigoSolos69/Data-Structure-Assignments",
+      "url": "https://github.com/IchigoSolos69/Data-Structure-Assignments",
+      "defaultBranch": "main",
+      "archived": false,
+      "description": null,
+      "language": null,
+      "topics": []
+    },
+    {
+      "id": 1042242393,
+      "name": "EcoSip",
+      "fullName": "IchigoSolos69/EcoSip",
+      "url": "https://github.com/IchigoSolos69/EcoSip",
+      "defaultBranch": "main",
+      "archived": false,
+      "description": null,
+      "language": "CSS",
+      "topics": []
+    },
+    {
+      "id": 1414360429,
+      "name": "FamGPSlink",
+      "fullName": "IchigoSolos69/FamGPSlink",
+      "url": "https://github.com/IchigoSolos69/FamGPSlink",
+      "defaultBranch": "main",
+      "archived": false,
+      "description": null,
+      "language": "Dart",
+      "topics": []
+    },
+    {
+      "id": 1421131735,
+      "name": "FixMyCampus",
+      "fullName": "IchigoSolos69/FixMyCampus",
+      "url": "https://github.com/IchigoSolos69/FixMyCampus",
+      "defaultBranch": "main",
+      "archived": false,
+      "description": null,
+      "language": "TypeScript",
+      "topics": []
+    },
+    {
+      "id": 1027858041,
+      "name": "Hospital-Management",
+      "fullName": "IchigoSolos69/Hospital-Management",
+      "url": "https://github.com/IchigoSolos69/Hospital-Management",
+      "defaultBranch": "main",
+      "archived": false,
+      "description": null,
+      "language": "C++",
+      "topics": []
+    },
+    {
+      "id": 1039506874,
+      "name": "Inventory-Management-System",
+      "fullName": "IchigoSolos69/Inventory-Management-System",
+      "url": "https://github.com/IchigoSolos69/Inventory-Management-System",
+      "defaultBranch": "main",
+      "archived": false,
+      "description": null,
+      "language": "Python",
+      "topics": []
+    },
+    {
+      "id": 885146842,
+      "name": "IRC",
+      "fullName": "IchigoSolos69/IRC",
+      "url": "https://github.com/IchigoSolos69/IRC",
+      "defaultBranch": "main",
+      "archived": false,
+      "description": null,
+      "language": "Python",
+      "topics": []
+    },
+    {
+      "id": 1430149697,
+      "name": "MultiGPU",
+      "fullName": "IchigoSolos69/MultiGPU",
+      "url": "https://github.com/IchigoSolos69/MultiGPU",
+      "defaultBranch": "main",
+      "archived": false,
+      "description": null,
+      "language": "Python",
+      "topics": []
+    },
+    {
+      "id": 1422484452,
+      "name": "Neural-World-Model",
+      "fullName": "IchigoSolos69/Neural-World-Model",
+      "url": "https://github.com/IchigoSolos69/Neural-World-Model",
+      "defaultBranch": "main",
+      "archived": false,
+      "description": null,
+      "language": "Python",
+      "topics": []
+    },
+    {
+      "id": 1038746949,
+      "name": "portfolio_website",
+      "fullName": "IchigoSolos69/portfolio_website",
+      "url": "https://github.com/IchigoSolos69/portfolio_website",
+      "defaultBranch": "main",
+      "archived": false,
+      "description": null,
+      "language": "TypeScript",
+      "topics": []
+    },
+    {
+      "id": 1409923428,
+      "name": "TT-Trajectory-Engine",
+      "fullName": "IchigoSolos69/TT-Trajectory-Engine",
+      "url": "https://github.com/IchigoSolos69/TT-Trajectory-Engine",
+      "defaultBranch": "master",
+      "archived": false,
+      "description": null,
+      "language": "Python",
+      "topics": []
+    },
+    {
+      "id": 1039527030,
+      "name": "Weather-System",
+      "fullName": "IchigoSolos69/Weather-System",
+      "url": "https://github.com/IchigoSolos69/Weather-System",
+      "defaultBranch": "main",
+      "archived": false,
+      "description": null,
+      "language": "Python",
+      "topics": []
+    },
+    {
+      "id": 1039520801,
+      "name": "Web-Browser",
+      "fullName": "IchigoSolos69/Web-Browser",
+      "url": "https://github.com/IchigoSolos69/Web-Browser",
+      "defaultBranch": "main",
+      "archived": false,
+      "description": null,
+      "language": "Python",
+      "topics": []
+    }
+  ]
+}
