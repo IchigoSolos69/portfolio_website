@@ -1,7 +1,11 @@
 import type { Project } from '../types.ts';
 
-export function getPublishableProjects(projects: Project[]): Project[] {
-  return projects.filter(project => project.source === 'public' || project.approved === true);
+export function projectCategory(project: Project): string {
+  return project.source === 'public' ? project.category : 'Private work';
+}
+
+export function projectTags(project: Project): string[] {
+  return project.source === 'public' ? project.tags : [];
 }
 
 export function filterProjects(
@@ -9,11 +13,12 @@ export function filterProjects(
   filters: { query: string; category: string; technology: string },
 ): Project[] {
   const query = filters.query.trim().toLocaleLowerCase();
-  return getPublishableProjects(projects).filter(project => {
-    const searchable = [project.title, project.summary, project.repository ?? '', ...project.tags]
+  return projects.filter(project => {
+    const searchable = [project.id, project.title, project.summary,
+      ...(project.source === 'public' ? [project.repository ?? '', ...project.tags] : [])]
       .join(' ').toLocaleLowerCase();
     return (!query || searchable.includes(query))
-      && (filters.category === 'All' || project.category === filters.category)
-      && (filters.technology === 'All' || project.tags.includes(filters.technology));
+      && (filters.category === 'All' || projectCategory(project) === filters.category)
+      && (filters.technology === 'All' || projectTags(project).includes(filters.technology));
   });
 }

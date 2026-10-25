@@ -1,17 +1,19 @@
 import snapshot from './repositories.json' with { type: 'json' };
-import type { Project } from '../types.ts';
+import { PUBLIC_README_INSIGHTS } from './public-readme-insights.ts';
+import type { Project, PublicProject, PrivateProjectSummary } from '../types.ts';
 
 // Descriptions are curated from repository documentation and inspected source.
 // The metadata refresh never replaces these editorial descriptions.
-const curated: Record<string, Partial<Project>> = {
+const curated: Record<string, Partial<PublicProject>> = {
   'TT-Trajectory-Engine': {
     title: 'TT Trajectory Engine',
     summary: 'From table-tennis footage to tracked trajectories and a physics sandbox.',
     description: 'A desktop table-tennis analysis project that connects ball tracking with synchronized video overlays, timeline controls, and a spin-physics sandbox. The 3D view uses table-plane projection; airborne ball height is not measured.',
     category: 'AI & research',
-    tags: ['C++', 'TensorRT', 'OpenCV', 'CUDA', 'Next.js', 'TypeScript'],
+    tags: ['C++', 'TensorRT', 'OpenCV', 'CUDA', 'Electron', 'Next.js', 'TypeScript'],
     highlights: ['Video tracking and synchronized overlays', 'Timeline-based match review', 'Spin-physics experiments'],
-    illustration: 'trajectory', featured: true,
+    illustration: 'trajectory', featuredOrder: 2,
+    media: { src: '/assets/projects/tt-analysis.png', alt: 'TT Trajectory Engine desktop footage analysis with table-tennis detections and frame controls.' },
   },
   MultiGPU: {
     title: 'MultiGPU',
@@ -20,7 +22,7 @@ const curated: Record<string, Partial<Project>> = {
     category: 'AI & research',
     tags: ['Python', 'PyTorch', 'WebView2'],
     highlights: ['Training-run management', 'Checkpoint recovery', 'Ordered resource fallbacks and exports'],
-    illustration: 'training', featured: true,
+    illustration: 'training', featuredOrder: 6,
   },
   FixMyCampus: {
     title: 'FixMyCampus',
@@ -29,7 +31,7 @@ const curated: Record<string, Partial<Project>> = {
     category: 'Applications',
     tags: ['React', 'TypeScript', 'Express', 'MySQL', 'TanStack Query', 'Zod'],
     highlights: ['Departmental issue routing', 'Role-based resolution workflows', 'Confidential reporting'],
-    illustration: 'campus', featured: true,
+    illustration: 'campus',
   },
   FamGPSlink: {
     title: 'FamGPSlink',
@@ -38,20 +40,20 @@ const curated: Record<string, Partial<Project>> = {
     category: 'Applications',
     tags: ['Flutter', 'Dart', 'Kotlin', 'Swift', 'Firebase'],
     highlights: ['Opt-in location sharing', 'Owner-approved devices', 'Encrypted offline buffering'],
-    illustration: 'location', featured: true,
+    illustration: 'location',
   },
   'Autonomous-Driving-Prediction': {
-    title: 'Driving Prediction',
+    title: 'Autonomous Driving Prediction',
     summary: 'Exploring how vehicle trajectories and proximity risk can be modeled.',
     description: 'A desktop research application for joint vehicle-motion forecasting, calibrated proximity-risk experiments, and robustness analysis on Argoverse 2. This is experimental research software, not a validated vehicle-safety system.',
     category: 'AI & research',
     tags: ['Python', 'PyTorch', 'FastAPI', 'React', 'TypeScript'],
     highlights: ['Joint motion forecasting', 'Proximity-risk experiments', 'Robustness analysis on Argoverse 2'],
-    illustration: 'forecast', status: 'Research prototype',
+    illustration: 'forecast', status: 'Research prototype', featuredOrder: 5,
   },
   'Neural-World-Model': {
     title: 'Neural World Model',
-    summary: 'Comparing learned ball dynamics with fitted physics and residual models.',
+    summary: 'Comparing learned disc dynamics with fitted physics and residual models.',
     description: 'A research prototype with simulation and backtesting workspaces for learned ball dynamics, fitted physics, and residual models. The smoke-test model is undertrained; the full benchmark and large video-generation feasibility work remain pending.',
     category: 'AI & research',
     tags: ['Python', 'PyTorch', 'FastAPI', 'React', 'TypeScript'],
@@ -160,15 +162,15 @@ const curated: Record<string, Partial<Project>> = {
   portfolio_website: {
     title: 'Ink & Steel',
     summary: 'This portfolio: personal art direction, an interactive archive, and original 3D.',
-    description: 'My portfolio website, rebuilt around Ink & Steel: editorial typography, an original interactive steel sculpture, and a searchable catalog of public projects. Private project summaries are published only after review.',
+    description: 'My portfolio website, rebuilt around Ink & Steel: editorial typography, an original interactive katana, and a searchable catalog of public projects. Authorized private projects appear as brief summaries without source links or private implementation details.',
     category: 'Web experiences',
     tags: ['React', 'TypeScript', 'Vite', 'GSAP', 'Three.js'],
-    highlights: ['Original interactive 3D sculpture', 'Searchable project archive', 'Accessible reduced-motion experience'],
+    highlights: ['Original interactive 3D katana', 'Searchable project archive', 'Accessible reduced-motion experience'],
     illustration: 'portfolio',
   },
 };
 
-export const projects: Project[] = snapshot.repositories.map(repository => ({
+export const publicProjects: PublicProject[] = snapshot.repositories.map(repository => ({
   id: repository.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
   repository: repository.fullName,
   title: repository.name.replace(/[-_]/g, ' '),
@@ -180,6 +182,89 @@ export const projects: Project[] = snapshot.repositories.map(repository => ({
   illustration: 'code' as const,
   status: curated[repository.name] ? undefined : 'Description pending',
   ...curated[repository.name],
+  ...PUBLIC_README_INSIGHTS[repository.name],
   github: repository.url,
   source: 'public' as const,
 }));
+
+// These summary-only entries were authorized for this public-facing catalog.
+// Keep private repository identifiers, URLs, screenshots, and implementation data outside it.
+export const privateProjects: PrivateProjectSummary[] = [
+  {
+    id: 'rarecomforts-commerce', title: 'RareComforts Commerce', source: 'private',
+    progressBrief: 'Storefront, customer accounts, and order-management workflows.',
+    summary: 'A full-stack storefront combining product discovery, customer accounts, cart management, and administrative inventory and order workflows.',
+    illustration: 'commerce', featuredOrder: 1,
+  },
+  {
+    id: 'creator-partnerships', title: 'Creator Partnerships Workspace', source: 'private',
+    progressBrief: 'Creator discovery and collaboration follow-up workspace.',
+    summary: 'A workspace for finding relevant creators from public channel information and managing prospects, collaboration stages, and follow-up.',
+    illustration: 'partnerships', featuredOrder: 3,
+  },
+  {
+    id: 'nexora', title: 'Nexora', source: 'private', status: 'Prototype',
+    progressBrief: 'Prototype for offline experiment observation and spoken guidance.',
+    summary: 'An offline computer-vision prototype that observes a structured experiment, provides spoken guidance, and records reviewable session events.',
+    illustration: 'laboratory', featuredOrder: 4,
+  },
+  {
+    id: 'community-showcase', title: 'Community Showcase', source: 'private',
+    progressBrief: 'Searchable project directory with interactive presentation.',
+    summary: 'A searchable community project directory with project administration and interactive 2D and 3D presentation features.',
+    illustration: 'portfolio',
+  },
+  {
+    id: 'healthcare-app', title: 'Healthcare App', source: 'private', status: 'Prototype',
+    progressBrief: 'Prototype for doctor discovery and appointment booking.',
+    summary: 'A healthcare interface for discovering doctors, exploring specialties, and booking appointments.',
+    illustration: 'campus',
+  },
+  {
+    id: 'internity', title: 'Internity', source: 'private', status: 'Prototype',
+    progressBrief: 'Prototype for profile-based internship recommendations.',
+    summary: 'An internship recommendation application that matches profile information with opportunities using weighted similarity.',
+    illustration: 'data',
+  },
+  {
+    id: 'sort2save', title: 'Sort2Save', source: 'private', status: 'Prototype',
+    progressBrief: 'Prototype combining image classification and e-waste recycling.',
+    summary: 'An e-waste sorting prototype combining image-based electronics classification with recycling-oriented activities and interfaces.',
+    illustration: 'ecology',
+  },
+  {
+    id: 'e-consultation', title: 'E-Consultation Prototype', source: 'private', status: 'Demo data',
+    progressBrief: 'Interface demonstration using sample feedback summaries.',
+    summary: 'An interface prototype for searching and comparing sample policy-feedback sentiment summaries.',
+    illustration: 'data',
+  },
+  {
+    id: 'support-ticket-monitor', title: 'Support Ticket Monitor', source: 'private', status: 'Prototype',
+    progressBrief: 'Monitoring prototype with polling, alerts, and simulation mode.',
+    summary: 'A ticket-monitoring interface with configurable polling, sound notifications, and a simulation mode.',
+    illustration: 'browser',
+  },
+  {
+    id: 'cinema-experience', title: 'Cinema Experience Website', source: 'private', status: 'Concept website',
+    progressBrief: 'Home-cinema website concept with a motion-led presentation.',
+    summary: 'A motion-led home-cinema concept website with a cinematic screen reveal and an editorial service presentation.',
+    illustration: 'portfolio',
+  },
+  {
+    id: 'calories-calculator', title: 'Calories Calculator', source: 'private', status: 'Concept',
+    progressBrief: 'Concept only; implementation is not present in the repository.',
+    summary: 'A project concept for a calories-calculation application.',
+    illustration: 'code',
+  },
+  {
+    id: 'public-issue-reporting', title: 'Public Issue Reporting', source: 'private', status: 'Concept',
+    progressBrief: 'Concept only; implementation is not present in the repository.',
+    summary: 'A project concept for reporting and organizing public issues.',
+    illustration: 'campus',
+  },
+];
+
+export const projects: Project[] = [...publicProjects, ...privateProjects];
+export const featuredProjects: Project[] = projects
+  .filter(project => project.featuredOrder !== undefined)
+  .sort((a, b) => a.featuredOrder! - b.featuredOrder!);

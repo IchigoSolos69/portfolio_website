@@ -1,0 +1,3 @@
+# For local Cloudflare Pages Functions development. Keep .dev.vars out of Git.
+GITHUB_TOKEN=
+PRIVATE_PROJECT_REPOS={}

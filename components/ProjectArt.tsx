@@ -1,5 +1,6 @@
 import { useId } from 'react';
 import type { ProjectVisual } from '../types';
+import ProjectSceneArt from './ProjectSceneArt';
 
 const PAPER = '#E4E3DF';
 const INK = '#1B1C1B';
@@ -7,6 +8,9 @@ const STEEL = '#B5B7B4';
 const RED = '#BE332B';
 
 const descriptions: Record<ProjectVisual, string> = {
+  commerce: 'An original illustration of commerce moving from product discovery to an order.',
+  partnerships: 'An original illustration of discovering creators, reviewing prospects, and starting collaborations.',
+  laboratory: 'An original illustration of computer-vision observation and spoken experiment guidance.',
   trajectory: 'An illustrative table-plane trajectory, traced across a table-tennis table.',
   training: 'An illustrative single-resource training workflow, from input data to a saved model.',
   campus: 'An illustrative campus building and the route a service request takes to its destination.',
@@ -41,32 +45,6 @@ function Trajectory() {
     <path d="m742 244 21-10-3 24" fill="none" stroke={RED} strokeWidth="7" />
     <path d="M108 123h142v17H108z" fill={INK} />
     <path d="M108 157h80v7h-80z" fill="#888B85" />
-  </>;
-}
-
-function Training() {
-  return <>
-    <path d="M76 402 301 278 509 378 286 504Z" fill="#C8CAC5" />
-    <path d="M98 327 241 249 373 312 229 393Z" fill="#F5F4F0" />
-    <path d="M98 327v33l131 64v-31Z" fill={STEEL} />
-    <path d="M229 393v31l144-80v-32Z" fill="#858B85" />
-    <path d="M121 301 264 223 396 286 252 367Z" fill="#F5F4F0" />
-    <path d="M121 301v20l131 65v-19Z" fill="#B5B7B4" />
-    <path d="M252 367v19l144-80v-20Z" fill="#858B85" />
-    <path d="M143 272 287 194 419 257 275 338Z" fill={INK} />
-    <path d="m196 265 91-49 79 38-92 51Z" fill="#626B62" />
-    <path d="M403 420 620 301 866 421 647 542Z" fill="#BFC2BB" />
-    <path d="M422 231 641 111 860 216 641 338Z" fill="#F5F4F0" />
-    <path d="M422 231v188l219 107V338Z" fill={INK} />
-    <path d="M641 338v188l219-120V216Z" fill="#8C938B" />
-    <path d="m470 232 170-93 168 80-169 95Z" fill="#D1D5CC" />
-    <path d="m557 229 83-45 82 40-84 46Z" fill={RED} />
-    {[0, 1, 2, 3, 4].map(i => <path key={i} d={`m${670 + i * 32} ${359 - i * 18}v103l12-7V334`} fill="#464E46" />)}
-    <path d="m464 294 112 54v18l-112-54Z" fill="#EEEFE8" />
-    <path d="m464 334 74 36v18l-74-36Z" fill="#858C82" />
-    <path className="art-trace" d="m278 274 79-43 110 53M776 311l105-58 57 28" fill="none" stroke={RED} strokeWidth="11" strokeLinecap="square" strokeLinejoin="miter" />
-    <path d="m925 260 20 25-32 1" fill="none" stroke={RED} strokeWidth="7" />
-    <text x="78" y="119" fill={INK} fontFamily="'Instrument Sans', Arial, sans-serif" fontSize="25" fontWeight="600">Data → train → checkpoint</text>
   </>;
 }
 
@@ -109,7 +87,7 @@ function Location() {
   </>;
 }
 
-function Dynamics({ forecast = false }: { forecast?: boolean }) {
+function Dynamics() {
   return <>
     <path d="M112 515 457 110 923 359 578 629Z" fill="#CED1C8" />
     <path d="m205 440 270-288 347 201-270 215Z" fill="#F5F4F0" />
@@ -117,8 +95,8 @@ function Dynamics({ forecast = false }: { forecast?: boolean }) {
     <path d="M262 440C442 394 423 219 663 223" stroke={INK} strokeWidth="12" fill="none" />
     <path className="art-trace" d="M262 440C397 406 467 421 732 325" stroke={RED} strokeWidth="10" fill="none" />
     <path d="M262 440C438 394 538 402 738 431" stroke="#7B8574" strokeWidth="8" strokeDasharray="16 14" fill="none" />
-    {forecast ? <path d="m238 426 52-31 70 41-51 31Z" fill={INK} /> : <><circle cx="262" cy="440" r="28" fill={RED} /><circle cx="663" cy="223" r="16" fill={INK} /><circle cx="732" cy="325" r="16" fill={RED} /></>}
-    <text x="112" y="107" fill={INK} fontFamily="'Instrument Sans', Arial, sans-serif" fontSize="25" fontWeight="600">{forecast ? 'Motion / possible futures' : 'Physics / learned dynamics'}</text>
+    <circle cx="262" cy="440" r="28" fill={RED} /><circle cx="663" cy="223" r="16" fill={INK} /><circle cx="732" cy="325" r="16" fill={RED} />
+    <text x="112" y="107" fill={INK} fontFamily="'Instrument Sans', Arial, sans-serif" fontSize="25" fontWeight="600">Physics / learned dynamics</text>
   </>;
 }
 
@@ -198,16 +176,19 @@ function Code({ portfolio = false }: { portfolio?: boolean }) {
   </>;
 }
 
-export default function ProjectArt({ kind, className = '' }: { kind: ProjectVisual; className?: string }) {
+export default function ProjectArt({ kind, className = '', fit = 'slice' }: { kind: ProjectVisual; className?: string; fit?: 'slice' | 'meet' }) {
   const id = useId();
   let drawing;
   switch (kind) {
     case 'trajectory': drawing = <Trajectory />; break;
-    case 'training': drawing = <Training />; break;
+    case 'commerce':
+    case 'partnerships':
+    case 'laboratory':
+    case 'training':
+    case 'forecast': drawing = <ProjectSceneArt kind={kind} />; break;
     case 'campus': drawing = <Campus />; break;
     case 'location': drawing = <Location />; break;
     case 'world': drawing = <Dynamics />; break;
-    case 'forecast': drawing = <Dynamics forecast />; break;
     case 'inventory': drawing = <Inventory />; break;
     case 'weather': drawing = <Weather />; break;
     case 'chemistry': drawing = <Chemistry />; break;
@@ -217,7 +198,7 @@ export default function ProjectArt({ kind, className = '' }: { kind: ProjectVisu
     case 'portfolio': drawing = <Code portfolio />; break;
     default: drawing = <Code />;
   }
-  return <svg className={`project-art ${className}`.trim()} viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid slice" role="img" aria-labelledby={`${id}-title ${id}-description`}>
+  return <svg className={`project-art ${className}`.trim()} viewBox="0 0 1000 620" preserveAspectRatio={`xMidYMid ${fit}`} role="img" aria-labelledby={`${id}-title ${id}-description`}>
     <title id={`${id}-title`}>Project illustration</title>
     <desc id={`${id}-description`}>{descriptions[kind]}</desc>
     <path fill={PAPER} d="M0 0h1000v620H0z" />

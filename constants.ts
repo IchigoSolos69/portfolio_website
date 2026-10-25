@@ -12,10 +12,10 @@ export const PROFILE = {
 
 export const EXPERIENCE = [
   {
-    period: 'June 2025 — Present',
+    period: 'June 2025 — May 2026',
     role: 'Partnership Manager',
     company: 'Ghast.io',
-    description: 'Building long-term collaborator relationships and supporting community growth through strategic partnerships.',
+    description: 'Built long-term collaborator relationships and supported community growth through strategic partnerships.',
   },
   {
     period: 'May 2025 — Present',
