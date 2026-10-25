@@ -1,5 +1,6 @@
-import repositories from '../data/repositories.json' with { type: 'json' };
-import snapshot from '../data/project-activity.json' with { type: 'json' };
+import catalog from './project-data.cjs';
+
+const { repositories, snapshot } = catalog;
 
 const OWNER = repositories.owner;
 const PRIVATE_IDS = [

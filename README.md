@@ -54,6 +54,14 @@ npm run build
 
 Tests cover the catalog, featured order, private field whitelist, combined filters, concept labels, metadata refresh failures, activity merging, committer dates, README extraction, caching, and private response exclusion. The katana renders on demand, pauses offscreen, supports keyboard rotation, and falls back to original SVG art for reduced motion or unavailable WebGL. Native public-project dialogs contain keyboard focus and support Escape; private projects remain summary-only.
 
+Validate the Functions bundle separately using the Wrangler version from Pages build logs:
+
+```sh
+npx --yes --package wrangler@3.114.17 wrangler pages functions build functions --outfile .wrangler/build/_worker.js
+```
+
+This compiles locally without deploying. The small CommonJS adapter in `server/project-data.cjs` lets Node and the older Pages bundler load the same JSON catalogs without unsupported import-attribute syntax.
+
 ## Assets and deployment
 
 Barlow Condensed and Instrument Sans use the bundled SIL Open Font License files in `public/assets/fonts`. Illustrations, the katana, and brand assets were created for this portfolio. Explanatory artwork is illustrative; TT Trajectory Engine media is an actual desktop capture from its public repository.
