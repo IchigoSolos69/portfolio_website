@@ -513,7 +513,11 @@ button:focus:not(:focus-visible) {
   letter-spacing: 0;
   margin-top: 8px;
 }
+.row-copy {
+  min-width: 0;
+}
 .row-summary {
+  display: block;
   font-size: 14px;
   line-height: 1.6;
   color: var(--muted);
@@ -972,10 +976,12 @@ body:has(dialog[open]) {
     font-size: 29px;
   }
   .row-summary {
-    grid-row: 2;
-    grid-column: 1;
     max-width: 100%;
     font-size: 14px;
+  }
+  .row-copy {
+    grid-row: 2;
+    grid-column: 1;
   }
   .row-arrow {
     grid-column: 2;
@@ -1407,26 +1413,6 @@ body:has(dialog[open]) {
 .dialog-subheading { font-size: 27px; margin-top: 30px; }
 .dialog-subheading + .project-highlights { margin-top: 14px; }
 .readme-attribution { font-size: 13px; margin-top: 12px; color: var(--muted); }
-.project-progress { padding-block: 70px 36px; }
-.progress-intro { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; margin-bottom: 40px; }
-.progress-intro h2 { font-size: clamp(42px,5vw,68px); }
-.progress-intro p { font-size: 14px; color: var(--dark-muted); }
-.progress-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0 60px; }
-.progress-list li { padding: 22px 0; min-width: 0; }
-.progress-identity { display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px 14px; }
-.progress-identity h3 { font-size: 25px; line-height: 1.1; }
-.progress-private { font-size: 13px; color: var(--dark-muted); }
-.progress-list li > p { font-size: 14px; line-height: 1.6; color: var(--dark-muted); margin-top: 10px; max-width: 550px; }
-.project-progress .commit-date { color: var(--dark-muted); margin-top: 12px; }
-.progress-note { max-width: 760px; font-size: 13px; color: var(--dark-muted); margin-top: 32px; }
-.progress-note > span { white-space: nowrap; }
-@media(max-width:767px) {
-  .project-progress { padding-top: 50px; }
-  .progress-intro { display: block; margin-bottom: 30px; }
-  .progress-intro p { margin-top: 20px; }
-  .progress-list { gap: 0 28px; }
-}
-@media(max-width:520px) {
-  .progress-list { grid-template-columns: 1fr; }
-  .progress-list li { padding-block: 20px; }
-}
+.project-progress { display: block; margin-top: 12px; font-size: 13px; line-height: 1.6; color: var(--muted); max-width: 52ch; }
+.progress-label { font-weight: 600; margin-right: 5px; }
+.spread-copy > .project-progress { margin-top: 24px; }

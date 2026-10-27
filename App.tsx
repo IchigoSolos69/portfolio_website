@@ -54,7 +54,7 @@ function ProjectDialog({ project, onClose }: { project: PublicProject | null; on
 }
 
 function App() {
-  const { catalog, checkedAt } = useProjects();
+  const { catalog } = useProjects();
   const root = useRef<HTMLDivElement>(null);
   const cut = useRef<HTMLDivElement>(null);
   const [opened, setOpened] = useState<PublicProject | null>(null);
@@ -138,8 +138,8 @@ function App() {
         <div className="archive-status" data-ui="search-results"><p role="status">{results.length} {results.length === 1 ? 'project' : 'projects'}{query || category !== 'All' || technology !== 'All' ? ' found' : ' in the collection'}</p>{(query || category !== 'All' || technology !== 'All') && <button className="text-link" onClick={resetFilters}>Clear filters <X size={16} /></button>}</div>
         <div className="project-list">
           {results.map((project) => project.source === 'private'
-            ? <article className="project-row is-private" key={project.id}><div className="row-identity"><span className="row-title">{project.title}</span><SourceTag project={project} /><CommitDate project={project} /></div><p className="row-summary">{project.summary}</p></article>
-            : <button className="project-row" key={project.id} onClick={() => setOpened(project)} aria-label={`Read about ${project.title}`}><span className="row-identity"><span className="row-title">{project.title}</span>{project.status && <span className="row-status">{project.status}</span>}<CommitDate project={project} /></span><span className="row-summary">{project.summary}</span><span className="row-category">{project.category}</span><span className="row-open" aria-hidden="true">View</span></button>)}
+            ? <article className="project-row is-private" key={project.id}><div className="row-identity"><span className="row-title">{project.title}</span><SourceTag project={project} /><CommitDate project={project} /></div><span className="row-copy"><span className="row-summary">{project.summary}</span><ProjectProgress project={project} /></span></article>
+            : <button className="project-row" key={project.id} onClick={() => setOpened(project)} aria-label={`Read about ${project.title}`}><span className="row-identity"><span className="row-title">{project.title}</span>{project.status && <span className="row-status">{project.status}</span>}<CommitDate project={project} /></span><span className="row-copy"><span className="row-summary">{project.summary}</span><ProjectProgress project={project} /></span><span className="row-category">{project.category}</span><span className="row-open" aria-hidden="true">View</span></button>)}
           {results.length === 0 && <div className="empty-state"><h3>No projects match yet</h3><p>Try a different keyword or clear your filters.</p><button className="button button-dark" onClick={resetFilters}>Show all projects <ArrowRight size={18} /></button></div>}
         </div>
         <a className="archive-github text-link" href={PROFILE.github} target="_blank" rel="noreferrer">Follow the work on GitHub <ArrowUpRight size={18} /></a>
@@ -162,7 +162,6 @@ function App() {
         <div className="footer-socials"><div>{[{ title: 'GitHub', href: PROFILE.github }, { title: 'LinkedIn', href: PROFILE.linkedin }, { title: 'Instagram', href: PROFILE.instagram }, { title: 'X / Twitter', href: PROFILE.twitter }].map((social) => <a href={social.href} key={social.title} target="_blank" rel="noreferrer">{social.title}<ArrowUpRight size={16} /></a>)}</div><a className="back-top" href="#">Back to top <ArrowUpRight size={16} /></a></div>
         <p className="footer-name" aria-hidden="true">Adi Maitre<span>.</span></p>
         <div className="footer-bottom"><p>© {new Date().getFullYear()} Adi Maitre</p><p>Built with intent. Ink & Steel.</p></div>
-        <ProjectProgress projects={catalog} checkedAt={checkedAt} />
       </div>
     </footer>
     <div ref={cut} className="ink-cut" aria-hidden="true" />

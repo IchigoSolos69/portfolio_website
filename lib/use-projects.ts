@@ -5,7 +5,6 @@ import { mergeProjectUpdates } from './project-activity';
 
 export function useProjects() {
   const [catalog, setCatalog] = useState(() => mergeProjectUpdates(projects, snapshot));
-  const [checkedAt, setCheckedAt] = useState(snapshot.generatedAt);
   useEffect(() => {
     let active = true;
     let request: AbortController | undefined;
@@ -21,7 +20,6 @@ export function useProjects() {
         const payload = await response.json();
         if (!active) return;
         setCatalog(previous => mergeProjectUpdates(previous, payload));
-        if (typeof payload.generatedAt === 'string' && Number.isFinite(Date.parse(payload.generatedAt))) setCheckedAt(payload.generatedAt);
       } catch {
         // The saved catalog remains available offline and during API failures.
       } finally {
@@ -39,5 +37,5 @@ export function useProjects() {
       document.removeEventListener('visibilitychange', refresh);
     };
   }, []);
-  return { catalog, checkedAt };
+  return { catalog };
 }

@@ -17,7 +17,7 @@ The default preview is http://localhost:3000. Use `npm run build` and `npm run p
 
 `data/repositories.json` is an allowlisted snapshot of public repositories belonging to IchigoSolos69. `data/projects.ts` adds descriptions, tags, illustration choices, and the six-project featured order. `data/public-readme-insights.ts` contains reviewed public descriptions, capabilities, limitations, and progress briefs. Three repositories have no root README, so their descriptions use inspected source. Twelve authorized private entries contain brief summaries only.
 
-`data/project-activity.json` holds saved commit dates and optional public README excerpts. Dates come from the most recent commit's **committer timestamp on the default branch**, rather than repository update or push time. Every archive row, selected project, and public dialog displays its date. A progress list covers all 30 projects at the very bottom; stages describe documented scope rather than completion percentages.
+`data/project-activity.json` holds saved commit dates and optional public README excerpts. Dates come from the most recent commit's **committer timestamp on the default branch**, rather than repository update or push time. Every archive row, selected project, and public dialog displays its date. Each project card includes a short progress note beneath its content; stages describe documented scope rather than completion percentages.
 
 ```sh
 npm run projects:sync

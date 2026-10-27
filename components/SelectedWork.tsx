@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent, type 
 import { ArrowLeft, ArrowRight, ArrowUpRight, LockKeyhole } from 'lucide-react';
 import gsap from 'gsap';
 import CommitDate from './CommitDate';
+import ProjectProgress from './ProjectProgress';
 import type { Project, PublicProject } from '../types';
 import ProjectArt from './ProjectArt';
 import './selected-work.css';
@@ -141,6 +142,7 @@ export default function SelectedWork({ featuredProjects, onOpenProject }: { feat
             <CommitDate project={current} />
             <p className="spread-summary">{current.summary}</p>
             {current.source === 'public' && <div className="spread-project-actions"><button className="button button-dark" onClick={() => onOpenProject(current)}>Explore project <ArrowUpRight size={19} /></button><p className="spread-technologies">{current.tags.slice(0, 4).join(' · ')}</p></div>}
+            <ProjectProgress project={current} />
           </div>
         </div>
         <button className="neighbor-preview neighbor-next" tabIndex={-1} onClick={() => choose(selection.index + 1, 1)} aria-label={`Next project: ${next.title}`}>
