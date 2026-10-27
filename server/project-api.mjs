@@ -1,4 +1,6 @@
 import catalog from './project-data.cjs';
+import { cleanText as text, extractReadme, summarizeOverview, parsePublicSummary, validatePublicSummary, MAX_README_BYTES, MAX_PUBLIC_SUMMARY_BYTES } from './project-content.mjs';
+export { extractReadme } from './project-content.mjs';
 
 const { repositories, snapshot } = catalog;
 
@@ -17,104 +19,10 @@ const publicIds = new Set(publicRepos.map(repo => repo.id));
 const allIds = [...publicIds, ...PRIVATE_IDS];
 const memoryCache = new Map();
 const pendingByCache = new WeakMap();
-const MAX_README_BYTES = 64 * 1024;
 
 function safeDate(value) {
   return typeof value === 'string' && /^\d{4}-\d\d-\d\dT/.test(value) && Number.isFinite(Date.parse(value))
     ? new Date(value).toISOString() : null;
-}
-
-function text(value, limit = 700) {
-  return String(value || '').replace(/<!--[\s\S]*?-->/g, '')
-    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '')
-    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, '')
-    .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
-    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
-    .replace(/<[^>]*>/g, '').replace(/[*_`~]/g, '')
-    .replace(/&(?:nbsp|amp|lt|gt|quot);/g, entity => ({ '&nbsp;': ' ', '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"' })[entity])
-    .replace(/\s+/g, ' ').trim().slice(0, limit);
-}
-
-function isDocumentationPreamble(value) {
-  return /^(?:checked|reviewed|audited|last updated|documentation updated|updated on|as of|recorded on)\b/i.test(value)
-    || /\b(?:these observations describe|this documentation update|fresh (?:source )?checkout|historical (?:test|result)|not a new .{0,35}test run)\b/i.test(value);
-}
-
-function isSetupParagraph(value) {
-  return /^(?:the )?(?:local (?:native )?|native |firebase |backend |environment |build )(?:configs?|configuration|settings|setup)\b/i.test(value)
-    || /\b(?:install the local|run the following|native firebase configs|setup screen|use .{0,35}(?:chosen password|sign.in))\b/i.test(value);
-}
-
-// Keep README material as text, and distinguish capabilities from future-work sections.
-export function extractReadme(markdown, url) {
-  if (typeof markdown !== 'string') return null;
-  const source = markdown.slice(0, MAX_README_BYTES)
-    .replace(/<!--[\s\S]*?-->/g, '')
-    .replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, '');
-  const overview = [];
-  const features = [];
-  let progress;
-  let progressScore = 0;
-  let section = 'overview';
-  let fenced = false;
-  let paragraph = [];
-  function considerProgress(value, label = '') {
-    if (isDocumentationPreamble(value) || isSetupParagraph(value)
-      || /\b(?:recorded|historical|python checks|frontend checks|test results|serving parity|gpu environment)\b/i.test(label)) return;
-    let score = 0;
-    if (/\b(?:interrupted|blocked|stopped|incomplete)\b/i.test(value)) score += 8;
-    if (/\b(?:pending|unfinished|undertrained|unverified|not (?:yet |fully )?(?:finished|completed|verified))\b/i.test(value)) score += 5;
-    if (/\b(?:prototype|beta|pilot|in development)\b/i.test(value)) score += 3;
-    if (/\b(?:implemented|completed|available|working)\b/i.test(value)) score += 2;
-    if (/\b(?:full experiment|current stage|project status)\b/i.test(label)) score += 2;
-    if (score > progressScore) { progress = value.slice(0, 280); progressScore = score; }
-  }
-  function flush() {
-    const value = text(paragraph.join(' '));
-    paragraph = [];
-    if (value.length < 35) return;
-    if (section === 'overview' && overview.length < 3 && !overview.includes(value)
-      && !isDocumentationPreamble(value) && !isSetupParagraph(value)) overview.push(value);
-    if (section === 'progress') considerProgress(value);
-  }
-  for (const line of source.split(/\r?\n/)) {
-    if (/^\s*(```|~~~)/.test(line)) { flush(); fenced = !fenced; continue; }
-    if (fenced) continue;
-    const heading = line.match(/^\s{0,3}#{1,6}\s+(.+?)\s*#*$/);
-    if (heading) {
-      flush();
-      const title = text(heading[1]).toLowerCase();
-      if (/^(?:status|current status|progress|current progress|development status|known limitations|limitations)\b/.test(title)) section = 'progress';
-      else if (/\b(?:install|setup|requirements|prerequisites|dependencies|quick.?start|getting started|usage|running|configuration|license|contribut|roadmap|future|planned|todo|project structure|directory)\b/.test(title)) section = 'skip';
-      else if (/\b(?:features|capabilities|workflows|functionality|what it does|what it can do)\b/.test(title)) section = 'features';
-      else if (/^overview$|^about\b|^introduction$|^summary$|^what is\b/.test(title)) section = 'overview';
-      else if (/^\s*#\s/.test(line)) section = 'overview';
-      else section = 'skip';
-      continue;
-    }
-    if (!line.trim()) { flush(); continue; }
-    if (/^\s*\|.*\|/.test(line)) {
-      flush();
-      if (section === 'progress') {
-        const cells = line.split('|').slice(1, -1).map(cell => text(cell, 400));
-        if (cells.length >= 2 && !/^(?:area|setting|status|:?-{3,}:?)$/i.test(cells[0])) {
-          considerProgress(`${cells[0]}: ${cells.slice(1).join('; ')}`, cells[0]);
-        }
-      }
-      continue;
-    }
-    if (/^\s*(?:[-=:]{3,}|<|!\[|\[!\[)/.test(line)) { flush(); continue; }
-    const item = line.match(/^\s*(?:[-*+]\s+|\d+[.)]\s+)(.+)/);
-    if (item) {
-      flush();
-      const value = text(item[1], 240);
-      if (section === 'features' && value.length > 12 && features.length < 8 && !features.includes(value)) features.push(value);
-      if (section === 'progress' && value.length > 20) considerProgress(value);
-    } else if (section === 'overview' || section === 'progress') paragraph.push(line);
-  }
-  flush();
-  if (!overview.length && !features.length && !progress) return null;
-  return { overview, features, ...(progress ? { progress } : {}), url };
 }
 
 function sanitizeCatalog(value) {
@@ -129,11 +37,26 @@ function sanitizeCatalog(value) {
       const readme = project.readme;
       const overview = (Array.isArray(readme.overview) ? readme.overview : []).map(value => text(value)).filter(Boolean).slice(0, 3);
       const features = (Array.isArray(readme.features) ? readme.features : []).map(value => text(value, 240)).filter(Boolean).slice(0, 8);
+      const summary = summarizeOverview(overview);
       if (overview.length || features.length || typeof readme.progress === 'string') entry.readme = {
         overview, features,
+        ...(summary ? { summary } : {}),
         ...(typeof readme.progress === 'string' ? { progress: text(readme.progress, 280) } : {}),
         url: `${repo.url}#readme`,
       };
+    }
+    if (!publicIds.has(id) && project?.publicSummary) {
+      const approved = validatePublicSummary({ version: 1, publish: true, ...project.publicSummary });
+      if (approved) entry.publicSummary = approved;
+    } else if (!publicIds.has(id) && project?.publicSummary === null && project?.contentSource === 'reviewed-fallback') {
+      entry.publicSummary = null;
+      entry.contentSource = 'reviewed-fallback';
+    }
+    const contentCheckedAt = safeDate(project?.contentCheckedAt);
+    const contentSource = publicIds.has(id) ? 'readme' : 'approved-summary';
+    if ((entry.readme || entry.publicSummary) && project?.contentSource === contentSource && contentCheckedAt) {
+      entry.contentSource = contentSource;
+      entry.contentCheckedAt = contentCheckedAt;
     }
     return entry;
   });
@@ -155,7 +78,7 @@ function getToken(env) {
   return typeof value === 'string' && value.length <= 4096 && !/[\r\n]/.test(value) ? value.trim() : '';
 }
 
-async function readBounded(response) {
+async function readBounded(response, maximum = MAX_README_BYTES) {
   if (!response.body) return '';
   const reader = response.body.getReader();
   const chunks = [];
@@ -165,7 +88,7 @@ async function readBounded(response) {
       const { done, value } = await reader.read();
       if (done) break;
       bytes += value.byteLength;
-      if (bytes > MAX_README_BYTES) { await reader.cancel(); return ''; }
+      if (bytes > maximum) { await reader.cancel(); return ''; }
       chunks.push(value);
     }
   } finally { reader.releaseLock(); }
@@ -185,38 +108,77 @@ export async function fetchProjectUpdates(env = {}, options = {}) {
   const deadline = Date.now() + 24000;
   const jobs = [...publicRepos.map(repo => ({ ...repo, public: true })), ...privateRepos];
   const headers = { 'User-Agent': 'Adi-Maitre-Portfolio', 'X-GitHub-Api-Version': '2022-11-28', ...(token ? { Authorization: `Bearer ${token}` } : {}) };
-  async function github(name, path, raw = false) {
+  // Validators live only in the server cache; the returned catalog is a separate allowlist.
+  const validators = options.validators || {};
+  let refreshed = false;
+  function safeEtag(value) {
+    return typeof value === 'string' && value.length <= 512 && /^[\x20-\x7e]+$/.test(value) ? value : '';
+  }
+  async function github(name, path, raw = false, etag = '') {
     if (Date.now() >= deadline) return null;
     try {
       return await fetchImpl(`https://api.github.com/repos/${OWNER}/${encodeURIComponent(name)}/${path}`, {
-        headers: { ...headers, Accept: raw ? 'application/vnd.github.raw+json' : 'application/vnd.github+json' },
+        headers: { ...headers, Accept: raw ? 'application/vnd.github.raw+json' : 'application/vnd.github+json', ...(safeEtag(etag) ? { 'If-None-Match': etag } : {}) },
         signal: AbortSignal.timeout(Math.min(7000, Math.max(1, deadline - Date.now()))),
       });
     } catch { return null; }
   }
   async function update(repo) {
     const current = { ...byId.get(repo.id) };
-    const commits = await github(repo.name, 'commits?per_page=1');
+    const savedValidators = validators[repo.id] || {};
+    const remember = (field, response) => {
+      const etag = safeEtag(response.headers.get('etag'));
+      if (etag) savedValidators[field] = etag;
+      else delete savedValidators[field];
+    };
+    const commits = await github(repo.name, 'commits?per_page=1', false, current.commitState !== 'unavailable' ? savedValidators.commits : '');
     if (commits?.status === 409) {
       current.lastCommitAt = null;
       current.commitState = 'empty';
+      remember('commits', commits);
+      refreshed = true;
+    } else if (commits?.status === 304 && current.commitState !== 'unavailable') {
+      refreshed = true;
     } else if (commits?.ok) {
       try {
         const list = await commits.json();
         const date = Array.isArray(list) && safeDate(list[0]?.commit?.committer?.date);
-        if (date) { current.lastCommitAt = date; current.commitState = 'known'; }
-        else if (Array.isArray(list) && list.length === 0) { current.lastCommitAt = null; current.commitState = 'empty'; }
+        if (date) { current.lastCommitAt = date; current.commitState = 'known'; remember('commits', commits); refreshed = true; }
+        else if (Array.isArray(list) && list.length === 0) { current.lastCommitAt = null; current.commitState = 'empty'; remember('commits', commits); refreshed = true; }
       } catch { /* A malformed upstream response keeps the last successful date. */ }
     }
-    if (repo.public) {
-      const response = await github(repo.name, 'readme', true);
-      if (response?.ok) {
-        try {
-          const readme = extractReadme(await readBounded(response), `${repo.url}#readme`);
-          if (readme) current.readme = readme;
-        } catch { /* README availability must not affect commit dates. */ }
-      }
+    const previousContent = repo.public ? current.readme : current.publicSummary;
+    const path = repo.public ? 'readme' : 'contents/portfolio.public.json';
+    const response = await github(repo.name, path, true, previousContent ? savedValidators.content : '');
+    const restoreReviewedSummary = () => {
+      current.publicSummary = null;
+      current.contentSource = 'reviewed-fallback';
+      delete current.contentCheckedAt;
+      delete savedValidators.content;
+    };
+    if (response?.status === 304 && previousContent) {
+      current.contentSource = repo.public ? 'readme' : 'approved-summary';
+      current.contentCheckedAt = new Date(now).toISOString();
+      refreshed = true;
+    } else if (response?.ok) {
+      try {
+        const source = await readBounded(response, repo.public ? MAX_README_BYTES : MAX_PUBLIC_SUMMARY_BYTES);
+        const content = repo.public ? extractReadme(source, `${repo.url}#readme`) : parsePublicSummary(source);
+        if (content) {
+          if (repo.public) current.readme = content;
+          else current.publicSummary = content;
+          current.contentSource = repo.public ? 'readme' : 'approved-summary';
+          current.contentCheckedAt = new Date(now).toISOString();
+          remember('content', response);
+          refreshed = true;
+        } else if (!repo.public) {
+          restoreReviewedSummary();
+        }
+      } catch { /* Documentation availability must not affect dates or prior safe text. */ }
+    } else if (!repo.public && (response?.status === 404 || response?.status === 410)) {
+      restoreReviewedSummary();
     }
+    validators[repo.id] = savedValidators;
     byId.set(repo.id, current);
   }
   let index = 0;
@@ -224,7 +186,7 @@ export async function fetchProjectUpdates(env = {}, options = {}) {
     while (index < jobs.length) await update(jobs[index++]);
   }
   await Promise.all(Array.from({ length: Math.min(4, jobs.length) }, worker));
-  return { generatedAt: new Date(now).toISOString(), projects: sanitizeCatalog({ projects: [...byId.values()] }) };
+  return { generatedAt: refreshed ? new Date(now).toISOString() : safeDate(options.previous?.generatedAt) || snapshot.generatedAt, projects: sanitizeCatalog({ projects: [...byId.values()] }) };
 }
 
 function hash(value) {
@@ -266,8 +228,9 @@ export async function handleProjectsRequest(request, env = {}, options = {}) {
     let pending = pendingByCache.get(cache);
     if (!pending) { pending = new Map(); pendingByCache.set(cache, pending); }
     if (!pending.has(key)) pending.set(key, (async () => {
-      const value = await fetchProjectUpdates(env, { ...options, now, previous: cached?.value || snapshot });
-      await writeCache(cache, key, { expiresAt: now + ttl, value });
+      const validators = cached?.validators || {};
+      const value = await fetchProjectUpdates(env, { ...options, now, previous: cached?.value || snapshot, validators });
+      await writeCache(cache, key, { expiresAt: now + ttl, value, validators });
       return value;
     })().finally(() => pending.delete(key)));
     payload = await pending.get(key);

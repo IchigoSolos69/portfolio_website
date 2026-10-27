@@ -11,7 +11,7 @@ if (result.updated) {
     const activity = await fetchProjectUpdates(process.env);
     await writeFile(temporaryPath, `${JSON.stringify(activity, null, 2)}\n`, 'utf8');
     await rename(temporaryPath, activityPath);
-    console.log('Saved commit dates and public README excerpts; unavailable fields retain their saved values.');
+    console.log('Saved commit dates, public README descriptions, and opted-in public summaries; unavailable fields retain their saved values.');
   } catch {
     await unlink(temporaryPath).catch(() => {});
     console.warn('Activity refresh unavailable. Keeping saved project dates and descriptions.');

@@ -1,154 +1,431 @@
 {
-  "generatedAt": "2026-10-25T16:22:49.347Z",
+  "generatedAt": "2026-10-27T11:58:40.385Z",
   "projects": [
     {
-      "id": "irc",
-      "lastCommitAt": "2025-08-17T12:16:36Z",
-      "commitState": "known"
+      "id": "autonomous-driving-prediction",
+      "lastCommitAt": "2026-10-25T12:06:37.000Z",
+      "commitState": "known",
+      "readme": {
+        "overview": [
+          "A Windows desktop research application for forecasting how vehicles, pedestrians and cyclists move together. Interaction Lab combines a temporal Transformer, interaction graph and vector-map encoder to predict six shared probabilistic futures, inspect real Argoverse 2 scenarios and study forecasting failures.",
+          "The application also estimates a proximity-based near-conflict proxy: another retained dynamic actor coming within 3 metres of an actor's centre during the next six seconds. This can include benign interactions. Forecasts, risk scores and footprint overlaps are research outputs, not driving-safety guarantees."
+        ],
+        "features": [
+          "Native Windows window using pywebview/WebView2, with an application-owned loopback FastAPI service.",
+          "React, TypeScript, Vite and Canvas 2D scenario inspection, playback, map rendering and forecast comparison.",
+          "Real AV2 parquet/map ingestion, masked histories, observed-only actor/map selection, coordinate normalization and background imports.",
+          "Multimodal scene forecasts, constant-velocity baseline, graph/map ablations, calibration, stress tests and reproducible exports.",
+          "Portable inference bundles and separate CPU/NVIDIA packaging workflows.",
+          "Later isolated implementation: recorded failure review, controlled lane-direction experiments, training progress and bounded multi-host development queues."
+        ],
+        "summary": "A Windows desktop research application for forecasting how vehicles, pedestrians and cyclists move together.",
+        "url": "https://github.com/IchigoSolos69/Autonomous-Driving-Prediction#readme"
+      },
+      "contentSource": "readme",
+      "contentCheckedAt": "2026-10-27T11:58:40.385Z"
     },
     {
-      "id": "hospital-management",
-      "lastCommitAt": "2025-08-17T12:27:17Z",
-      "commitState": "known"
-    },
-    {
-      "id": "portfolio-website",
-      "lastCommitAt": "2026-10-25T06:33:13Z",
-      "commitState": "known"
-    },
-    {
-      "id": "inventory-management-system",
-      "lastCommitAt": "2025-08-17T11:49:31Z",
-      "commitState": "known"
-    },
-    {
-      "id": "computer-guesses-your-the-number",
-      "lastCommitAt": "2025-08-17T12:03:14Z",
-      "commitState": "known"
-    },
-    {
-      "id": "web-browser",
-      "lastCommitAt": "2025-08-17T12:23:35Z",
-      "commitState": "known"
+      "id": "bleach-portfolio",
+      "lastCommitAt": "2025-12-24T19:06:40.000Z",
+      "commitState": "known",
+      "readme": {
+        "overview": [
+          "The site features dynamic animations inspired by anime-themed aesthetics, technical skill highlights, project showcases, and seamless user interactions."
+        ],
+        "features": [
+          "Cinematic Loading Animation: Engaging diagonal glow trail synchronized with audio, followed by a stylish diagonal split reveal.",
+          "Hero Section: Animated introduction with gradient text and an interactive typing effect highlighting multiple roles.",
+          "About Section: Detailed professional biography supported by skill progress bars with interactive hover effects.",
+          "Projects Section: Cleanly presented project cards with technology stacks and quick access to GitHub repositories.",
+          "Achievements Section: Highlights of academic, professional, and research milestones.",
+          "Contact Section: Quick access links for email, GitHub, and LinkedIn.",
+          "Responsive Design: Mobile-first and desktop compatible layouts.",
+          "Modern Tech Stack:"
+        ],
+        "summary": "The site features dynamic animations inspired by anime-themed aesthetics, technical skill highlights, project showcases, and seamless user interactions.",
+        "url": "https://github.com/IchigoSolos69/Bleach-portfolio#readme"
+      },
+      "contentSource": "readme",
+      "contentCheckedAt": "2026-10-27T11:58:40.385Z"
     },
     {
       "id": "chemistry-manual-digitizer",
-      "lastCommitAt": "2025-08-17T12:30:56Z",
-      "commitState": "known"
+      "lastCommitAt": "2025-08-17T12:30:56.000Z",
+      "commitState": "known",
+      "readme": {
+        "overview": [
+          "A Python-based tool for digitizing chemistry experiment manuals and data. This project helps parse, organize, and digitize experimental chemistry information stored in JSON and other formats for easier accessibility and analysis."
+        ],
+        "features": [
+          "JSON Data Handling: Stores and manages a collection of chemistry experiments in structured JSON files.",
+          "Manual Digitizing: Assists in converting physical or scanned experiment manuals into digital structured data.",
+          "Experiment Metadata: Captures essential details like experiment names, steps, reagents, and observations.",
+          "Lightweight Python Script: Simple CLI-based execution with minimal dependencies.",
+          "Extensible Data Format: Easily adaptable JSON schema for custom experiment records."
+        ],
+        "summary": "A Python-based tool for digitizing chemistry experiment manuals and data.",
+        "url": "https://github.com/IchigoSolos69/Chemistry-Manual-Digitizer#readme"
+      },
+      "contentSource": "readme",
+      "contentCheckedAt": "2026-10-27T11:58:40.385Z"
     },
     {
-      "id": "weather-system",
-      "lastCommitAt": "2025-08-17T12:38:54Z",
-      "commitState": "known"
+      "id": "computer-guesses-your-the-number",
+      "lastCommitAt": "2025-08-17T12:03:14.000Z",
+      "commitState": "known",
+      "readme": {
+        "overview": [
+          "An interactive command-line game where the computer uses bitwise techniques to deduce the number you re thinking of (1 to 100)."
+        ],
+        "features": [
+          "Bitwise Deduction: Utilizes binary sets and bitwise math to guess your number in at most 7 questions.",
+          "Clear Interface: Simple, text-based prompts guide you through each round.",
+          "Animated Intro: Dynamic ASCII art and timed prints for an engaging start."
+        ],
+        "summary": "An interactive command-line game where the computer uses bitwise techniques to deduce the number you re thinking of (1 to 100).",
+        "url": "https://github.com/IchigoSolos69/Computer-Guesses-your-the-Number#readme"
+      },
+      "contentSource": "readme",
+      "contentCheckedAt": "2026-10-27T11:58:40.385Z"
     },
     {
-      "id": "ecosip",
-      "lastCommitAt": "2025-08-24T19:06:44Z",
+      "id": "daa-assignments",
+      "lastCommitAt": "2026-10-19T05:06:01.000Z",
       "commitState": "known"
     },
     {
       "id": "data-structure-assignments",
-      "lastCommitAt": "2025-11-03T11:40:43Z",
+      "lastCommitAt": "2025-11-03T11:40:43.000Z",
       "commitState": "known"
     },
     {
-      "id": "bleach-portfolio",
-      "lastCommitAt": "2025-12-24T19:06:40Z",
-      "commitState": "known"
-    },
-    {
-      "id": "daa-assignments",
-      "lastCommitAt": "2026-10-19T05:06:01Z",
-      "commitState": "known"
-    },
-    {
-      "id": "tt-trajectory-engine",
-      "lastCommitAt": "2026-10-25T12:08:50Z",
+      "id": "ecosip",
+      "lastCommitAt": "2025-08-24T19:06:44.000Z",
       "commitState": "known"
     },
     {
       "id": "famgpslink",
-      "lastCommitAt": "2026-10-11T17:28:08Z",
-      "commitState": "known"
+      "lastCommitAt": "2026-10-11T17:28:08.000Z",
+      "commitState": "known",
+      "readme": {
+        "overview": [
+          "A private family location app for Android and iPhone. Flutter provides the shared UI; native Kotlin and Swift collectors publish the latest location even when the Flutter UI is suspended, subject to phone restrictions.",
+          "Implemented: owner-approved device profiles and recovery, family map and member list, opt-in sharing, permission guidance, native background collection, encrypted single-fix offline buffers, owner-only manual pin controls, Firebase rules/tests, and cloud build workflows. No location history, paid functions, SMS auth, or address lookup."
+        ],
+        "features": [],
+        "summary": "A private family location app for Android and iPhone.",
+        "url": "https://github.com/IchigoSolos69/FamGPSlink#readme"
+      },
+      "contentSource": "readme",
+      "contentCheckedAt": "2026-10-27T11:58:40.385Z"
     },
     {
       "id": "fixmycampus",
-      "lastCommitAt": "2026-10-25T12:07:21Z",
-      "commitState": "known"
+      "lastCommitAt": "2026-10-25T12:07:21.000Z",
+      "commitState": "known",
+      "readme": {
+        "overview": [
+          "FixMyCampus is a single-campus complaint and service-desk application. Students, Faculty, and Staff report campus issues, Campus Incharge routes and prioritizes them, and Department Officers record progress and resolution. Administrators manage access, routing, service-level settings, and reports.",
+          "The project implements the accepted scope of REQ-001–REQ-068 from the supplied FixMyCampus SRS. It includes the React client, Express API, MySQL migrations, demo data, automated tests, deployment configuration, and operational documentation. The agreed amendment uses 15 categories and 11 departments. See SRS decisions and the requirement-to-test checklist for interpretation and acceptance limits.",
+          "Configured public application: fixmycampus.pages.dev. Public registration is restricted to pccoepune.org; local development uses campus.test. Deployment checks recorded below are dated results, not a current uptime guarantee."
+        ],
+        "features": [
+          "Institutional-domain registration, email verification, login, password reset/change, profile editing, and account lockout. Public registration always creates a Student account.",
+          "Role-specific dashboards, combined search/filter controls, server-side complaint pagination, and critical-first operational queues.",
+          "Complaint timelines containing assignment history, status changes, progress notes, evidence, and resolution cycles.",
+          "Durable in-app notifications with individual/all-read actions, and a transactional email outbox that retries SMTP failures without undoing successful submissions.",
+          "Five-second polling for visible tracking, queues, and notifications; minute-by-minute SLA breach scanning.",
+          "Complaint-count reports, average/median resolution times, department ratings, SLA compliance, and authorized CSV/PDF exports. Incharge has the category summary; Administrators have the full report/export set.",
+          "Responsive reporting forms and desktop queues using locally bundled Source Sans 3, white surfaces, #F3F7F9 backgrounds, #172F3E text, and #006D77 actions. Primary screens include labels, keyboard navigation, visible focus, and textual statu"
+        ],
+        "summary": "FixMyCampus is a single-campus complaint and service-desk application.",
+        "url": "https://github.com/IchigoSolos69/FixMyCampus#readme"
+      },
+      "contentSource": "readme",
+      "contentCheckedAt": "2026-10-27T11:55:59.891Z"
     },
     {
-      "id": "autonomous-driving-prediction",
-      "lastCommitAt": "2026-10-25T12:06:37Z",
-      "commitState": "known"
+      "id": "hospital-management",
+      "lastCommitAt": "2025-08-17T12:27:17.000Z",
+      "commitState": "known",
+      "readme": {
+        "overview": [
+          "A simple console-based Emergency Room patient queue management system implemented in C++ using a singly linked list data structure. Designed to help hospital staff manage patient flow efficiently, streamline workflows, and prioritize care."
+        ],
+        "features": [
+          "Add Patient: Add new patients with detailed information (ID, name, age, gender, contact number, blood group, doctor assigned) to the queue.",
+          "Remove Patient: Remove the patient at the front of the queue once examined.",
+          "Move Patient Up: Increase priority by moving a patient from any position to the front of the queue.",
+          "Display Queue: View the list of patients currently waiting in arrival order.",
+          "Search Patient: Search for patients by their ID.",
+          "Update Patient: Update patient details as needed.",
+          "Simple Console Interaction: Menu-driven interface for easy operation."
+        ],
+        "summary": "A simple console-based Emergency Room patient queue management system implemented in C++ using a singly linked list data structure.",
+        "url": "https://github.com/IchigoSolos69/Hospital-Management#readme"
+      },
+      "contentSource": "readme",
+      "contentCheckedAt": "2026-10-27T11:55:59.891Z"
     },
     {
-      "id": "neural-world-model",
-      "lastCommitAt": "2026-10-25T12:07:06Z",
-      "commitState": "known"
+      "id": "inventory-management-system",
+      "lastCommitAt": "2025-08-17T11:49:31.000Z",
+      "commitState": "known",
+      "readme": {
+        "overview": [
+          "A comprehensive desktop application built with PyQt5 for managing inventory items with an intuitive GUI interface."
+        ],
+        "features": [
+          "Add Items: Create new inventory entries with name, quantity, price, and expiry date",
+          "Remove Items: Delete selected items with confirmation dialog",
+          "Edit & Update: Modify existing inventory data through the table interface",
+          "Clear Fields: Reset input fields with a single click"
+        ],
+        "summary": "A comprehensive desktop application built with PyQt5 for managing inventory items with an intuitive GUI interface.",
+        "url": "https://github.com/IchigoSolos69/Inventory-Management-System#readme"
+      },
+      "contentSource": "readme",
+      "contentCheckedAt": "2026-10-27T11:55:59.891Z"
+    },
+    {
+      "id": "irc",
+      "lastCommitAt": "2025-08-17T12:16:36.000Z",
+      "commitState": "known",
+      "readme": {
+        "overview": [
+          "An end-to-end toolkit for conducting in-depth Instagram hashtag and user analysis via command-line and GUI interfaces."
+        ],
+        "features": [
+          "ircanalysis.py",
+          "CSV import/export",
+          "Frequency analysis and sorting",
+          "Automated logging of key metrics",
+          "ircanalysisgui.py",
+          "Intuitive data loading and filtering",
+          "Real-time charts and tables (via Matplotlib)",
+          "Interactive export of filtered results"
+        ],
+        "summary": "An end-to-end toolkit for conducting in-depth Instagram hashtag and user analysis via command-line and GUI interfaces.",
+        "url": "https://github.com/IchigoSolos69/IRC#readme"
+      },
+      "contentSource": "readme",
+      "contentCheckedAt": "2026-10-27T11:55:59.891Z"
+    },
+    {
+      "id": "javaanime",
+      "lastCommitAt": "2026-10-25T12:07:50.000Z",
+      "commitState": "known",
+      "readme": {
+        "overview": [
+          "JavaAnime is an offline Java desktop application for Windows that turns a short English description into a narrated 2D cartoon animation. Describe a scene, adjust its settings, preview it, and export an MP4 video.",
+          "Version: 1.0.0 | Platform: Windows 10/11 x64 | Java: 21 | License: GPL-3.0-or-later",
+          "The application uses built-in cartoon drawings and keyword-based prompt interpretation. Animation generation requires no AI model, account, API key, subscription, or internet connection. Internet access is needed for the initial source-build downloads."
+        ],
+        "features": [
+          "One cartoon character performing walking, running, jumping, waving, or dancing.",
+          "Park, city, and beach backgrounds with day/night lighting and optional rain.",
+          "English text input with a 500-character limit and example prompts.",
+          "Editable action, setting, lighting, and weather controls.",
+          "Optional narration using an installed English Windows desktop speech voice.",
+          "Preview with Play/Pause, Restart, timeline seeking, and elapsed/total time.",
+          "MP4 export at 1280 × 720 pixels and 24 frames per second.",
+          "Background generation/export tasks, progress feedback, and cancellation."
+        ],
+        "summary": "JavaAnime is an offline Java desktop application for Windows that turns a short English description into a narrated 2D cartoon animation.",
+        "url": "https://github.com/IchigoSolos69/JavaAnime#readme"
+      },
+      "contentSource": "readme",
+      "contentCheckedAt": "2026-10-27T11:55:59.891Z"
     },
     {
       "id": "multigpu",
-      "lastCommitAt": "2026-10-25T12:06:14Z",
-      "commitState": "known"
+      "lastCommitAt": "2026-10-25T17:49:52.000Z",
+      "commitState": "known",
+      "readme": {
+        "overview": [
+          "MultiGPU is a local application for training models with your own computer and your own provider accounts, then saving verified models on your computer. It provides a Windows desktop window, in-app provider setup, a training wizard, progress monitoring, checkpoint recovery and model export.",
+          "Application version: 0.5.0. Official-source provider research checked: 24 October 2026.",
+          "The goal is to make eligible free compute easier to use without changing the user's training target or silently enabling paid resources. The current implementation trains each attempt on one resource at a time. Ordered fallbacks and compatible checkpoints support continuation; synchronous cross-provider training and pooled GPU memory are future work."
+        ],
+        "features": [
+          "Local CPU and compatible NVIDIA CUDA training with explicit device/GPU selection.",
+          "Dependency-free tabular classification, a small PyTorch network, image transfer learning and trusted custom Python scripts.",
+          "Automatic connector code for Kaggle, Modal Functions/Volumes and dedicated Lightning Studios.",
+          "Assisted notebooks, optional input payloads, in-app instructions and verified result import for eligible services.",
+          "Persisted drafts, explicit resource order and preview digests binding launch to reviewed inputs/resources.",
+          "Metrics, worker heartbeats, five-minute summaries and redacted diagnostic logs.",
+          "Atomic checkpoints, compatible continuation and recovery after interrupted model delivery.",
+          "Verified exports, artifact downloads, held-out evaluation and built-in prediction examples."
+        ],
+        "summary": "MultiGPU is a local application for training models with your own computer and your own provider accounts, then saving verified models on your computer.",
+        "url": "https://github.com/IchigoSolos69/MultiGPU#readme"
+      },
+      "contentSource": "readme",
+      "contentCheckedAt": "2026-10-27T11:55:59.891Z"
+    },
+    {
+      "id": "neural-world-model",
+      "lastCommitAt": "2026-10-25T17:56:08.000Z",
+      "commitState": "known",
+      "readme": {
+        "overview": [
+          "A reproducible research prototype that observes four RGB frames and predicts the next 10, 20, or 50 frames under supplied actions in a synthetic top-down scene of three equal-mass, equal-radius colored discs. It compares learned recurrent dynamics with constant velocity, an imperfect simulator, fitted physics, and learned residual physics. State labels are used during training; ordinary inference receives only video and actions.",
+          "The research question is: Can learned corrections improve predictions from an imperfect physics model? Fitted physics uses the simulator's actual force-law family and is a strong baseline. Hybrid improvement is an experimental hypothesis, not a promised result or an acceptance requirement.",
+          "The repository also includes a local FastAPI/React app and a separate experimental real-video continuation adapter. Generated video realism does not establish physical understanding."
+        ],
+        "features": [],
+        "summary": "A reproducible research prototype that observes four RGB frames and predicts the next 10, 20, or 50 frames under supplied actions in a synthetic top-down scene of three equal-mass, equal-radius colored discs.",
+        "progress": "Full experiment: Interrupted: supervisor and child are no longer alive. The last saved training log ends at hybrid2 epoch 34/45. Checkpoints remain; full evaluation and publication have not finished.",
+        "url": "https://github.com/IchigoSolos69/Neural-World-Model#readme"
+      },
+      "contentSource": "readme",
+      "contentCheckedAt": "2026-10-27T11:55:59.891Z"
+    },
+    {
+      "id": "portfolio-website",
+      "lastCommitAt": "2026-10-27T06:39:51.000Z",
+      "commitState": "known",
+      "readme": {
+        "overview": [
+          "A personal portfolio built with React, TypeScript, Vite, GSAP, and an on-demand Three.js katana. Fonts, original SVG illustrations, and the public project capture are served locally. Saved project content is available immediately; a server API refreshes commit dates and public README excerpts without giving credentials to the browser."
+        ],
+        "features": [],
+        "summary": "A personal portfolio built with React, TypeScript, Vite, GSAP, and an on-demand Three.js katana.",
+        "url": "https://github.com/IchigoSolos69/portfolio_website#readme"
+      },
+      "contentSource": "readme",
+      "contentCheckedAt": "2026-10-27T11:55:59.891Z"
+    },
+    {
+      "id": "stock-prediction",
+      "lastCommitAt": "2026-10-25T12:08:09.000Z",
+      "commitState": "known",
+      "readme": {
+        "overview": [
+          "A Python and Streamlit application for researching Indian stocks and indices. It combines next-session price estimates, completed-candle opening-range scanning, options summaries, news sentiment, institutional flows, and chronological strategy backtesting.",
+          "The application runs locally for one user. Public data is the default; an optional Angel One adapter provides broker intraday candles after explicit connection. The adapter exposes no order-placement methods.",
+          "Project version: 0.2.0. Documentation reviewed against the source on 25 October 2026. The earlier repository audit and implementation record are in AUDITREPORT.md and FIXSTATUS.md."
+        ],
+        "features": [],
+        "summary": "A Python and Streamlit application for researching Indian stocks and indices.",
+        "url": "https://github.com/IchigoSolos69/Stock-Prediction#readme"
+      },
+      "contentSource": "readme",
+      "contentCheckedAt": "2026-10-27T11:55:59.891Z"
+    },
+    {
+      "id": "tt-trajectory-engine",
+      "lastCommitAt": "2026-10-25T12:08:50.000Z",
+      "commitState": "known",
+      "readme": {
+        "overview": [
+          "A local Windows application for detecting table-tennis balls, analyzing recordings and live camera footage, and inspecting synchronized footage, 2D and 3D views. It combines a C++/OpenCV/TensorRT backend, an Electron desktop shell, a Next.js/TypeScript interface and Python training/evaluation tools.",
+          "Status: the application runs locally, but a validated high-precision live sports-analysis release remains unfinished. Detection, physical measurements and experimental intelligence have separate acceptance gates. Successful builds or convincing visualizations do not establish analytical accuracy."
+        ],
+        "features": [],
+        "summary": "A local Windows application for detecting table-tennis balls, analyzing recordings and live camera footage, and inspecting synchronized footage, 2D and 3D views.",
+        "url": "https://github.com/IchigoSolos69/TT-Trajectory-Engine#readme"
+      },
+      "contentSource": "readme",
+      "contentCheckedAt": "2026-10-27T11:55:59.891Z"
+    },
+    {
+      "id": "weather-system",
+      "lastCommitAt": "2025-08-17T12:38:54.000Z",
+      "commitState": "known",
+      "readme": {
+        "overview": [
+          "A desktop weather dashboard application built with Python and PyQt5. Get live weather conditions, air quality index (AQI) data, and forecasts for any area, served with a clean, responsive UI and icons."
+        ],
+        "features": [
+          "Live Weather Data: Fetches current temperature, humidity, precipitation, wind speed/direction, surface pressure, & weather condition codes via Open-Meteo API.",
+          "Air Quality Index (AQI): Reports full AQI breakdown for PM10, PM2.5, CO, NO₂, SO₂, O₃, NH₃ using open API, with user-friendly status messages.",
+          "Location Search: Enter any area or city, powered by OpenStreetMap’s Nominatim geocoding.",
+          "Forecasts: Includes daily temperature highs/lows, sunrise/sunset timings, and UV index.",
+          "Weather Icons: Maps weather status to rich icon images pulled from an online source for real-time visuals.",
+          "Responsive UI: Sleek, scrollable interface with scroll areas, gradient backgrounds, custom fonts/colors, and Enter-to-search shortcut.",
+          "Error Handling: Automatic validation and user feedback for data issues or connection errors.",
+          "Units: Supports both Fahrenheit/Celsius with formatted output."
+        ],
+        "summary": "A desktop weather dashboard application built with Python and PyQt5.",
+        "url": "https://github.com/IchigoSolos69/Weather-System#readme"
+      },
+      "contentSource": "readme",
+      "contentCheckedAt": "2026-10-27T11:55:59.891Z"
+    },
+    {
+      "id": "web-browser",
+      "lastCommitAt": "2026-10-27T11:43:04.000Z",
+      "commitState": "known",
+      "readme": {
+        "overview": [
+          "A small desktop browser built with PyQt6 and Qt WebEngine. It provides tabbed browsing, a built-in domain blocker, navigation controls, and download prompts."
+        ],
+        "features": [],
+        "summary": "A small desktop browser built with PyQt6 and Qt WebEngine.",
+        "url": "https://github.com/IchigoSolos69/Web-Browser#readme"
+      },
+      "contentSource": "readme",
+      "contentCheckedAt": "2026-10-27T11:55:59.891Z"
     },
     {
       "id": "rarecomforts-commerce",
-      "lastCommitAt": "2026-10-25T12:09:22Z",
+      "lastCommitAt": "2026-10-25T12:09:22.000Z",
       "commitState": "known"
     },
     {
       "id": "creator-partnerships",
-      "lastCommitAt": "2026-10-25T12:08:36Z",
+      "lastCommitAt": "2026-10-25T12:08:36.000Z",
       "commitState": "known"
     },
     {
       "id": "nexora",
-      "lastCommitAt": "2026-10-25T12:08:21Z",
+      "lastCommitAt": "2026-10-25T12:08:21.000Z",
       "commitState": "known"
     },
     {
       "id": "community-showcase",
-      "lastCommitAt": "2026-10-25T12:07:32Z",
+      "lastCommitAt": "2026-10-25T12:07:32.000Z",
       "commitState": "known"
     },
     {
       "id": "healthcare-app",
-      "lastCommitAt": "2025-09-14T13:47:47Z",
+      "lastCommitAt": "2025-09-14T13:47:47.000Z",
       "commitState": "known"
     },
     {
       "id": "internity",
-      "lastCommitAt": "2025-09-19T04:17:07Z",
+      "lastCommitAt": "2025-09-19T04:17:07.000Z",
       "commitState": "known"
     },
     {
       "id": "sort2save",
-      "lastCommitAt": "2025-10-13T13:01:33Z",
+      "lastCommitAt": "2025-10-13T13:01:33.000Z",
       "commitState": "known"
     },
     {
       "id": "e-consultation",
-      "lastCommitAt": "2025-11-15T02:58:05Z",
+      "lastCommitAt": "2025-11-15T02:58:05.000Z",
       "commitState": "known"
     },
     {
       "id": "support-ticket-monitor",
-      "lastCommitAt": "2025-12-01T06:05:22Z",
+      "lastCommitAt": "2025-12-01T06:05:22.000Z",
       "commitState": "known"
     },
     {
       "id": "cinema-experience",
-      "lastCommitAt": "2026-09-16T16:16:00Z",
+      "lastCommitAt": "2026-09-16T16:16:00.000Z",
       "commitState": "known"
     },
     {
       "id": "calories-calculator",
-      "lastCommitAt": "2024-05-30T04:43:23Z",
+      "lastCommitAt": "2024-05-30T04:43:23.000Z",
       "commitState": "known"
     },
     {
       "id": "public-issue-reporting",
-      "lastCommitAt": "2026-02-05T10:08:40Z",
+      "lastCommitAt": "2026-02-05T10:08:40.000Z",
       "commitState": "known"
     }
   ]

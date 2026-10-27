@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import CommitDate from './CommitDate';
 import ProjectProgress from './ProjectProgress';
 import type { Project, PublicProject } from '../types';
+import type { ProjectView } from '../lib/portfolio-navigation';
 import ProjectArt from './ProjectArt';
 import './selected-work.css';
 
@@ -23,7 +24,7 @@ function ProjectVisual({ project, thumbnail = false }: { project: Project; thumb
   return <ProjectArt kind={project.illustration} fit={thumbnail ? 'slice' : 'meet'} />;
 }
 
-export default function SelectedWork({ featuredProjects, onOpenProject }: { featuredProjects: Project[]; onOpenProject: (project: PublicProject) => void }) {
+export default function SelectedWork({ featuredProjects, onOpenProject }: { featuredProjects: Project[]; onOpenProject: (project: PublicProject, view?: ProjectView) => void }) {
   const [selection, setSelection] = useState({ index: 0, direction: 1 });
   const [inView, setInView] = useState(false);
   const host = useRef<HTMLElement>(null);
@@ -141,7 +142,7 @@ export default function SelectedWork({ featuredProjects, onOpenProject }: { feat
             <SourceTag project={current} />
             <CommitDate project={current} />
             <p className="spread-summary">{current.summary}</p>
-            {current.source === 'public' && <div className="spread-project-actions"><button className="button button-dark" onClick={() => onOpenProject(current)}>Explore project <ArrowUpRight size={19} /></button><p className="spread-technologies">{current.tags.slice(0, 4).join(' · ')}</p></div>}
+            {current.source === 'public' && <div className="spread-project-actions"><button className="button button-dark" onClick={() => onOpenProject(current)}>Explore project <ArrowUpRight size={19} /></button>{current.explainer && <button className="text-link spread-demo-action" type="button" onClick={() => onOpenProject(current, 'demo')}>Try educational demo <ArrowUpRight size={17} /></button>}<p className="spread-technologies">{current.tags.slice(0, 4).join(' · ')}</p></div>}
             <ProjectProgress project={current} />
           </div>
         </div>

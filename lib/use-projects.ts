@@ -19,7 +19,7 @@ export function useProjects() {
         if (!response.ok) return;
         const payload = await response.json();
         if (!active) return;
-        setCatalog(previous => mergeProjectUpdates(previous, payload));
+        setCatalog(previous => mergeProjectUpdates(previous, payload, projects));
       } catch {
         // The saved catalog remains available offline and during API failures.
       } finally {

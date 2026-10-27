@@ -1,7 +1,10 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { readFileSync } from 'node:fs';
 import { extractReadme, fetchProjectUpdates, handleProjectsRequest } from '../server/project-api.mjs';
 
+const PUBLIC_COUNT = JSON.parse(readFileSync(new URL('../data/repositories.json', import.meta.url), 'utf8')).repositories.length;
+const UPSTREAM_REQUESTS = PUBLIC_COUNT * 2;
 const DATE = '2026-10-24T12:34:56.000Z';
 const NOW = Date.parse('2026-10-25T00:00:00.000Z');
 const request = () => new Request('https://portfolio.example/api/projects');
@@ -23,20 +26,20 @@ test('README excerpts keep readable content and do not turn roadmap or setup int
 test('public commit dates use committer time and public READMEs, never commit messages', async () => {
   const calls = [];
   const result = await fetchProjectUpdates({}, { now: NOW, fetchImpl: async (url, options) => { calls.push({ url, options }); return upstream(url); } });
-  assert.equal(result.projects.length, 30);
+  assert.equal(result.projects.length, PUBLIC_COUNT + 12);
   const publicEntries = result.projects.filter(project => project.readme);
-  assert.equal(publicEntries.length, 18);
+  assert.equal(publicEntries.length, PUBLIC_COUNT);
   for (const project of publicEntries) {
     assert.equal(project.lastCommitAt, DATE);
     assert.equal(project.commitState, 'known');
     assert.match(project.readme.url, /^https:\/\/github\.com\/IchigoSolos69\/.+#readme$/);
   }
-  assert.equal(calls.length, 36);
+  assert.equal(calls.length, UPSTREAM_REQUESTS);
   assert.ok(calls.every(call => !call.options.headers.Authorization));
   assert.doesNotMatch(JSON.stringify(result), /not-public-output|Do not publish this message|2001-01-01/);
 });
 
-test('private aliases are allowlisted, require server credentials, and expose dates only', async () => {
+test('private aliases are allowlisted and cannot publish arbitrary private content', async () => {
   const env = {
     GITHUB_TOKEN: 'test-server-token',
     PRIVATE_PROJECT_REPOS: JSON.stringify({ 'rarecomforts-commerce': 'PrivateFixture', unknown: 'DoNotFetch', nexora: '../Traversal' }),
@@ -44,11 +47,13 @@ test('private aliases are allowlisted, require server credentials, and expose da
   const calls = [];
   const previous = { projects: [{ id: 'rarecomforts-commerce', lastCommitAt: DATE, commitState: 'known', readme: { overview: ['PRIVATE_SECRET'], features: [] }, repository: 'PrivateFixture' }] };
   const result = await fetchProjectUpdates(env, { now: NOW, previous, fetchImpl: async (url, options) => { calls.push({ url, options }); return upstream(url); } });
-  assert.equal(calls.filter(call => call.url.includes('PrivateFixture')).length, 1);
+  assert.equal(calls.filter(call => call.url.includes('PrivateFixture')).length, 2);
   assert.ok(calls.some(call => call.url.endsWith('/PrivateFixture/commits?per_page=1')));
+  assert.ok(calls.some(call => call.url.endsWith('/PrivateFixture/contents/portfolio.public.json')));
+  assert.ok(calls.every(call => !call.url.endsWith('/PrivateFixture/readme')));
   assert.ok(calls.every(call => call.options.headers.Authorization === 'Bearer test-server-token'));
   assert.ok(calls.every(call => !/DoNotFetch|Traversal/.test(call.url)));
-  assert.deepEqual(result.projects.find(project => project.id === 'rarecomforts-commerce'), { id: 'rarecomforts-commerce', lastCommitAt: DATE, commitState: 'known' });
+  assert.deepEqual(result.projects.find(project => project.id === 'rarecomforts-commerce'), { id: 'rarecomforts-commerce', lastCommitAt: DATE, commitState: 'known', publicSummary: null, contentSource: 'reviewed-fallback' });
   assert.doesNotMatch(JSON.stringify(result), /PRIVATE_SECRET|PrivateFixture|test-server-token|repository/);
   calls.length = 0;
   await fetchProjectUpdates({ PRIVATE_PROJECT_REPOS: env.PRIVATE_PROJECT_REPOS }, { now: NOW, fetchImpl: async url => { calls.push(url); return upstream(url); } });
@@ -82,12 +87,12 @@ test('API caches hourly without a token and refresh failures retain the successf
   const first = await handleProjectsRequest(request(), {}, { now: NOW, cache, fetchImpl });
   assert.equal(first.status, 200);
   assert.match(first.headers.get('Cache-Control'), /max-age=60/);
-  assert.equal(count, 36);
+  assert.equal(count, UPSTREAM_REQUESTS);
   await handleProjectsRequest(request(), {}, { now: NOW + 59 * 60 * 1000, cache, fetchImpl });
-  assert.equal(count, 36);
+  assert.equal(count, UPSTREAM_REQUESTS);
   fail = true;
   const refreshed = await (await handleProjectsRequest(request(), {}, { now: NOW + 61 * 60 * 1000, cache, fetchImpl })).json();
-  assert.equal(count, 72);
+  assert.equal(count, UPSTREAM_REQUESTS * 2);
   assert.equal(refreshed.projects.find(project => project.id === 'irc').lastCommitAt, DATE);
   assert.ok(refreshed.projects.find(project => project.id === 'irc').readme);
 });
@@ -98,15 +103,15 @@ test('authenticated refresh interval is fifteen minutes and concurrent requests 
   const fetchImpl = async url => { count++; return upstream(url); };
   const env = { GITHUB_TOKEN: 'test' };
   await Promise.all([handleProjectsRequest(request(), env, { now: NOW, cache, fetchImpl }), handleProjectsRequest(request(), env, { now: NOW, cache, fetchImpl })]);
-  assert.equal(count, 36);
+  assert.equal(count, UPSTREAM_REQUESTS);
   await handleProjectsRequest(request(), env, { now: NOW + 14 * 60 * 1000, cache, fetchImpl });
-  assert.equal(count, 36);
+  assert.equal(count, UPSTREAM_REQUESTS);
   await handleProjectsRequest(request(), env, { now: NOW + 16 * 60 * 1000, cache, fetchImpl });
-  assert.equal(count, 72);
+  assert.equal(count, UPSTREAM_REQUESTS * 2);
   const rejected = await handleProjectsRequest(new Request('https://portfolio.example/api/projects', { method: 'POST' }), env, { cache, fetchImpl });
   assert.equal(rejected.status, 405);
   assert.equal(rejected.headers.get('Allow'), 'GET');
-  assert.equal(count, 72);
+  assert.equal(count, UPSTREAM_REQUESTS * 2);
 });
 
 test('oversized READMEs cannot displace safe fallback or block valid dates', async () => {
@@ -130,7 +135,7 @@ test('edge-cache entries retain stale data independently of the refresh interval
   assert.equal(entry.headers.get('Cache-Control'), 'public, max-age=604800');
   fail = true;
   const result = await (await handleProjectsRequest(request(), { GITHUB_TOKEN: 'test' }, { now: NOW + 16 * 60 * 1000, cache, fetchImpl })).json();
-  assert.equal(count, 72);
+  assert.equal(count, UPSTREAM_REQUESTS * 2);
   assert.equal(result.projects.find(project => project.id === 'irc').lastCommitAt, DATE);
   assert.ok(result.projects.find(project => project.id === 'irc').readme);
 });

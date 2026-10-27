@@ -7,13 +7,31 @@ export interface ProjectActivity {
   lastCommitAt?: string | null;
   commitState?: 'known' | 'empty' | 'unavailable';
   progressBrief?: string;
+  contentSource?: 'readme' | 'approved-summary' | 'reviewed-fallback';
+  contentCheckedAt?: string;
 }
 
 export interface ReadmeSummary {
+  summary?: string;
   overview: string[];
   features: string[];
   progress?: string;
   url: string;
+}
+
+export interface EducationalExplainer {
+  family: 'research' | 'everyday';
+  title: string;
+  summary: string;
+  lesson: string;
+}
+
+export interface EngineeringStory {
+  reviewedAt: string;
+  problem: string;
+  decisions: string[];
+  evidence: string[];
+  limitations: string[];
 }
 
 export interface PublicProject extends ProjectActivity {
@@ -27,6 +45,8 @@ export interface PublicProject extends ProjectActivity {
   highlights: string[];
   limitations?: string[];
   readme?: ReadmeSummary;
+  explainer?: EducationalExplainer;
+  caseStudy?: EngineeringStory;
   illustration: ProjectVisual;
   github?: string;
   demo?: string;

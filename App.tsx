@@ -7,10 +7,13 @@ import { useProjects } from './lib/use-projects';
 import { filterProjects, projectCategory, projectTags } from './lib/catalog';
 import type { PublicProject } from './types';
 import SteelSculpture from './components/SteelSculpture';
-import ProjectArt from './components/ProjectArt';
+import ProjectDialog from './components/ProjectDialog';
 import SelectedWork, { SourceTag } from './components/SelectedWork';
 import CommitDate from './components/CommitDate';
 import ProjectProgress from './components/ProjectProgress';
+import CopyButton from './components/CopyButton';
+import PlaySection from './components/PlaySection';
+import { portfolioHref, readPortfolioLocation, type PortfolioLocation, type ProjectView } from './lib/portfolio-navigation';
 
 const categories = ['All', ...new Set(projects.map(projectCategory))];
 const technologies = ['All', ...new Set(projects.flatMap(projectTags))].sort((a, b) => a === 'All' ? -1 : b === 'All' ? 1 : a.localeCompare(b));
@@ -20,50 +23,95 @@ const skillGroups = [
   { title: 'Data & machine learning', skills: 'PyTorch, Pandas, FastAPI', project: 'neural-world-model', proof: 'Models, experiments, and their limits.' },
 ];
 
-function ProjectDialog({ project, onClose }: { project: PublicProject | null; onClose: () => void }) {
-  const ref = useRef<HTMLDialogElement>(null);
-  useEffect(() => {
-    if (project && ref.current && !ref.current.open) ref.current.showModal();
-    else if (!project) ref.current?.close();
-  }, [project]);
-  return <dialog ref={ref} className="project-dialog" aria-labelledby="dialog-title" onClose={onClose} onCancel={onClose} onClick={(event) => {
-    if (event.target === event.currentTarget) {
-      const bounds = event.currentTarget.getBoundingClientRect();
-      if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) event.currentTarget.close();
-    }
-  }}>
-    {project && <>
-      <button className="dialog-close icon-button" aria-label="Close project" onClick={() => ref.current?.close()}><X size={24} /></button>
-      <div className="dialog-art">{project.media ? <img src={project.media.src} alt={project.media.alt} width="1630" height="1003" /> : <ProjectArt kind={project.illustration} />}</div>
-      <div className="dialog-copy">
-        <h2 id="dialog-title">{project.title}</h2>
-        <p className="project-meta">{project.category}{project.status ? ` / ${project.status}` : ''}</p>
-        <CommitDate project={project} />
-        <div className="dialog-description">{(project.readme?.overview.length ? project.readme.overview : project.description.split('\n\n')).map((paragraph, index) => <p key={index}>{paragraph}</p>)}</div>
-        {project.readme && <a className="readme-attribution text-link" href={project.readme.url} target="_blank" rel="noreferrer">From the repository README <ArrowUpRight size={15} /></a>}
-        {(project.readme?.features.length || project.highlights.length) > 0 && <><h3 className="dialog-subheading">What it does</h3><ul className="project-highlights">{(project.readme?.features.length ? project.readme.features : project.highlights).map((highlight) => <li key={highlight}>{highlight}</li>)}</ul></>}
-        {!!project.limitations?.length && <><h3 className="dialog-subheading">Scope & limitations</h3><ul className="project-highlights">{project.limitations.map(item => <li key={item}>{item}</li>)}</ul></>}
-        <p className="technology-line">{project.tags.join(' · ')}</p>
-        <div className="dialog-links">
-          {project.source === 'public' && project.github && <a className="button button-dark" href={project.github} target="_blank" rel="noreferrer">View source <ArrowUpRight size={19} /></a>}
-          {project.demo && <a className="text-link" href={project.demo} target="_blank" rel="noreferrer">Open project <ArrowUpRight size={18} /></a>}
-        </div>
-      </div>
-    </>}
-  </dialog>;
-}
-
 function App() {
   const { catalog } = useProjects();
   const root = useRef<HTMLDivElement>(null);
   const cut = useRef<HTMLDivElement>(null);
-  const [opened, setOpened] = useState<PublicProject | null>(null);
-  const [query, setQuery] = useState('');
-  const [category, setCategory] = useState('All');
-  const [technology, setTechnology] = useState('All');
+  const [navigation, setNavigation] = useState(() => readPortfolioLocation(window.location.href, projects));
+  const navigationRef = useRef(navigation);
+  const modalOrigin = useRef<{ element: HTMLElement | null; y: number } | null>(null);
+  const closing = useRef(false);
+  const searchInput = useRef<HTMLInputElement>(null);
+  const previousProject = useRef(navigation.projectId);
+  const [activeSection, setActiveSection] = useState('');
+  const { query, category, technology } = navigation;
   const [menuOpen, setMenuOpen] = useState(false);
   const results = useMemo(() => filterProjects(catalog, { query, category, technology }), [catalog, query, category, technology]);
   const featured = useMemo(() => catalog.filter(project => project.featuredOrder !== undefined).sort((a, b) => a.featuredOrder! - b.featuredOrder!), [catalog]);
+  const opened = catalog.find((project): project is PublicProject => project.source === 'public' && project.id === navigation.projectId) || null;
+  const shareUrl = `${window.location.origin}${portfolioHref(window.location.href, navigation)}`;
+
+  function navigate(next: PortfolioLocation, push = false) {
+    navigationRef.current = next;
+    setNavigation(next);
+    window.history[push ? 'pushState' : 'replaceState']({ ...window.history.state, portfolioDialog: push || Boolean(next.projectId && window.history.state?.portfolioDialog) }, '', portfolioHref(window.location.href, next));
+  }
+  function updateFilters(next: Partial<Pick<PortfolioLocation, 'query' | 'category' | 'technology'>>) {
+    navigate({ ...navigationRef.current, ...next });
+  }
+  function setOpened(project: PublicProject, view: ProjectView = 'overview') {
+    const wasOpen = Boolean(navigationRef.current.projectId);
+    if (!wasOpen) modalOrigin.current = { element: document.activeElement instanceof HTMLElement ? document.activeElement : null, y: window.scrollY };
+    closing.current = false;
+    navigate({ ...navigationRef.current, projectId: project.id, view: project.explainer ? view : 'overview' }, !wasOpen);
+  }
+  function closeProject() {
+    if (!navigationRef.current.projectId || closing.current) return;
+    closing.current = true;
+    if (window.history.state?.portfolioDialog) window.history.back();
+    else { navigate({ ...navigationRef.current, projectId: null, view: 'overview' }); closing.current = false; }
+  }
+
+  useEffect(() => {
+    const onPop = () => {
+      const next = readPortfolioLocation(window.location.href, projects);
+      if (!navigationRef.current.projectId && next.projectId) modalOrigin.current = { element: document.activeElement instanceof HTMLElement ? document.activeElement : null, y: window.scrollY };
+      navigationRef.current = next;
+      setNavigation(next);
+      closing.current = false;
+    };
+    const onKey = (event: KeyboardEvent) => {
+      const target = event.target instanceof HTMLElement ? event.target : null;
+      if (event.key !== '/' || event.altKey || event.ctrlKey || event.metaKey || navigationRef.current.projectId || target?.isContentEditable || target?.closest('input,textarea,select')) return;
+      event.preventDefault();
+      searchInput.current?.focus();
+    };
+    window.addEventListener('popstate', onPop);
+    window.addEventListener('keydown', onKey);
+    return () => { window.removeEventListener('popstate', onPop); window.removeEventListener('keydown', onKey); };
+  }, []);
+
+  useEffect(() => {
+    if (previousProject.current && !navigation.projectId) {
+      const origin = modalOrigin.current;
+      requestAnimationFrame(() => {
+        if (origin) window.scrollTo({ top: origin.y, behavior: 'instant' });
+        (origin?.element?.isConnected ? origin.element : document.getElementById('projects-heading'))?.focus({ preventScroll: true });
+      });
+      modalOrigin.current = null;
+    }
+    previousProject.current = navigation.projectId;
+  }, [navigation.projectId]);
+
+  useEffect(() => {
+    const sections = ['projects', 'archive', 'about', 'contact'].map(id => document.getElementById(id)).filter((node): node is HTMLElement => Boolean(node));
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2;
+      const current = atBottom ? sections[sections.length - 1] : [...sections].reverse().find(node => node.getBoundingClientRect().top <= 130);
+      setActiveSection(current?.id || '');
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    update();
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    return () => {
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
 
   useEffect(() => {
     const media = gsap.matchMedia();
@@ -92,23 +140,30 @@ function App() {
       .to(cut.current, { scaleX: 1, duration: .3, ease: 'power3.in' })
       .call(() => {
         document.getElementById('projects')?.scrollIntoView({ behavior: 'instant' });
-        window.history.replaceState(null, '', '#projects');
+        const url = new URL(window.location.href);
+        url.hash = 'projects';
+        window.history.replaceState(window.history.state, '', `${url.pathname}${url.search}${url.hash}`);
         document.getElementById('projects-heading')?.focus({ preventScroll: true });
       })
       .set(cut.current, { transformOrigin: 'right center' })
       .to(cut.current, { scaleX: 0, duration: .45, ease: 'power3.out' })
       .set(cut.current, { display: 'none' });
   }
-  function resetFilters() { setQuery(''); setCategory('All'); setTechnology('All'); }
+  function resetFilters() { updateFilters({ query: '', category: 'All', technology: 'All' }); }
+  function selectTechnology(technology: string) {
+    updateFilters({ technology, category: 'All', query: '' });
+    document.getElementById('archive')?.scrollIntoView({ behavior: 'instant' });
+    searchInput.current?.focus({ preventScroll: true });
+  }
 
   return <div ref={root}>
     <a className="skip-link" href="#main">Skip to content</a>
     <header className="site-header page-frame">
       <a className="wordmark" href="#" aria-label="Adi Maitre, home">am<span className="brand-slash" aria-hidden="true" /></a>
       <nav className={menuOpen ? 'main-nav is-open' : 'main-nav'} aria-label="Main navigation" id="main-navigation">
-        {['Projects', 'Archive', 'About'].map((label) => <a key={label} href={`#${label.toLowerCase()}`} onClick={() => setMenuOpen(false)}>{label}</a>)}
+        {['Projects', 'Archive', 'About'].map((label) => <a key={label} href={`#${label.toLowerCase()}`} aria-current={activeSection === label.toLowerCase() ? 'location' : undefined} onClick={() => setMenuOpen(false)}>{label}</a>)}
       </nav>
-      <a className="header-contact" href="#contact">Let’s talk <ArrowUpRight size={18} /></a>
+      <a className="header-contact" href="#contact" aria-current={activeSection === 'contact' ? 'location' : undefined}>Let’s talk <ArrowUpRight size={18} /></a>
       <button className="mobile-menu icon-button" aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen} aria-controls="main-navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</button>
     </header>
     <main id="main">
@@ -119,6 +174,7 @@ function App() {
             <p className="hero-statement">A builder’s mind.<br />A sharper perspective.</p>
             <p className="hero-description">I build software, explore machine learning, and turn complex ideas into things you can use.</p>
             <a className="button button-accent" href="#projects" onClick={explore}>Explore projects <ArrowDown size={19} /></a>
+            <a className="text-link hero-play-link" href="#play">Play Seven questions <ArrowUpRight size={17} /></a>
           </div>
           <SteelSculpture />
         </div>
@@ -128,12 +184,14 @@ function App() {
         </div>
       </section>
       <SelectedWork featuredProjects={featured} onOpenProject={setOpened} />
+      <PlaySection />
       <section className="archive-section page-frame section-frame" id="archive" aria-labelledby="archive-heading">
         <div className="section-intro" data-reveal><h2 id="archive-heading">The full collection</h2><p>Working tools, experiments,<br />and everything in between.</p></div>
+        <p className="archive-helper">{catalog.filter(project => project.source === 'public' && project.explainer).length} educational demos to explore. Press / to search.</p>
         <div className="archive-controls" data-ui="project-search" role="search" aria-label="Find a project">
-          <label className="search-field"><Search size={20} aria-hidden="true" /><span className="sr-only">Search projects</span><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search projects, ideas, or tools" /></label>
-          <label className="filter-field"><span>Collection</span><select value={category} onChange={(event) => setCategory(event.target.value)}>{categories.map((item) => <option key={item}>{item}</option>)}</select></label>
-          <label className="filter-field"><span>Technology</span><select value={technology} onChange={(event) => setTechnology(event.target.value)}>{technologies.map((item) => <option key={item}>{item}</option>)}</select></label>
+          <label className="search-field"><Search size={20} aria-hidden="true" /><span className="sr-only">Search projects</span><input ref={searchInput} type="search" value={query} onChange={(event) => updateFilters({ query: event.target.value })} placeholder="Search projects, ideas, or tools" aria-keyshortcuts="/" /></label>
+          <label className="filter-field"><span>Collection</span><select value={category} onChange={(event) => updateFilters({ category: event.target.value })}>{categories.map((item) => <option key={item}>{item}</option>)}</select></label>
+          <label className="filter-field"><span>Technology</span><select value={technology} onChange={(event) => updateFilters({ technology: event.target.value })}>{technologies.map((item) => <option key={item}>{item}</option>)}</select></label>
         </div>
         <div className="archive-status" data-ui="search-results"><p role="status">{results.length} {results.length === 1 ? 'project' : 'projects'}{query || category !== 'All' || technology !== 'All' ? ' found' : ' in the collection'}</p>{(query || category !== 'All' || technology !== 'All') && <button className="text-link" onClick={resetFilters}>Clear filters <X size={16} /></button>}</div>
         <div className="project-list">
@@ -149,7 +207,7 @@ function App() {
           <div className="about-intro" data-reveal><h2 id="about-heading">Behind the work</h2><div><p className="about-statement">Curiosity starts it.<br />Building makes it real.</p><p>I’m Adi, an IT student based in Pune. I move between systems, interfaces, and machine learning—following the problem rather than a single stack.</p><p>Outside the code, I work with communities and partnerships. It’s taught me to listen closely, make the complicated clear, and care about the people using what I build.</p></div></div>
           <div className="skill-section" aria-labelledby="skills-heading"><h3 id="skills-heading" data-reveal>Tools with a purpose</h3><div className="skill-list">{skillGroups.map((group) => {
             const project = catalog.find((item) => item.id === group.project);
-            return <div className="skill-group" key={group.title} data-reveal><h4>{group.title}</h4><p className="skill-tools">{group.skills}</p><p>{group.proof}</p>{project?.source === 'public' && <button className="text-link" onClick={() => setOpened(project)}>See {project.title} <ArrowUpRight size={17} /></button>}</div>;
+            return <div className="skill-group" key={group.title} data-reveal><h4>{group.title}</h4><div className="skill-tools" aria-label={`${group.title} technologies`}>{group.skills.split(', ').map(skill => <button type="button" key={skill} onClick={() => selectTechnology(skill)}>{skill}</button>)}</div><p>{group.proof}</p>{project?.source === 'public' && <button className="text-link" onClick={() => setOpened(project)}>See {project.title} <ArrowUpRight size={17} /></button>}</div>;
           })}</div></div>
           <div className="experience-section" aria-labelledby="experience-heading"><h3 id="experience-heading" data-reveal>Beyond the code</h3><div className="experience-list">{EXPERIENCE.map((item) => <article className="experience-item" key={`${item.company}-${item.period}`} data-reveal><div><h4>{item.company}</h4><p className="experience-date">{item.period}</p></div><div><p className="experience-role">{item.role}</p><p>{item.description}</p></div></article>)}</div></div>
         </div>
@@ -159,13 +217,14 @@ function App() {
       <div className="page-frame">
         <div className="contact-top" data-reveal><h2 id="contact-heading">Have an<br />idea?</h2><div><p>A project, an idea, or a good conversation.<br />I’d like to hear it.</p><a className="button button-accent" href={`mailto:${PROFILE.email}`}>Let’s talk <ArrowUpRight size={20} /></a></div></div>
         <a className="contact-email" href={`mailto:${PROFILE.email}`}>{PROFILE.email}<ArrowUpRight size={32} /></a>
+        <div className="contact-copy"><CopyButton value={PROFILE.email} label="Copy email address" /></div>
         <div className="footer-socials"><div>{[{ title: 'GitHub', href: PROFILE.github }, { title: 'LinkedIn', href: PROFILE.linkedin }, { title: 'Instagram', href: PROFILE.instagram }, { title: 'X / Twitter', href: PROFILE.twitter }].map((social) => <a href={social.href} key={social.title} target="_blank" rel="noreferrer">{social.title}<ArrowUpRight size={16} /></a>)}</div><a className="back-top" href="#">Back to top <ArrowUpRight size={16} /></a></div>
         <p className="footer-name" aria-hidden="true">Adi Maitre<span>.</span></p>
         <div className="footer-bottom"><p>© {new Date().getFullYear()} Adi Maitre</p><p>Built with intent. Ink & Steel.</p></div>
       </div>
     </footer>
     <div ref={cut} className="ink-cut" aria-hidden="true" />
-    <ProjectDialog project={opened ? catalog.find(project => project.id === opened.id && project.source === 'public') as PublicProject : null} onClose={() => setOpened(null)} />
+    <ProjectDialog project={opened} view={navigation.view} shareUrl={shareUrl} onViewChange={view => navigate({ ...navigationRef.current, view })} onClose={closeProject} />
   </div>;
 }
 export default App;

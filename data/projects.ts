@@ -1,5 +1,6 @@
 import snapshot from './repositories.json' with { type: 'json' };
 import { PUBLIC_README_INSIGHTS } from './public-readme-insights.ts';
+import { PUBLIC_EXPERIENCES } from './project-experiences.ts';
 import type { Project, PublicProject, PrivateProjectSummary } from '../types.ts';
 
 // Descriptions are curated from repository documentation and inspected source.
@@ -12,7 +13,7 @@ const curated: Record<string, Partial<PublicProject>> = {
     category: 'AI & research',
     tags: ['C++', 'TensorRT', 'OpenCV', 'CUDA', 'Electron', 'Next.js', 'TypeScript'],
     highlights: ['Video tracking and synchronized overlays', 'Timeline-based match review', 'Spin-physics experiments'],
-    illustration: 'trajectory', featuredOrder: 2,
+    illustration: 'trajectory', featuredOrder: 1,
     media: { src: '/assets/projects/tt-analysis.png', alt: 'TT Trajectory Engine desktop footage analysis with table-tennis detections and frame controls.' },
   },
   MultiGPU: {
@@ -183,6 +184,7 @@ export const publicProjects: PublicProject[] = snapshot.repositories.map(reposit
   status: curated[repository.name] ? undefined : 'Description pending',
   ...curated[repository.name],
   ...PUBLIC_README_INSIGHTS[repository.name],
+  ...PUBLIC_EXPERIENCES[repository.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')],
   github: repository.url,
   source: 'public' as const,
 }));
@@ -194,7 +196,7 @@ export const privateProjects: PrivateProjectSummary[] = [
     id: 'rarecomforts-commerce', title: 'RareComforts Commerce', source: 'private',
     progressBrief: 'Storefront, customer accounts, and order-management workflows.',
     summary: 'A full-stack storefront combining product discovery, customer accounts, cart management, and administrative inventory and order workflows.',
-    illustration: 'commerce', featuredOrder: 1,
+    illustration: 'commerce', featuredOrder: 2,
   },
   {
     id: 'creator-partnerships', title: 'Creator Partnerships Workspace', source: 'private',

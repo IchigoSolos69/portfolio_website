@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-10-25T06:06:55.522Z",
+  "syncedAt": "2026-10-27T11:58:39.812Z",
   "owner": "IchigoSolos69",
   "repositories": [
     {
@@ -135,6 +135,17 @@
       "topics": []
     },
     {
+      "id": 1432940383,
+      "name": "JavaAnime",
+      "fullName": "IchigoSolos69/JavaAnime",
+      "url": "https://github.com/IchigoSolos69/JavaAnime",
+      "defaultBranch": "main",
+      "archived": false,
+      "description": null,
+      "language": "Java",
+      "topics": []
+    },
+    {
       "id": 1430149697,
       "name": "MultiGPU",
       "fullName": "IchigoSolos69/MultiGPU",
@@ -165,6 +176,17 @@
       "archived": false,
       "description": null,
       "language": "TypeScript",
+      "topics": []
+    },
+    {
+      "id": 1432943607,
+      "name": "Stock-Prediction",
+      "fullName": "IchigoSolos69/Stock-Prediction",
+      "url": "https://github.com/IchigoSolos69/Stock-Prediction",
+      "defaultBranch": "main",
+      "archived": false,
+      "description": null,
+      "language": "Python",
       "topics": []
     },
     {

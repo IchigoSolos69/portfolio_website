@@ -1,0 +1,100 @@
+.play-section { display: grid; grid-template-columns: minmax(250px,.85fr) minmax(0,1.2fr); gap: clamp(32px,7vw,120px); padding-block: clamp(70px,9vw,140px); background: var(--surface); }
+.play-intro h2 { font-size: clamp(62px,7vw,108px); margin-bottom: 28px; }
+.play-intro>p { max-width: 32ch; font-size: 18px; }
+.play-intro>p+p { margin-top: 15px; }
+.play-intro .play-credit { font-size: 14px; margin-top: 38px; color: var(--muted); }
+.play-stage { min-width: 0; align-self: center; }
+.play-invitation { background: var(--ink); padding: clamp(24px,4vw,56px); color: var(--paper); }
+.play-paper-art { position: relative; width: 77%; max-width: 350px; margin: 0 auto 38px; padding: 15px 0 0 13px; }
+.play-paper-back { position: absolute; inset: 0 12px 15px 0; background: #b6b7af; transform: rotate(-5deg); }
+.play-paper-front { position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 20px; aspect-ratio: .87; background: var(--paper); color: var(--ink); }
+.play-paper-front>span { font-size: 14px; }
+.play-paper-front strong { font: 600 clamp(110px,13vw,185px)/.8 var(--display); color: var(--accent); align-self: center; }
+.play-start { display: flex; justify-content: space-between; align-items: center; gap: 18px; flex-wrap: wrap; }
+.play-start>p { font-size: 14px; }
+.play-start .button { background: var(--paper); color: var(--ink); }
+.play-start .button:hover { background: var(--accent); color: var(--paper); }
+.seven-game { min-width: 0; }
+.seven-game-top { display: flex; gap: 20px; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+.seven-question-count { font-size: 14px; font-weight: 600; }
+.seven-step-marks { display: flex; gap: 5px; }
+.seven-step-marks>span { width: 12px; height: 22px; background: #c5c5be; transform: skewX(-20deg); }
+.seven-step-marks .is-answered { background: var(--ink); }
+.seven-step-marks .is-current { background: var(--accent); }
+.seven-game .seven-card { position: relative; overflow: hidden; isolation: isolate; background: var(--paper); padding: clamp(20px,3vw,36px); margin-top: 0; min-height: 374px; }
+.seven-card h4 { font-size: clamp(27px,2.7vw,38px); line-height: 1.05; }
+.seven-card-hint { font-size: 14px; color: var(--muted); margin-top: 12px; }
+.seven-number-grid { display: grid; grid-template-columns: repeat(10,minmax(0,1fr)); gap: 8px 2px; padding: 0; margin: 26px 0 0; list-style: none; }
+.seven-number-grid li { text-align: center; font-size: 17px; line-height: 1.5; padding-block: 4px; font-variant-numeric: tabular-nums; }
+.seven-cut { position: absolute; inset: -20%; background: var(--ink); pointer-events: none; z-index: 2; transform: skewX(-14deg) scaleX(0); transform-origin: right; animation: seven-cut-forward 260ms var(--ease) both; }
+.seven-card-back .seven-cut { transform-origin: left; animation-name: seven-cut-back; }
+@keyframes seven-cut-forward { from { transform: skewX(-14deg) scaleX(1); } to { transform: skewX(-14deg) scaleX(0); } }
+@keyframes seven-cut-back { from { transform: skewX(14deg) scaleX(1); } to { transform: skewX(14deg) scaleX(0); } }
+.seven-actions { margin-top: 18px; }
+.seven-answer-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.seven-answer-actions button { display: inline-flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 48px; padding: 13px 19px; font-size: 15px; }
+.seven-yes { background: var(--accent); color: var(--paper); flex: 1; }
+.seven-no { background: var(--ink); color: var(--paper); flex: 1; }
+.seven-answer-actions button:hover:not(:disabled) { background: #454742; }
+.seven-answer-actions button:active:not(:disabled) { transform: translateY(1px); }
+.seven-answer-actions button:disabled { cursor: wait; }
+.seven-secondary-actions { display: flex; gap: 24px; margin-top: 12px; }
+.seven-secondary-actions button { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 0; background: transparent; font-size: 14px; }
+.seven-secondary-actions button:hover:not(:disabled) { color: var(--accent); }
+.seven-secondary-actions button:disabled { opacity: .4; }
+.seven-reveal { min-height: 302px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+.seven-answer { font: 600 clamp(130px,15vw,220px)/.95 var(--display); color: var(--accent); margin-block: 12px; letter-spacing: -.04em; }
+.seven-reveal>p:last-child { font-size: 15px; }
+.seven-invalid { max-width: 39ch; margin-top: 22px; }
+.seven-explanation { padding: 22px 0 0; margin-top: 18px; }
+.seven-explanation summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; cursor: pointer; min-height: 44px; font-weight: 600; list-style: none; }
+.seven-explanation summary::-webkit-details-marker { display: none; }
+.seven-explanation summary>span { font-size: 24px; font-weight: 400; }
+.seven-explanation[open] summary>span { transform: rotate(45deg); }
+.seven-explanation p { font-size: 14px; margin-top: 16px; }
+.seven-binary-sum { display: grid; grid-template-columns: repeat(7,minmax(0,1fr)); gap: 5px; margin-top: 24px; }
+.seven-binary-sum>span { padding-block: 10px; text-align: center; font: 600 30px/1.2 var(--display); background: #d0d0c8; }
+.seven-binary-sum small { display: block; font: 12px/1.5 var(--body); }
+.seven-binary-sum .is-included { background: var(--ink); color: var(--paper); }
+.seven-explanation .seven-equation { font-weight: 600; }
+.seven-invitation { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 30px; align-items: center; background: var(--surface); padding: clamp(22px,4vw,48px); }
+.seven-invitation h4 { font-size: 34px; line-height: 1.05; margin-bottom: 18px; }
+.seven-invitation .button { margin-top: 25px; }
+.seven-range { font: 600 clamp(68px,8vw,100px)/1 var(--display); letter-spacing: -.04em; }
+.seven-range span { display: block; font: 14px/1.5 var(--body); letter-spacing: 0; margin-top: 20px; }
+.seven-load-state { padding: 70px 30px; background: var(--paper); }
+.project-dialog .seven-card { background: var(--surface); }
+.project-dialog .seven-game-top { margin-top: 0; }
+.project-dialog .seven-number-grid { grid-template-columns: repeat(10,minmax(0,1fr)); }
+@media(max-width:900px) {
+  .play-section { grid-template-columns: minmax(220px,.8fr) minmax(0,1.2fr); gap: 28px; }
+  .play-intro h2 { font-size: 64px; }
+  .play-intro>p { font-size: 16px; }
+  .play-paper-art { width: 90%; }
+  .seven-number-grid { grid-template-columns: repeat(7,minmax(0,1fr)); gap: 6px 2px; }
+  .seven-game .seven-card { min-height: 0; }
+  .seven-game-top { gap: 10px; }
+  .seven-step-marks>span { width: 8px; height: 18px; }
+  .seven-answer-actions button { padding: 12px; font-size: 14px; }
+}
+@media(max-width:650px) {
+  .play-section { display: block; }
+  .play-intro h2 { font-size: 64px; margin-bottom: 22px; }
+  .play-intro h2 br { display: none; }
+  .play-intro .play-credit { margin-top: 20px; }
+  .play-stage { margin-top: 32px; }
+  .play-paper-art { max-width: 240px; margin-bottom: 28px; }
+  .play-paper-front strong { font-size: 140px; }
+  .seven-invitation { display: block; }
+  .seven-invitation h4 { font-size: 30px; }
+  .seven-range { margin-bottom: 30px; }
+  .project-dialog .seven-number-grid { grid-template-columns: repeat(7,minmax(0,1fr)); }
+  .seven-card h4 { font-size: 28px; }
+  .seven-binary-sum { gap: 3px; }
+  .seven-binary-sum small { font-size: 11px; }
+  .seven-binary-sum>span { font-size: 25px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .seven-cut { display: none; animation: none; }
+  .seven-answer-actions button:active:not(:disabled) { transform: none; }
+}

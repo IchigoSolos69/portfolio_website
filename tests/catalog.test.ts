@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import snapshot from '../data/repositories.json' with { type: 'json' };
 import { projects, publicProjects, privateProjects, featuredProjects } from '../data/projects.ts';
+import { PUBLIC_EXPERIENCES } from '../data/project-experiences.ts';
 import { filterProjects, projectCategory, projectTags } from '../lib/catalog.ts';
 
 const all = { query: '', category: 'All', technology: 'All' };
@@ -22,7 +23,7 @@ test('every public repository appears once alongside twelve summary-only private
 
 test('selected work follows the six-project editorial order from the catalog', () => {
   assert.deepEqual(featuredProjects.map(project => project.id), [
-    'rarecomforts-commerce', 'tt-trajectory-engine', 'creator-partnerships',
+    'tt-trajectory-engine', 'rarecomforts-commerce', 'creator-partnerships',
     'nexora', 'autonomous-driving-prediction', 'multigpu',
   ]);
   assert.deepEqual(featuredProjects.map(project => project.featuredOrder), [1, 2, 3, 4, 5, 6]);
@@ -38,13 +39,50 @@ test('private entries contain only authorized display and presentation fields', 
     assert.equal(project.source, 'private');
     assert.ok(project.id && project.title && project.summary);
     assert.ok(Object.keys(project).every(key => allowed.has(key)), project.id);
-    for (const field of ['repository', 'github', 'demo', 'media', 'description', 'highlights', 'tags', 'category']) {
+    for (const field of ['repository', 'github', 'demo', 'media', 'description', 'highlights', 'tags', 'category', 'explainer', 'caseStudy']) {
       assert.equal(Object.hasOwn(project, field), false, `${project.id} exposes ${field}`);
     }
     assert.doesNotMatch(JSON.stringify(project), /https?:\/\/|github\.com|postgres(?:ql)?:\/\//i);
     assert.equal(projectCategory(project), 'Private work');
     assert.deepEqual(projectTags(project), []);
   }
+});
+
+test('eighteen curated projects have explainers while newly synced projects remain browsable', () => {
+  assert.equal(Object.keys(PUBLIC_EXPERIENCES).length, 18);
+  assert.ok(Object.keys(PUBLIC_EXPERIENCES).every(id => publicProjects.some(project => project.id === id)));
+  for (const project of publicProjects.filter(project => project.explainer)) {
+    assert.equal(project.explainer, PUBLIC_EXPERIENCES[project.id].explainer);
+    assert.ok(project.explainer.title && project.explainer.summary && project.explainer.lesson);
+    assert.ok(['research', 'everyday'].includes(project.explainer.family));
+    assert.equal(Object.hasOwn(project.explainer, 'source'), false);
+  }
+  assert.equal(publicProjects.filter(project => project.explainer?.family === 'research').length, 6);
+  assert.equal(publicProjects.filter(project => project.explainer?.family === 'everyday').length, 12);
+  for (const project of privateProjects) assert.equal(Object.hasOwn(PUBLIC_EXPERIENCES, project.id), false);
+});
+
+test('six engineering stories distinguish documented evidence from research acceptance', () => {
+  const stories = publicProjects.filter(project => project.caseStudy);
+  assert.deepEqual(new Set(stories.map(project => project.id)), new Set([
+    'tt-trajectory-engine', 'multigpu', 'autonomous-driving-prediction',
+    'neural-world-model', 'fixmycampus', 'famgpslink',
+  ]));
+  for (const project of stories) {
+    assert.match(project.caseStudy.reviewedAt, /^\d{4}-\d{2}-\d{2}$/);
+    assert.ok(project.caseStudy.problem);
+    assert.ok(project.caseStudy.decisions.length >= 3);
+    assert.ok(project.caseStudy.evidence.length >= 2);
+    assert.ok(project.caseStudy.limitations.length >= 2);
+  }
+  const world = PUBLIC_EXPERIENCES['neural-world-model'];
+  assert.match(world.caseStudy.evidence.join(' '), /epoch 34 of 45/);
+  assert.match(world.caseStudy.limitations.join(' '), /do not establish a performance advantage/);
+  assert.match(world.explainer.lesson, /not neural inference/);
+  assert.match(PUBLIC_EXPERIENCES.multigpu.caseStudy.limitations.join(' '), /one resource at a time/);
+  assert.match(PUBLIC_EXPERIENCES['tt-trajectory-engine'].caseStudy.limitations.join(' '), /no implemented CPU fallback/);
+  assert.match(PUBLIC_EXPERIENCES['autonomous-driving-prediction'].caseStudy.limitations.join(' '), /not safety guarantees/);
+  assert.match(PUBLIC_EXPERIENCES.famgpslink.explainer.lesson, /requests no device location/);
 });
 
 test('query is case-insensitive and combines with public category and technology filters', () => {
