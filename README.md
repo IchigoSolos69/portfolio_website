@@ -38,6 +38,14 @@ For local work, copy `.env.example` to `.env.local` (or edit the existing local 
 
 Commit authors, messages, SHAs, ETags, and error bodies are not returned. Public README extraction is bounded plain text, without executable HTML, setup commands, documentation preambles, or roadmap items presented as implemented features. The first suitable overview sentence supplies a short summary of up to 240 characters, shortened only at word boundaries. The shared project model updates selected work, archive/search, dialog overviews, features, and documented progress together. Commit-only changes update dates without inventing capabilities. `contentSource` and `contentCheckedAt` identify content provenance and the last successful validation; failed checks do not advance verification dates. Engineering notes remain separately curated and show their review date.
 
+### Checking whether updates are working
+
+Open `/api/projects` on the same site. It must return JSON, not the portfolio HTML. `lastCommitAt` is the latest default-branch commit's committer timestamp; `readme.summary` supplies the public card description; `contentCheckedAt` is the last successful documentation check, not another commit date. Code changes without README edits leave the description unchanged. The archive shows the last successful refresh time and explicitly identifies saved content when the endpoint cannot be reached.
+
+Refreshes happen on page requests and visible-page polling, respecting the server cache interval. They are not immediate GitHub webhooks. New repository discovery still uses `npm run projects:sync` before a build. Public repositories work without a token, subject to GitHub's lower unauthenticated limits. Private dates require the server token and mapping; private descriptions additionally require the approved file described below.
+
+Local `.env.local` settings are not uploaded to the host. Configure `GITHUB_TOKEN` and `PRIVATE_PROJECT_REPOS` separately in the Cloudflare Pages production environment (and preview environment if used), then activate those values with the host's normal deployment flow. Never put credentials into a public environment variable or paste them into a browser request. This rebuild does not change hosting settings or deploy the site.
+
 ### Private summaries
 
 Published private entries contain a neutral id, public display title, brief summary, brief progress statement, source label, optional status label, and presentation/featured-order fields. The API refreshes commit dates and may read one explicitly public file: `portfolio.public.json` at the private repository's root on its default branch. Private READMEs and source files are never fetched. Private paths and URLs, code, implementation metadata, staff/customer information, and screenshots stay outside public source and the browser bundle.
@@ -70,7 +78,7 @@ Share a public project with `?project=tt-trajectory-engine&view=demo`. The `view
 
 Sticky section navigation, clickable skill technologies, `/` search focus, and copy-email/project-link controls support quick browsing. The slash shortcut does not intercept form editing or an open dialog. Clipboard failures show selectable text. Playback is user-triggered and pauses when hidden, offscreen, or reduced motion is enabled; manual stepping remains available.
 
-Explainer metadata lives in `data/project-experiences.ts`. Interactive modules in `components/explainers/` are loaded only after a demo is opened. SVG diagrams and data tables scroll internally on narrow screens. The GitHub API format and private summary whitelist are unchanged.
+Explainer metadata lives in `data/project-experiences.ts`. Interactive modules in `components/explainers/` are loaded only after a demo is opened. SVG diagrams and data tables scroll internally on narrow screens. Public and private API display fields remain separately allowlisted.
 
 ## Checks
 

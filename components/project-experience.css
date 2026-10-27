@@ -3,6 +3,7 @@ html { scroll-padding-top: calc(var(--header-height) + 24px); }
 .site-header { position: sticky; top: 0; z-index: 30; height: var(--header-height); background: var(--paper); }
 .main-nav a[aria-current="location"],.header-contact[aria-current="location"] { color: var(--accent); font-weight: 700; }
 .archive-helper { font-size: 14px; color: var(--muted); margin-bottom: 18px; }
+.catalog-freshness { font-size: 13px; line-height: 1.6; color: var(--muted); margin-top: -8px; margin-bottom: 24px; max-width: 75ch; }
 .skill-tools { display: flex; flex-wrap: wrap; gap: 0 14px; }
 .skill-tools button { background: transparent; padding: 0; min-height: 32px; font-size: 15px; text-align: left; }
 .skill-tools button:hover { color: var(--accent); }
@@ -32,7 +33,7 @@ html { scroll-padding-top: calc(var(--header-height) + 24px); }
 .engineering-story { margin-top: 32px; }
 .project-content-note,.engineering-story .engineering-review { color: var(--muted); font-size: 13px; line-height: 1.6; }
 .project-content-note { margin-top: 16px; margin-bottom: 12px; }
-.hero-play-link { margin-top: 20px; width: fit-content; }
+.hero-play-link { display: flex; margin-top: 20px; width: fit-content; min-height: 44px; }
 .engineering-story>section { margin-top: 30px; }
 .engineering-story h3 { font-size: 30px; margin-bottom: 14px; }
 .engineering-story p,.engineering-story li { font-size: 16px; line-height: 1.7; color: #454742; }

@@ -40,6 +40,7 @@ export function mergeProjectUpdates(projects: Project[], payload: unknown, revie
     const update = updates.get(project.id);
     if (!update) return project;
     const next = { ...project, contentSource: project.contentSource || 'reviewed-fallback' as const };
+    const reviewed = reviewedProjects.find(item => item.id === project.id && item.source === project.source);
     if (update.commitState === 'known' && validDate(update.lastCommitAt)) {
       next.lastCommitAt = update.lastCommitAt;
       next.commitState = 'known';
@@ -58,29 +59,32 @@ export function mergeProjectUpdates(projects: Project[], payload: unknown, revie
           next.readme.summary = update.readme.summary.trim();
           next.summary = next.readme.summary;
           if (next.status === 'Description pending') delete next.status;
-        }
+        } else if (reviewed) next.summary = reviewed.summary;
         if (overview.length) next.description = overview.join('\n\n');
-        if (features.length) next.highlights = features;
+        else if (reviewed?.source === 'public') next.description = reviewed.description;
+        next.highlights = features;
         next.contentSource = 'readme';
         if (update.contentSource === 'readme' && validDate(update.contentCheckedAt)) next.contentCheckedAt = update.contentCheckedAt;
         if (progress) {
           next.readme.progress = progress;
           next.progressBrief = next.readme.progress;
-        }
+        } else if (reviewed?.progressBrief) next.progressBrief = reviewed.progressBrief;
+        else delete next.progressBrief;
       }
     }
     if (next.source === 'private' && update.contentSource === 'approved-summary') {
       const summary = approvedSummary(update.publicSummary);
       if (summary && validDate(update.contentCheckedAt)) {
         next.summary = summary.summary;
-        if (summary.progressBrief) next.progressBrief = summary.progressBrief;
-        if (summary.status) next.status = summary.status;
+        if (summary.progressBrief || reviewed?.progressBrief) next.progressBrief = summary.progressBrief || reviewed?.progressBrief;
+        else delete next.progressBrief;
+        if (summary.status || reviewed?.status) next.status = summary.status || reviewed?.status;
+        else delete next.status;
         next.contentSource = 'approved-summary';
         next.contentCheckedAt = update.contentCheckedAt;
       }
     }
     if (next.source === 'private' && update.contentSource === 'reviewed-fallback' && update.publicSummary === null) {
-      const reviewed = reviewedProjects.find(item => item.source === 'private' && item.id === next.id);
       if (reviewed) {
         next.summary = reviewed.summary;
         if (reviewed.progressBrief) next.progressBrief = reviewed.progressBrief;

@@ -14,8 +14,12 @@ export default function SevenQuestions({ startOnMount = false }: { startOnMount?
   const result = gameResult(state.answers);
   useEffect(() => () => window.clearTimeout(timer.current), []);
   useEffect(() => {
-    if (finished || (state.started && state.revision === 1) || (startOnMount && state.revision === 0)) heading.current?.focus({ preventScroll: true });
-  }, [finished, state.started, state.revision, startOnMount]);
+    if (!state.started || (!finished && state.answers.length !== 0 && state.direction !== 'back')) return;
+    const prompt = heading.current;
+    prompt?.focus({ preventScroll: true });
+    const card = prompt?.closest('.seven-card')?.getBoundingClientRect();
+    if (card && (card.top < 96 || card.bottom > window.innerHeight)) prompt?.scrollIntoView({ block: 'start', behavior: 'instant' });
+  }, [finished, state.started, state.revision, state.answers.length, state.direction]);
 
   function answer(value: boolean) {
     if (gate.current || finished) return;
@@ -41,8 +45,8 @@ export default function SevenQuestions({ startOnMount = false }: { startOnMount?
       <div className={`seven-card seven-card-${state.direction}`} key={state.revision}>
         <div className="seven-cut" aria-hidden="true" />
         {finished ? <div className="seven-reveal">
-          <h4 ref={heading} tabIndex={-1}>{result === null ? 'Let’s check those answers.' : 'Your number is'}</h4>
-          {result !== null ? <p className="seven-answer">{result}</p> : <p className="seven-invalid">Those answers don’t describe a number from 1 to 100. Undo the last answer, or restart and check each card carefully.</p>}
+          <h4 ref={heading} tabIndex={-1} aria-describedby={`${id}-result`}>{result === null ? 'Let’s check those answers.' : 'Your number is'}</h4>
+          {result !== null ? <p id={`${id}-result`} className="seven-answer">{result}</p> : <p id={`${id}-result`} className="seven-invalid">Those answers don’t describe a number from 1 to 100. Undo the last answer, or restart and check each card carefully.</p>}
           {result !== null && <p>Seven questions were all it took.</p>}
         </div> : <>
           <h4 ref={heading} tabIndex={-1} id={`${id}-question`}>Is your number on this card?</h4>
@@ -53,7 +57,7 @@ export default function SevenQuestions({ startOnMount = false }: { startOnMount?
         </>}
       </div>
       <div className="seven-actions">
-        {!finished && <div className="seven-answer-actions" aria-labelledby={`${id}-question`}><button type="button" className="seven-yes" disabled={locked} onClick={() => answer(true)}>Yes, it is here <ArrowRight size={18} aria-hidden="true" /></button><button type="button" className="seven-no" disabled={locked} onClick={() => answer(false)}>No, it is not</button></div>}
+        {!finished && <div className="seven-answer-actions" aria-labelledby={`${id}-question`}><button type="button" className="seven-yes" aria-disabled={locked} onClick={() => answer(true)}>Yes, it is here <ArrowRight size={18} aria-hidden="true" /></button><button type="button" className="seven-no" aria-disabled={locked} onClick={() => answer(false)}>No, it is not</button></div>}
         <div className="seven-secondary-actions"><button type="button" disabled={!state.answers.length || locked} onClick={() => dispatch({ type: 'undo' })}><Undo2 size={16} aria-hidden="true" /> Undo</button><button type="button" onClick={restart}><RotateCcw size={16} aria-hidden="true" /> Restart</button></div>
       </div>
       {finished && <details className="seven-explanation" key={`explanation-${state.revision}`}><summary>How it works <span aria-hidden="true">+</span></summary><p>Each card represents one binary value: 1, 2, 4, 8, 16, 32, or 64. A number appears on the cards whose values add up to it.</p><div className="seven-binary-sum" aria-label="Values contributed by your seven answers">{state.answers.map((value, index) => <span key={index} className={value ? 'is-included' : ''}><small>Card {index + 1}</small>{value ? 1 << index : 0}</span>)}</div><p className="seven-equation">{state.answers.map((value, index) => value ? 1 << index : 0).join(' + ')} = {state.answers.reduce((sum, value, index) => sum + (value ? 1 << index : 0), 0)}</p><p>Seven yes-or-no answers distinguish 128 combinations, enough to find every number from 1 to 100.</p></details>}

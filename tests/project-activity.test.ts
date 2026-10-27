@@ -71,6 +71,10 @@ test('README content updates the shared card, dialog, feature, and search model'
   const failed = mergeProjectUpdates(catalog, { projects: [{ id: 'multigpu', contentCheckedAt: '2026-10-28T00:00:00Z' }] });
   assert.equal(failed.find(project => project.id === 'multigpu')?.contentCheckedAt, contentCheckedAt);
   assert.equal(project?.source === 'public' && project.caseStudy, publicProjects.find(project => project.id === 'multigpu')?.caseStudy);
+  const removed = mergeProjectUpdates(catalog, { projects: [{ id: 'multigpu', contentSource: 'readme', contentCheckedAt,
+    readme: { summary: 'A revised workspace with a smaller documented scope.', overview: ['A revised workspace with a smaller documented scope.'], features: [], url: 'https://github.com/IchigoSolos69/MultiGPU#readme' } }] }, projects).find(item => item.id === 'multigpu');
+  assert.deepEqual(removed?.source === 'public' && removed.highlights, []);
+  assert.equal(removed?.progressBrief, publicProjects.find(item => item.id === 'multigpu')?.progressBrief);
 });
 
 test('only explicitly approved private summary fields can replace reviewed text', () => {
@@ -84,6 +88,10 @@ test('only explicitly approved private summary fields can replace reviewed text'
   assert.equal(project.status, 'Prototype');
   assert.equal(project.contentSource, 'approved-summary');
   assert.equal(project.contentCheckedAt, contentCheckedAt);
+  const minimal = mergeProjectUpdates(catalog, { projects: [{ ...row, publicSummary: { summary: 'A smaller approved storefront summary.' } }] }, projects).find(item => item.id === row.id)!;
+  assert.equal(minimal.summary, 'A smaller approved storefront summary.');
+  assert.equal(minimal.progressBrief, privateProjects.find(item => item.id === row.id)?.progressBrief);
+  assert.equal(minimal.status, privateProjects.find(item => item.id === row.id)?.status);
   assert.equal(filterProjects(catalog, { query: 'order tracking', category: 'Private work', technology: 'All' })[0]?.id, row.id);
   assert.ok(!Object.hasOwn(project, 'readme') && !Object.hasOwn(project, 'publicSummary') && !Object.hasOwn(project, 'description'));
   const withdrawn = mergeProjectUpdates(catalog, { projects: [{ id: row.id, contentSource: 'reviewed-fallback', publicSummary: null }] }, projects).find(item => item.id === row.id)!;

@@ -24,7 +24,7 @@ const skillGroups = [
 ];
 
 function App() {
-  const { catalog } = useProjects();
+  const { catalog, updates } = useProjects();
   const root = useRef<HTMLDivElement>(null);
   const cut = useRef<HTMLDivElement>(null);
   const [navigation, setNavigation] = useState(() => readPortfolioLocation(window.location.href, projects));
@@ -188,6 +188,7 @@ function App() {
       <section className="archive-section page-frame section-frame" id="archive" aria-labelledby="archive-heading">
         <div className="section-intro" data-reveal><h2 id="archive-heading">The full collection</h2><p>Working tools, experiments,<br />and everything in between.</p></div>
         <p className="archive-helper">{catalog.filter(project => project.source === 'public' && project.explainer).length} educational demos to explore. Press / to search.</p>
+        <p className="catalog-freshness" role="status">{updates.state === 'checking' ? 'Checking project details…' : <>{updates.state === 'saved' ? 'Showing saved project details from ' : 'Last successful refresh: '}<time dateTime={updates.checkedAt}>{new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Kolkata' }).format(new Date(updates.checkedAt))}</time>{updates.state === 'saved' && '. Live updates are temporarily unavailable.'}</>}</p>
         <div className="archive-controls" data-ui="project-search" role="search" aria-label="Find a project">
           <label className="search-field"><Search size={20} aria-hidden="true" /><span className="sr-only">Search projects</span><input ref={searchInput} type="search" value={query} onChange={(event) => updateFilters({ query: event.target.value })} placeholder="Search projects, ideas, or tools" aria-keyshortcuts="/" /></label>
           <label className="filter-field"><span>Collection</span><select value={category} onChange={(event) => updateFilters({ category: event.target.value })}>{categories.map((item) => <option key={item}>{item}</option>)}</select></label>
